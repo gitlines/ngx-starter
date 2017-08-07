@@ -5,7 +5,7 @@ import {Injectable} from "@angular/core";
 
 export class BreadcrumbContext {
 
-  private exactPathReplacers : Map<string, string> =  new Map();
+  private exactPathReplacers : Map<string, string | null> =  new Map();
   private exactPathHandlers : Map<string, any> =  new Map();
   private dynamicHandlers : {(path: string) : IBreadcrumb;}[] = [];
 
@@ -16,7 +16,7 @@ export class BreadcrumbContext {
     this.replaceExactPath('/app', null);
   }
 
-  public replaceExactPath(exactPath : string, label : string){
+  public replaceExactPath(exactPath : string, label : string | null){
     this.exactPathReplacers.set(exactPath, label);
   }
 
@@ -29,7 +29,7 @@ export class BreadcrumbContext {
   }
 
 
-  public  buildCrumb(url : string) : IBreadcrumb {
+  public  buildCrumb(url : string) : IBreadcrumb | null {
 
     if(this.exactPathReplacers.has(url)){
       let replacement = this.exactPathReplacers.get(url);
@@ -117,7 +117,7 @@ export class BreadcrumbService {
     }
   }
 
-  private  buildCrumb(url : string) : IBreadcrumb{
+  private  buildCrumb(url : string) : IBreadcrumb | null {
     return this.context.buildCrumb(url);
   }
 

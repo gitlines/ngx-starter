@@ -32,11 +32,17 @@
     "url": "https://github.com/ElderByte-/ngx-starter/issues"
   },
   "dependencies": {
+    "@angular/animations": "^4.3.3",
     "@angular/common": "^4.3.3",
     "@angular/core": "^4.3.3",
     "@angular/http": "^4.3.3",
     "@angular/router": "^4.3.3",
+    "@angular/forms": "^4.3.3",
     "@angular/platform-browser": "^4.3.3",
+    "@angular/platform-server": "^4.3.3",
+    "@angular/flex-layout": "^2.0.0-beta.8",
+    "@angular/cdk": "^2.0.0-beta.8",
+    "@angular/material": "^2.0.0-beta.8",
     "reflect-metadata": "~0.1.10",
     "rxjs": "^5.2.0",
     "zone.js": "~0.8.5",
@@ -49,7 +55,7 @@
     "copyfiles": "^1.2.0",
     "rimraf": "^2.6.1",
     "rollup": "~0.41.6",
-    "typescript": "^2.2.2",
+    "typescript": "^2.4.2",
     "uglify-js": "^2.8.20"
   }
 }
