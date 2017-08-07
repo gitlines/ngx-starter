@@ -1,0 +1,33 @@
+{
+  "name": "@elderbyte/ngx-starter",
+  "version": "0.0.1",
+  "description": "Common modules library for creating web apps with Angular / Material",
+  "main": "dist/bundles/ngx-starter.umd.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {},
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular 2",
+    "starter",
+    "bootstrap",
+    "common",
+    "angular",
+    "material"
+  ],
+  "author": "Elderbyte",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ElderByte-/ngx-starter.git"
+  },
+  "homepage": "https://github.com/ElderByte-/ngx-starter",
+  "bugs": {
+    "url": "https://github.com/ElderByte-/ngx-starter/issues"
+  },
+  "peerDependencies": {
+    "@angular/core": "^2.4.0 || ^4.0.0",
+    "rxjs": "^5.0.1"
+  }
+}
