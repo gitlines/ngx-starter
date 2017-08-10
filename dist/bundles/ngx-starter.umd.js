@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/BehaviorSubject'), require('rxjs'), require('rxjs/Observable'), require('@angular/cdk'), require('@angular/common'), require('@angular/core'), require('@angular/material'), require('@angular/flex-layout'), require('@angular/router'), require('@ngx-translate/core'), require('@angular/http'), require('angular2-jwt'), require('@elderbyte/ngx-jwt-auth')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'rxjs/BehaviorSubject', 'rxjs', 'rxjs/Observable', '@angular/cdk', '@angular/common', '@angular/core', '@angular/material', '@angular/flex-layout', '@angular/router', '@ngx-translate/core', '@angular/http', 'angular2-jwt', '@elderbyte/ngx-jwt-auth'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.ngxStarter = global.ng.ngxStarter || {}),global.rxjs_BehaviorSubject,global.rxjs,global.rxjs_Observable,global._angular_cdk,global._angular_common,global.ng.core,global._angular_material,global._angular_flexLayout,global.ng.router,global._ngxTranslate_core,global.ng.http,global.angular2Jwt,global._elderbyte_ngxJwtAuth));
-}(this, (function (exports,rxjs_BehaviorSubject,rxjs,rxjs_Observable,_angular_cdk,_angular_common,_angular_core,_angular_material,_angular_flexLayout,_angular_router,_ngxTranslate_core,_angular_http,angular2Jwt,_elderbyte_ngxJwtAuth) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/BehaviorSubject'), require('rxjs'), require('rxjs/Observable'), require('@angular/cdk'), require('@angular/common'), require('@angular/core'), require('rxjs/ReplaySubject'), require('@angular/material'), require('@angular/flex-layout'), require('@angular/router'), require('@ngx-translate/core'), require('@angular/http'), require('angular2-jwt'), require('@elderbyte/ngx-jwt-auth')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'rxjs/BehaviorSubject', 'rxjs', 'rxjs/Observable', '@angular/cdk', '@angular/common', '@angular/core', 'rxjs/ReplaySubject', '@angular/material', '@angular/flex-layout', '@angular/router', '@ngx-translate/core', '@angular/http', 'angular2-jwt', '@elderbyte/ngx-jwt-auth'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.ngxStarter = global.ng.ngxStarter || {}),global.rxjs_BehaviorSubject,global.rxjs,global.rxjs_Observable,global._angular_cdk,global._angular_common,global.ng.core,global.rxjs_ReplaySubject,global._angular_material,global._angular_flexLayout,global.ng.router,global._ngxTranslate_core,global.ng.http,global.angular2Jwt,global._elderbyte_ngxJwtAuth));
+}(this, (function (exports,rxjs_BehaviorSubject,rxjs,rxjs_Observable,_angular_cdk,_angular_common,_angular_core,rxjs_ReplaySubject,_angular_material,_angular_flexLayout,_angular_router,_ngxTranslate_core,_angular_http,angular2Jwt,_elderbyte_ngxJwtAuth) { 'use strict';
 
 var DataContext = (function () {
     function DataContext(listFetcher, _indexFn, _localSort) {
@@ -635,6 +635,91 @@ var CommonPipesModule = (function () {
     return CommonPipesModule;
 }());
 
+var InfiniteScrollDirective = (function () {
+    function InfiniteScrollDirective(el) {
+        this.eventThrottle = 150;
+        this.offsetFactor = 1;
+        this.ignoreScrollEvent = false;
+        this._scrollStream$ = new rxjs_ReplaySubject.ReplaySubject(1);
+    }
+    Object.defineProperty(InfiniteScrollDirective.prototype, "closeToEnd", {
+        get: function () {
+            var _this = this;
+            return this._scrollStream$
+                .throttleTime(this.eventThrottle)
+                .filter(function (ev) { return _this.isCloseToEnd(ev.srcElement); });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InfiniteScrollDirective.prototype, "containerId", {
+        set: function (containerId) {
+            var scrollContainer = document.getElementById(containerId);
+            if (scrollContainer) {
+                console.log("Found scroll container: ", scrollContainer);
+                this.setup(scrollContainer);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    InfiniteScrollDirective.prototype.ngOnDestroy = function () {
+        if (this.scrollContainer) {
+            this.scrollContainer.onscroll = null;
+        }
+    };
+    InfiniteScrollDirective.prototype.setup = function (scrollContainer) {
+        var _this = this;
+        console.log("Setting up scroll observable stream listener....");
+        this.scrollContainer = scrollContainer;
+        this.scrollContainer.onscroll = function (ev) {
+            if (_this.ignoreScrollEvent)
+                return;
+            _this._scrollStream$.next(ev);
+        };
+    };
+    InfiniteScrollDirective.prototype.isCloseToEnd = function (el) {
+        var range = el.offsetHeight * this.offsetFactor;
+        var total = el.scrollHeight;
+        var current = el.scrollTop + el.offsetHeight;
+        return (total - current) < range;
+    };
+    InfiniteScrollDirective.decorators = [
+        { type: _angular_core.Directive, args: [{ selector: '[infiniteScroll]' },] },
+    ];
+    /** @nocollapse */
+    InfiniteScrollDirective.ctorParameters = function () { return [
+        { type: _angular_core.ElementRef, },
+    ]; };
+    InfiniteScrollDirective.propDecorators = {
+        'eventThrottle': [{ type: _angular_core.Input, args: ['eventThrottle',] },],
+        'offsetFactor': [{ type: _angular_core.Input, args: ['offsetFactor',] },],
+        'ignoreScrollEvent': [{ type: _angular_core.Input, args: ['ignoreScrollEvent',] },],
+        'closeToEnd': [{ type: _angular_core.Output, args: ['closeToEnd',] },],
+        'containerId': [{ type: _angular_core.Input, args: ['containerId',] },],
+    };
+    return InfiniteScrollDirective;
+}());
+
+var InfiniteScrollModule = (function () {
+    function InfiniteScrollModule() {
+    }
+    InfiniteScrollModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    declarations: [
+                        InfiniteScrollDirective
+                    ],
+                    exports: [
+                        InfiniteScrollDirective
+                    ],
+                    imports: [_angular_common.CommonModule]
+                },] },
+    ];
+    /** @nocollapse */
+    InfiniteScrollModule.ctorParameters = function () { return []; };
+    return InfiniteScrollModule;
+}());
+
 var ExpandToggleButtonComponent = (function () {
     function ExpandToggleButtonComponent() {
         this._expandedChanged = new rxjs_BehaviorSubject.BehaviorSubject(false);
@@ -1133,6 +1218,286 @@ function createCustomHttpService(backend, options, translate, authService) {
     }), translate);
 }
 
+var GeneralErrorHandler = (function () {
+    function GeneralErrorHandler() {
+        this.errorHandler = new _angular_core.ErrorHandler();
+    }
+    GeneralErrorHandler.prototype.handleError = function (error) {
+        // only if error is not set to error handled by ui do something
+        // else in the ui the error will be shown and doesn't need to be
+        // handled.
+        if (error.rejection !== "error handled by ui") {
+            this.errorHandler.handleError(error);
+        }
+    };
+    return GeneralErrorHandler;
+}());
+
+var ErrorHandlerModule = (function () {
+    function ErrorHandlerModule() {
+    }
+    ErrorHandlerModule.forRoot = function () {
+        return {
+            ngModule: ErrorHandlerModule,
+            providers: [
+                {
+                    provide: _angular_core.ErrorHandler,
+                    useClass: GeneralErrorHandler
+                },
+            ]
+        };
+    };
+    ErrorHandlerModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [_angular_common.CommonModule],
+                },] },
+    ];
+    /** @nocollapse */
+    ErrorHandlerModule.ctorParameters = function () { return []; };
+    return ErrorHandlerModule;
+}());
+
+/**
+ * Represents the search query which the user has configured
+ */
+var SearchQuery = (function () {
+    function SearchQuery(keywords, sorts) {
+        this.keywords = keywords;
+        this.sorts = sorts;
+    }
+    SearchQuery.Empty = new SearchQuery('', []);
+    return SearchQuery;
+}());
+var GlobalSearchService = (function () {
+    function GlobalSearchService(router) {
+        var _this = this;
+        this._showGlobalSearch = false;
+        this._showGlobalSearchSubject = new rxjs.Subject();
+        this._querySubject = new rxjs.Subject();
+        this._availableSorts = new rxjs_BehaviorSubject.BehaviorSubject([]);
+        router.events
+            .filter(function (event) { return event instanceof _angular_router.NavigationEnd; })
+            .map(function () { return router.routerState.root; })
+            .map(function (route) {
+            while (route.firstChild)
+                route = route.firstChild;
+            return route;
+        })
+            .filter(function (route) { return route.outlet === 'primary'; })
+            .mergeMap(function (route) { return route.data; })
+            .subscribe(function (currentRouteData) {
+            //console.log('NavigationEnd:', currentRouteData);
+            //console.log('show global search: ' + !!currentRouteData['showGlobalSearch']);
+            _this.showGlobalSearch = !!currentRouteData['showGlobalSearch'];
+        });
+    }
+    Object.defineProperty(GlobalSearchService.prototype, "availableSortsObservable", {
+        get: function () {
+            return this._availableSorts;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GlobalSearchService.prototype, "availableSorts", {
+        set: function (sorts) {
+            this._availableSorts.next(sorts);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GlobalSearchService.prototype, "queryObservable", {
+        get: function () {
+            return this._querySubject;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GlobalSearchService.prototype, "query", {
+        get: function () {
+            return this._query;
+        },
+        set: function (value) {
+            this._query = value;
+            this._querySubject.next(value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GlobalSearchService.prototype, "showGlobalSearchObservable", {
+        get: function () {
+            return this._showGlobalSearchSubject;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GlobalSearchService.prototype, "showGlobalSearch", {
+        get: function () {
+            return this._showGlobalSearch;
+        },
+        set: function (value) {
+            this._showGlobalSearch = value;
+            this._showGlobalSearchSubject.next(value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GlobalSearchService.decorators = [
+        { type: _angular_core.Injectable },
+    ];
+    /** @nocollapse */
+    GlobalSearchService.ctorParameters = function () { return [
+        { type: _angular_router.Router, },
+    ]; };
+    return GlobalSearchService;
+}());
+
+var GlobalSearchComponent = (function () {
+    function GlobalSearchComponent(router, globalSearch) {
+        var _this = this;
+        this.router = router;
+        this.globalSearch = globalSearch;
+        this._searchCollapsed = true;
+        this._subs = [];
+        this.onSearchCollapsed = new _angular_core.EventEmitter();
+        this.availableSort = [];
+        this.selectedSort = this.availableSort[0];
+        this.sortAsc = false;
+        this.globalSearchDisabled = !globalSearch.showGlobalSearch;
+        this._subs.push(globalSearch.showGlobalSearchObservable
+            .subscribe(function (value) {
+            _this.globalSearchDisabled = !value;
+        }), this.globalSearch.availableSortsObservable
+            .subscribe(function (available) {
+            _this.availableSort = available;
+        }), router.events
+            .filter(function (event) { return event instanceof _angular_router.NavigationEnd; })
+            .subscribe(function () {
+            _this.searchCollapsed = true;
+        }));
+    }
+    GlobalSearchComponent.prototype.ngOnInit = function () {
+        this.searchCollapsed = true;
+    };
+    GlobalSearchComponent.prototype.ngOnDestroy = function () {
+        this._subs.forEach(function (sub) { return sub.unsubscribe(); });
+    };
+    Object.defineProperty(GlobalSearchComponent.prototype, "searchCollapsed", {
+        get: function () {
+            return this._searchCollapsed;
+        },
+        set: function (value) {
+            var _this = this;
+            this._searchCollapsed = value;
+            this.onSearchCollapsed.emit(this.searchCollapsed);
+            if (!this._searchCollapsed) {
+                setTimeout(function () { return _this._txtSearch.nativeElement.focus(); }, 0);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GlobalSearchComponent.prototype, "txtSearch", {
+        set: function (input) {
+            this._txtSearch = input;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GlobalSearchComponent.prototype, "toggleIcon", {
+        get: function () {
+            return this.searchCollapsed ? 'search' : 'close';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GlobalSearchComponent.prototype.toggleSearch = function () {
+        if (this.searchCollapsed) {
+            // Show search
+            this.searchCollapsed = false;
+        }
+        else {
+            // Collapse search
+            this.searchCollapsed = true;
+            this.globalSearch.query = SearchQuery.Empty;
+        }
+    };
+    GlobalSearchComponent.prototype.toggleSortAsc = function () {
+        this.sortAsc = !this.sortAsc;
+        this.onQueryChanged();
+    };
+    GlobalSearchComponent.prototype.sortBy = function (sort) {
+        this.selectedSort = sort;
+        this.onQueryChanged();
+    };
+    GlobalSearchComponent.prototype.onQueryChanged = function () {
+        var sorts = this.selectedSort ? [this.convertToSort(this.selectedSort)] : [];
+        var newQuery = new SearchQuery(this.keywordsValue, sorts);
+        this.globalSearch.query = newQuery;
+    };
+    GlobalSearchComponent.prototype.convertToSort = function (sort) {
+        return new Sort(sort.id, this.sortAsc ? 'asc' : 'desc');
+    };
+    Object.defineProperty(GlobalSearchComponent.prototype, "keywordsValue", {
+        get: function () {
+            if (this._txtSearch) {
+                var txtInput = this._txtSearch.nativeElement;
+                return txtInput.value;
+            }
+            return '';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GlobalSearchComponent.decorators = [
+        { type: _angular_core.Component, args: [{
+                    selector: 'global-search',
+                    templateUrl: './global-search.component.html',
+                    styleUrls: ['./global-search.component.scss']
+                },] },
+    ];
+    /** @nocollapse */
+    GlobalSearchComponent.ctorParameters = function () { return [
+        { type: _angular_router.Router, },
+        { type: GlobalSearchService, },
+    ]; };
+    GlobalSearchComponent.propDecorators = {
+        'onSearchCollapsed': [{ type: _angular_core.Output },],
+        'searchCollapsed': [{ type: _angular_core.Input },],
+        'txtSearch': [{ type: _angular_core.ViewChild, args: ['txtSearch',] },],
+    };
+    return GlobalSearchComponent;
+}());
+
+var GlobalSearchModule = (function () {
+    function GlobalSearchModule() {
+    }
+    GlobalSearchModule.forRoot = function () {
+        return {
+            ngModule: GlobalSearchModule,
+            providers: [
+                {
+                    provide: GlobalSearchService,
+                    useClass: GlobalSearchService
+                },
+            ]
+        };
+    };
+    GlobalSearchModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    declarations: [
+                        GlobalSearchComponent
+                    ],
+                    exports: [
+                        GlobalSearchComponent
+                    ],
+                    imports: [_angular_common.CommonModule, _angular_material.MdIconModule, _angular_material.MdInputModule, _angular_material.MdButtonModule, _angular_material.MdMenuModule, _angular_flexLayout.FlexLayoutModule]
+                },] },
+    ];
+    /** @nocollapse */
+    GlobalSearchModule.ctorParameters = function () { return []; };
+    return GlobalSearchModule;
+}());
+
 // Library Exports
 
 /**
@@ -1155,6 +1520,8 @@ exports.PageableUtil = PageableUtil;
 exports.CommonPipesModule = CommonPipesModule;
 exports.BytesPipe = BytesPipe;
 exports.TimeAgoPipe = TimeAgoPipe;
+exports.InfiniteScrollModule = InfiniteScrollModule;
+exports.InfiniteScrollDirective = InfiniteScrollDirective;
 exports.ExpandToggleButtonModule = ExpandToggleButtonModule;
 exports.ExpandToggleButtonComponent = ExpandToggleButtonComponent;
 exports.AccessDeniedModule = AccessDeniedModule;
@@ -1168,6 +1535,10 @@ exports.ConfirmDialog = ConfirmDialog;
 exports.CustomHttpModule = CustomHttpModule;
 exports.createCustomHttpService = createCustomHttpService;
 exports.CustomHttpService = CustomHttpService;
+exports.ErrorHandlerModule = ErrorHandlerModule;
+exports.GlobalSearchModule = GlobalSearchModule;
+exports.GlobalSearchComponent = GlobalSearchComponent;
+exports.GlobalSearchService = GlobalSearchService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
