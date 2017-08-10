@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/BehaviorSubject'), require('rxjs'), require('rxjs/Observable'), require('@angular/cdk'), require('@angular/common'), require('@angular/core'), require('rxjs/ReplaySubject'), require('@angular/material'), require('@angular/flex-layout'), require('@angular/router'), require('@ngx-translate/core'), require('@angular/http'), require('angular2-jwt'), require('@elderbyte/ngx-jwt-auth')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'rxjs/BehaviorSubject', 'rxjs', 'rxjs/Observable', '@angular/cdk', '@angular/common', '@angular/core', 'rxjs/ReplaySubject', '@angular/material', '@angular/flex-layout', '@angular/router', '@ngx-translate/core', '@angular/http', 'angular2-jwt', '@elderbyte/ngx-jwt-auth'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.ngxStarter = global.ng.ngxStarter || {}),global.rxjs_BehaviorSubject,global.rxjs,global.rxjs_Observable,global._angular_cdk,global._angular_common,global.ng.core,global.rxjs_ReplaySubject,global._angular_material,global._angular_flexLayout,global.ng.router,global._ngxTranslate_core,global.ng.http,global.angular2Jwt,global._elderbyte_ngxJwtAuth));
-}(this, (function (exports,rxjs_BehaviorSubject,rxjs,rxjs_Observable,_angular_cdk,_angular_common,_angular_core,rxjs_ReplaySubject,_angular_material,_angular_flexLayout,_angular_router,_ngxTranslate_core,_angular_http,angular2Jwt,_elderbyte_ngxJwtAuth) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/BehaviorSubject'), require('rxjs'), require('rxjs/Observable'), require('@angular/cdk'), require('@angular/common'), require('@angular/core'), require('rxjs/ReplaySubject'), require('@angular/material'), require('@angular/flex-layout'), require('@angular/router'), require('@ngx-translate/core'), require('@angular/http'), require('angular2-jwt'), require('@elderbyte/ngx-jwt-auth'), require('@elderbyte/ngx-simple-webstorage'), require('@angular/forms')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'rxjs/BehaviorSubject', 'rxjs', 'rxjs/Observable', '@angular/cdk', '@angular/common', '@angular/core', 'rxjs/ReplaySubject', '@angular/material', '@angular/flex-layout', '@angular/router', '@ngx-translate/core', '@angular/http', 'angular2-jwt', '@elderbyte/ngx-jwt-auth', '@elderbyte/ngx-simple-webstorage', '@angular/forms'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.ngxStarter = global.ng.ngxStarter || {}),global.rxjs_BehaviorSubject,global.rxjs,global.rxjs_Observable,global._angular_cdk,global._angular_common,global.ng.core,global.rxjs_ReplaySubject,global._angular_material,global._angular_flexLayout,global.ng.router,global._ngxTranslate_core,global.ng.http,global.angular2Jwt,global._elderbyte_ngxJwtAuth,global._elderbyte_ngxSimpleWebstorage,global._angular_forms));
+}(this, (function (exports,rxjs_BehaviorSubject,rxjs,rxjs_Observable,_angular_cdk,_angular_common,_angular_core,rxjs_ReplaySubject,_angular_material,_angular_flexLayout,_angular_router,_ngxTranslate_core,_angular_http,angular2Jwt,_elderbyte_ngxJwtAuth,_elderbyte_ngxSimpleWebstorage,_angular_forms) { 'use strict';
 
 var DataContext = (function () {
     function DataContext(listFetcher, _indexFn, _localSort) {
@@ -1378,6 +1378,203 @@ var ErrorHandlerModule = (function () {
     return ErrorHandlerModule;
 }());
 
+var LanguageService = (function () {
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
+    function LanguageService(translate, webStorage) {
+        this.translate = translate;
+        this.webStorage = webStorage;
+        /***************************************************************************
+         *                                                                         *
+         * Fields                                                                  *
+         *                                                                         *
+         **************************************************************************/
+        this.LANGUAGE_STORAGE_KEY = "language";
+        console.log('Initializing language service with webstore: ', webStorage);
+    }
+    Object.defineProperty(LanguageService.prototype, "currentLanguage", {
+        /***************************************************************************
+         *                                                                         *
+         * Public API                                                              *
+         *                                                                         *
+         **************************************************************************/
+        /**
+         * Returns the key of the currently applied language.
+         *
+         * @returns {string} language key
+         */
+        get: function () {
+            return this.translate.currentLang;
+        },
+        /**
+         * Applies the given language which will immediately get apparent
+         * in the UI.
+         *
+         * @param {string} lang language key
+         */
+        set: function (lang) {
+            this.setLanguage(lang);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LanguageService.prototype, "languages", {
+        /**
+         * Returns an array of all available language keys.
+         *
+         * @returns {Array<string>} e.g. ['en', 'de', 'fr']
+         */
+        get: function () {
+            return this.translate.getLangs();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Checks if the given language is currently active.
+     *
+     * @param {string} lang language key
+     * @returns {boolean} true if given language is currently active
+     */
+    LanguageService.prototype.isLanguageActive = function (lang) {
+        return this.currentLanguage === lang;
+    };
+    Object.defineProperty(LanguageService.prototype, "lastConfigured", {
+        /**
+         * Returns the key of the last applied language.
+         *
+         * @returns {string} language key of last applied language
+         */
+        get: function () {
+            return this.webStorage.getItem(this.LANGUAGE_STORAGE_KEY);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /***************************************************************************
+     *                                                                         *
+     * Private Methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+    LanguageService.prototype.setLanguage = function (lang) {
+        this.translate.use(lang);
+        this.webStorage.setItem(this.LANGUAGE_STORAGE_KEY, lang);
+    };
+    LanguageService.decorators = [
+        { type: _angular_core.Injectable },
+    ];
+    /** @nocollapse */
+    LanguageService.ctorParameters = function () { return [
+        { type: _ngxTranslate_core.TranslateService, },
+        { type: _elderbyte_ngxSimpleWebstorage.WebLocalStorage, },
+    ]; };
+    return LanguageService;
+}());
+
+var LanguageSwitcherComponent = (function () {
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
+    function LanguageSwitcherComponent(language) {
+        this.language = language;
+    }
+    Object.defineProperty(LanguageSwitcherComponent.prototype, "currentLanguage", {
+        get: function () {
+            return this.language.currentLanguage;
+        },
+        set: function (lang) {
+            this.language.currentLanguage = lang;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LanguageSwitcherComponent.prototype, "languages", {
+        get: function () {
+            return this.language.languages;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    LanguageSwitcherComponent.prototype.setLanguage = function (lang) {
+        this.currentLanguage = lang;
+    };
+    /***************************************************************************
+     *                                                                         *
+     * Lifecycle Hooks                                                         *
+     *                                                                         *
+     **************************************************************************/
+    LanguageSwitcherComponent.prototype.ngOnInit = function () {
+    };
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+    LanguageSwitcherComponent.prototype.isLanguageActive = function (lang) {
+        return this.language.isLanguageActive(lang);
+    };
+    LanguageSwitcherComponent.decorators = [
+        { type: _angular_core.Component, args: [{
+                    selector: 'app-language-switcher',
+                    templateUrl: './language-switcher.component.html',
+                    styleUrls: ['./language-switcher.component.scss']
+                },] },
+    ];
+    /** @nocollapse */
+    LanguageSwitcherComponent.ctorParameters = function () { return [
+        { type: LanguageService, },
+    ]; };
+    LanguageSwitcherComponent.propDecorators = {
+        'slimMode': [{ type: _angular_core.Input, args: ['slimMode',] },],
+    };
+    return LanguageSwitcherComponent;
+}());
+
+/**
+ * Provides language related functionality like
+ * language-switcher, language service etc.
+ */
+var LanguageModule = (function () {
+    function LanguageModule() {
+    }
+    LanguageModule.forRoot = function () {
+        return {
+            ngModule: LanguageModule,
+            providers: [
+                {
+                    provide: LanguageService,
+                    useClass: LanguageService
+                },
+            ]
+        };
+    };
+    LanguageModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        _angular_common.CommonModule,
+                        _ngxTranslate_core.TranslateModule,
+                        _elderbyte_ngxSimpleWebstorage.SimpleWebStorageModule,
+                        _angular_material.MdSelectModule,
+                        _angular_forms.FormsModule
+                    ],
+                    exports: [
+                        LanguageSwitcherComponent,
+                    ],
+                    declarations: [
+                        LanguageSwitcherComponent
+                    ]
+                },] },
+    ];
+    /** @nocollapse */
+    LanguageModule.ctorParameters = function () { return []; };
+    return LanguageModule;
+}());
+
 /**
  * Represents the search query which the user has configured
  */
@@ -2020,6 +2217,9 @@ exports.CustomHttpModule = CustomHttpModule;
 exports.createCustomHttpService = createCustomHttpService;
 exports.CustomHttpService = CustomHttpService;
 exports.ErrorHandlerModule = ErrorHandlerModule;
+exports.LanguageModule = LanguageModule;
+exports.LanguageService = LanguageService;
+exports.LanguageSwitcherComponent = LanguageSwitcherComponent;
 exports.GlobalSearchModule = GlobalSearchModule;
 exports.GlobalSearchComponent = GlobalSearchComponent;
 exports.GlobalSearchService = GlobalSearchService;

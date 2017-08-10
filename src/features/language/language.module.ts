@@ -8,36 +8,40 @@ import {FormsModule} from "@angular/forms";
 import {SimpleWebStorageModule} from "@elderbyte/ngx-simple-webstorage";
 
 
+export * from "./language.service"
+export * from "./language-switcher/language-switcher.component"
+
+
 /**
  * Provides language related functionality like
  * language-switcher, language service etc.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    SimpleWebStorageModule,
-    MdSelectModule,
-    FormsModule
-  ],
-  exports: [
-      LanguageSwitcherComponent,
-  ],
-  declarations: [
-      LanguageSwitcherComponent
-  ]
+    imports: [
+        CommonModule,
+        TranslateModule,
+        SimpleWebStorageModule,
+        MdSelectModule,
+        FormsModule
+    ],
+    exports: [
+        LanguageSwitcherComponent,
+    ],
+    declarations: [
+        LanguageSwitcherComponent
+    ]
 })
 export class LanguageModule {
 
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: LanguageModule,
-      providers: [
-        {
-          provide: LanguageService,
-          useClass: LanguageService
-        },
-      ]
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: LanguageModule,
+            providers: [
+                {
+                    provide: LanguageService,
+                    useClass: LanguageService
+                },
+            ]
+        }
     }
-  }
 }

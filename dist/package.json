@@ -1,6 +1,6 @@
 {
   "name": "@elderbyte/ngx-starter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Common modules library for creating web apps with Angular / Material",
   "main": "dist/bundles/ngx-starter.umd.js",
   "module": "index.js",
