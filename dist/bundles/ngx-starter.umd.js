@@ -821,6 +821,127 @@ var AccessDeniedModule = (function () {
     return AccessDeniedModule;
 }());
 
+var AngularMaterialLayoutModule = (function () {
+    function AngularMaterialLayoutModule() {
+    }
+    AngularMaterialLayoutModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        _angular_material.MdListModule, _angular_material.MdGridListModule, _angular_material.MdCardModule, _angular_material.MdTabsModule,
+                    ],
+                    exports: [
+                        _angular_material.MdListModule, _angular_material.MdGridListModule, _angular_material.MdCardModule, _angular_material.MdTabsModule,
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    AngularMaterialLayoutModule.ctorParameters = function () { return []; };
+    return AngularMaterialLayoutModule;
+}());
+var AngularMaterialNavigationModule = (function () {
+    function AngularMaterialNavigationModule() {
+    }
+    AngularMaterialNavigationModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        _angular_material.MdMenuModule, _angular_material.MdSidenavModule, _angular_material.MdToolbarModule
+                    ],
+                    exports: [
+                        _angular_material.MdMenuModule, _angular_material.MdSidenavModule, _angular_material.MdToolbarModule
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    AngularMaterialNavigationModule.ctorParameters = function () { return []; };
+    return AngularMaterialNavigationModule;
+}());
+var AngularMaterialPopupsModule = (function () {
+    function AngularMaterialPopupsModule() {
+    }
+    AngularMaterialPopupsModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        _angular_material.MdDialogModule, _angular_material.MdTooltipModule, _angular_material.MdSnackBarModule
+                    ],
+                    exports: [
+                        _angular_material.MdDialogModule, _angular_material.MdTooltipModule, _angular_material.MdSnackBarModule
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    AngularMaterialPopupsModule.ctorParameters = function () { return []; };
+    return AngularMaterialPopupsModule;
+}());
+var AngularMaterialInputModule = (function () {
+    function AngularMaterialInputModule() {
+    }
+    AngularMaterialInputModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        _angular_material.MdIconModule,
+                        // User Input / info
+                        _angular_material.MdInputModule, _angular_material.MdButtonModule, _angular_material.MdRadioModule, _angular_material.MdSlideToggleModule,
+                        _angular_material.MdOptionModule, _angular_material.MdSliderModule, _angular_material.MdSelectModule, _angular_material.MdCheckboxModule,
+                        _angular_material.MdAutocompleteModule, _angular_material.MdProgressBarModule, _angular_material.MdProgressSpinnerModule,
+                        _angular_material.MdChipsModule, _angular_material.MdDatepickerModule
+                    ],
+                    exports: [
+                        _angular_material.MdIconModule,
+                        // User Input / info
+                        _angular_material.MdInputModule, _angular_material.MdButtonModule, _angular_material.MdRadioModule, _angular_material.MdSlideToggleModule,
+                        _angular_material.MdOptionModule, _angular_material.MdSliderModule, _angular_material.MdSelectModule, _angular_material.MdCheckboxModule,
+                        _angular_material.MdAutocompleteModule, _angular_material.MdProgressBarModule, _angular_material.MdProgressSpinnerModule,
+                        _angular_material.MdChipsModule, _angular_material.MdDatepickerModule
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    AngularMaterialInputModule.ctorParameters = function () { return []; };
+    return AngularMaterialInputModule;
+}());
+var AngularMaterialTableModule = (function () {
+    function AngularMaterialTableModule() {
+    }
+    AngularMaterialTableModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        _angular_cdk.CdkTableModule, _angular_material.MdTableModule
+                    ],
+                    exports: [
+                        _angular_cdk.CdkTableModule, _angular_material.MdTableModule
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    AngularMaterialTableModule.ctorParameters = function () { return []; };
+    return AngularMaterialTableModule;
+}());
+var AngularMaterialCompleteModule = (function () {
+    function AngularMaterialCompleteModule() {
+    }
+    AngularMaterialCompleteModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        AngularMaterialLayoutModule,
+                        AngularMaterialNavigationModule,
+                        AngularMaterialPopupsModule,
+                        AngularMaterialInputModule,
+                        AngularMaterialTableModule
+                    ],
+                    exports: [
+                        AngularMaterialLayoutModule,
+                        AngularMaterialNavigationModule,
+                        AngularMaterialPopupsModule,
+                        AngularMaterialInputModule,
+                        AngularMaterialTableModule
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    AngularMaterialCompleteModule.ctorParameters = function () { return []; };
+    return AngularMaterialCompleteModule;
+}());
+
 var BreadcrumbContext = (function () {
     function BreadcrumbContext() {
         this.exactPathReplacers = new Map();
@@ -1498,6 +1619,363 @@ var GlobalSearchModule = (function () {
     return GlobalSearchModule;
 }());
 
+(function (ToastType) {
+    ToastType[ToastType["Error"] = 0] = "Error";
+    ToastType[ToastType["Warning"] = 1] = "Warning";
+    ToastType[ToastType["Success"] = 2] = "Success";
+})(exports.ToastType || (exports.ToastType = {}));
+
+var ToastService = (function () {
+    function ToastService(translate) {
+        this.translate = translate;
+        this.subjet = new rxjs.Subject();
+    }
+    ToastService.prototype.getNotificationsObservable = function () {
+        return this.subjet.asObservable();
+    };
+    ToastService.prototype.pushNotification = function (msg) {
+        this.subjet.next(msg);
+    };
+    ToastService.prototype.pushInfoRaw = function (msg) {
+        this.pushInfoToast(msg);
+    };
+    ToastService.prototype.pushInfo = function (msgKey, interpolateParams) {
+        var _this = this;
+        this.translateMessage(msgKey, interpolateParams).subscribe(function (res) { return _this.pushInfoToast(res); }, function (err) { return _this.pushInfoToast(msgKey); }); // no translation found, push key
+    };
+    ToastService.prototype.pushErrorRaw = function (msg, error) {
+        console.error(msg, error);
+        this.pushInfoToast(msg);
+    };
+    ToastService.prototype.pushError = function (msgKey, interpolateParams, error) {
+        var _this = this;
+        this.translateMessage(msgKey, interpolateParams).subscribe(function (res) {
+            console.error(res, error);
+            _this.pushErrorToast(res);
+        }, function (err) { return _this.pushErrorToast(msgKey); }); // no translation found, push key
+    };
+    ToastService.prototype.pushInfoToast = function (msg) {
+        this.subjet.next({
+            message: msg,
+            type: exports.ToastType.Success
+        });
+    };
+    ToastService.prototype.pushErrorToast = function (msg) {
+        this.subjet.next({
+            message: msg,
+            type: exports.ToastType.Error
+        });
+    };
+    ToastService.prototype.translateMessage = function (msg, interpolateParams) {
+        return this.translate.get(msg, interpolateParams);
+    };
+    ToastService.decorators = [
+        { type: _angular_core.Injectable },
+    ];
+    /** @nocollapse */
+    ToastService.ctorParameters = function () { return [
+        { type: _ngxTranslate_core.TranslateService, },
+    ]; };
+    return ToastService;
+}());
+
+var ToastSnackbarComponent = (function () {
+    function ToastSnackbarComponent(toastService, snackBar) {
+        this.toastService = toastService;
+        this.snackBar = snackBar;
+    }
+    ToastSnackbarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.toastService.getNotificationsObservable().subscribe(function (notification) {
+            _this.snackBar.open(notification.message, "OK", { duration: 3000 });
+        });
+    };
+    ToastSnackbarComponent.decorators = [
+        { type: _angular_core.Component, args: [{
+                    selector: 'app-toast',
+                    template: ''
+                },] },
+    ];
+    /** @nocollapse */
+    ToastSnackbarComponent.ctorParameters = function () { return [
+        { type: ToastService, },
+        { type: _angular_material.MdSnackBar, },
+    ]; };
+    return ToastSnackbarComponent;
+}());
+
+var ToastModule = (function () {
+    function ToastModule() {
+    }
+    ToastModule.forRoot = function () {
+        return {
+            ngModule: ToastModule,
+            providers: [
+                {
+                    provide: ToastService,
+                    useClass: ToastService
+                }
+            ]
+        };
+    };
+    ToastModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    declarations: [
+                        ToastSnackbarComponent
+                    ],
+                    providers: [
+                        ToastService
+                    ],
+                    exports: [
+                        ToastSnackbarComponent
+                    ],
+                    imports: [_angular_common.CommonModule, _angular_material.MdSnackBarModule]
+                },] },
+    ];
+    /** @nocollapse */
+    ToastModule.ctorParameters = function () { return []; };
+    return ToastModule;
+}());
+
+var ToolbarHeader = (function () {
+    function ToolbarHeader(name) {
+        this.name = name;
+    }
+    return ToolbarHeader;
+}());
+var ToolbarService = (function () {
+    function ToolbarService() {
+        this._title = new ToolbarHeader('Home');
+        this._titleChange = new rxjs_BehaviorSubject.BehaviorSubject(this._title);
+    }
+    Object.defineProperty(ToolbarService.prototype, "title", {
+        get: function () {
+            return this._title;
+        },
+        set: function (title) {
+            this._title = title;
+            this._titleChange.next(title);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ToolbarService.prototype, "titleChange", {
+        get: function () {
+            return this._titleChange;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ToolbarService.decorators = [
+        { type: _angular_core.Injectable },
+    ];
+    /** @nocollapse */
+    ToolbarService.ctorParameters = function () { return []; };
+    return ToolbarService;
+}());
+
+var ToolbarTitleComponent = (function () {
+    function ToolbarTitleComponent(toolbarService) {
+        this.toolbarService = toolbarService;
+    }
+    ToolbarTitleComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._sub = this.toolbarService.titleChange
+            .subscribe(function (title) { return _this.title = title.name; });
+    };
+    ToolbarTitleComponent.prototype.ngOnDestroy = function () {
+        this._sub.unsubscribe();
+    };
+    ToolbarTitleComponent.decorators = [
+        { type: _angular_core.Component, args: [{
+                    selector: 'toolbar-title',
+                    templateUrl: './toolbar-title.component.html',
+                    styleUrls: ['./toolbar-title.component.scss']
+                },] },
+    ];
+    /** @nocollapse */
+    ToolbarTitleComponent.ctorParameters = function () { return [
+        { type: ToolbarService, },
+    ]; };
+    return ToolbarTitleComponent;
+}());
+
+var ToolbarModule = (function () {
+    function ToolbarModule() {
+    }
+    ToolbarModule.forRoot = function () {
+        return {
+            ngModule: ToolbarModule,
+            providers: [
+                {
+                    provide: ToolbarService,
+                    useClass: ToolbarService
+                },
+            ]
+        };
+    };
+    ToolbarModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [
+                        _angular_common.CommonModule, _ngxTranslate_core.TranslateModule
+                    ],
+                    declarations: [
+                        ToolbarTitleComponent
+                    ],
+                    exports: [
+                        ToolbarTitleComponent
+                    ]
+                },] },
+    ];
+    /** @nocollapse */
+    ToolbarModule.ctorParameters = function () { return []; };
+    return ToolbarModule;
+}());
+
+/**
+ * This service manages the side content.
+ * This is usually the left side which is a 'side nav' and the right side which shows detail information.
+ */
+var SideContentService = (function () {
+    function SideContentService(router) {
+        var _this = this;
+        this.router = router;
+        this.navigationOpen = false;
+        this.sideContentOpen = false;
+        this.router.events
+            .filter(function (event) { return event instanceof _angular_router.NavigationEnd; })
+            .map(function (event) { return event; })
+            .subscribe(function (event) {
+            if (_this.isOutletActive('side')) {
+                console.info('side outlet is active -> showing side content!');
+                _this.showSideContent();
+            }
+            else {
+                console.info('side outlet is NOT active -> HIDING side content!');
+                _this.closeSideContent();
+            }
+            _this.closeSideNav();
+        });
+    }
+    SideContentService.prototype.toggleSidenav = function () {
+        this.navigationOpen = !this.navigationOpen;
+    };
+    SideContentService.prototype.closeSideNav = function () {
+        this.navigationOpen = false;
+    };
+    SideContentService.prototype.closeSideContent = function () {
+        console.log('hiding side content ...');
+        this.sideContentOpen = false;
+        this.router.navigate([{ outlets: { 'side': null } }]);
+    };
+    SideContentService.prototype.isOutletActive = function (outlet) {
+        var rs = this.router.routerState.snapshot;
+        var snap = rs.root;
+        return this.isOutletActiveRecursive(snap, outlet);
+    };
+    SideContentService.prototype.isOutletActiveRecursive = function (root, outlet) {
+        console.log('--> ' + root.outlet);
+        if (root.outlet === outlet) {
+            return true;
+        }
+        for (var _i = 0, _a = root.children; _i < _a.length; _i++) {
+            var c = _a[_i];
+            if (this.isOutletActiveRecursive(c, outlet)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    SideContentService.prototype.showSideContent = function () {
+        console.log('showing side content ...');
+        this.sideContentOpen = true;
+    };
+    SideContentService.decorators = [
+        { type: _angular_core.Injectable },
+    ];
+    /** @nocollapse */
+    SideContentService.ctorParameters = function () { return [
+        { type: _angular_router.Router, },
+    ]; };
+    return SideContentService;
+}());
+
+var SideContentToggleComponent = (function () {
+    function SideContentToggleComponent(router, sideContentService) {
+        this.router = router;
+        this.sideContentService = sideContentService;
+    }
+    SideContentToggleComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sub = this.router.events.subscribe(function (event) {
+            if (event instanceof _angular_router.NavigationEnd) {
+                var navEnd = event;
+                var url = navEnd.url;
+                var parts = url.split("/");
+                var index = parts.indexOf("orders");
+                if (index < 0 || index == parts.length - 1) {
+                    _this.isMainRoute = true;
+                }
+                else {
+                    _this.isMainRoute = false;
+                }
+            }
+        });
+    };
+    SideContentToggleComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
+    };
+    SideContentToggleComponent.prototype.toggleSideContent = function () {
+        this.sideContentService.toggleSidenav();
+    };
+    SideContentToggleComponent.prototype.goBack = function () {
+        this.router.navigate(['app/orders']);
+    };
+    SideContentToggleComponent.decorators = [
+        { type: _angular_core.Component, args: [{
+                    selector: 'app-side-content-toggle',
+                    templateUrl: './side-content-toggle.component.html',
+                    styleUrls: ['./side-content-toggle.component.scss']
+                },] },
+    ];
+    /** @nocollapse */
+    SideContentToggleComponent.ctorParameters = function () { return [
+        { type: _angular_router.Router, },
+        { type: SideContentService, },
+    ]; };
+    return SideContentToggleComponent;
+}());
+
+var SideContentModule = (function () {
+    function SideContentModule() {
+    }
+    SideContentModule.forRoot = function () {
+        return {
+            ngModule: SideContentModule,
+            providers: [
+                {
+                    provide: SideContentService,
+                    useClass: SideContentService
+                },
+            ]
+        };
+    };
+    SideContentModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    declarations: [
+                        SideContentToggleComponent
+                    ],
+                    exports: [
+                        SideContentToggleComponent
+                    ],
+                    imports: [_angular_common.CommonModule, _angular_material.MdIconModule, _angular_material.MdButtonModule, _angular_flexLayout.FlexLayoutModule]
+                },] },
+    ];
+    /** @nocollapse */
+    SideContentModule.ctorParameters = function () { return []; };
+    return SideContentModule;
+}());
+
 // Library Exports
 
 /**
@@ -1526,6 +2004,12 @@ exports.ExpandToggleButtonModule = ExpandToggleButtonModule;
 exports.ExpandToggleButtonComponent = ExpandToggleButtonComponent;
 exports.AccessDeniedModule = AccessDeniedModule;
 exports.AccessDeniedComponent = AccessDeniedComponent;
+exports.AngularMaterialLayoutModule = AngularMaterialLayoutModule;
+exports.AngularMaterialNavigationModule = AngularMaterialNavigationModule;
+exports.AngularMaterialPopupsModule = AngularMaterialPopupsModule;
+exports.AngularMaterialInputModule = AngularMaterialInputModule;
+exports.AngularMaterialTableModule = AngularMaterialTableModule;
+exports.AngularMaterialCompleteModule = AngularMaterialCompleteModule;
 exports.BreadcrumbModule = BreadcrumbModule;
 exports.BreadcrumbService = BreadcrumbService;
 exports.BreadcrumbComponent = BreadcrumbComponent;
@@ -1539,6 +2023,16 @@ exports.ErrorHandlerModule = ErrorHandlerModule;
 exports.GlobalSearchModule = GlobalSearchModule;
 exports.GlobalSearchComponent = GlobalSearchComponent;
 exports.GlobalSearchService = GlobalSearchService;
+exports.ToastModule = ToastModule;
+exports.ToastSnackbarComponent = ToastSnackbarComponent;
+exports.ToastService = ToastService;
+exports.ToolbarModule = ToolbarModule;
+exports.ToolbarTitleComponent = ToolbarTitleComponent;
+exports.ToolbarHeader = ToolbarHeader;
+exports.ToolbarService = ToolbarService;
+exports.SideContentModule = SideContentModule;
+exports.SideContentService = SideContentService;
+exports.SideContentToggleComponent = SideContentToggleComponent;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
