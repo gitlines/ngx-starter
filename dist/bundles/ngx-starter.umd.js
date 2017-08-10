@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/BehaviorSubject'), require('rxjs'), require('rxjs/Observable'), require('@angular/cdk'), require('@angular/common'), require('@angular/core'), require('@angular/material'), require('@angular/flex-layout'), require('@angular/router'), require('@ngx-translate/core')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'rxjs/BehaviorSubject', 'rxjs', 'rxjs/Observable', '@angular/cdk', '@angular/common', '@angular/core', '@angular/material', '@angular/flex-layout', '@angular/router', '@ngx-translate/core'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.ngxStarter = global.ng.ngxStarter || {}),global.rxjs_BehaviorSubject,global.rxjs,global.rxjs_Observable,global._angular_cdk,global._angular_common,global.ng.core,global._angular_material,global._angular_flexLayout,global.ng.router,global._ngxTranslate_core));
-}(this, (function (exports,rxjs_BehaviorSubject,rxjs,rxjs_Observable,_angular_cdk,_angular_common,_angular_core,_angular_material,_angular_flexLayout,_angular_router,_ngxTranslate_core) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/BehaviorSubject'), require('rxjs'), require('rxjs/Observable'), require('@angular/cdk'), require('@angular/common'), require('@angular/core'), require('@angular/material'), require('@angular/flex-layout'), require('@angular/router'), require('@ngx-translate/core'), require('@angular/http'), require('angular2-jwt'), require('@elderbyte/ngx-jwt-auth')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'rxjs/BehaviorSubject', 'rxjs', 'rxjs/Observable', '@angular/cdk', '@angular/common', '@angular/core', '@angular/material', '@angular/flex-layout', '@angular/router', '@ngx-translate/core', '@angular/http', 'angular2-jwt', '@elderbyte/ngx-jwt-auth'], factory) :
+	(factory((global.ng = global.ng || {}, global.ng.ngxStarter = global.ng.ngxStarter || {}),global.rxjs_BehaviorSubject,global.rxjs,global.rxjs_Observable,global._angular_cdk,global._angular_common,global.ng.core,global._angular_material,global._angular_flexLayout,global.ng.router,global._ngxTranslate_core,global.ng.http,global.angular2Jwt,global._elderbyte_ngxJwtAuth));
+}(this, (function (exports,rxjs_BehaviorSubject,rxjs,rxjs_Observable,_angular_cdk,_angular_common,_angular_core,_angular_material,_angular_flexLayout,_angular_router,_ngxTranslate_core,_angular_http,angular2Jwt,_elderbyte_ngxJwtAuth) { 'use strict';
 
 var DataContext = (function () {
     function DataContext(listFetcher, _indexFn, _localSort) {
@@ -976,6 +976,163 @@ var CommonDialogModule = (function () {
     return CommonDialogModule;
 }());
 
+var __extends$2 = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var CustomHttpService = (function (_super) {
+    __extends$2(CustomHttpService, _super);
+    function CustomHttpService(backend, options, authConfig, translate) {
+        var _this = _super.call(this, authConfig ? authConfig : new angular2Jwt.AuthConfig(), backend, options) || this;
+        _this.translate = translate;
+        return _this;
+    }
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+    CustomHttpService.prototype.request = function (request, options) {
+        if (request instanceof _angular_http.Request) {
+            return _super.prototype.request.call(this, request);
+        }
+        else {
+            return _super.prototype.request.call(this, request, this.handleOptions(options));
+        }
+    };
+    CustomHttpService.prototype.get = function (url, options, pageable, filters) {
+        return _super.prototype.get.call(this, url, this.handleOptions(options, pageable, filters));
+    };
+    CustomHttpService.prototype.post = function (url, body, options) {
+        return _super.prototype.post.call(this, url, body, this.handleOptions(options));
+    };
+    CustomHttpService.prototype.put = function (url, body, options) {
+        return _super.prototype.put.call(this, url, body, this.handleOptions(options));
+    };
+    CustomHttpService.prototype.delete = function (url, options) {
+        return _super.prototype.delete.call(this, url, this.handleOptions(options));
+    };
+    CustomHttpService.prototype.patch = function (url, body, options) {
+        return _super.prototype.patch.call(this, url, body, this.handleOptions(options));
+    };
+    CustomHttpService.prototype.head = function (url, options) {
+        return _super.prototype.head.call(this, url, this.handleOptions(options));
+    };
+    CustomHttpService.prototype.options = function (url, options) {
+        return _super.prototype.options.call(this, url, this.handleOptions(options));
+    };
+    /***************************************************************************
+     *                                                                         *
+     * Private Methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+    CustomHttpService.prototype.handleOptions = function (options, pageable, filters) {
+        if (!options) {
+            options = {};
+        }
+        if (pageable) {
+            options = this.addPageable(options, pageable);
+        }
+        if (filters) {
+            options = this.addFilters(options, filters);
+        }
+        options = this.addLocale(options);
+        //console.log('injected options: ', options);
+        return options;
+    };
+    CustomHttpService.prototype.addLocale = function (options) {
+        var params;
+        if (options.params) {
+            params = options.params;
+        }
+        else {
+            params = new _angular_http.URLSearchParams();
+        }
+        params.set('locale', this.translate.currentLang);
+        options.params = params;
+        return options;
+    };
+    CustomHttpService.prototype.addPageable = function (options, pageable) {
+        var params;
+        if (options.params) {
+            params = options.params;
+        }
+        else {
+            params = new _angular_http.URLSearchParams();
+        }
+        options.params = PageableUtil.addSearchParams(params, pageable);
+        return options;
+    };
+    CustomHttpService.prototype.addFilters = function (options, filters) {
+        var params;
+        if (options.params) {
+            params = options.params;
+        }
+        else {
+            params = new _angular_http.URLSearchParams();
+        }
+        options.params = FilterUtil.addSearchParams(params, filters);
+        return options;
+    };
+    CustomHttpService.decorators = [
+        { type: _angular_core.Injectable },
+    ];
+    /** @nocollapse */
+    CustomHttpService.ctorParameters = function () { return [
+        { type: _angular_http.Http, },
+        { type: _angular_http.RequestOptions, },
+        null,
+        { type: _ngxTranslate_core.TranslateService, },
+    ]; };
+    return CustomHttpService;
+}(angular2Jwt.AuthHttp));
+
+var CustomHttpModule = (function () {
+    function CustomHttpModule() {
+    }
+    CustomHttpModule.forRoot = function () {
+        return {
+            ngModule: CustomHttpModule,
+            providers: [
+                {
+                    provide: CustomHttpService,
+                    useFactory: createCustomHttpService,
+                    deps: [_angular_http.Http, _angular_http.RequestOptions, _ngxTranslate_core.TranslateService, _elderbyte_ngxJwtAuth.AuthenticationService]
+                },
+            ]
+        };
+    };
+    CustomHttpModule.decorators = [
+        { type: _angular_core.NgModule, args: [{
+                    imports: [_angular_common.CommonModule, _elderbyte_ngxJwtAuth.JwtAuthModule]
+                },] },
+    ];
+    /** @nocollapse */
+    CustomHttpModule.ctorParameters = function () { return []; };
+    return CustomHttpModule;
+}());
+//Because of AOT Compiler
+function createCustomHttpService(backend, options, translate, authService) {
+    var tokenGetterFn = function () {
+        if (authService.isAuthenticated()) {
+            return authService.principal ? authService.principal.token : '';
+        }
+        return '';
+    };
+    return new CustomHttpService(backend, options, new angular2Jwt.AuthConfig({
+        tokenName: 'token',
+        tokenGetter: tokenGetterFn,
+        noJwtError: false,
+        globalHeaders: [{ 'Content-Type': 'application/json' }],
+    }), translate);
+}
+
 // Library Exports
 
 /**
@@ -1008,6 +1165,9 @@ exports.BreadcrumbComponent = BreadcrumbComponent;
 exports.CommonDialogModule = CommonDialogModule;
 exports.CommonDialogService = CommonDialogService;
 exports.ConfirmDialog = ConfirmDialog;
+exports.CustomHttpModule = CustomHttpModule;
+exports.createCustomHttpService = createCustomHttpService;
+exports.CustomHttpService = CustomHttpService;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
