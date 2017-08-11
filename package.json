@@ -5,11 +5,11 @@
   "main": "dist/bundles/ngx-starter.umd.js",
   "module": "dist/index.js",
   "scripts": {
-    "cleanup": "rimraf dist/bundles dist/src dist/index.d.ts dist/index.metadata.json dist/index.js dist/index.js.map dist/LICENSE dist/README.md",
+    "cleanup": "rimraf dist",
+    "copy": "copyfiles src/**/*.scss dist && copyfiles src/**/*.html dist && copyfiles LICENSE README.md dist",
     "bundling": "rollup -c",
     "minify": "uglifyjs dist/bundles/ngx-starter.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ngx-starter.umd.min.js",
-    "copy": "copyfiles LICENSE README.md dist",
-    "build": "npm run cleanup && ngc && npm run bundling && npm run minify && npm run copy"
+    "build": "npm run cleanup && ngc && npm run copy && npm run bundling && npm run minify"
   },
   "keywords": [
     "angular",
@@ -55,9 +55,18 @@
     "@angular/cli": "1.2.6",
     "@angular/compiler": "4.3.3",
     "@angular/compiler-cli": "^4.3.3",
+    "clean-css": "^3.4.23",
     "copyfiles": "^1.2.0",
+    "html-minifier": "^3.3.1",
+    "node-sass": "^4.1.1",
     "rimraf": "^2.6.1",
-    "rollup": "~0.41.6",
+    "rollup": "~0.45.2",
+    "rollup-plugin-alias": "^1.3.1",
+    "rollup-plugin-angular-aot": "^0.0.4",
+    "rollup-plugin-commonjs": "^8.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rxjs": "^5.0.3",
     "typescript": "^2.4.2",
     "uglify-js": "^2.8.20"
   }

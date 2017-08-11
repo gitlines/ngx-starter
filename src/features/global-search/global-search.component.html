@@ -11,7 +11,7 @@
     <md-input-container color="accent" floatPlaceholder="never" fxFlex>
       <md-icon mdPrefix>search</md-icon>
       <input mdInput type="search"
-             (keyup)='onQueryChanged()'
+             (keyup)="onQueryChanged()"
              #txtSearch>
     </md-input-container>
 
@@ -31,7 +31,7 @@
 
     <!-- Sort Asc/Desc-->
     <button md-icon-button (click)="toggleSortAsc()">
-      <md-icon>{{sortAsc ? 'arrow_downward' : 'arrow_upward'}}</md-icon>
+      <md-icon>{{sortAsc ? "arrow_downward" : "arrow_upward"}}</md-icon>
     </button>
 
   </div>

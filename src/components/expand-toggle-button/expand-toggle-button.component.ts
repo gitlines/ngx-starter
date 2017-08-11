@@ -7,8 +7,7 @@ import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'expand-toggle-button',
-  templateUrl: './expand-toggle-button.component.html',
-  styleUrls: ['./expand-toggle-button.component.scss']
+  templateUrl: './expand-toggle-button.component.html'
 })
 export class ExpandToggleButtonComponent implements OnInit {
 

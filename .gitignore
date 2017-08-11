@@ -6,6 +6,7 @@ npm-debug.log
 .idea
 .DS_Store
 .compiled
+/dist
 
 *.shim.ngstyle.ts
 *.ngsummary.json

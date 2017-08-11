@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LanguageService} from "../language.service";
+import {TranslateService} from "@ngx-translate/core";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-language-switcher',
@@ -15,7 +17,8 @@ export class LanguageSwitcherComponent implements OnInit {
      **************************************************************************/
 
     constructor(
-        public language: LanguageService
+        public language: LanguageService,
+        private translation : TranslateService
     )
     {}
 
@@ -27,6 +30,12 @@ export class LanguageSwitcherComponent implements OnInit {
 
     @Input('slimMode')
     public slimMode: boolean;
+
+
+    public get languagePlaceholder() : Observable<string>{
+        return this.translation.get("language.language")
+    }
+
 
     public get currentLanguage() : string {
         return this.language.currentLanguage;
@@ -42,6 +51,10 @@ export class LanguageSwitcherComponent implements OnInit {
 
     public setLanguage(lang: string){
         this.currentLanguage = lang;
+    }
+
+    public getLanguageClass(lang: string) : any {
+        return {'active': this.isLanguageActive(lang) };
     }
 
     /***************************************************************************
