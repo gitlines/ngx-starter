@@ -1,7 +1,12 @@
 node_modules
+npm-debug.log
+
+
 .vscode
 .idea
 .DS_Store
-npm-debug.log
+.compiled
+
+*.shim.ngstyle.ts
 *.ngsummary.json
 *.ngfactory.ts
