@@ -6,8 +6,8 @@ import {MdButtonModule, MdIconModule, MdInputModule, MdMenuModule} from "@angula
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {CommonModule} from "@angular/common";
 
-export {GlobalSearchComponent} from "./global-search.component"
-export {GlobalSearchService} from "./global-search.service"
+export * from "./global-search.component"
+export * from "./global-search.service"
 
 
 @NgModule({
