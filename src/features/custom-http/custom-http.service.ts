@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {
   Http, Response, RequestOptionsArgs, RequestOptions, Request, URLSearchParams,
-} from "@angular/http";
-import {Observable} from "rxjs";
-import {TranslateService} from "@ngx-translate/core";
-import {AuthConfig, AuthHttp} from "angular2-jwt";
-import {Pageable, PageableUtil} from "../../common/data/page";
-import {Filter, FilterUtil} from "../../common/data/filter";
+} from '@angular/http';
+import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {AuthConfig, AuthHttp} from 'angular2-jwt';
+import {Pageable, PageableUtil} from '../../common/data/page';
+import {Filter, FilterUtil} from '../../common/data/filter';
 
 
 
@@ -29,7 +29,7 @@ export class CustomHttpService extends AuthHttp {
    **************************************************************************/
 
   request(request: string|Request, options?: RequestOptionsArgs): Observable<Response> {
-    if(request instanceof  Request){
+    if (request instanceof  Request){
       return super.request(request as Request);
     }else{
       return super.request(request, this.handleOptions(options));
@@ -76,13 +76,13 @@ export class CustomHttpService extends AuthHttp {
 
   private handleOptions(options? : RequestOptionsArgs, pageable? : Pageable, filters? : Filter[]) : RequestOptionsArgs {
 
-    if(!options){
+    if (!options){
       options = {} as RequestOptionsArgs;
     }
-    if(pageable){
+    if (pageable){
       options = this.addPageable(options, pageable);
     }
-    if(filters){
+    if (filters){
       options = this.addFilters(options, filters);
     }
 
@@ -97,7 +97,7 @@ export class CustomHttpService extends AuthHttp {
   private addLocale(options: RequestOptionsArgs): RequestOptionsArgs {
     let params: URLSearchParams;
 
-    if(options.params){
+    if (options.params){
       params = <URLSearchParams> options.params;
     } else {
       params = new URLSearchParams();
@@ -112,7 +112,7 @@ export class CustomHttpService extends AuthHttp {
   private addPageable(options: RequestOptionsArgs, pageable : Pageable) : RequestOptionsArgs {
     let params: URLSearchParams;
 
-    if(options.params){
+    if (options.params){
       params = <URLSearchParams> options.params;
     } else {
       params = new URLSearchParams();
@@ -124,7 +124,7 @@ export class CustomHttpService extends AuthHttp {
   private addFilters(options: RequestOptionsArgs, filters : Filter[]) : RequestOptionsArgs {
     let params: URLSearchParams;
 
-    if(options.params){
+    if (options.params){
       params = <URLSearchParams> options.params;
     } else {
       params = new URLSearchParams();
