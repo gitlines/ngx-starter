@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, NavigationEnd, ActivatedRoute} from "@angular/router";
-import {BreadcrumbService, IBreadcrumb} from "./breadcrumb.service";
+import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
+import {BreadcrumbService, IBreadcrumb} from './breadcrumb.service';
 
 
 
@@ -12,7 +12,7 @@ import {BreadcrumbService, IBreadcrumb} from "./breadcrumb.service";
 })
 export class BreadcrumbComponent implements OnInit {
 
-  private ROUTE_DATA_BREADCRUMB: string = "breadcrumb";
+  private ROUTE_DATA_BREADCRUMB = 'breadcrumb';
   public breadcrumbs: IBreadcrumb[];
 
   /**
