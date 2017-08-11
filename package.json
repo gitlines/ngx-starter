@@ -1,5 +1,5 @@
 {
-  "name": "@elderbyte/ngx-starter",
+  "name": "ngx-starter",
   "version": "0.1.0",
   "scripts": {
     "build": "gulp build",
