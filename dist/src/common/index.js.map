@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../src/common/index.ts"],"names":[],"mappings":"AAEA,cAAc,cAAc,CAAA","file":"index.js","sourceRoot":"","sourcesContent":["\n\nexport * from \"./data/index\""]}
