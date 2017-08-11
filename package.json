@@ -1,15 +1,16 @@
 {
   "name": "@elderbyte/ngx-starter",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "Common modules library for creating web apps with Angular / Material",
-  "main": "dist/bundles/ngx-starter.umd.js",
-  "module": "dist/index.js",
+  "main": "bundles/ngx-starter.umd.js",
+  "module": "index.js",
   "scripts": {
     "cleanup": "rimraf dist",
-    "copy": "copyfiles src/**/*.scss dist && copyfiles src/**/*.html dist && copyfiles LICENSE README.md dist",
+    "copy": "copyfiles src/**/*.scss dist && copyfiles src/**/*.html dist && copyfiles LICENSE README.md package.json dist",
     "bundling": "rollup -c",
     "minify": "uglifyjs dist/bundles/ngx-starter.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ngx-starter.umd.min.js",
-    "build": "npm run cleanup && ngc && npm run copy && npm run bundling && npm run minify"
+    "build": "npm run cleanup && ngc && npm run copy && npm run bundling && npm run minify",
+    "publish": "npm run build && npm publish dist"
   },
   "keywords": [
     "angular",
