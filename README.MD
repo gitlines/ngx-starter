@@ -2,7 +2,7 @@
 [![npm version](https://badge.fury.io/js/%40elderbyte%2Fngx-starter.svg)](https://badge.fury.io/js/%40elderbyte%2Fngx-starter)
 
 
-# ngx-starter
+# ngx-starter (`@elderbyte/ngx-starter`)
 
 Angular Web App Starter library containing highly reusable modules and configuration.
 
@@ -12,7 +12,7 @@ Angular Web App Starter library containing highly reusable modules and configura
 To install this library, run:
 
 ```bash
-$ npm install ngx-starter --save
+$ npm install @elderbyte/ngx-starter --save
 ```
 
 ## Consuming your library
@@ -20,7 +20,7 @@ $ npm install ngx-starter --save
 Once you have published your library to npm, you can import your library in any Angular application by running:
 
 ```bash
-$ npm install ngx-starter
+$ npm install @elderbyte/ngx-starter
 ```
 
 and then from your Angular `AppModule`:
@@ -32,7 +32,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // Import your library
-import { SampleModule } from 'ngx-starter';
+import { SampleModule } from '@elderbyte/ngx-starter';
 
 @NgModule({
   declarations: [
@@ -76,4 +76,4 @@ $ npm run lint
 
 ## License
 
-MIT © [ElderByte AG](mailto:p.buettiker@elderbyte.com)
+MIT © [ElderByte AG](mailto:info@elderbyte.com)
