@@ -1,11 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
-import {ToastService} from "./toast.service";
+import {ToastService} from './toast.service';
+import {ToastModule} from './index';
+import {TranslateModule} from '@ngx-translate/core';
 
-
-describe('NotificationService', () => {
+describe('ToastService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ToastService]
+      imports: [ToastModule.forRoot(), TranslateModule.forRoot()],
     });
   });
 

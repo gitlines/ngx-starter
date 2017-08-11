@@ -1,6 +1,6 @@
-import {ToastType} from "./toast-type";
+import {ToastType} from './toast-type';
 
-export interface Toast{
+export interface Toast {
   message: string;
   type: ToastType;
 }

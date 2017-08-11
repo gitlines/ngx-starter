@@ -1,7 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LanguageService} from "../language.service";
-import {TranslateService} from "@ngx-translate/core";
-import {Observable} from "rxjs/Observable";
+import {LanguageService} from '../language.service';
 
 @Component({
     selector: 'app-language-switcher',
@@ -10,6 +8,10 @@ import {Observable} from "rxjs/Observable";
 })
 export class LanguageSwitcherComponent implements OnInit {
 
+
+    @Input('slimMode')
+    public slimMode: boolean;
+
     /***************************************************************************
      *                                                                         *
      * Constructors                                                            *
@@ -17,8 +19,9 @@ export class LanguageSwitcherComponent implements OnInit {
      **************************************************************************/
 
     constructor(
-        public language: LanguageService)
-    {}
+        public language: LanguageService) {
+
+    }
 
     /***************************************************************************
      *                                                                         *
@@ -26,23 +29,20 @@ export class LanguageSwitcherComponent implements OnInit {
      *                                                                         *
      **************************************************************************/
 
-    @Input('slimMode')
-    public slimMode: boolean;
 
-
-    public get currentLanguage() : string {
+    public get currentLanguage(): string {
         return this.language.currentLanguage;
     }
 
-    public set currentLanguage(lang : string) {
+    public set currentLanguage(lang: string) {
         this.language.currentLanguage = lang;
     }
 
-    public get languages() : Array<string> {
+    public get languages(): Array<string> {
         return this.language.languages;
     }
 
-    public setLanguage(lang: string){
+    public setLanguage(lang: string) {
         this.currentLanguage = lang;
     }
 
@@ -61,7 +61,7 @@ export class LanguageSwitcherComponent implements OnInit {
      *                                                                         *
      **************************************************************************/
 
-    public isLanguageActive(lang: string) : boolean {
+    public isLanguageActive(lang: string): boolean {
         return this.language.isLanguageActive(lang);
     }
 

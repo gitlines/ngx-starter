@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Subject, Observable} from "rxjs";
-import {Toast} from "./toast";
-import {ToastType} from "./toast-type";
-import {TranslateService} from "@ngx-translate/core";
+import {Subject, Observable} from 'rxjs';
+import {Toast} from './toast';
+import {ToastType} from './toast-type';
+import {TranslateService} from '@ngx-translate/core';
 
-export * from "./toast";
-export * from "./toast-type";
+export * from './toast';
+export * from './toast-type';
 
 
 @Injectable()
@@ -25,7 +25,7 @@ export class ToastService {
     this.subjet.next(msg);
   }
 
-  public pushInfoRaw(msg: string){
+  public pushInfoRaw(msg: string) {
       this.pushInfoToast(msg);
   }
 
@@ -35,38 +35,38 @@ export class ToastService {
           (err) => this.pushInfoToast(msgKey)); // no translation found, push key
   }
 
-  public pushErrorRaw(msg: string, error? : any){
+  public pushErrorRaw(msg: string, error?: any) {
       console.error(msg, error);
       this.pushInfoToast(msg);
   }
 
-  public pushError(msgKey: string, interpolateParams?: any, error? : any){
+  public pushError(msgKey: string, interpolateParams?: any, error?: any) {
 
       this.translateMessage(msgKey, interpolateParams).subscribe(
           (res) => {
             console.error(res, error);
-            this.pushErrorToast(res)
+            this.pushErrorToast(res);
           },
           (err) => this.pushErrorToast(msgKey)); // no translation found, push key
   }
 
 
 
-  private pushInfoToast(msg : string){
+  private pushInfoToast(msg: string) {
       this.subjet.next({
           message: msg,
           type: ToastType.Success
       });
   }
 
-  private pushErrorToast(msg : string){
+  private pushErrorToast(msg: string) {
       this.subjet.next({
           message: msg,
           type: ToastType.Error
       });
   }
 
-  private translateMessage(msg : string, interpolateParams: any) : Observable<string> {
+  private translateMessage(msg: string, interpolateParams: any): Observable<string> {
       return this.translate.get(msg, interpolateParams);
 
   }

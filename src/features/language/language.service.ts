@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {TranslateService} from "@ngx-translate/core";
-import {WebLocalStorage} from "@elderbyte/ngx-simple-webstorage";
+import {TranslateService} from '@ngx-translate/core';
+import {WebLocalStorage} from '@elderbyte/ngx-simple-webstorage';
 
 @Injectable()
 export class LanguageService {
@@ -11,7 +11,7 @@ export class LanguageService {
      *                                                                         *
      **************************************************************************/
 
-    private LANGUAGE_STORAGE_KEY : string = "language";
+    private LANGUAGE_STORAGE_KEY = 'language';
 
     /***************************************************************************
      *                                                                         *
@@ -20,10 +20,10 @@ export class LanguageService {
      **************************************************************************/
 
     constructor(
-        private translate : TranslateService,
-        private webStorage : WebLocalStorage
-    ){
-      console.log('Initializing language service with webstore: ', webStorage)
+        private translate: TranslateService,
+        private webStorage: WebLocalStorage
+    ) {
+      console.log('Initializing language service with webstore: ', webStorage);
     }
 
     /***************************************************************************
@@ -37,7 +37,7 @@ export class LanguageService {
      *
      * @returns {string} language key
      */
-    public get currentLanguage() : string {
+    public get currentLanguage(): string {
         return this.translate.currentLang;
     }
 
@@ -47,7 +47,7 @@ export class LanguageService {
      *
      * @param {string} lang language key
      */
-    public set currentLanguage(lang : string) {
+    public set currentLanguage(lang: string) {
         this.setLanguage(lang);
     }
 
@@ -56,7 +56,7 @@ export class LanguageService {
      *
      * @returns {Array<string>} e.g. ['en', 'de', 'fr']
      */
-    public get languages() : Array<string> {
+    public get languages(): Array<string> {
         return this.translate.getLangs();
     }
 
@@ -66,7 +66,7 @@ export class LanguageService {
      * @param {string} lang language key
      * @returns {boolean} true if given language is currently active
      */
-    public isLanguageActive(lang: string) : boolean {
+    public isLanguageActive(lang: string): boolean {
         return this.currentLanguage === lang;
     }
 
@@ -75,8 +75,8 @@ export class LanguageService {
      *
      * @returns {string} language key of last applied language
      */
-    public get lastConfigured() : string {
-        return this.webStorage.getItem(this.LANGUAGE_STORAGE_KEY)
+    public get lastConfigured(): string {
+        return this.webStorage.getItem(this.LANGUAGE_STORAGE_KEY);
     }
 
     /***************************************************************************
@@ -85,7 +85,7 @@ export class LanguageService {
      *                                                                         *
      **************************************************************************/
 
-    private setLanguage(lang: string) : void {
+    private setLanguage(lang: string): void {
         this.translate.use(lang);
         this.webStorage.setItem(this.LANGUAGE_STORAGE_KEY, lang);
     }

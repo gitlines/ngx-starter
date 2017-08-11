@@ -1,15 +1,15 @@
 
 
 
-import {ModuleWithProviders, NgModule} from "@angular/core";
-import {ToastSnackbarComponent} from "./toast-snackbar.component";
-import {ToastService} from "./toast.service";
-import {CommonModule} from "@angular/common";
-import {MdSnackBarModule} from "@angular/material";
+import {ModuleWithProviders, NgModule} from '@angular/core';
+import {ToastSnackbarComponent} from './toast-snackbar.component';
+import {ToastService} from './toast.service';
+import {CommonModule} from '@angular/common';
+import {MdSnackBarModule} from '@angular/material';
 
 
-export * from "./toast-snackbar.component"
-export * from "./toast.service"
+export * from './toast-snackbar.component'
+export * from './toast.service'
 
 
 @NgModule({
@@ -35,7 +35,7 @@ export class ToastModule {
           useClass: ToastService
         }
       ]
-    }
+    };
   }
 
 

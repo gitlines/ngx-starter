@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
-import {SideContentService} from "../side-content.service";
-import {Subscription} from "rxjs/Subscription";
+import {NavigationEnd, Router} from '@angular/router';
+import {SideContentService} from '../side-content.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-side-content-toggle',
@@ -10,9 +10,8 @@ import {Subscription} from "rxjs/Subscription";
 })
 export class SideContentToggleComponent implements OnInit, OnDestroy {
 
-
-  private sub : Subscription;
-  public isMainRoute : boolean;
+  private sub: Subscription;
+  public isMainRoute: boolean;
 
   constructor(
       private router: Router,
@@ -23,15 +22,15 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
 
     this.sub = this.router.events.subscribe((event) => {
 
-        if(event instanceof NavigationEnd){
+        if (event instanceof NavigationEnd) {
 
             let navEnd = event as NavigationEnd;
             let url = navEnd.url;
-            let parts = url.split("/");
+            let parts = url.split('/');
 
-            let index = parts.indexOf("orders");
+            let index = parts.indexOf('orders');
 
-            if(index < 0 || index == parts.length-1){
+            if (index < 0 || index === parts.length - 1) {
                 this.isMainRoute = true;
             }else {
                 this.isMainRoute = false;
@@ -49,7 +48,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
       this.sideContentService.toggleSidenav();
   }
 
-  public goBack(){
+  public goBack() {
       this.router.navigate(['app/orders']);
   }
 
