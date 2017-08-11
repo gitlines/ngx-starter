@@ -26,6 +26,6 @@ describe('SampleComponent', () => {
   });
 
   it('Should be false', () => {
-    expect(false).toBe(true);
+    expect(el.textContent).toBe('Sample component');
   });
 });
