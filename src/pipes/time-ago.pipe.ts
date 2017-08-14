@@ -1,5 +1,5 @@
 
-import {Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy} from "@angular/core";
+import {Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy} from '@angular/core';
 
 
 /**
@@ -7,21 +7,21 @@ import {Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy} from "@angula
  * https://github.com/AndrewPoyntz/time-ago-pipe
  */
 @Pipe({
-  name:'timeAgo',
-  pure:false
+  name: 'timeAgo',
+  pure: false
 })
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
   private timer: number | null;
   constructor(private changeDetectorRef: ChangeDetectorRef, private ngZone: NgZone) {}
-  transform(value:string) {
+  transform(value: string) {
     this.removeTimer();
 
-    if(!value) return 'unknown time';
+    if (!value) { return 'unknown time'; }
 
     let d = new Date(value);
     let now = new Date();
-    let seconds = Math.round(Math.abs((now.getTime() - d.getTime())/1000));
-    let timeToUpdate = this.getSecondsUntilUpdate(seconds) *1000;
+    let seconds = Math.round(Math.abs((now.getTime() - d.getTime()) / 1000));
+    let timeToUpdate = this.getSecondsUntilUpdate(seconds) * 1000;
     this.timer = this.ngZone.runOutsideAngular(() => {
       if (typeof window !== 'undefined') {
         return window.setTimeout(() => {
@@ -33,8 +33,8 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     let minutes = Math.round(Math.abs(seconds / 60));
     let hours = Math.round(Math.abs(minutes / 60));
     let days = Math.round(Math.abs(hours / 24));
-    let months = Math.round(Math.abs(days/30.416));
-    let years = Math.round(Math.abs(days/365));
+    let months = Math.round(Math.abs(days / 30.416));
+    let years = Math.round(Math.abs(days / 365));
     if (seconds <= 45) {
       return 'a few seconds ago';
     } else if (seconds <= 90) {
@@ -68,7 +68,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
       this.timer = null;
     }
   }
-  private getSecondsUntilUpdate(seconds:number) {
+  private getSecondsUntilUpdate(seconds: number) {
     let min = 60;
     let hr = min * 60;
     let day = hr * 24;
