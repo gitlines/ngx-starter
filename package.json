@@ -1,6 +1,6 @@
 {
   "name": "ngx-starter",
-  "version": "0.1.4",
+  "version": "0.2.2",
   "scripts": {
     "build": "gulp build",
     "build:watch": "gulp",
@@ -47,12 +47,11 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "@compodoc/compodoc": "^1.0.0-beta.10",
-    "@elderbyte/ngx-jwt-auth": "0.1.4",
-    "@elderbyte/ngx-simple-webstorage": "^0.1.1",
+    "@elderbyte/ngx-simple-webstorage": "^0.2.0",
+    "@elderbyte/ngx-jwt-auth": "^0.2.0",
     "@ngx-translate/core": "^7.1.0",
     "@types/jest": "^19.2.4",
     "@types/node": "~6.0.60",
-    "angular2-jwt": "^0.2.3",
     "codelyzer": "~2.0.0",
     "core-js": "^2.4.1",
     "del": "^2.2.2",

@@ -1,30 +1,30 @@
 import {Directive, ElementRef, Input, OnDestroy, Output} from '@angular/core';
-import {ReplaySubject} from "rxjs/ReplaySubject";
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/operator/throttleTime";
-import "rxjs/add/operator/filter";
+import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/filter';
 
 
 @Directive({ selector: '[infiniteScroll]' })
-export class InfiniteScrollDirective implements OnDestroy{
+export class InfiniteScrollDirective implements OnDestroy {
 
     @Input('eventThrottle')
     public eventThrottle = 150;
 
     @Input('offsetFactor')
-    public offsetFactor : number = 1;
+    public offsetFactor = 1;
 
     @Input('ignoreScrollEvent')
-    public ignoreScrollEvent : boolean = false;
+    public ignoreScrollEvent = false;
 
     public _scrollStream$: ReplaySubject<UIEvent> = new ReplaySubject(1);
-    private scrollContainer : HTMLElement;
+    private scrollContainer: HTMLElement;
 
     constructor(el: ElementRef) {
     }
 
     @Output('closeToEnd')
-    get closeToEnd() : Observable<UIEvent>{
+    get closeToEnd(): Observable<UIEvent>{
         return this._scrollStream$
             .throttleTime(this.eventThrottle)
             .filter(ev => this.isCloseToEnd(ev.srcElement as HTMLElement))
@@ -33,37 +33,37 @@ export class InfiniteScrollDirective implements OnDestroy{
 
 
     @Input('containerId')
-    set containerId(containerId : string) {
+    set containerId(containerId: string) {
         let scrollContainer = document.getElementById(containerId);
-        if(scrollContainer){
-            console.log("Found scroll container: ", scrollContainer);
+        if (scrollContainer) {
+            console.log('Found scroll container: ', scrollContainer);
             this.setup(scrollContainer);
         }
     }
 
     ngOnDestroy(): void {
-        if(this.scrollContainer){
+        if (this.scrollContainer) {
             this.scrollContainer.onscroll = null as any;
         }
     }
 
-    private setup(scrollContainer : HTMLElement) : void {
+    private setup(scrollContainer: HTMLElement): void {
 
-        console.log("Setting up scroll observable stream listener....");
+        console.log('Setting up scroll observable stream listener....');
 
         this.scrollContainer = scrollContainer;
 
         this.scrollContainer.onscroll = ev => {
-            if(this.ignoreScrollEvent) return;
+            if (this.ignoreScrollEvent) { return; }
             this._scrollStream$.next(ev);
         };
     }
 
-    private isCloseToEnd(el : HTMLElement) : boolean {
+    private isCloseToEnd(el: HTMLElement): boolean {
         const range = el.offsetHeight * this.offsetFactor;
         let total = el.scrollHeight;
         let current = el.scrollTop + el.offsetHeight;
-        return (total-current) < range;
+        return (total - current) < range;
     }
 
 
