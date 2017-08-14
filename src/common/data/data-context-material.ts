@@ -1,10 +1,10 @@
 
 
-import {CollectionViewer, DataSource} from "@angular/cdk";
-import {Observable} from "rxjs/Observable";
-import {IDataContext} from "./data-context";
-import {Filter} from "./filter";
-import {Sort} from "./page";
+import {CollectionViewer, DataSource} from '@angular/cdk';
+import {Observable} from 'rxjs/Observable';
+import {IDataContext} from './data-context';
+import {Filter} from './filter';
+import {Sort} from './page';
 
 
 /**
@@ -13,9 +13,9 @@ import {Sort} from "./page";
 export class MaterialDataContext<T> extends DataSource<T> implements IDataContext<T> {
 
   constructor(
-    private datacontext : IDataContext<T>){
+    private datacontext: IDataContext<T>) {
     super();
-    if(!datacontext) throw Error('datacontext must not be NULL!');
+    if (!datacontext) { throw Error('datacontext must not be NULL!'); }
   }
 
 
@@ -26,7 +26,7 @@ export class MaterialDataContext<T> extends DataSource<T> implements IDataContex
   public disconnect(collectionViewer: CollectionViewer): void {
   }
 
-  get rows() : T[] { return this.datacontext.rows; }
+  get rows(): T[] { return this.datacontext.rows; }
   set rows(data: T[]) { this.datacontext.rows = data; }
 
   get total(): number { return this.datacontext.total; }
@@ -37,7 +37,7 @@ export class MaterialDataContext<T> extends DataSource<T> implements IDataContex
 
   get loadingIndicator(): boolean { return this.datacontext.loadingIndicator; }
 
-  get rowsChanged() : Observable<T[]> { return this.datacontext.rowsChanged; }
+  get rowsChanged(): Observable<T[]> { return this.datacontext.rowsChanged; }
 
 
   start(sorts?: Sort[], filters?: Filter[]): void {
@@ -48,7 +48,7 @@ export class MaterialDataContext<T> extends DataSource<T> implements IDataContex
     return this.datacontext.findByIndex(key);
   }
 
-  get hasMoreData() : boolean {
+  get hasMoreData(): boolean {
       return this.datacontext.hasMoreData;
   }
 

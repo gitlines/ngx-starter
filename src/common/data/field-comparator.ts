@@ -24,7 +24,7 @@ export class ComparatorBuilder {
    * @param fields One or more field name to sort.
    * @returns {(obj1:any, obj2:any)=>number}
    */
-  public static fieldSort(...fields: string[]) : (a: any, b: any) => number{
+  public static fieldSort(...fields: string[]): (a: any, b: any) => number {
     let props = fields;
     return function (obj1, obj2) {
       let i = 0, result = 0, numberOfProperties = props.length;
@@ -36,13 +36,13 @@ export class ComparatorBuilder {
         i++;
       }
       return result;
-    }
+    };
   }
 
 
-  private static dynamicSort(property : string) : (a: any, b: any) => number {
+  private static dynamicSort(property: string): (a: any, b: any) => number {
     let sortOrder = 1;
-    if(property[0] === "-") {
+    if (property[0] === '-') {
       sortOrder = -1;
       property = property.substr(1);
     }
@@ -56,9 +56,9 @@ export class ComparatorBuilder {
   }
 
 
-  private static resolveProperty(obj : any, property : string) : any {
+  private static resolveProperty(obj: any, property: string): any {
     let parts = property.split('.');
-    let resolved : any = obj;
+    let resolved: any = obj;
 
     for (let part of parts) {
       resolved = resolved[part];
