@@ -18,6 +18,8 @@
     "types": []
   },
   "angularCompilerOptions": {
+    "genDir": "aot",
+    "skipMetadataEmit" : false,
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
