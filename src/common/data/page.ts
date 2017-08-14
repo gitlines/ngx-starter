@@ -1,11 +1,11 @@
 import {
   URLSearchParams
-} from "@angular/http";
+} from '@angular/http';
 
 
 export class Page<T>{
-  
-  public content : T[];
+
+  public content: T[];
   public totalElements : number;
   public totalPages  : number;
   public last  : boolean;
@@ -62,8 +62,8 @@ export class PageableUtil {
   public static addSearchParams(params : URLSearchParams, pageable : Pageable) : URLSearchParams{
     params.set('page', pageable.page.toString());
     params.set('size', pageable.size.toString());
-    if(pageable.sorts){
-      for(let sort of pageable.sorts){
+    if (pageable.sorts){
+      for (let sort of pageable.sorts){
         params.append('sort', sort.prop + ',' + sort.dir);
       }
     }
