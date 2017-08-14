@@ -11,5 +11,9 @@
     ],
     "skipLibCheck": true,
     "types": []
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "tools/**/*.ts"
+  ]
 }
