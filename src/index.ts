@@ -1,6 +1,6 @@
 
-export * from './common'
-export * from './components'
-export * from './pipes'
-export * from './directives'
-export * from './features'
+export * from './common/index'
+export * from './components/index'
+export * from './pipes/index'
+export * from './directives/index'
+export * from './features/index'
