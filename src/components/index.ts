@@ -1,4 +1,4 @@
 
-export * from './access-denied'
-export * from './expand-toggle-button'
-export * from './material'
+export * from './access-denied/index'
+export * from './expand-toggle-button/index'
+export * from './material/index'

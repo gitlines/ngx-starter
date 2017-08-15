@@ -1,2 +1,2 @@
 
-export * from './infinitescroll';
+export * from './infinitescroll/index';
