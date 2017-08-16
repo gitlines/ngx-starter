@@ -4,6 +4,8 @@ import {CommonModule} from '@angular/common';
 import {ErrorHandler, ModuleWithProviders, NgModule} from '@angular/core';
 import {GeneralErrorHandler} from './general-error-handler';
 
+export * from './general-error-handler'
+
 @NgModule({
     imports : [CommonModule],
 })
