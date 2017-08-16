@@ -53,7 +53,8 @@ export class GlobalSearchService {
         // console.log('NavigationEnd:', currentRouteData);
         // console.log('show global search: ' + !!currentRouteData['showGlobalSearch']);
 
-        this.showGlobalSearch = !!currentRouteData['showGlobalSearch'];
+        let enableGlobalSearch = currentRouteData['enableGlobalSearch'];
+        this.showGlobalSearch = enableGlobalSearch != null ? !!enableGlobalSearch : !!currentRouteData['showGlobalSearch'];
     });
   }
 

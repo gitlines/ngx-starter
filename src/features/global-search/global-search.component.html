@@ -38,7 +38,7 @@
 
 
   <!-- Toggle Global Search -->
-  <button md-icon-button (click)="toggleSearch()" [disabled]="globalSearchDisabled">
+  <button md-icon-button (click)="toggleSearch()" [disabled]="globalSearchDisabled" [hidden]="hideSearch()">
     <md-icon>{{toggleIcon}}</md-icon>
   </button>
 </div>
