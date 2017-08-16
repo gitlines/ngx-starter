@@ -100,7 +100,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  public hideSearch() {
+  get isSearchHidden(): boolean {
     return this.hideWhenDisabled && this.globalSearchDisabled;
   }
 
