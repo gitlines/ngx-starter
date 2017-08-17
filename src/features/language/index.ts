@@ -6,10 +6,13 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MdSelectModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
+import {LanguageInterceptor} from './language.interceptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 
 export * from './language.service'
 export * from './language-switcher/language-switcher.component'
+export * from './language.interceptor'
 
 
 /**
@@ -37,10 +40,8 @@ export class LanguageModule {
         return {
             ngModule: LanguageModule,
             providers: [
-                {
-                    provide: LanguageService,
-                    useClass: LanguageService
-                },
+                { provide: LanguageService,  useClass: LanguageService },
+                { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true }
             ]
         };
     }
