@@ -22,6 +22,9 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   @Output()
   public onSearchCollapsed = new EventEmitter<boolean>();
 
+  @Input('hideWhenDisabled')
+  public hideWhenDisabled: boolean;
+
   public availableSort : SortOption[] = [];
   public selectedSort : SortOption = this.availableSort[0];
   public sortAsc : boolean = false;
@@ -95,6 +98,10 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
       this.searchCollapsed = true;
       this.globalSearch.query = SearchQuery.Empty;
     }
+  }
+
+  get isSearchHidden(): boolean {
+    return this.hideWhenDisabled && this.globalSearchDisabled;
   }
 
   public toggleSortAsc() : void {
