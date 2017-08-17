@@ -46,7 +46,8 @@ export class DataContextBuilder<T> {
     public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
         return this.applyProxies(new DataContext<T>(
             listFetcher,
-            this._indexFn));
+            this._indexFn,
+            this._localSort));
     }
 
 
@@ -57,7 +58,8 @@ export class DataContextBuilder<T> {
         return this.applyProxies(new PagedDataContext<T>(
             pageLoader,
             this._pageSize,
-            this._indexFn
+            this._indexFn,
+            this._localSort
         ));
     }
 

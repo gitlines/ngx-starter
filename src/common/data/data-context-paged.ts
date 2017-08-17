@@ -64,60 +64,59 @@ export class PagedDataContext<T> extends DataContext<T> {
     return this.total > this.rows.length;
   }
 
-  private fetchPage(pageIndex: number, pageSize: number): void {
+    private fetchPage(pageIndex: number, pageSize: number): void {
 
-    let pageRequest = new Pageable(pageIndex, pageSize, this.sorts);
+        let pageRequest = new Pageable(pageIndex, pageSize, this.sorts);
 
-    if (this.pageCache.has(pageIndex)) {
-      // Page already loaded - skipping request!
-    }else {
+        if (this.pageCache.has(pageIndex)) {
+            // Page already loaded - skipping request!
+        }else {
 
-      this.loadingIndicator = true;
+            this.loadingIndicator = true;
 
-      console.log(`loading page ${pageIndex} using sort:`, this.sorts);
+            console.log(`loading page ${pageIndex} using sort:`, this.sorts);
 
-      let pageObs = this.pageLoader(pageRequest, this.filters);
+            let pageObs = this.pageLoader(pageRequest, this.filters);
 
-      this.pageCache.set(pageIndex, pageObs);
+            this.pageCache.set(pageIndex, pageObs);
 
-        pageObs.subscribe((page: Page<T>) => {
+            pageObs.subscribe((page: Page<T>) => {
 
-        console.log('Got data: ', page);
+                console.log('Got page data:', page);
 
-        this.populatePageData(page);
+                this.populatePageData(page);
 
-        if (this.latestPage < page.number) {
-          this.latestPage = page.number; // TODO This might cause that pages are skipped
+                if (this.latestPage < page.number) {
+                    this.latestPage = page.number; // TODO This might cause that pages are skipped
+                }
+
+                this.loadingIndicator = false;
+            }, err => {
+                this.loadingIndicator = false;
+                console.error('Failed to query data', err);
+            });
         }
-
-        this.loadingIndicator = false;
-      }, err => {
-        this.loadingIndicator = false;
-        console.error('Failed to query data', err);
-      });
     }
-  }
 
   /**
    * Load the data from the given page into the current data context
    * @param {Page<T>} page
    */
   private populatePageData(page: Page<T>) {
+      try {
+          this.total = page.totalElements;
+          const start = page.number * page.size;
 
-    try {
-      this.total = page.totalElements;
-      const start = page.number * page.size;
-
-      let newRows = [...this.rows];
-      for (let i = 0; i < page.content.length; i++) {
-        let item = page.content[i];
-        newRows[i + start] = item;
-        this.indexItem(item);
+          let newRows = [...this.rows];
+          for (let i = 0; i < page.content.length; i++) {
+              let item = page.content[i];
+              newRows[i + start] = item;
+              this.indexItem(item);
+          }
+          this.rows = newRows;
+      }catch (err) {
+          console.error('Failed to populate data with page', page, err);
       }
-      this.rows = newRows;
-    }catch (err) {
-      console.error('Failed to populate data with page', page, err);
-    }
   }
 
 

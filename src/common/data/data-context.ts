@@ -82,7 +82,6 @@ export class DataContext<T> implements IDataContext<T> {
     return this._dataChange;
   }
 
-
   public get rows(): T[]{
     return this._rows;
   }
@@ -90,6 +89,7 @@ export class DataContext<T> implements IDataContext<T> {
   public set rows(rows: T[]) {
 
     if (this._localSort) {
+      console.log(`Apply local sort to ${rows.length} rows ...`);
       rows.sort(this._localSort);
     }
 
@@ -97,7 +97,7 @@ export class DataContext<T> implements IDataContext<T> {
 
     console.info('rows changed data-change: ' + this._rows.length);
 
-    this._dataChange.next(rows);
+    this._dataChange.next(this._rows);
   }
 
   // Private methods
