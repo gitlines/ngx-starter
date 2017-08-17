@@ -1,17 +1,26 @@
 import {Injectable} from '@angular/core';
-import {
-    Http, Response, RequestOptionsArgs, RequestOptions, Request, URLSearchParams,
-} from '@angular/http';
 import {Observable} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {AuthConfig, AuthHttp} from 'angular2-jwt';
-import {Pageable, PageableUtil} from '../../common/data/page';
+import {Page, Pageable, PageableUtil} from '../../common/data/page';
 import {Filter, FilterUtil} from '../../common/data/filter';
-import {AuthenticationService} from '@elderbyte/ngx-jwt-auth';
+import {HttpClient, HttpParams} from '@angular/common/http';
+
 
 
 @Injectable()
-export class CustomHttpService {
+export class HttpPagedClient {
+
+    private static buildHttpParams(pageable?: Pageable, filters?: Filter[], params?: HttpParams): HttpParams {
+
+        if (!params) { params = new HttpParams(); }
+
+        if (pageable) {
+            params = PageableUtil.addSearchParams(params, pageable);
+        }
+        if (filters) {
+            params = FilterUtil.addSearchParams(params, filters);
+        }
+        return params;
+    }
 
     /***************************************************************************
      *                                                                         *
@@ -19,20 +28,11 @@ export class CustomHttpService {
      *                                                                         *
      **************************************************************************/
 
-    private _authHttp: AuthHttp;
-
-
     /**
-     * Creates a new CustomHttpService service
-     * @param {Http} backend
-     * @param {RequestOptions} requestOptions
-     * @param {AuthenticationService} authService
-     * @param {TranslateService} translate
+     * Creates a new HttpPagedClient service
+     * @param {HttpClient} http
      */
-    constructor(private backend: Http,
-                private requestOptions: RequestOptions,
-                private authService: AuthenticationService,
-                private translate: TranslateService) {
+    constructor(private http: HttpClient) {
     }
 
     /***************************************************************************
@@ -41,44 +41,18 @@ export class CustomHttpService {
      *                                                                         *
      **************************************************************************/
 
-    request(request: string|Request, options?: RequestOptionsArgs): Observable<Response> {
-        if (request instanceof  Request) {
-            return this.authHttp.request(request as Request);
-        }else {
-            return this.authHttp.request(request, this.handleOptions(options));
-        }
+    /**
+     * Gets the requested data page as Page<T>
+     * @param {string} url The resource url
+     * @param {Pageable} pageable The page request
+     * @param {Filter[]} filters The filters request
+     * @param {HttpParams} params Additional parameters
+     * @returns {Observable<T>}
+     */
+    public getPaged<T>(url: string, pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {
+        params = HttpPagedClient.buildHttpParams(pageable, filters, params);
+        return this.http.get<Page<T>>(url, { params: params });
     }
-
-
-    get(url: string, options?: RequestOptionsArgs, pageable?: Pageable, filters?: Filter[]): Observable<Response> {
-        return this.authHttp.get(url, this.handleOptions(options, pageable, filters));
-    }
-
-    post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-        return this.authHttp.post(url, body, this.handleOptions(options));
-    }
-
-    put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-        return this.authHttp.put(url, body, this.handleOptions(options));
-    }
-
-    delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        return this.authHttp.delete(url, this.handleOptions(options));
-    }
-
-    patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-        return this.authHttp.patch(url, body, this.handleOptions(options));
-    }
-
-    head(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        return this.authHttp.head(url, this.handleOptions(options));
-    }
-
-    options(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        return this.authHttp.options(url, this.handleOptions(options));
-    }
-
-
 
     /***************************************************************************
      *                                                                         *
@@ -86,85 +60,6 @@ export class CustomHttpService {
      *                                                                         *
      **************************************************************************/
 
-    private get authHttp(): AuthHttp {
-        if (!this._authHttp) {
-            this._authHttp = this.buildAuthHttp();
-        }
-        return this._authHttp;
-    }
 
-    private buildAuthHttp(): AuthHttp {
-        let config = new AuthConfig({
-            tokenName: 'token',
-            tokenGetter: () => {
-                if (this.authService.isAuthenticated()) {
-                    return this.authService.principal ? this.authService.principal.token : '';
-                }
-                return '';
-            },
-            noJwtError: false,
-            globalHeaders: [{'Content-Type': 'application/json'}],
-        });
-        return new AuthHttp(config, this.backend, this.requestOptions);
-    }
-
-    private handleOptions(options?: RequestOptionsArgs, pageable?: Pageable, filters?: Filter[]): RequestOptionsArgs {
-
-        if (!options) {
-            options = {} as RequestOptionsArgs;
-        }
-        if (pageable) {
-            options = this.addPageable(options, pageable);
-        }
-        if (filters) {
-            options = this.addFilters(options, filters);
-        }
-
-        options =  this.addLocale(options);
-
-        // console.log('injected options: ', options);
-
-        return options;
-    }
-
-
-    private addLocale(options: RequestOptionsArgs): RequestOptionsArgs {
-        let params: URLSearchParams;
-
-        if (options.params) {
-            params = <URLSearchParams> options.params;
-        } else {
-            params = new URLSearchParams();
-        }
-
-        params.set('locale', this.translate.currentLang);
-        options.params = params;
-
-        return options;
-    }
-
-    private addPageable(options: RequestOptionsArgs, pageable: Pageable): RequestOptionsArgs {
-        let params: URLSearchParams;
-
-        if (options.params) {
-            params = <URLSearchParams> options.params;
-        } else {
-            params = new URLSearchParams();
-        }
-        options.params = PageableUtil.addSearchParams(params, pageable);
-        return options;
-    }
-
-    private addFilters(options: RequestOptionsArgs, filters: Filter[]): RequestOptionsArgs {
-        let params: URLSearchParams;
-
-        if (options.params) {
-            params = <URLSearchParams> options.params;
-        } else {
-            params = new URLSearchParams();
-        }
-        options.params = FilterUtil.addSearchParams(params, filters);
-        return options;
-    }
 
 }

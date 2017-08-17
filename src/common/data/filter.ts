@@ -1,5 +1,7 @@
 
 
+import {HttpParams} from '@angular/common/http';
+
 export class Filter {
   constructor(
     public key: string,
@@ -9,11 +11,13 @@ export class Filter {
 
 
 export class FilterUtil {
-  public static addSearchParams(params: URLSearchParams, filters: Filter[]): URLSearchParams{
-    for(let filter of filters){
-      params.append(filter.key, filter.value);
+
+  public static addSearchParams(params: HttpParams, filters: Filter[]): HttpParams {
+    for (let filter of filters) {
+        params = params.append(filter.key, filter.value);
     }
     return params;
   }
+
 }
 

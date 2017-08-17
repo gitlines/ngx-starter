@@ -1,7 +1,5 @@
-import {
-  URLSearchParams
-} from '@angular/http';
 
+import {HttpParams} from '@angular/common/http';
 
 export class Page<T>{
 
@@ -58,15 +56,14 @@ export class Pageable {
 
 
 export class PageableUtil {
-
-  public static addSearchParams(params: URLSearchParams, pageable: Pageable): URLSearchParams {
-    params.set('page', pageable.page.toString());
-    params.set('size', pageable.size.toString());
-    if (pageable.sorts) {
-      for (let sort of pageable.sorts){
-        params.append('sort', sort.prop + ',' + sort.dir);
-      }
+    public static addSearchParams(params: HttpParams, pageable: Pageable): HttpParams {
+        params = params.set('page', pageable.page.toString());
+        params = params.set('size', pageable.size.toString());
+        if (pageable.sorts) {
+            for (let sort of pageable.sorts){
+                params = params.append('sort', sort.prop + ',' + sort.dir);
+            }
+        }
+        return params;
     }
-    return params;
-  }
 }

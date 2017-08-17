@@ -1,20 +1,25 @@
 
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {CustomHttpService} from './custom-http.service';
+import {HttpPagedClient} from './custom-http.service';
 import {CommonModule} from '@angular/common';
-import {JwtAuthModule} from '@elderbyte/ngx-jwt-auth';
+import {LanguageInterceptor} from './language.interceptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 export * from './custom-http.service'
+export * from './language.interceptor'
 
 
 @NgModule({
-  imports : [ CommonModule, JwtAuthModule ]
+  imports : [ CommonModule ]
 })
 export class CustomHttpModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CustomHttpModule,
-      providers: [CustomHttpService]
+      providers: [
+          HttpPagedClient,
+          { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true }
+      ]
     };
   }
 }
