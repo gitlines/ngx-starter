@@ -40,7 +40,7 @@ export class LanguageModule {
         return {
             ngModule: LanguageModule,
             providers: [
-                { provide: LanguageService,  useClass: LanguageService },
+                LanguageService,
                 { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true }
             ]
         };
