@@ -21,7 +21,7 @@
               fxLayout="row" fxLayoutAlign="space-between center"
               (click)="sortBy(sort)"
       >
-        {{sort.name}}
+        {{sort.name | translate}}
         <md-icon *ngIf="selectedSort?.id==sort.id">check</md-icon>
       </button>
     </md-menu>

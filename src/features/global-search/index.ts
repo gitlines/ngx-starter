@@ -5,6 +5,7 @@ import {GlobalSearchService} from './global-search.service';
 import {MdButtonModule, MdIconModule, MdInputModule, MdMenuModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from '@ngx-translate/core';
 
 export * from './global-search.component'
 export * from './global-search.service'
@@ -17,7 +18,7 @@ export * from './global-search.service'
   exports : [
     GlobalSearchComponent
   ],
-  imports : [ CommonModule, MdIconModule, MdInputModule, MdButtonModule, MdMenuModule, FlexLayoutModule ]
+  imports : [ CommonModule, MdIconModule, MdInputModule, MdButtonModule, MdMenuModule, FlexLayoutModule, TranslateModule ]
 })
 export class GlobalSearchModule {
 
