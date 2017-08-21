@@ -25,7 +25,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   @Input('hideWhenDisabled')
   public hideWhenDisabled: boolean;
 
-  public availableSort: SortOption[] = [];
+  private _availableSort: SortOption[] = [];
   public selectedSort: SortOption = this.availableSort[0];
   public sortAsc = false;
   public globalSearchDisabled: boolean;
@@ -55,8 +55,19 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
           this.searchCollapsed = true;
         })
     );
-
   }
+
+  public set availableSort(available: SortOption[]){
+    this._availableSort = available;
+    if (available.length > 0) {
+        this.selectedSort = available[0];
+    }
+  }
+
+  public get availableSort(): SortOption[] {
+      return this._availableSort;
+  }
+
 
   ngOnInit() {
     this.searchCollapsed = true;
