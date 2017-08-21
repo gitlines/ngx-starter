@@ -1,10 +1,10 @@
 import {
   Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
-} from "@angular/core";
-import {GlobalSearchService, SearchQuery, SortOption} from "./global-search.service";
-import {NavigationEnd, Router} from "@angular/router";
-import {Subscription} from "rxjs/Subscription";
-import {Sort} from "../../common/data/page";
+} from '@angular/core';
+import {GlobalSearchService, SearchQuery, SortOption} from './global-search.service';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+import {Sort} from '../../common/data/page';
 
 
 
@@ -15,9 +15,9 @@ import {Sort} from "../../common/data/page";
 })
 export class GlobalSearchComponent implements OnInit, OnDestroy {
 
-  private _searchCollapsed : boolean = true;
+  private _searchCollapsed = true;
   private _txtSearch: ElementRef;
-  private _subs : Subscription[] = [];
+  private _subs: Subscription[] = [];
 
   @Output()
   public onSearchCollapsed = new EventEmitter<boolean>();
@@ -25,14 +25,14 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   @Input('hideWhenDisabled')
   public hideWhenDisabled: boolean;
 
-  public availableSort : SortOption[] = [];
-  public selectedSort : SortOption = this.availableSort[0];
-  public sortAsc : boolean = false;
-  public globalSearchDisabled : boolean;
+  public availableSort: SortOption[] = [];
+  public selectedSort: SortOption = this.availableSort[0];
+  public sortAsc = false;
+  public globalSearchDisabled: boolean;
 
   constructor(
-    private router : Router,
-    private globalSearch : GlobalSearchService) {
+    private router: Router,
+    private globalSearch: GlobalSearchService) {
 
     this.globalSearchDisabled = !globalSearch.showGlobalSearch;
 
@@ -68,32 +68,32 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   }
 
   @Input()
-  get searchCollapsed() : boolean {
+  get searchCollapsed(): boolean {
     return this._searchCollapsed;
   }
 
   @ViewChild('txtSearch')
-  set txtSearch(input : ElementRef) {
+  set txtSearch(input: ElementRef) {
     this._txtSearch = input;
   }
 
-  set searchCollapsed(value : boolean){
+  set searchCollapsed(value: boolean) {
     this._searchCollapsed = value;
     this.onSearchCollapsed.emit(this.searchCollapsed);
-    if(!this._searchCollapsed){
+    if (!this._searchCollapsed) {
       setTimeout(() => this._txtSearch.nativeElement.focus(), 0);
     }
   }
 
-  get toggleIcon() : string {
+  get toggleIcon(): string {
     return this.searchCollapsed ? 'search' : 'close';
   }
 
-  public toggleSearch(){
-    if(this.searchCollapsed){
+  public toggleSearch() {
+    if (this.searchCollapsed) {
       // Show search
       this.searchCollapsed = false;
-    }else{
+    }else {
       // Collapse search
       this.searchCollapsed = true;
       this.globalSearch.query = SearchQuery.Empty;
@@ -104,17 +104,17 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     return this.hideWhenDisabled && this.globalSearchDisabled;
   }
 
-  public toggleSortAsc() : void {
+  public toggleSortAsc(): void {
     this.sortAsc = !this.sortAsc;
     this.onQueryChanged();
   }
 
-  public sortBy(sort : SortOption){
+  public sortBy(sort: SortOption) {
     this.selectedSort = sort;
     this.onQueryChanged();
   }
 
-  public onQueryChanged(){
+  public onQueryChanged() {
 
     let sorts = this.selectedSort ? [this.convertToSort(this.selectedSort)] : [];
 
@@ -126,12 +126,12 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     this.globalSearch.query = newQuery;
   }
 
-  private convertToSort(sort  : SortOption) : Sort {
+  private convertToSort(sort: SortOption): Sort {
       return new Sort(sort.id, this.sortAsc ? 'asc' : 'desc');
   }
 
-  private get keywordsValue() : string {
-    if(this._txtSearch){
+  private get keywordsValue(): string {
+    if (this._txtSearch) {
       let txtInput = this._txtSearch.nativeElement as HTMLInputElement;
       return txtInput.value;
     }
