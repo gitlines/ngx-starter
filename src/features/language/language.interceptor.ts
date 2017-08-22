@@ -26,6 +26,9 @@ export class LanguageInterceptor implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
 
+        /*
+        TODO HttpRequest.clone is duplicating existing query params - disabling for now
+
         if (this.translate.currentLang) {
             req = req.clone({
                 setParams: {
@@ -33,6 +36,8 @@ export class LanguageInterceptor implements HttpInterceptor {
                 }
             });
         }
+        */
+
         return next.handle(req);
     }
 }
