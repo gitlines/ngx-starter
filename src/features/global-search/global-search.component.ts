@@ -26,7 +26,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   public hideWhenDisabled: boolean;
 
   private _availableSort: SortOption[] = [];
-  public selectedSort: SortOption = this.availableSort[0];
+  public selectedSort: SortOption;
   public sortAsc = false;
   public globalSearchDisabled: boolean;
 

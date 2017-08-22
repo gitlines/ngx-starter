@@ -14,8 +14,8 @@ export interface IDataContext<T> {
   // Properties
   rows: T[];
   readonly total: number;
-  readonly sorts?: Sort[];
-  readonly filters?: Filter[];
+  readonly sorts: Sort[];
+  readonly filters: Filter[];
   readonly loadingIndicator: boolean;
 
   readonly hasMoreData: boolean;
@@ -40,31 +40,46 @@ export interface IDataContext<T> {
 export class DataContext<T> implements IDataContext<T> {
 
 
-  public total = 0;
-  public sorts?: Sort[];
-  public filters?: Filter[];
-  public loadingIndicator: boolean;
+  protected _total = 0;
+  protected _loadingIndicator = false;
+
+  private _sorts: Sort[] = [];
+  private _filters: Filter[] = [];
 
 
-  private _rows: T[];
+  private _rows: T[] = [];
   private _dataChange = new BehaviorSubject<T[]>([]);
   private _primaryIndex = new Map<any, T>();
 
   constructor(
-    private listFetcher: (sorts?: Sort[], filters?: Filter[]) => Observable<Array<T>>,
+    private listFetcher: (sorts: Sort[], filters: Filter[]) => Observable<Array<T>>,
     private _indexFn?: ((item: T) => any),
     private _localSort?: ((a: T, b: T) => number)
   ) {
-    this.rows = [];
-    this.sorts = [];
   }
 
   public start(sorts?: Sort[], filters?: Filter[]): void {
-    this.total = 0;
+    this._total = 0;
     this.rows = [];
-    this.sorts = sorts;
-    this.filters = filters;
+    this.setSorts(sorts);
+    this.setFilters(filters);
     this.loadData();
+  }
+
+  public get total(): number {
+    return this._total;
+  }
+
+  public get sorts(): Sort[] {
+      return this._sorts;
+  }
+
+  public get filters(): Filter[] {
+      return this._filters;
+  }
+
+  public get loadingIndicator(): boolean {
+      return this._loadingIndicator;
   }
 
   public get hasMoreData(): boolean { return false; }
@@ -102,6 +117,14 @@ export class DataContext<T> implements IDataContext<T> {
 
   // Private methods
 
+  protected setSorts(sorts?: Sort[]) {
+    this._sorts = sorts ? sorts.slice(0) : []; // clone
+  }
+
+  protected setFilters(filters?: Filter[]) {
+    this._filters = filters ? filters.slice(0) : []; // clone
+  }
+
   private updateIndex(): void {
     this._primaryIndex.clear();
     this.rows.forEach(item => this.indexItem(item));
@@ -122,27 +145,25 @@ export class DataContext<T> implements IDataContext<T> {
   }
 
   private loadData() {
-
-    this.loadingIndicator = true;
+    this._loadingIndicator = true;
     if (this.listFetcher) {
       this.listFetcher(this.sorts, this.filters)
         .take(1)
         .subscribe(
           list => {
-            this.total = list.length;
+            this._total = list.length;
             this.rows = list;
-            this.loadingIndicator = false;
+            this._loadingIndicator = false;
             console.log('got list data!');
           }, err => {
-            this.total = 0;
+            this._total = 0;
             this.rows = [];
-            this.loadingIndicator = false;
+            this._loadingIndicator = false;
             this.updateIndex();
             console.error('Failed to query data', err);
           });
     }else {
       console.warn('Skipping data context load - no list fetcher present!');
     }
-
   }
 }

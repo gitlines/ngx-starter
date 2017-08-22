@@ -14,10 +14,10 @@ export class HttpPagedClient {
         if (!params) { params = new HttpParams(); }
 
         if (pageable) {
-            params = PageableUtil.addSearchParams(params, pageable);
+            params = PageableUtil.addPageQueryParams(params, pageable);
         }
         if (filters) {
-            params = FilterUtil.addSearchParams(params, filters);
+            params = FilterUtil.addFilterQueryParams(params, filters);
         }
         return params;
     }
@@ -32,7 +32,8 @@ export class HttpPagedClient {
      * Creates a new HttpPagedClient service
      * @param {HttpClient} http
      */
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient) {
     }
 
     /***************************************************************************
@@ -51,6 +52,7 @@ export class HttpPagedClient {
      */
     public getPaged<T>(url: string, pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {
         params = HttpPagedClient.buildHttpParams(pageable, filters, params);
+        console.log('sending paged request @ ' + url, params);
         return this.http.get<Page<T>>(url, { params: params });
     }
 

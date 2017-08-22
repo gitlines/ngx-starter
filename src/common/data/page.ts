@@ -32,21 +32,21 @@ export class Page<T>{
 
 export class Sort {
   constructor (
-    public prop: string,
-    public dir: string
+    public readonly prop: string,
+    public readonly dir: string
   ) { }
 }
 
 export class Pageable {
 
-  public page: number;
-  public size: number;
-  public sorts?: Sort[];
+  public readonly page: number;
+  public readonly size: number;
+  public readonly sorts: Sort[] = [];
 
   constructor(
     page: number,
     size: number,
-    sorts?: Sort[]) {
+    sorts: Sort[]) {
 
     this.page = page;
     this.size = size;
@@ -56,13 +56,11 @@ export class Pageable {
 
 
 export class PageableUtil {
-    public static addSearchParams(params: HttpParams, pageable: Pageable): HttpParams {
+    public static addPageQueryParams(params: HttpParams, pageable: Pageable): HttpParams {
         params = params.set('page', pageable.page.toString());
         params = params.set('size', pageable.size.toString());
-        if (pageable.sorts) {
-            for (let sort of pageable.sorts){
-                params = params.append('sort', sort.prop + ',' + sort.dir);
-            }
+        for (let sort of pageable.sorts){
+            params = params.append('sort', sort.prop + ',' + sort.dir);
         }
         return params;
     }

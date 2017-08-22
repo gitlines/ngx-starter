@@ -31,9 +31,9 @@ export class MaterialDataContext<T> extends DataSource<T> implements IDataContex
 
   get total(): number { return this.datacontext.total; }
 
-  get sorts(): Sort[] | undefined { return this.datacontext.sorts; }
+  get sorts(): Sort[] { return this.datacontext.sorts; }
 
-  get filters(): Filter[] | undefined {return this.datacontext.filters; }
+  get filters(): Filter[] {return this.datacontext.filters; }
 
   get loadingIndicator(): boolean { return this.datacontext.loadingIndicator; }
 

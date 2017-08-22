@@ -12,7 +12,7 @@ export class Filter {
 
 export class FilterUtil {
 
-  public static addSearchParams(params: HttpParams, filters: Filter[]): HttpParams {
+  public static addFilterQueryParams(params: HttpParams, filters: Filter[]): HttpParams {
     for (let filter of filters) {
         params = params.append(filter.key, filter.value);
     }
