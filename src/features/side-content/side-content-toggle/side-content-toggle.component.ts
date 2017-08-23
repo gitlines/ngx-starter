@@ -2,6 +2,8 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {SideContentService} from '../side-content.service';
 import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'app-side-content-toggle',
@@ -10,11 +12,12 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class SideContentToggleComponent implements OnInit, OnDestroy {
 
+    private _icon = new BehaviorSubject<string>('menu');
     private sub: Subscription;
     private _currentUrl: string;
 
     @Input('roots')
-    public roots: string[] = ['/app/orders'];
+    public roots: string[] = [];
 
     constructor(
         private router: Router,
@@ -27,6 +30,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
             if (event instanceof NavigationEnd) {
                 let navEnd = event as NavigationEnd;
                 this._currentUrl = navEnd.url;
+                this.updateIcon();
             }
         });
     }
@@ -35,7 +39,26 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
-    public get showNavigateBack(): boolean {
+    public onClick(): void {
+        if (this.showNavigateBack) {
+            this.goBack(this._currentUrl);
+        }else {
+            this.toggleSideContent();
+        }
+    }
+
+    public get icon(): Observable<string> {
+        return this._icon;
+    }
+
+    private updateIcon() {
+        let icon = this.showNavigateBack ? 'menu' : 'arrow_back';
+        console.log('updating icon to ' + icon);
+        this._icon.next(icon);
+    }
+
+
+    private get showNavigateBack(): boolean {
         if (this._currentUrl && this.roots && this.roots.length > 0) {
             return !this.isRootRoute(this._currentUrl);
         }
@@ -43,11 +66,11 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     }
 
 
-    public toggleSideContent() {
+    private toggleSideContent() {
         this.sideContentService.toggleSidenav();
     }
 
-    public goBack(url: string) {
+    private goBack(url: string) {
         const rootUrl = this.findRoot(url);
         this.router.navigate([rootUrl]);
     }
