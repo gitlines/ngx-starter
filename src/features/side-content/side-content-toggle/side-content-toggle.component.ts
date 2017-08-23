@@ -69,9 +69,13 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
      * @returns {string}
      */
     private findRoot(url: string): string {
-        if (this.isRootRoute(url)) { return url; };
-        const parent = this.parent(url);
-        return this.findRoot(parent);
+        if (url) {
+            if (this.isRootRoute(url)) { return url; };
+            const parent = this.parent(url);
+            return this.findRoot(parent);
+        }else {
+            return '/';
+        }
     }
 
     private parent(url: string): string {
