@@ -52,7 +52,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     }
 
     private updateIcon() {
-        let icon = this.showNavigateBack ? 'menu' : 'arrow_back';
+        let icon = this.showNavigateBack ? 'arrow_back' : 'menu';
         console.log('updating icon to ' + icon);
         this._icon.next(icon);
     }
@@ -92,7 +92,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
      * @returns {string}
      */
     private findRoot(url: string): string {
-        if (url) {
+        if (url && url.length > 0) {
             if (this.isRootRoute(url)) { return url; };
             const parent = this.parent(url);
             return this.findRoot(parent);
@@ -104,7 +104,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     private parent(url: string): string {
         let parts = url.split('/');
         // Remove last part
-        parts = parts.splice(parts.length - 1, 1);
+        parts.splice(parts.length - 1, 1);
         return parts.join('/');
     }
 }
