@@ -1,11 +1,11 @@
 
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {ExpandToggleButtonComponent} from "./expand-toggle-button.component";
-import {MdButtonModule, MdIconModule} from "@angular/material";
-import {FlexLayoutModule} from "@angular/flex-layout";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ExpandToggleButtonComponent} from './expand-toggle-button.component';
+import {MdButtonModule, MdIconModule} from '@angular/material';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
-export {ExpandToggleButtonComponent} from "./expand-toggle-button.component"
+export {ExpandToggleButtonComponent} from './expand-toggle-button.component'
 
 @NgModule({
     imports: [
