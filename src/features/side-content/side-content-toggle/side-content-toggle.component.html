@@ -1,9 +1,8 @@
 
-
-<button md-icon-button *ngIf="isMainRoute" (click)="toggleSideContent()">
+<button md-icon-button *ngIf="!showNavigateBack" (click)="toggleSideContent()">
   <md-icon >menu</md-icon>
 </button>
 
-<button md-icon-button *ngIf="!isMainRoute" (click)="goBack()">
+<button md-icon-button *ngIf="showNavigateBack" (click)="goBack()">
   <md-icon>arrow_back</md-icon>
 </button>

@@ -1,56 +1,83 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {SideContentService} from '../side-content.service';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
-  selector: 'app-side-content-toggle',
-  templateUrl: './side-content-toggle.component.html',
-  styleUrls: ['./side-content-toggle.component.scss']
+    selector: 'app-side-content-toggle',
+    templateUrl: './side-content-toggle.component.html',
+    styleUrls: ['./side-content-toggle.component.scss']
 })
 export class SideContentToggleComponent implements OnInit, OnDestroy {
 
-  private sub: Subscription;
-  public isMainRoute: boolean;
+    private sub: Subscription;
+    private _currentUrl: string;
 
-  constructor(
-      private router: Router,
-      private sideContentService: SideContentService,
-  ) { }
+    @Input('roots')
+    public roots: string[] = ['/app/orders'];
 
-  ngOnInit() {
+    constructor(
+        private router: Router,
+        private sideContentService: SideContentService,
+    ) { }
 
-    this.sub = this.router.events.subscribe((event) => {
+    ngOnInit() {
 
-        if (event instanceof NavigationEnd) {
-
-            let navEnd = event as NavigationEnd;
-            let url = navEnd.url;
-            let parts = url.split('/');
-
-            let index = parts.indexOf('orders');
-
-            if (index < 0 || index === parts.length - 1) {
-                this.isMainRoute = true;
-            }else {
-                this.isMainRoute = false;
+        this.sub = this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                let navEnd = event as NavigationEnd;
+                this._currentUrl = navEnd.url;
             }
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
+    }
+
+    public get showNavigateBack(): boolean {
+        if (this._currentUrl && this.roots && this.roots.length > 0) {
+            return !this.isRootRoute(this._currentUrl);
         }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
+        return false;
+    }
 
 
-  public toggleSideContent() {
-      this.sideContentService.toggleSidenav();
-  }
+    public toggleSideContent() {
+        this.sideContentService.toggleSidenav();
+    }
 
-  public goBack() {
-      this.router.navigate(['app/orders']);
-  }
+    public goBack(url: string) {
+        const rootUrl = this.findRoot(url);
+        this.router.navigate([rootUrl]);
+    }
 
+    private isRootRoute(url: string): boolean {
+        return !!this.roots.find(r => r === url);
+    }
 
+    /**
+     * Find the parent root url of a given url:
+     *
+     * /app/my/sub/route
+     *
+     * roots: ['/app/my', '/app/foo']
+     *
+     * -> /app/my
+     *
+     * @param {string} url
+     * @returns {string}
+     */
+    private findRoot(url: string): string {
+        if (this.isRootRoute(url)) { return url; };
+        const parent = this.parent(url);
+        return this.findRoot(parent);
+    }
+
+    private parent(url: string): string {
+        let parts = url.split('/');
+        // Remove last part
+        parts = parts.splice(parts.length - 1, 1);
+        return parts.join('/');
+    }
 }
