@@ -46,11 +46,11 @@ export class Pageable {
   constructor(
     page: number,
     size: number,
-    sorts: Sort[]) {
+    sorts?: Sort[]) {
 
     this.page = page;
     this.size = size;
-    this.sorts = sorts;
+    this.sorts = sorts ? sorts : [];
   }
 }
 
