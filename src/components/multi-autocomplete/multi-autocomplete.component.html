@@ -1,0 +1,18 @@
+
+<div fxLayout="column">
+  <md-input-container color="accent">
+    <input mdInput
+           #suggestionInput
+           type="text"
+           [mdAutocomplete]="auto"
+           [formControl]="formControl"
+           name="tagExpression" [placeholder]="placeholder">
+  </md-input-container>
+  <md-autocomplete #auto="mdAutocomplete">
+    <md-option *ngFor="let suggestion of availableSuggestions | async" [value]="insertSuggestion(suggestion)">
+      {{ suggestion }}
+    </md-option>
+  </md-autocomplete>
+</div>
+
+
