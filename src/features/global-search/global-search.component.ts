@@ -68,6 +68,10 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
       return this._availableSort;
   }
 
+  public get canSort(): boolean {
+    return this._availableSort && this.availableSort.length > 0;
+  }
+
 
   ngOnInit() {
     this.searchCollapsed = true;
@@ -129,12 +133,10 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
 
     let sorts = this.selectedSort ? [this.convertToSort(this.selectedSort)] : [];
 
-    let newQuery = new SearchQuery(
-      this.keywordsValue,
-      sorts
+    this.globalSearch.query = new SearchQuery(
+        this.keywordsValue,
+        sorts
     );
-
-    this.globalSearch.query = newQuery;
   }
 
   private convertToSort(sort: SortOption): Sort {

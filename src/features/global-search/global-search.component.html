@@ -25,7 +25,7 @@
         <md-icon *ngIf="selectedSort?.id==sort.id">check</md-icon>
       </button>
     </md-menu>
-    <button md-icon-button [mdMenuTriggerFor]="sortMenu">
+    <button *ngIf="canSort" md-icon-button [mdMenuTriggerFor]="sortMenu">
       <md-icon>sort</md-icon>
     </button>
 

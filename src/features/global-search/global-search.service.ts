@@ -34,7 +34,7 @@ export class GlobalSearchService {
 
   private _query: SearchQuery;
   private _querySubject = new Subject<SearchQuery>();
-  private _availableSorts = new BehaviorSubject<SortOption[]>([]);
+  private _availableSorts = new Subject<SortOption[]>();
 
 
   constructor(router: Router) {
@@ -49,10 +49,6 @@ export class GlobalSearchService {
       .filter(route => route.outlet === 'primary')
       .mergeMap(route => route.data)
       .subscribe(currentRouteData  => {
-
-        // console.log('NavigationEnd:', currentRouteData);
-        // console.log('show global search: ' + !!currentRouteData['showGlobalSearch']);
-
         let enableGlobalSearch = currentRouteData['enableGlobalSearch'];
         this.showGlobalSearch = enableGlobalSearch != null ? !!enableGlobalSearch : !!currentRouteData['showGlobalSearch'];
     });
