@@ -9,7 +9,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 @Injectable()
 export class HttpPagedClient {
 
-    private static buildHttpParams(pageable?: Pageable, filters?: Filter[], params?: HttpParams): HttpParams {
+    private static buildHttpParams(pageable: Pageable | null, filters?: Filter[], params?: HttpParams): HttpParams {
 
         if (!params) { params = new HttpParams(); }
 
@@ -63,7 +63,7 @@ export class HttpPagedClient {
      * @param {HttpParams} params Additional parameters
      * @returns {Observable<T>}
      */
-    public getFiltered<T>(url: string, filters?: Filter[], params?: HttpParams): Observable<T> {
+    public getFiltered<T>(url: string, filters: Filter[], params?: HttpParams): Observable<T> {
         params = HttpPagedClient.buildHttpParams(null, filters, params);
         return this.http.get<T>(url, { params: params });
     }
