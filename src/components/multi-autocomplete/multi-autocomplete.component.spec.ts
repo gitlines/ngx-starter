@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MultiAutocompleteComponent } from './multi-autocomplete.component';
+import {MultiAutoCompleteModule} from './index';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('MultiAutocompleteComponent', () => {
   let component: MultiAutocompleteComponent;
@@ -8,7 +10,7 @@ describe('MultiAutocompleteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MultiAutocompleteComponent ]
+      imports: [NoopAnimationsModule, MultiAutoCompleteModule]
     })
     .compileComponents();
   }));
