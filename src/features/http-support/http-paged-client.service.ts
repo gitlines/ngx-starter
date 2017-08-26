@@ -56,6 +56,18 @@ export class HttpPagedClient {
         return this.http.get<Page<T>>(url, { params: params });
     }
 
+    /**
+     * Gets the requested data, supports dynamic filter options
+     * @param {string} url The request url
+     * @param {Filter[]} filters The filter options (will be translated to query params)
+     * @param {HttpParams} params Additional parameters
+     * @returns {Observable<T>}
+     */
+    public getFiltered<T>(url: string, filters?: Filter[], params?: HttpParams): Observable<T> {
+        params = HttpPagedClient.buildHttpParams(null, filters, params);
+        return this.http.get<T>(url, { params: params });
+    }
+
     /***************************************************************************
      *                                                                         *
      * Private Methods                                                         *
