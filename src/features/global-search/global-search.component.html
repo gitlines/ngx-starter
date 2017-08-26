@@ -30,7 +30,7 @@
     </button>
 
     <!-- Sort Asc/Desc-->
-    <button md-icon-button (click)="toggleSortAsc()">
+    <button *ngIf="canSort" md-icon-button (click)="toggleSortAsc()">
       <md-icon>{{sortAsc ? "arrow_downward" : "arrow_upward"}}</md-icon>
     </button>
 
