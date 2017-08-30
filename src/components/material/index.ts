@@ -13,7 +13,7 @@ import {
     MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdTableModule, MdTabsModule,
     MdToolbarModule, MdTooltipModule
 } from '@angular/material';
-import {CdkTableModule} from '@angular/cdk';
+import {CdkTableModule} from '@angular/cdk/table';
 
 
 @NgModule({

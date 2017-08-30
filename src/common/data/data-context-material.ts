@@ -1,10 +1,11 @@
 
 
-import {CollectionViewer, DataSource} from '@angular/cdk';
+import {DataSource, CollectionViewer} from '@angular/cdk/collections';
 import {Observable} from 'rxjs/Observable';
 import {IDataContext} from './data-context';
 import {Filter} from './filter';
 import {Sort} from './page';
+
 
 
 /**
