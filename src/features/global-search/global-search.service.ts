@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Sort} from '../../common/data/page';
 
 

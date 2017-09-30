@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {Page, Pageable, PageableUtil} from '../../common/data/page';
 import {Filter, FilterUtil} from '../../common/data/filter';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {NGXLogger} from 'ngx-logger';
 
 
 
@@ -30,9 +31,9 @@ export class HttpPagedClient {
 
     /**
      * Creates a new HttpPagedClient service
-     * @param {HttpClient} http
      */
     constructor(
+        private logger: NGXLogger,
         private http: HttpClient) {
     }
 
@@ -52,7 +53,7 @@ export class HttpPagedClient {
      */
     public getPaged<T>(url: string, pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {
         params = HttpPagedClient.buildHttpParams(pageable, filters, params);
-        console.log('sending paged request @ ' + url, params);
+        this.logger.debug('sending paged request @ ' + url, params);
         return this.http.get<Page<T>>(url, { params: params });
     }
 

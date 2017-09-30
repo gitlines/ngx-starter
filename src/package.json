@@ -1,6 +1,6 @@
 {
   "name": "@elderbyte/ngx-starter",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Angular Web App Starter library containing highly reusable modules and configuration.",
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "@angular/material": "^2.0.0-beta.11",
     "@ngx-translate/core": "^7.1.0",
     "@elderbyte/ngx-simple-webstorage": "^0.3.0",
+    "ngx-logger": "^0.2.5",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.4"
   }

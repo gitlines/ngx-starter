@@ -4,6 +4,7 @@ import {SideContentService} from '../side-content.service';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
     selector: 'app-side-content-toggle',
@@ -20,6 +21,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     public roots: string[] = [];
 
     constructor(
+        private logger: NGXLogger,
         private router: Router,
         private sideContentService: SideContentService,
     ) { }
@@ -53,7 +55,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
 
     private updateIcon() {
         let icon = this.showNavigateBack ? 'arrow_back' : 'menu';
-        console.log('updating icon to ' + icon);
+        this.logger.trace('updating icon to ' + icon);
         this._icon.next(icon);
     }
 

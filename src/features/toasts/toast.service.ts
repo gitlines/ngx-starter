@@ -3,6 +3,7 @@ import {Subject, Observable} from 'rxjs';
 import {Toast} from './toast';
 import {ToastType} from './toast-type';
 import {TranslateService} from '@ngx-translate/core';
+import {NGXLogger} from 'ngx-logger';
 
 export * from './toast';
 export * from './toast-type';
@@ -14,6 +15,7 @@ export class ToastService {
   private subjet = new Subject<Toast>();
 
   constructor(
+      private logger: NGXLogger,
       private translate: TranslateService
   ) {}
 
@@ -36,7 +38,7 @@ export class ToastService {
   }
 
   public pushErrorRaw(msg: string, error?: any) {
-      console.error(msg, error);
+      this.logger.error(msg, error);
       this.pushInfoToast(msg);
   }
 
@@ -44,7 +46,7 @@ export class ToastService {
 
       this.translateMessage(msgKey, interpolateParams).subscribe(
           (res) => {
-            console.error(res, error);
+            this.logger.error(res, error);
             this.pushErrorToast(res);
           },
           (err) => this.pushErrorToast(msgKey)); // no translation found, push key

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { WebLocalStorage } from '@elderbyte/ngx-simple-webstorage';
+import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
 export class LanguageService {
@@ -20,10 +21,11 @@ export class LanguageService {
      **************************************************************************/
 
     constructor(
+        private logger: NGXLogger,
         private translate: TranslateService,
         private webStorage: WebLocalStorage
     ) {
-        console.log('Initializing language service with webstore: ', webStorage);
+        this.logger.debug('Initializing language service with webstore: ', webStorage);
     }
 
     /***************************************************************************
