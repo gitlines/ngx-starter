@@ -12,11 +12,11 @@ import {DataContext} from './data-context';
  */
 export class PagedDataContext<T> extends DataContext<T> {
 
-    private pageCache: Map<number, Observable<Page<T>>> = new Map();
-    private latestPage = 0;
+    private readonly _limit;
 
-    public offset = 0;
-    public limit = 30;
+    private _pageCache: Map<number, Observable<Page<T>>> = new Map();
+    private _latestPage = 0;
+
 
 
     constructor(
@@ -25,7 +25,7 @@ export class PagedDataContext<T> extends DataContext<T> {
         _indexFn?: ((item: T) => any),
         _localSort?: ((a: T, b: T) => number)) {
         super(() => Observable.empty(), _indexFn, _localSort);
-        this.limit = pageSize;
+        this._limit = pageSize;
     }
 
     /**
@@ -38,10 +38,11 @@ export class PagedDataContext<T> extends DataContext<T> {
     public start(sorts?: Sort[], filters?: Filter[]) {
         this._total = 0;
         this.rows = [];
-        this.pageCache = new Map();
+        this._pageCache = new Map();
+        this._latestPage = 0;
         this.setSorts(sorts);
         this.setFilters(filters);
-        this.fetchPage(0, this.limit);
+        this.fetchPage(0, this._limit);
     }
 
     /**
@@ -51,11 +52,11 @@ export class PagedDataContext<T> extends DataContext<T> {
      */
     public loadMore(): void {
         if (this.hasMoreData) {
-            console.log('loading more...' + this.latestPage);
+            console.log('loading more...' + this._latestPage);
 
             if (this.loadingIndicator) { return; }
-            let nextPage = this.latestPage + 1;
-            this.fetchPage(nextPage, this.limit);
+            let nextPage = this._latestPage + 1;
+            this.fetchPage(nextPage, this._limit);
         }
     }
 
@@ -68,7 +69,7 @@ export class PagedDataContext<T> extends DataContext<T> {
 
         let pageRequest = new Pageable(pageIndex, pageSize, this.sorts);
 
-        if (this.pageCache.has(pageIndex)) {
+        if (this._pageCache.has(pageIndex)) {
             // Page already loaded - skipping request!
         }else {
 
@@ -78,7 +79,7 @@ export class PagedDataContext<T> extends DataContext<T> {
 
             let pageObs = this.pageLoader(pageRequest, this.filters);
 
-            this.pageCache.set(pageIndex, pageObs);
+            this._pageCache.set(pageIndex, pageObs);
 
             pageObs.subscribe((page: Page<T>) => {
 
@@ -86,8 +87,8 @@ export class PagedDataContext<T> extends DataContext<T> {
 
                 this.populatePageData(page);
 
-                if (this.latestPage < page.number) {
-                    this.latestPage = page.number; // TODO This might cause that pages are skipped
+                if (this._latestPage < page.number) {
+                    this._latestPage = page.number; // TODO This might cause that pages are skipped
                 }
 
                 this._loadingIndicator = false;
