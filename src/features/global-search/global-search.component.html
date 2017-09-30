@@ -8,38 +8,38 @@
   <div *ngIf="!searchCollapsed" fxLayout="row" fxLayoutAlign="center center" fxFlex>
 
     <!-- Query Keywords -->
-    <md-input-container color="accent" floatPlaceholder="never" fxFlex>
-      <md-icon mdPrefix>search</md-icon>
-      <input mdInput type="search"
+    <mat-form-field color="accent" floatPlaceholder="never" fxFlex>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="search"
              (keyup)="onQueryChanged()"
              #txtSearch>
-    </md-input-container>
+    </mat-form-field>
 
     <!-- Sort -->
-    <md-menu #sortMenu="mdMenu">
-      <button *ngFor="let sort of availableSort" md-menu-item
+    <mat-menu #sortMenu="matMenu">
+      <button *ngFor="let sort of availableSort" mat-menu-item
               fxLayout="row" fxLayoutAlign="space-between center"
               (click)="sortBy(sort)"
       >
         {{sort.name | translate}}
-        <md-icon *ngIf="selectedSort?.id==sort.id">check</md-icon>
+        <mat-icon *ngIf="selectedSort?.id==sort.id">check</mat-icon>
       </button>
-    </md-menu>
-    <button *ngIf="canSort" md-icon-button [mdMenuTriggerFor]="sortMenu">
-      <md-icon>sort</md-icon>
+    </mat-menu>
+    <button *ngIf="canSort" mat-icon-button [matMenuTriggerFor]="sortMenu">
+      <mat-icon>sort</mat-icon>
     </button>
 
     <!-- Sort Asc/Desc-->
-    <button *ngIf="canSort" md-icon-button (click)="toggleSortAsc()">
-      <md-icon>{{sortAsc ? "arrow_downward" : "arrow_upward"}}</md-icon>
+    <button *ngIf="canSort" mat-icon-button (click)="toggleSortAsc()">
+      <mat-icon>{{sortAsc ? "arrow_downward" : "arrow_upward"}}</mat-icon>
     </button>
 
   </div>
 
 
   <!-- Toggle Global Search -->
-  <button md-icon-button (click)="toggleSearch()" [disabled]="globalSearchDisabled" *ngIf="!isSearchHidden">
-    <md-icon>{{toggleIcon}}</md-icon>
+  <button mat-icon-button (click)="toggleSearch()" [disabled]="globalSearchDisabled" *ngIf="!isSearchHidden">
+    <mat-icon>{{toggleIcon}}</mat-icon>
   </button>
 </div>
 

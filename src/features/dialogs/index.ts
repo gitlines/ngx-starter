@@ -2,7 +2,7 @@ import { CommonDialogService } from './common-dialog.service';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 
 import { ConfirmDialog }   from './confirm-dialog/confirm-dialog.component';
-import {MdButtonModule, MdDialogModule} from '@angular/material';
+import {MatButtonModule, MatDialogModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 
@@ -13,8 +13,8 @@ export {ConfirmDialog} from './confirm-dialog/confirm-dialog.component'
 @NgModule({
     imports: [
         TranslateModule,
-        MdDialogModule,
-        MdButtonModule
+        MatDialogModule,
+        MatButtonModule
     ],
     exports: [
         ConfirmDialog,

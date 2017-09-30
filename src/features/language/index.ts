@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {LanguageSwitcherComponent} from './language-switcher/language-switcher.component';
 import {LanguageService} from './language.service';
 import {TranslateModule} from '@ngx-translate/core';
-import {MdSelectModule} from '@angular/material';
+import {MatSelectModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
 import {LanguageInterceptor} from './language.interceptor';
@@ -24,7 +24,7 @@ export * from './language.interceptor'
         CommonModule,
         TranslateModule,
         SimpleWebStorageModule,
-        MdSelectModule,
+        MatSelectModule,
         FormsModule
     ],
     exports: [

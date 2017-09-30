@@ -1,17 +1,17 @@
 
-<h2 md-dialog-title translate>{{ title }}</h2>
+<h2 matDialogTitle translate>{{ title }}</h2>
 
-<md-dialog-content>
+<mat-dialog-content>
     <p translate>{{ message }}</p>
-</md-dialog-content>
-<md-dialog-actions>
-    <button type="button" md-raised-button
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button type="button" mat-raised-button
             (click)="dialogRef.close(true)">
         {{"actions.ok" | translate}}
     </button>
 
-    <button type="button" md-button
+    <button type="button" mat-button
             (click)="dialogRef.close()">
         {{"actions.cancel" | translate}}
     </button>
-</md-dialog-actions>
+</mat-dialog-actions>

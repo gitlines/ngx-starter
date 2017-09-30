@@ -5,7 +5,7 @@ import {ModuleWithProviders, NgModule} from '@angular/core';
 import {ToastSnackbarComponent} from './toast-snackbar.component';
 import {ToastService} from './toast.service';
 import {CommonModule} from '@angular/common';
-import {MdSnackBarModule} from '@angular/material';
+import {MatSnackBarModule} from '@angular/material';
 
 
 export * from './toast-snackbar.component'
@@ -22,7 +22,7 @@ export * from './toast.service'
   exports : [
     ToastSnackbarComponent
   ],
-  imports : [ CommonModule, MdSnackBarModule ]
+  imports : [ CommonModule, MatSnackBarModule ]
 })
 export class ToastModule {
 

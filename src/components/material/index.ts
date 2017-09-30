@@ -1,27 +1,27 @@
 import {NgModule} from '@angular/core';
 import {
-    MdAutocompleteModule,
-    MdButtonModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdDatepicker, MdDatepickerModule, MdDialogModule,
-    MdGridListModule,
-    MdIconModule,
-    MdInputModule,
-    MdListModule,
-    MdMenuModule,
-    MdOptionModule, MdProgressBarModule,
-    MdProgressSpinnerModule, MdRadioModule, MdSelectModule,
-    MdSidenavModule,
-    MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdTableModule, MdTabsModule,
-    MdToolbarModule, MdTooltipModule
+    MatAutocompleteModule,
+    MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepicker, MatDatepickerModule, MatDialogModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatOptionModule, MatProgressBarModule,
+    MatProgressSpinnerModule, MatRadioModule, MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatTableModule, MatTabsModule,
+    MatToolbarModule, MatTooltipModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
 
 @NgModule({
     imports: [
-        MdListModule, MdGridListModule, MdCardModule, MdTabsModule,
+        MatListModule, MatGridListModule, MatCardModule, MatTabsModule,
     ],
     exports: [
-        MdListModule, MdGridListModule, MdCardModule, MdTabsModule,
+        MatListModule, MatGridListModule, MatCardModule, MatTabsModule,
     ],
 })
 export class AngularMaterialLayoutModule { }
@@ -29,10 +29,10 @@ export class AngularMaterialLayoutModule { }
 
 @NgModule({
     imports: [
-        MdMenuModule, MdSidenavModule, MdToolbarModule
+        MatMenuModule, MatSidenavModule, MatToolbarModule
     ],
     exports: [
-        MdMenuModule, MdSidenavModule, MdToolbarModule
+        MatMenuModule, MatSidenavModule, MatToolbarModule
     ],
 })
 export class AngularMaterialNavigationModule { }
@@ -40,10 +40,10 @@ export class AngularMaterialNavigationModule { }
 
 @NgModule({
     imports: [
-        MdDialogModule, MdTooltipModule, MdSnackBarModule
+        MatDialogModule, MatTooltipModule, MatSnackBarModule
     ],
     exports: [
-        MdDialogModule, MdTooltipModule, MdSnackBarModule
+        MatDialogModule, MatTooltipModule, MatSnackBarModule
     ],
 })
 export class AngularMaterialPopupsModule { }
@@ -51,22 +51,22 @@ export class AngularMaterialPopupsModule { }
 
 @NgModule({
     imports: [
-        MdIconModule,
+        MatIconModule,
 
         // User Input / info
-        MdInputModule, MdButtonModule, MdRadioModule, MdSlideToggleModule,
-        MdOptionModule, MdSliderModule, MdSelectModule, MdCheckboxModule,
-        MdAutocompleteModule, MdProgressBarModule, MdProgressSpinnerModule,
-        MdChipsModule, MdDatepickerModule
+        MatInputModule, MatButtonModule, MatRadioModule, MatSlideToggleModule,
+        MatOptionModule, MatSliderModule, MatSelectModule, MatCheckboxModule,
+        MatAutocompleteModule, MatProgressBarModule, MatProgressSpinnerModule,
+        MatChipsModule, MatDatepickerModule
     ],
     exports: [
-        MdIconModule,
+        MatIconModule,
 
         // User Input / info
-        MdInputModule, MdButtonModule, MdRadioModule, MdSlideToggleModule,
-        MdOptionModule, MdSliderModule, MdSelectModule, MdCheckboxModule,
-        MdAutocompleteModule, MdProgressBarModule, MdProgressSpinnerModule,
-        MdChipsModule, MdDatepickerModule
+        MatInputModule, MatButtonModule, MatRadioModule, MatSlideToggleModule,
+        MatOptionModule, MatSliderModule, MatSelectModule, MatCheckboxModule,
+        MatAutocompleteModule, MatProgressBarModule, MatProgressSpinnerModule,
+        MatChipsModule, MatDatepickerModule
     ],
 })
 export class AngularMaterialInputModule { }
@@ -74,10 +74,10 @@ export class AngularMaterialInputModule { }
 
 @NgModule({
     imports: [
-        CdkTableModule, MdTableModule
+        CdkTableModule, MatTableModule
     ],
     exports: [
-        CdkTableModule, MdTableModule
+        CdkTableModule, MatTableModule
     ],
 })
 export class AngularMaterialTableModule { }

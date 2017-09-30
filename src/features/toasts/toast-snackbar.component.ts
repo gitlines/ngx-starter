@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MdSnackBar, MdSnackBarConfig} from '@angular/material';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {ToastService} from './toast.service';
 import {Toast} from './toast';
@@ -15,13 +15,13 @@ export class ToastSnackbarComponent implements OnInit {
   private subscription: Subscription;
 
   constructor(private toastService: ToastService,
-              public snackBar: MdSnackBar) {
+              public snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
     this.subscription = this.toastService.getNotificationsObservable().subscribe(
       (notification: Toast) => {
-        this.snackBar.open(notification.message, 'OK', <MdSnackBarConfig>{duration: 3000});
+        this.snackBar.open(notification.message, 'OK', <MatSnackBarConfig>{duration: 3000});
       }
     );
   }

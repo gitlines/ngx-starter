@@ -1,18 +1,18 @@
 
 <div fxLayout="column">
-  <md-form-field color="accent" class="full-width">
-    <input mdInput
+  <mat-form-field color="accent" class="full-width">
+    <input matInput
            #suggestionInput
            type="text"
-           [mdAutocomplete]="auto"
+           [matAutocomplete]="auto"
            [formControl]="formControl"
            name="multiinput" [placeholder]="placeholder">
-  </md-form-field>
-  <md-autocomplete #auto="mdAutocomplete">
-    <md-option *ngFor="let suggestion of availableSuggestions | async" [value]="insertSuggestion(suggestion)">
+  </mat-form-field>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let suggestion of availableSuggestions | async" [value]="insertSuggestion(suggestion)">
       {{ suggestion }}
-    </md-option>
-  </md-autocomplete>
+    </mat-option>
+  </mat-autocomplete>
 </div>
 
 
