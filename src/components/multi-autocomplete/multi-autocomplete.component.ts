@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {WordPositionFinder} from './word-position';
 import {Subscription} from 'rxjs/Subscription';
+import {NGXLogger} from 'ngx-logger';
 
 
 export interface SuggestionProvider {
@@ -40,7 +41,9 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
 
   private wordFinder: WordPositionFinder;
 
-  constructor() {
+  constructor(
+      private logger: NGXLogger
+  ) {
     this.wordFinder = new WordPositionFinder();
   }
 
@@ -61,7 +64,7 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
 
 
   public onValueChanged(value: string) {
-    console.log('value changed', value); // this.formControl.value
+    this.logger.log('value changed', value); // this.formControl.value
     this.valueChanged.next(value);
   }
 

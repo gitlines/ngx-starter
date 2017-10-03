@@ -1,6 +1,7 @@
 
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, NavigationEnd, Router, RouterStateSnapshot} from "@angular/router";
+import {NGXLogger} from 'ngx-logger';
 
 /**
  * This service manages the side content.
@@ -9,23 +10,24 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router, RouterStateSnapshot} from
 @Injectable()
 export class SideContentService {
 
-  public navigationOpen : boolean = false;
-  public sideContentOpen : boolean = false;
+  public navigationOpen = false;
+  public sideContentOpen = false;
 
   constructor(
+      private logger: NGXLogger,
     private router: Router,
-  ){
+  ) {
 
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .map(event => event as NavigationEnd)
       .subscribe(event => {
 
-        if(this.isOutletActive('side')){
-          console.info('side outlet is active -> showing side content!');
+        if (this.isOutletActive('side')) {
+            this.logger.debug('Side-Content: "side" outlet is active -> showing side content!');
           this.showSideContent();
-        }else{
-          console.info('side outlet is NOT active -> HIDING side content!');
+        }else {
+            this.logger.debug('Side-Content: "side" outlet is NOT active -> HIDING side content!');
           this.closeSideContent();
         }
         this.closeSideNav();
@@ -33,37 +35,33 @@ export class SideContentService {
   }
 
 
-  public toggleSidenav(){
+  public toggleSidenav() {
     this.navigationOpen = !this.navigationOpen;
   }
 
-  public closeSideNav(){
+  public closeSideNav() {
     this.navigationOpen = false;
   }
 
   public closeSideContent() {
-    console.log('hiding side content ...');
+    this.logger.debug('Side-Content: Hiding ...');
     this.sideContentOpen = false;
-    this.router.navigate([{outlets: {'side': null}}])
+    this.router.navigate([{outlets: {'side': null}}]);
   }
 
 
-  isOutletActive(outlet : string) : boolean{
-    let rs : RouterStateSnapshot =  this.router.routerState.snapshot;
-    let snap : ActivatedRouteSnapshot = rs.root;
+  isOutletActive(outlet: string): boolean {
+    let rs: RouterStateSnapshot =  this.router.routerState.snapshot;
+    let snap: ActivatedRouteSnapshot = rs.root;
     return this.isOutletActiveRecursive(snap, outlet);
   }
 
-  isOutletActiveRecursive(root : ActivatedRouteSnapshot, outlet : string) : boolean{
-
-    console.log('--> ' + root.outlet);
-
-    if(root.outlet === outlet){
+  isOutletActiveRecursive(root: ActivatedRouteSnapshot, outlet: string): boolean {
+    if (root.outlet === outlet) {
       return true;
     }
-
-    for(let c of root.children){
-      if(this.isOutletActiveRecursive(c, outlet)){
+    for (let c of root.children) {
+      if (this.isOutletActiveRecursive(c, outlet)) {
         return true;
       }
     }
@@ -71,7 +69,7 @@ export class SideContentService {
   }
 
   private showSideContent() {
-    console.log('showing side content ...');
+    this.logger.debug('Side-Content: Showing ...');
     this.sideContentOpen = true;
   }
 

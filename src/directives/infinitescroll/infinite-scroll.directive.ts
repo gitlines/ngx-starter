@@ -3,6 +3,7 @@ import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/operator/filter';
+import {NGXLogger} from 'ngx-logger';
 
 
 @Directive({ selector: '[infiniteScroll]' })
@@ -20,7 +21,9 @@ export class InfiniteScrollDirective implements OnDestroy {
     public _scrollStream$: ReplaySubject<UIEvent> = new ReplaySubject(1);
     private scrollContainer: HTMLElement;
 
-    constructor(el: ElementRef) {
+    constructor(
+        private logger: NGXLogger,
+        el: ElementRef) {
     }
 
     @Output('closeToEnd')
@@ -36,7 +39,7 @@ export class InfiniteScrollDirective implements OnDestroy {
     set containerId(containerId: string) {
         let scrollContainer = document.getElementById(containerId);
         if (scrollContainer) {
-            console.log('Found scroll container: ', scrollContainer);
+            this.logger.debug('Found scroll container: ', scrollContainer);
             this.setup(scrollContainer);
         }
     }
@@ -49,7 +52,7 @@ export class InfiniteScrollDirective implements OnDestroy {
 
     private setup(scrollContainer: HTMLElement): void {
 
-        console.log('Setting up scroll observable stream listener....');
+        this.logger.info('Setting up scroll observable stream listener....');
 
         this.scrollContainer = scrollContainer;
 
