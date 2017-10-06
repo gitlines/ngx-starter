@@ -10,67 +10,92 @@ import {NGXLogger} from 'ngx-logger';
 @Injectable()
 export class SideContentService {
 
-  public navigationOpen = false;
-  public sideContentOpen = false;
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
 
-  constructor(
-      private logger: NGXLogger,
-    private router: Router,
-  ) {
+    public navigationOpen = false;
+    public sideContentOpen = false;
 
-    this.router.events
-      .filter(event => event instanceof NavigationEnd)
-      .map(event => event as NavigationEnd)
-      .subscribe(event => {
 
-        if (this.isOutletActive('side')) {
-            this.logger.debug('Side-Content: "side" outlet is active -> showing side content!');
-          this.showSideContent();
-        }else {
-            this.logger.debug('Side-Content: "side" outlet is NOT active -> HIDING side content!');
-          this.closeSideContent();
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
+
+
+    constructor(
+        private logger: NGXLogger,
+        private router: Router,
+    ) {
+
+        this.router.events
+            .filter(event => event instanceof NavigationEnd)
+            .map(event => event as NavigationEnd)
+            .subscribe(event => {
+
+                if (this.isOutletActive('side')) {
+                    this.logger.debug('Side-Content: "side" outlet is active -> showing side content!');
+                    this.showSideContent();
+                }else {
+                    this.logger.debug('Side-Content: "side" outlet is NOT active -> HIDING side content!');
+                    this.closeSideContent();
+                }
+                this.closeSideNav();
+            });
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+
+    public toggleSidenav() {
+        this.navigationOpen = !this.navigationOpen;
+    }
+
+    public closeSideNav() {
+        this.navigationOpen = false;
+    }
+
+    public closeSideContent() {
+        this.logger.debug('Side-Content: Hiding ...');
+        this.sideContentOpen = false;
+        this.router.navigate([{outlets: {'side': null}}]);
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    private isOutletActive(outlet: string): boolean {
+        let rs: RouterStateSnapshot =  this.router.routerState.snapshot;
+        let snap: ActivatedRouteSnapshot = rs.root;
+        return this.isOutletActiveRecursive(snap, outlet);
+    }
+
+    private isOutletActiveRecursive(root: ActivatedRouteSnapshot, outlet: string): boolean {
+        if (root.outlet === outlet) {
+            return true;
         }
-        this.closeSideNav();
-      });
-  }
-
-
-  public toggleSidenav() {
-    this.navigationOpen = !this.navigationOpen;
-  }
-
-  public closeSideNav() {
-    this.navigationOpen = false;
-  }
-
-  public closeSideContent() {
-    this.logger.debug('Side-Content: Hiding ...');
-    this.sideContentOpen = false;
-    this.router.navigate([{outlets: {'side': null}}]);
-  }
-
-
-  isOutletActive(outlet: string): boolean {
-    let rs: RouterStateSnapshot =  this.router.routerState.snapshot;
-    let snap: ActivatedRouteSnapshot = rs.root;
-    return this.isOutletActiveRecursive(snap, outlet);
-  }
-
-  isOutletActiveRecursive(root: ActivatedRouteSnapshot, outlet: string): boolean {
-    if (root.outlet === outlet) {
-      return true;
+        for (let c of root.children) {
+            if (this.isOutletActiveRecursive(c, outlet)) {
+                return true;
+            }
+        }
+        return false;
     }
-    for (let c of root.children) {
-      if (this.isOutletActiveRecursive(c, outlet)) {
-        return true;
-      }
-    }
-    return false;
-  }
 
-  private showSideContent() {
-    this.logger.debug('Side-Content: Showing ...');
-    this.sideContentOpen = true;
-  }
+    private showSideContent() {
+        this.logger.debug('Side-Content: Showing ...');
+        this.sideContentOpen = true;
+    }
 
 }
