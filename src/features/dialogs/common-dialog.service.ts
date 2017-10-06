@@ -44,6 +44,6 @@ export class CommonDialogService {
         let dialogRef = this.dialog.open(QuestionDialog, conf);
 
         return dialogRef.afterClosed()
-                .filter(response => !response);
+                .filter(response => !!response);
     }
 }

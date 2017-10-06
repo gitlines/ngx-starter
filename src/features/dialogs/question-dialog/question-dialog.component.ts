@@ -18,11 +18,11 @@ export class QuestionDialog implements OnInit {
 
   }
 
-  confirm(event: Event) {
+  public confirm(event: Event) {
     this.dialogRef.close(this.answer);
   }
 
-  cancel(event: Event): void {
+  public cancel(event: Event): void {
     this.dialogRef.close();
   }
 
