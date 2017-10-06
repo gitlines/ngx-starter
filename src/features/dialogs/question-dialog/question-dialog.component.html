@@ -1,0 +1,19 @@
+<h2 matDialogTitle translate>{{ data.title }}</h2>
+
+<mat-dialog-content>
+  <p>{{data.question}}</p>
+
+  <mat-form-field class="full-width">
+    <input matInput type="text" name="name" [(ngModel)]="answer"
+           placeholder="{{'context.name' | translate}}" required>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button [disabled]="!isValid" type=submit mat-button color="primary">{{'actions.ok' | translate}}</button>
+
+  <button type="button" mat-button
+          (click)="close($event)">
+    {{'actions.cancel' | translate}}
+  </button>
+</mat-dialog-actions>

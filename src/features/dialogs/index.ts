@@ -2,28 +2,31 @@ import { CommonDialogService } from './common-dialog.service';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 
 import { ConfirmDialog }   from './confirm-dialog/confirm-dialog.component';
-import {MatButtonModule, MatDialogModule} from '@angular/material';
+import {MatButtonModule, MatDialogModule, MatIconModule, MatToolbarModule, MatInputModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule} from '@angular/forms';
+import {QuestionDialog} from './question-dialog/question-dialog.component';
 
 
 export {CommonDialogService} from './common-dialog.service'
 export {ConfirmDialog} from './confirm-dialog/confirm-dialog.component'
+export {QuestionDialog} from './question-dialog/question-dialog.component'
 
 
 @NgModule({
     imports: [
-        TranslateModule,
-        MatDialogModule,
-        MatButtonModule
-    ],
-    exports: [
-        ConfirmDialog,
+        CommonModule, FormsModule,
+        FlexLayoutModule,
+        MatIconModule, MatButtonModule, MatDialogModule, MatToolbarModule, MatInputModule,
+        TranslateModule
     ],
     declarations: [
-        ConfirmDialog,
+        ConfirmDialog, QuestionDialog
     ],
     entryComponents: [
-        ConfirmDialog
+        ConfirmDialog, QuestionDialog
     ],
 })
 export class CommonDialogModule {
