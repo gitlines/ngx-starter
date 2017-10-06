@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { ConfirmDialog } from './confirm-dialog/confirm-dialog.component';
-import {MatDialogRef, MatDialog, MatDialogConfig, MdDialogConfig} from '@angular/material';
+import {MatDialogRef, MatDialog, MatDialogConfig, MatDialogConfig} from '@angular/material';
 import { Injectable } from '@angular/core';
 import {QuestionDialog} from './question-dialog/question-dialog.component';
 
@@ -18,7 +18,7 @@ export class CommonDialogService {
      * @param {MdDialogConfig} config
      * @returns {Observable<boolean>}
      */
-    public confirm(title: string, message: string, config?: MdDialogConfig): Observable<boolean> {
+    public confirm(title: string, message: string, config?: MatDialogConfig): Observable<boolean> {
 
         let dialogRef: MatDialogRef<ConfirmDialog>;
 
@@ -36,9 +36,9 @@ export class CommonDialogService {
      * @param {MdDialogConfig} config
      * @returns {Observable<string>}
      */
-    public question(title: string, question: string, config?: MdDialogConfig): Observable<string> {
+    public question(title: string, question: string, config?: MatDialogConfig): Observable<string> {
 
-        const conf = config || new MdDialogConfig();
+        const conf = config || new MatDialogConfig();
         conf.data = { title: title, question: question };
 
         let dialogRef = this.dialog.open(QuestionDialog, conf);
