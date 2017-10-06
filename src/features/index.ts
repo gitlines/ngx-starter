@@ -1,5 +1,4 @@
 
-export * from './breadcrumbs/index';
 export * from './http-support/index';
 export * from './dialogs/index';
 export * from './errors/index';
