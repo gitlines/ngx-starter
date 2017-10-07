@@ -13,9 +13,11 @@ export class Filter {
 export class FilterUtil {
 
     public static addFilterQueryParams(params: HttpParams, filters: Filter[]): HttpParams {
-        for (let filter of filters) {
-            if (filter.value) { // Ignore filters without a value specified
-                params = params.append(filter.key, filter.value);
+        if (filters) {
+            for (let filter of filters) {
+                if (filter.value) { // Ignore filters without a value specified
+                    params = params.append(filter.key, filter.value);
+                }
             }
         }
         return params;

@@ -3,6 +3,7 @@ import {Filter} from './filter';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {Sort} from './page';
+import {NGXLogger} from 'ngx-logger';
 
 
 /**
@@ -52,6 +53,7 @@ export class DataContext<T> implements IDataContext<T> {
   private _primaryIndex = new Map<any, T>();
 
   constructor(
+    protected logger: NGXLogger,
     private listFetcher: (sorts: Sort[], filters: Filter[]) => Observable<Array<T>>,
     private _indexFn?: ((item: T) => any),
     private _localSort?: ((a: T, b: T) => number)
@@ -104,13 +106,12 @@ export class DataContext<T> implements IDataContext<T> {
   public set rows(rows: T[]) {
 
     if (this._localSort) {
-      console.log(`Apply local sort to ${rows.length} rows ...`);
+      this.logger.debug(`Apply local sort to ${rows.length} rows ...`);
       rows.sort(this._localSort);
     }
 
     this._rows = rows;
-
-    console.info('rows changed data-change: ' + this._rows.length);
+    this.logger.debug('data-context: Rows have changed: ' + this._rows.length);
 
     this._dataChange.next(this._rows);
   }
@@ -154,16 +155,16 @@ export class DataContext<T> implements IDataContext<T> {
             this._total = list.length;
             this.rows = list;
             this._loadingIndicator = false;
-            console.log('got list data!');
+            this.logger.debug('data-context: Got list data: ' + list.length);
           }, err => {
             this._total = 0;
             this.rows = [];
             this._loadingIndicator = false;
             this.updateIndex();
-            console.error('Failed to query data', err);
+            this.logger.error('data-context: Failed to query data', err);
           });
     }else {
-      console.warn('Skipping data context load - no list fetcher present!');
+        this.logger.warn('data-context: Skipping data context load - no list fetcher present!');
     }
   }
 }
