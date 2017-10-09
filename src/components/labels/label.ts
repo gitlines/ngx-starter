@@ -1,12 +1,12 @@
 
 export class Label {
 
-  public static fromName(name: string){
+  public static fromName(name: string) {
     return new Label(name, null);
   }
 
   constructor(
-    readonly name: string,
-  readonly color: string
-  ){ }
+    public readonly name: string,
+    public readonly color: string | null
+  ) { }
 }
