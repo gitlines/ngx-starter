@@ -1,28 +1,27 @@
 import {Observable} from 'rxjs/Observable';
-import {Label} from './label';
 
-export interface ISuggestionProvider {
+export interface ISuggestionProvider<T> {
 
   /**
    * Loads all suggestions, filtered by the given filter string.
    * @param {string} filter
-   * @returns {Observable<Label[] | string[]>}
+   * @returns {Observable<Object[]>}
    */
-  loadSuggestions(filter: string): Observable<Label[] | string[]>
+  loadSuggestions(filter: string): Observable<T[]>;
 }
 
 
-export class SuggestionProvider implements ISuggestionProvider{
+export class SuggestionProvider<T> implements ISuggestionProvider<T> {
 
-  public static build(provider: (filter: string) => Observable<Label[] | string[]>): ISuggestionProvider {
-    return new SuggestionProvider(provider);
+  public static build<T>(provider: (filter: string) => Observable<T[]>): ISuggestionProvider<T> {
+    return new SuggestionProvider<T>(provider);
   }
 
   constructor(
-    private provider: (filter: string) => Observable<Label[] | string[]>) {
+    private provider: (filter: string) => Observable<T[]>) {
   }
 
-  public loadSuggestions(filter: string): Observable<Label[] | string[]> {
+  public loadSuggestions(filter: string): Observable<T[]> {
     return this.provider(filter);
   }
 }

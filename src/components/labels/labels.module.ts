@@ -5,7 +5,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatIconModule, MatInputModule, MatChipsModule, MatAutocompleteModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-export * from './label';
 export * from './label-suggestion-provider';
 
 @NgModule({
