@@ -1,0 +1,30 @@
+<div fxLayout="column">
+  <mat-form-field floatPlaceholder="never" class="full-width">
+    <mat-chip-list #chips>
+      <mat-chip *ngFor="let label of currentLabels" class="noselect" color="primary" selected="true"
+                [removable]="true" (remove)="removeLabel(label)">
+        {{label.name}}
+        <span fxFlex></span>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+
+      <input matInput type="text"
+             [matChipInputFor]="chips"
+             [matAutocomplete]="labelAutoComplete"
+             [formControl]="labelInputControl"
+             (matChipInputTokenEnd)="addNewLabels($event)"
+             name="labelInput"
+             placeholder="Labels"
+             #labelInput>
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-autocomplete
+    #labelAutoComplete="matAutocomplete"
+    (optionSelected)="labelSelected($event)">
+    <mat-option *ngFor="let suggestion of availableSuggestions | async" [value]="suggestion.name">
+      {{suggestion.name}}
+    </mat-option>
+  </mat-autocomplete>
+</div>
+
