@@ -15,6 +15,7 @@ export class DataContextBuilder<T> {
 
     private _indexFn?: ((item: T) => any);
     private _localSort?: (a: T, b: T) => number;
+    private _localApply?: ((data: T[]) => T[]);
     private _pageSize = 30;
     private _materialSupport = false;
 
@@ -65,12 +66,18 @@ export class DataContextBuilder<T> {
         return this;
     }
 
+    public localApply(localApply?: ((data: T[]) => T[])): DataContextBuilder<T> {
+        this._localApply = localApply;
+        return this;
+    }
+
     public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
         return this.applyProxies(new DataContext<T>(
             this.logger,
             listFetcher,
             this._indexFn,
-            this._localSort));
+            this._localSort,
+            this._localApply));
     }
 
 
@@ -83,7 +90,8 @@ export class DataContextBuilder<T> {
             pageLoader,
             this._pageSize,
             this._indexFn,
-            this._localSort
+            this._localSort,
+            this._localApply
         ));
     }
 

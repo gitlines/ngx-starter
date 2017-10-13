@@ -25,8 +25,9 @@ export class PagedDataContext<T> extends DataContext<T> {
         private pageLoader: (pageable: Pageable, filters: Filter[]) => Observable<Page<T>>,
         pageSize: number,
         _indexFn?: ((item: T) => any),
-        _localSort?: ((a: T, b: T) => number)) {
-        super(logger, () => Observable.empty(), _indexFn, _localSort);
+        _localSort?: ((a: T, b: T) => number),
+        _localApply?: ((data: T[]) => T[])) {
+        super(logger, () => Observable.empty(), _indexFn, _localSort, _localApply);
         this._limit = pageSize;
     }
 

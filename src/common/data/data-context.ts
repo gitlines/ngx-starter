@@ -56,7 +56,8 @@ export class DataContext<T> implements IDataContext<T> {
     protected logger: NGXLogger,
     private listFetcher: (sorts: Sort[], filters: Filter[]) => Observable<Array<T>>,
     private _indexFn?: ((item: T) => any),
-    private _localSort?: ((a: T, b: T) => number)
+    private _localSort?: ((a: T, b: T) => number),
+    private _localApply?: ((data: T[]) => T[])
   ) {
   }
 
@@ -104,6 +105,10 @@ export class DataContext<T> implements IDataContext<T> {
   }
 
   public set rows(rows: T[]) {
+
+    if (this._localApply) {
+        rows = this._localApply(rows);
+    }
 
     if (this._localSort) {
       this.logger.debug(`Apply local sort to ${rows.length} rows ...`);
