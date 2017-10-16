@@ -21,15 +21,16 @@ export class LabelEditorComponent implements OnInit {
 
 
     private _compareWith: (o1: any, o2: any) => boolean;
-    private _nameResolver: (o1: Object) => string;
-    private _colorResolver: (o1: Object) => string;
+    private _nameResolver: (o1: any) => string;
+    private _colorResolver: (o1: any) => string;
 
     private _allowCreate = true;
-    private _labels: Object[] = [];
-    private _labelsSubject = new Subject<Object[]>();
+    private _labels: any[] = [];
+    private _labelsSubject = new Subject<any[]>();
     private _suggestionLoader: ISuggestionProvider<any>;
+
     public labelInputControl: FormControl = new FormControl();
-    public availableSuggestions: Observable<Object[]>;
+    public availableSuggestions: Observable<any[]>;
 
     /***************************************************************************
      *                                                                         *
@@ -45,12 +46,12 @@ export class LabelEditorComponent implements OnInit {
      *                                                                         *
      **************************************************************************/
 
-    public get currentLabels(): Object[] {
+    public get currentLabels(): any[] {
         return this._labels;
     }
 
     @Input('labels')
-    public set labels(value: Object[]) {
+    public set labels(value: any[]) {
         this._labels = value;
     }
 
@@ -65,7 +66,7 @@ export class LabelEditorComponent implements OnInit {
     }
 
     @Output('labelsChanged')
-    public get labelsChanged(): Observable<Object[]>{
+    public get labelsChanged(): Observable<any[]>{
         return this._labelsSubject;
     }
 
@@ -88,7 +89,7 @@ export class LabelEditorComponent implements OnInit {
      * @param {(o1: Object) => string} fn
      */
     @Input('colorResolver')
-    public set colorResolver(fn: (o1: Object) => string) {
+    public set colorResolver(fn: (o1: any) => string) {
         if (typeof fn !== 'function') {
             throw new Error('colorResolver must be a function!');
         }
@@ -100,7 +101,7 @@ export class LabelEditorComponent implements OnInit {
      * @param {(o1: Object) => string} fn
      */
     @Input('nameResolver')
-    public set nameResolver(fn: (o1: Object) => string) {
+    public set nameResolver(fn: (o1: any) => string) {
         if (typeof fn !== 'function') {
             throw new Error('nameResolver must be a function!');
         }
@@ -153,16 +154,16 @@ export class LabelEditorComponent implements OnInit {
         }
     }
 
-    public addLabel(label: Object) {
+    public addLabel(label: any) {
         this._labels.push(label);
         this.labelInputControl.reset();
         this.onLabelsChanged();
     }
 
-    public removeLabel(toRemove: Object): void {
+    public removeLabel(toRemove: any): void {
         const item = this._labels.find(l => this.areEqual(l, toRemove));
         if (item) {
-            const index = this._labels.indexOf(<Object>item, 0);
+            const index = this._labels.indexOf(item, 0);
             if (index > -1) {
                 this._labels.splice(index, 1);
                 this.onLabelsChanged();
@@ -170,11 +171,11 @@ export class LabelEditorComponent implements OnInit {
         }
     }
 
-    public labelName(label: Object): string {
+    public labelName(label: any): string {
         return this._nameResolver ?  this._nameResolver(label) : label.toString();
     }
 
-    public labelColor(label: Object): string {
+    public labelColor(label: any): string {
         return this._colorResolver ?  this._colorResolver(label) : 'none';
     }
 
@@ -188,11 +189,11 @@ export class LabelEditorComponent implements OnInit {
         this._labelsSubject.next(this._labels);
     }
 
-    private filterNotPresent(suggestions: Object[]): Object[] {
+    private filterNotPresent(suggestions: any[]): any[] {
         return suggestions.filter(l => !this._labels.some(el => this.areEqual(el, l)));
     }
 
-    private areEqual(a: Object, b: Object): boolean {
+    private areEqual(a: any, b: any): boolean {
         return this._compareWith ? this._compareWith(a, b) : a === b;
     }
 }
