@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {ISuggestionProvider} from '../label-suggestion-provider';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
     selector: 'labels-input',
@@ -18,7 +19,6 @@ export class LabelEditorComponent implements OnInit {
      * Fields                                                                  *
      *                                                                         *
      **************************************************************************/
-
 
     private _compareWith: (o1: any, o2: any) => boolean;
     private _nameResolver: (o1: any) => string;
@@ -38,7 +38,9 @@ export class LabelEditorComponent implements OnInit {
      *                                                                         *
      **************************************************************************/
 
-    constructor() { }
+    constructor(
+        private logger: NGXLogger
+    ) { }
 
     /***************************************************************************
      *                                                                         *
@@ -125,6 +127,7 @@ export class LabelEditorComponent implements OnInit {
                     return this._suggestionLoader.loadSuggestions(value)
                         .map(labels => this.filterNotPresent(labels));
                 }else {
+                    this.logger.debug('Cant provide suggestions since no suggestion provider was registered!');
                     return Observable.empty();
                 }
             });
