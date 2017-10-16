@@ -6,6 +6,7 @@ import {MatIconModule, MatInputModule, MatChipsModule, MatAutocompleteModule} fr
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 export * from './label-suggestion-provider';
+export {LabelEditorComponent} from './labels-input/labels-input.component'
 
 @NgModule({
   imports: [
