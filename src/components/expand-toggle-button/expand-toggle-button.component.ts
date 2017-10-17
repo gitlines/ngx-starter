@@ -14,9 +14,6 @@ export class ExpandToggleButtonComponent implements OnInit {
   private _isExpanded: boolean;
   private _expandedChanged = new BehaviorSubject<boolean>(false);
 
-  @Input('name')
-  public name: string;
-
   ngOnInit(): void {
 
   }
