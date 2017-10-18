@@ -8,6 +8,8 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/debounce';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/observable/empty';
 
 @Component({
     selector: 'labels-input',
