@@ -1,10 +1,13 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
 import {ISuggestionProvider} from '../label-suggestion-provider';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {NGXLogger} from 'ngx-logger';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/debounce';
+import 'rxjs/add/operator/mergeMap';
 
 @Component({
     selector: 'labels-input',
@@ -31,6 +34,9 @@ export class LabelEditorComponent implements OnInit {
 
     public labelInputControl: FormControl = new FormControl();
     public availableSuggestions: Observable<any[]>;
+
+    @Input('placeholder')
+    public placeholder: string;
 
     /***************************************************************************
      *                                                                         *

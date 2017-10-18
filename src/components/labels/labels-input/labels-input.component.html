@@ -14,7 +14,7 @@
              [formControl]="labelInputControl"
              (matChipInputTokenEnd)="createNewLabels($event)"
              name="labelInput"
-             placeholder="Labels"
+             [placeholder]="placeholder"
              #labelInput>
     </mat-chip-list>
   </mat-form-field>
