@@ -183,7 +183,11 @@ export class LabelEditorComponent implements OnInit {
     }
 
     public labelName(label: any): string {
-        return this._nameResolver ?  this._nameResolver(label) : label.toString();
+        if (label) {
+            return this._nameResolver ?  this._nameResolver(label) : label.toString();
+        }else {
+            return null;
+        }
     }
 
     public labelColor(label: any): string {
@@ -201,7 +205,19 @@ export class LabelEditorComponent implements OnInit {
     }
 
     private filterNotPresent(suggestions: any[]): any[] {
-        return suggestions.filter(l => !this._labels.some(el => this.areEqual(el, l)));
+        if (suggestions) {
+
+            if (this._labels) {
+                return suggestions
+                    .filter(l => l)
+                    .filter(l => !this._labels.some(el => this.areEqual(el, l)));
+            }else {
+                return suggestions;
+            }
+        }else {
+            return [];
+        }
+
     }
 
     private areEqual(a: any, b: any): boolean {
