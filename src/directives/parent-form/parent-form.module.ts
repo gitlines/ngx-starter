@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {containerFactory, ProvideParentFormDirective} from './provide-parent-form.directive';
 import {ControlContainer, FormsModule, NgForm} from '@angular/forms';
 
-export {ProvideParentFormDirective} from './provide-parent-form.directive'
+export * from './provide-parent-form.directive'
 
 
 @NgModule({
