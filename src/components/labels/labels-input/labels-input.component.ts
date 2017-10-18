@@ -186,7 +186,7 @@ export class LabelEditorComponent implements OnInit {
         if (label) {
             return this._nameResolver ?  this._nameResolver(label) : label.toString();
         }else {
-            return null;
+            return '';
         }
     }
 
