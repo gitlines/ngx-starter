@@ -5,7 +5,9 @@
   </div>
 </div>
 
-<mat-select *ngIf="!slimMode"
-        placeholder="{{'language.language' | translate}}" name="language" [(ngModel)]="currentLanguage">
-  <mat-option *ngFor="let lang of languages" [value]="lang">{{ 'language.' + lang | translate }}</mat-option>
-</mat-select>
+<mat-form-field>
+  <mat-select *ngIf="!slimMode"
+              placeholder="{{'language.language' | translate}}" name="language" [(ngModel)]="currentLanguage">
+    <mat-option *ngFor="let lang of languages" [value]="lang">{{ 'language.' + lang | translate }}</mat-option>
+  </mat-select>
+</mat-form-field>
