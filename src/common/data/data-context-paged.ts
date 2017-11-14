@@ -33,6 +33,12 @@ export class PagedDataContext<T> extends DataContext<T> {
         this._limit = pageSize;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
     /**
      * Resets the data-context to a new filter / sorting strategy.
      * All current data will be discarded.
@@ -40,14 +46,9 @@ export class PagedDataContext<T> extends DataContext<T> {
      * @param {Sort[]} sorts
      * @param {Filter[]} filters
      */
-    public start(sorts?: Sort[], filters?: Filter[]) {
-        this._total = 0;
-        this.rows = [];
-        this._pageCache = new Map();
-        this._latestPage = 0;
-        this.setSorts(sorts);
-        this.setFilters(filters);
-        this.fetchPage(0, this._limit);
+    public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
+        this.initContext(sorts, filters);
+        return this.fetchPage(0, this._limit);
     }
 
     /**
@@ -67,19 +68,47 @@ export class PagedDataContext<T> extends DataContext<T> {
         }
     }
 
-    public loadAll(): void {
+    public loadAll(sorts?: Sort[], filters?: Filter[]): void {
 
-        this.loadMore()
-            .subscribe(result => {
-                this.loadAll();
+        // load first page
+        this.start(sorts, filters)
+            .subscribe(() => {
+                // load rest in a recursive manner
+                this.loadAllRec()
             }, err => {
-                this.logger.error('paged-data-context: Loading all failed!', err);
-            });
+                this.logger.error('paged-data-context: Failed to load first page of load all procedure!', err);
+            })
     }
 
 
     public get hasMoreData(): boolean {
         return this.total > this.rows.length;
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     * Private Methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    private initContext(sorts?: Sort[], filters?: Filter[]): void{
+        this._total = 0;
+        this.rows = [];
+        this._pageCache = new Map();
+        this._latestPage = 0;
+        this.setSorts(sorts);
+        this.setFilters(filters);
+    }
+
+    private loadAllRec(): void {
+
+        this.loadMore()
+            .subscribe(() => {
+                this.loadAllRec();
+            }, err => {
+                this.logger.error('paged-data-context: Loading all failed!', err);
+            });
+
     }
 
     private fetchPage(pageIndex: number, pageSize: number): Observable<any> {

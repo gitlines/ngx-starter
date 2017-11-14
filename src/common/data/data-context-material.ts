@@ -57,8 +57,8 @@ export class MaterialDataContext<T> extends DataSource<T> implements IDataContex
         return this.datacontext.loadMore();
     }
 
-    loadAll(): void {
-        this.datacontext.loadAll();
+    loadAll(sorts?: Sort[], filters?: Filter[]): void {
+        this.datacontext.loadAll(sorts, filters);
     }
 
 }

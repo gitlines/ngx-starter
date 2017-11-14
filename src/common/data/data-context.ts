@@ -25,6 +25,8 @@ export interface IDataContext<T> {
     // Observable data
     readonly rowsChanged: Observable<T[]>;
 
+    // Public API
+
     /**
      * Loads more data if any available.
      * E.g. next page.
@@ -33,15 +35,23 @@ export interface IDataContext<T> {
      */
     loadMore(): Observable<any>;
 
+
     /**
      * Loads all available data. In case of
      * paged context loads page by page until finished.
+     *
+     * @param {Sort[]} sorts
+     * @param {Filter[]} filters
      */
-    loadAll(): void;
+    loadAll(sorts?: Sort[], filters?: Filter[]): void;
 
-
-    // Public API
-
+    /**
+     * Starts populating data context by loading first
+     * batch of data.
+     *
+     * @param {Sort[]} sorts
+     * @param {Filter[]} filters
+     */
     start(sorts?: Sort[], filters?: Filter[]): void;
 
     findByIndex(key: any): T | undefined;
@@ -72,6 +82,12 @@ export class DataContext<T> implements IDataContext<T> {
         private _localApply?: ((data: T[]) => T[])
     ) {
     }
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
     public start(sorts?: Sort[], filters?: Filter[]): void {
         this._total = 0;
@@ -104,8 +120,8 @@ export class DataContext<T> implements IDataContext<T> {
         return Observable.empty();
     }
 
-    public loadAll(): void {
-        this.loadData();
+    public loadAll(sorts?: Sort[], filters?: Filter[]): void {
+        this.start(sorts, filters);
     }
 
     public findByIndex(key: any): T | undefined {
