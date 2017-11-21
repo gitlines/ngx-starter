@@ -1,18 +1,24 @@
 import { Observable } from 'rxjs/Rx';
-import { ConfirmDialog } from './confirm-dialog/confirm-dialog.component';
+import {ConfirmDialog, ConfirmDialogConfig} from './confirm-dialog/confirm-dialog.component';
 import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
 import { Injectable } from '@angular/core';
-import {QuestionDialog} from './question-dialog/question-dialog.component';
+import {QuestionDialog, QuestionDialogConfig} from './question-dialog/question-dialog.component';
+import {TranslateService} from '@ngx-translate/core';
+
 
 @Injectable()
 export class CommonDialogService {
 
     constructor(
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private translateService: TranslateService
     ) { }
 
     /**
+     * @deprecated
+     *
      * Creates a modal confirmation dialog.
+     *
      * @param {string} title
      * @param {string} message
      * @param {MdDialogConfig} config
@@ -29,8 +35,36 @@ export class CommonDialogService {
         return dialogRef.afterClosed();
     }
 
+
     /**
+     * Creates a modal confirmation dialog.
+     *
+     * @param {ConfirmDialogConfig} config object for conform dialog
+     * @returns {Observable<boolean>}
+     */
+    public showConfirm(config: ConfirmDialogConfig): Observable<boolean> {
+
+        if (!config) { throw new Error('Argument must not be null: config') }
+
+        const keys = [config.title, config.message];
+
+        return this.translateService.get(keys, config.interpolateParams)
+            .flatMap(translated => {
+
+                const title = translated[config.title];
+                const message = translated[config.message];
+
+                return this.confirm(title, message, config.config);
+
+            });
+
+    }
+
+    /**
+     * @deprecated
+     *
      * Creates a modal question dialog.
+     *
      * @param {string} title
      * @param {string} question
      * @param {MdDialogConfig} config
@@ -46,4 +80,31 @@ export class CommonDialogService {
         return dialogRef.afterClosed()
                 .filter(response => !!response);
     }
+
+
+    /**
+     * Creates a modal question dialog.
+     *
+     * @param {QuestionDialogConfig} config
+     * @returns {Observable<string>}
+     */
+    public showQuestion(config: QuestionDialogConfig): Observable<string> {
+
+        if (!config) { throw new Error('Argument must not be null: config') }
+
+        const keys = [config.title, config.question];
+
+        return this.translateService.get(keys, config.interpolateParams)
+            .flatMap(translated => {
+
+                const title = translated[config.title];
+                const message = translated[config.question];
+
+                return this.question(title, message, config.config);
+
+            });
+
+    }
+
+
 }
