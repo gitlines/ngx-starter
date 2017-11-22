@@ -29,7 +29,8 @@ export class InfiniteScrollDirective implements OnDestroy {
     @Output('closeToEnd')
     get closeToEnd(): Observable<UIEvent>{
         return this._scrollStream$
-            .throttleTime(this.eventThrottle)
+            .filter(ev => !!(ev.srcElement as HTMLElement)) // Ignore events which do not originate from an HTMLElement
+            .throttleTime(this.eventThrottle)               // Relax
             .filter(ev => this.isCloseToEnd(ev.srcElement as HTMLElement))
             ;
     }
@@ -63,10 +64,14 @@ export class InfiniteScrollDirective implements OnDestroy {
     }
 
     private isCloseToEnd(el: HTMLElement): boolean {
-        const range = el.offsetHeight * this.offsetFactor;
-        let total = el.scrollHeight;
-        let current = el.scrollTop + el.offsetHeight;
-        return (total - current) < range;
+        if (el) {
+            const range = el.offsetHeight * this.offsetFactor;
+            let total = el.scrollHeight;
+            let current = el.scrollTop + el.offsetHeight;
+            return (total - current) < range;
+        } else {
+            return false;
+        }
     }
 
 
