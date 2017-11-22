@@ -13,48 +13,52 @@ import {Sort} from './page';
  */
 export class MaterialDataContext<T> extends DataSource<T> implements IDataContext<T> {
 
-  constructor(
-    private datacontext: IDataContext<T>) {
-    super();
-    if (!datacontext) { throw Error('datacontext must not be NULL!'); }
-  }
+    constructor(
+        private datacontext: IDataContext<T>) {
+        super();
+        if (!datacontext) { throw Error('datacontext must not be NULL!'); }
+    }
 
 
-  public connect(collectionViewer: CollectionViewer): Observable<T[]> {
-    return this.datacontext.rowsChanged;
-  }
+    public connect(collectionViewer: CollectionViewer): Observable<T[]> {
+        return this.datacontext.rowsChanged;
+    }
 
-  public disconnect(collectionViewer: CollectionViewer): void {
-  }
+    public disconnect(collectionViewer: CollectionViewer): void {
+    }
 
-  get rows(): T[] { return this.datacontext.rows; }
-  set rows(data: T[]) { this.datacontext.rows = data; }
+    get rows(): T[] { return this.datacontext.rows; }
+    set rows(data: T[]) { this.datacontext.rows = data; }
 
-  get total(): number { return this.datacontext.total; }
+    get total(): number { return this.datacontext.total; }
 
-  get sorts(): Sort[] { return this.datacontext.sorts; }
+    get sorts(): Sort[] { return this.datacontext.sorts; }
 
-  get filters(): Filter[] {return this.datacontext.filters; }
+    get filters(): Filter[] {return this.datacontext.filters; }
 
-  get loadingIndicator(): boolean { return this.datacontext.loadingIndicator; }
+    get loadingIndicator(): boolean { return this.datacontext.loadingIndicator; }
 
-  get rowsChanged(): Observable<T[]> { return this.datacontext.rowsChanged; }
+    get rowsChanged(): Observable<T[]> { return this.datacontext.rowsChanged; }
 
 
-  start(sorts?: Sort[], filters?: Filter[]): void {
-    this.datacontext.start(sorts, filters);
-  }
+    start(sorts?: Sort[], filters?: Filter[]): void {
+        this.datacontext.start(sorts, filters);
+    }
 
-  findByIndex(key: any): T | undefined {
-    return this.datacontext.findByIndex(key);
-  }
+    findByIndex(key: any): T | undefined {
+        return this.datacontext.findByIndex(key);
+    }
 
-  get hasMoreData(): boolean {
-      return this.datacontext.hasMoreData;
-  }
+    get hasMoreData(): boolean {
+        return this.datacontext.hasMoreData;
+    }
 
-  loadMore(): void {
-    this.datacontext.loadMore();
-  }
+    loadMore(): Observable<any> {
+        return this.datacontext.loadMore();
+    }
+
+    loadAll(sorts?: Sort[], filters?: Filter[]): void {
+        this.datacontext.loadAll(sorts, filters);
+    }
 
 }

@@ -4,6 +4,8 @@ import {Filter} from './filter';
 import {Page, Pageable, Sort} from './page';
 import {DataContext} from './data-context';
 import {NGXLogger} from 'ngx-logger';
+import {Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/take';
 
 
 
@@ -31,6 +33,12 @@ export class PagedDataContext<T> extends DataContext<T> {
         this._limit = pageSize;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
     /**
      * Resets the data-context to a new filter / sorting strategy.
      * All current data will be discarded.
@@ -38,14 +46,9 @@ export class PagedDataContext<T> extends DataContext<T> {
      * @param {Sort[]} sorts
      * @param {Filter[]} filters
      */
-    public start(sorts?: Sort[], filters?: Filter[]) {
-        this._total = 0;
-        this.rows = [];
-        this._pageCache = new Map();
-        this._latestPage = 0;
-        this.setSorts(sorts);
-        this.setFilters(filters);
-        this.fetchPage(0, this._limit);
+    public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
+        this.initContext(sorts, filters);
+        return this.fetchPage(0, this._limit);
     }
 
     /**
@@ -53,14 +56,32 @@ export class PagedDataContext<T> extends DataContext<T> {
      * Useful for infinite scroll like data flows.
      *
      */
-    public loadMore(): void {
+    public loadMore(): Observable<any> {
         if (this.hasMoreData) {
             this.logger.info('paged-data-context: Loading more...' + this._latestPage);
 
-            if (this.loadingIndicator) { return; }
+            if (this.loadingIndicator) { return Observable.empty(); }
             let nextPage = this._latestPage + 1;
-            this.fetchPage(nextPage, this._limit);
+            return this.fetchPage(nextPage, this._limit);
+        } else {
+            this.logger.debug('paged-data-context: Cannot load more data, since no more data available.');
+            return Observable.empty();
         }
+    }
+
+    public loadAll(sorts?: Sort[], filters?: Filter[]): void {
+
+        this.logger.debug('paged-data-context: Starting to load all data ...');
+
+        // load first page
+        this.start(sorts, filters)
+            .subscribe(() => {
+                this.logger.debug('paged-data-context: First page has been loaded. Loading remaining data ...');
+                // load rest in a recursive manner
+                this.loadAllRec()
+            }, err => {
+                this.logger.error('paged-data-context: Failed to load first page of load all procedure!', err);
+            })
     }
 
 
@@ -68,12 +89,43 @@ export class PagedDataContext<T> extends DataContext<T> {
         return this.total > this.rows.length;
     }
 
-    private fetchPage(pageIndex: number, pageSize: number): void {
+    /***************************************************************************
+     *                                                                         *
+     * Private Methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    private initContext(sorts?: Sort[], filters?: Filter[]): void{
+        this._total = 0;
+        this.rows = [];
+        this._pageCache = new Map();
+        this._latestPage = 0;
+        this.setSorts(sorts);
+        this.setFilters(filters);
+    }
+
+    private loadAllRec(): void {
+
+        this.loadMore()
+            .subscribe(() => {
+                this.logger.debug('paged-data-context: Loading more data finished. Latest page loaded: ' + this._latestPage);
+                this.loadAllRec();
+            }, err => {
+                this.logger.error('paged-data-context: Loading all failed!', err);
+            });
+
+    }
+
+    private fetchPage(pageIndex: number, pageSize: number): Observable<any> {
+
+        const subject = new Subject();
 
         let pageRequest = new Pageable(pageIndex, pageSize, this.sorts);
 
         if (this._pageCache.has(pageIndex)) {
             // Page already loaded - skipping request!
+            this.logger.trace('paged-data-context: Skipping fetching page since its already in page observable cache.');
+            subject.next();
         }else {
 
             this._loadingIndicator = true;
@@ -86,6 +138,7 @@ export class PagedDataContext<T> extends DataContext<T> {
 
             pageObs.subscribe((page: Page<T>) => {
 
+
                 this.logger.debug('paged-data-context: Got page data:', page);
 
                 this.populatePageData(page);
@@ -95,11 +148,19 @@ export class PagedDataContext<T> extends DataContext<T> {
                 }
 
                 this._loadingIndicator = false;
+
+                subject.next();
+
             }, err => {
+
                 this._loadingIndicator = false;
                 this.logger.error('paged-data-context: Failed to query data', err);
+
+                subject.error(err);
             });
         }
+
+        return subject.take(1);
     }
 
     /**

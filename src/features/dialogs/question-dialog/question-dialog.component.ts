@@ -1,5 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {CommonDialogConfig} from '../common-dialog-config';
+
+export class QuestionDialogConfig extends CommonDialogConfig {
+
+    /**
+     * String appearing as question in the dialog.
+     */
+    public question: string;
+
+}
 
 @Component({
   selector: 'app-question-dialog',
