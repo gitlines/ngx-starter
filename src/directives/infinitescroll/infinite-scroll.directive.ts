@@ -29,9 +29,9 @@ export class InfiniteScrollDirective implements OnDestroy {
     @Output('closeToEnd')
     get closeToEnd(): Observable<UIEvent>{
         return this._scrollStream$
-            .filter(ev => !!(ev.srcElement as HTMLElement)) // Ignore events which do not originate from an HTMLElement
+            .filter(ev => !!(ev.target as HTMLElement))
             .throttleTime(this.eventThrottle)               // Relax
-            .filter(ev => this.isCloseToEnd(ev.srcElement as HTMLElement))
+            .filter((ev: UIEvent) => this.isCloseToEnd(ev.target as HTMLElement))
             ;
     }
 
