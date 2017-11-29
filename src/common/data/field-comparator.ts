@@ -1,7 +1,3 @@
-/**
- * Created by isnull on 22.03.17.
- */
-
 
 /**
  * Provides the ability to build a sorting comparator dynamically using
@@ -22,7 +18,6 @@ export class ComparatorBuilder {
    * Dynamically builds a comparator function, using the given fields for sorting.
    *
    * @param fields One or more field name to sort.
-   * @returns {(obj1:any, obj2:any)=>number}
    */
   public static fieldSort(...fields: string[]): (a: any, b: any) => number {
     let props = fields;

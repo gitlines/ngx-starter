@@ -4,8 +4,6 @@ export interface ISuggestionProvider<T> {
 
   /**
    * Loads all suggestions, filtered by the given filter string.
-   * @param {string} filter
-   * @returns {Observable<Object[]>}
    */
   loadSuggestions(filter: string): Observable<T[]>;
 }

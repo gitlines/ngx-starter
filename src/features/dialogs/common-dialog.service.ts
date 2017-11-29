@@ -17,12 +17,9 @@ export class CommonDialogService {
     /**
      * @deprecated
      *
-     * Creates a modal confirmation dialog.
-     *
-     * @param {string} title
-     * @param {string} message
-     * @param {MdDialogConfig} config
-     * @returns {Observable<boolean>}
+     * @param title
+     * @param message
+     * @param config
      */
     public confirm(title: string, message: string, config?: MatDialogConfig): Observable<boolean> {
 
@@ -39,8 +36,7 @@ export class CommonDialogService {
     /**
      * Creates a modal confirmation dialog.
      *
-     * @param {ConfirmDialogConfig} config object for conform dialog
-     * @returns {Observable<boolean>}
+     * @param config object for conform dialog
      */
     public showConfirm(config: ConfirmDialogConfig): Observable<boolean> {
 
@@ -65,10 +61,9 @@ export class CommonDialogService {
      *
      * Creates a modal question dialog.
      *
-     * @param {string} title
-     * @param {string} question
-     * @param {MdDialogConfig} config
-     * @returns {Observable<string>}
+     * @param title
+     * @param question
+     * @param config
      */
     public question(title: string, question: string, config?: MatDialogConfig): Observable<string> {
 
@@ -85,8 +80,7 @@ export class CommonDialogService {
     /**
      * Creates a modal question dialog.
      *
-     * @param {QuestionDialogConfig} config
-     * @returns {Observable<string>}
+     * @param config
      */
     public showQuestion(config: QuestionDialogConfig): Observable<string> {
 

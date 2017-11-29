@@ -10,8 +10,6 @@ export class UrlBuilder {
 
     /**
      * Parses an existing url and creates a new builder from it.
-     * @param {string} url
-     * @returns {UrlBuilder}
      */
     public static parse(url: string): UrlBuilder {
         const builder = new UrlBuilder();
@@ -25,9 +23,6 @@ export class UrlBuilder {
 
     /**
      * Updates the given query parameter with the given new value
-     * @param {string} key
-     * @param {string} value
-     * @returns {this}
      */
     public setParam(key: string, value: string): this {
         this.appendParam(key, value); // TODO Only append currently implemented
@@ -36,9 +31,6 @@ export class UrlBuilder {
 
     /**
      * Appends another query parameter with the given key / value
-     * @param {string} key
-     * @param {string} value
-     * @returns {this}
      */
     public appendParam(key: string, value: string): this {
 
@@ -59,7 +51,6 @@ export class UrlBuilder {
 
     /**
      * Materializes the url into a string
-     * @returns {string}
      */
     public build(): string {
         return this._rawUrl;

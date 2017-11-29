@@ -31,7 +31,6 @@ export interface IDataContext<T> {
      * Loads more data if any available.
      * E.g. next page.
      *
-     * @returns {Observable<any>}
      */
     loadMore(): Observable<any>;
 
@@ -39,18 +38,12 @@ export interface IDataContext<T> {
     /**
      * Loads all available data. In case of
      * paged context loads page by page until finished.
-     *
-     * @param {Sort[]} sorts
-     * @param {Filter[]} filters
      */
     loadAll(sorts?: Sort[], filters?: Filter[]): void;
 
     /**
      * Starts populating data context by loading first
      * batch of data.
-     *
-     * @param {Sort[]} sorts
-     * @param {Filter[]} filters
      */
     start(sorts?: Sort[], filters?: Filter[]): void;
 

@@ -59,7 +59,6 @@ export class SideContentService {
 
     /**
      * Checks if the side content is currently open
-     * @returns {boolean}
      */
     public get sideContentOpen(): boolean {
         return this._sideContentOpen;
@@ -71,7 +70,6 @@ export class SideContentService {
 
     /**
      * Checks if the navigation is open
-     * @returns {boolean}
      */
     public get navigationOpen(): boolean {
         return this._navigationOpen;
@@ -84,7 +82,6 @@ export class SideContentService {
     /**
      * Gets the name of the detail outlet.
      * Default is 'side'
-     * @returns {string}
      */
     public get detailContentOutlet(): string {
         return this._detailContentOutlet;
@@ -92,7 +89,6 @@ export class SideContentService {
 
     /**
      * Sets the name of the detail outlet.
-     * @param {string} value
      */
     public set detailContentOutlet(value: string) {
         this._detailContentOutlet = value;
@@ -100,7 +96,6 @@ export class SideContentService {
 
     /**
      * Allow closing the side content by clicking outside of it.
-     * @returns {boolean}
      */
     public get clickOutsideToClose(): boolean {
         return this._clickOutsideToClose;
@@ -150,10 +145,9 @@ export class SideContentService {
 
     /**
      * Shows the side content
-     * @param {string[]} args The route arguments / path
-     * @param {boolean} clickOutsideToClose If enabled, the side content can be closed by clicking outside of it.
-     * @param {NavigationExtras} extras
-     * @returns {Promise<boolean>}
+     * @param args The route arguments / path
+     * @param clickOutsideToClose If enabled, the side content can be closed by clicking outside of it.
+     * @param extras
      */
     public navigateSideContent(args: string[], clickOutsideToClose: boolean, extras?: NavigationExtras): Promise<boolean> {
 

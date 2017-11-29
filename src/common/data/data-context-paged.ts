@@ -43,8 +43,6 @@ export class PagedDataContext<T> extends DataContext<T> {
      * Resets the data-context to a new filter / sorting strategy.
      * All current data will be discarded.
      *
-     * @param {Sort[]} sorts
-     * @param {Filter[]} filters
      */
     public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
         this.initContext(sorts, filters);
@@ -165,7 +163,6 @@ export class PagedDataContext<T> extends DataContext<T> {
 
     /**
      * Load the data from the given page into the current data context
-     * @param {Page<T>} page
      */
     private populatePageData(page: Page<T>) {
         try {

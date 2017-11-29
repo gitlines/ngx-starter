@@ -37,7 +37,7 @@ export class LanguageService {
     /**
      * Returns the key of the currently applied language.
      *
-     * @returns {string} language key
+     * @returns language key
      */
     public get currentLanguage(): string {
         return this.translate.currentLang;
@@ -47,7 +47,7 @@ export class LanguageService {
      * Applies the given language which will immediately get apparent
      * in the UI.
      *
-     * @param {string} lang language key
+     * @param lang language key
      */
     public set currentLanguage(lang: string) {
         this.setLanguage(lang);
@@ -56,7 +56,7 @@ export class LanguageService {
     /**
      * Returns an array of all available language keys.
      *
-     * @returns {Array<string>} e.g. ['en', 'de', 'fr']
+     * @returns e.g. ['en', 'de', 'fr']
      */
     public get languages(): Array<string> {
         return this.translate.getLangs();
@@ -65,8 +65,8 @@ export class LanguageService {
     /**
      * Checks if the given language is currently active.
      *
-     * @param {string} lang language key
-     * @returns {boolean} true if given language is currently active
+     * @param lang language key
+     * @returns true if given language is currently active
      */
     public isLanguageActive(lang: string): boolean {
         return this.currentLanguage === lang;
@@ -75,7 +75,7 @@ export class LanguageService {
     /**
      * Returns the key of the last applied language.
      *
-     * @returns {string} language key of last applied language
+     * @returns language key of last applied language
      */
     public get lastConfigured(): string {
         return this.webStorage.getItem(this.LANGUAGE_STORAGE_KEY);

@@ -21,8 +21,8 @@ export class DataContextBuilder<T> {
 
     /**
      * Creates a new DataContextBuilder.
-     * @param {NGXLogger} logger A global logger instance
-     * @returns {DataContextBuilder<T>} The type of data to manage.
+     * @param logger A global logger instance
+     * @returns The type of data to manage.
      */
     public static  start<T>(logger: NGXLogger): DataContextBuilder<T> {
         if (!logger) throw new Error("You need to provide an instance of the logger!");
@@ -46,7 +46,6 @@ export class DataContextBuilder<T> {
 
     /**
      * Adds support for Material DataSource to the resulting DataContext
-     * @returns {DataContextBuilder<T>}
      */
     public mdDataSource(): DataContextBuilder<T> {
         this._materialSupport = true;

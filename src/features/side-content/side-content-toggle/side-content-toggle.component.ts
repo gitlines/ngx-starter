@@ -90,8 +90,6 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
      *
      * -> /app/my
      *
-     * @param {string} url
-     * @returns {string}
      */
     private findRoot(url: string): string {
         if (url && url.length > 0) {
