@@ -5,8 +5,8 @@ import {Page, Pageable, Sort} from './page';
 import {Filter} from './filter';
 import {Observable} from 'rxjs/Observable';
 import {MaterialDataContext} from './data-context-material';
-import {NGXLogger, NgxLoggerLevel} from 'ngx-logger';
-import {HttpClient} from '@angular/common/http';
+import {NGXLogger} from 'ngx-logger';
+
 
 /**
  * Provides the ability to build a IDataContext<T>.
@@ -21,21 +21,13 @@ export class DataContextBuilder<T> {
 
     /**
      * Creates a new DataContextBuilder.
-     * @param {NGXLogger} globalLogger A global logger instance (optional)
-     * @returns {DataContextBuilder<T>} The type of data to manage.
+     * @param logger A global logger instance
+     * @returns The type of data to manage.
      */
-    public static  start<T>(globalLogger?: NGXLogger): DataContextBuilder<T> {
-        const logger: NGXLogger = globalLogger || DataContextBuilder.buildFallbackLogger();
+    public static  start<T>(logger: NGXLogger): DataContextBuilder<T> {
+        if (!logger) throw new Error("You need to provide an instance of the logger!");
         return new DataContextBuilder<T>(logger);
     }
-
-    private static buildFallbackLogger(): NGXLogger {
-        return new NGXLogger(<HttpClient>{}, {
-            level: NgxLoggerLevel.DEBUG,
-            serverLogLevel: NgxLoggerLevel.OFF
-        });
-    }
-
 
     constructor(
         private logger: NGXLogger
@@ -54,7 +46,6 @@ export class DataContextBuilder<T> {
 
     /**
      * Adds support for Material DataSource to the resulting DataContext
-     * @returns {DataContextBuilder<T>}
      */
     public mdDataSource(): DataContextBuilder<T> {
         this._materialSupport = true;

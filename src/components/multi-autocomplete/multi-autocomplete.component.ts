@@ -29,7 +29,6 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
 
   /**
    * Occurs when the value has been changed and committed
-   * @type {EventEmitter<string>}
    */
   @Output('modify')
   public valueChanged = new EventEmitter<string>();

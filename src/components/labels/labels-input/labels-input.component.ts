@@ -96,7 +96,6 @@ export class LabelEditorComponent implements OnInit {
 
     /**
      * A function which returns the color of a given label object.
-     * @param {(o1: Object) => string} fn
      */
     @Input('colorResolver')
     public set colorResolver(fn: (o1: any) => string) {
@@ -108,7 +107,6 @@ export class LabelEditorComponent implements OnInit {
 
     /**
      * A function which returns the display name of a given label object.
-     * @param {(o1: Object) => string} fn
      */
     @Input('nameResolver')
     public set nameResolver(fn: (o1: any) => string) {
