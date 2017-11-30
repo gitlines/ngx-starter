@@ -47,6 +47,7 @@
     "@ngx-translate/core": "^9.0.1",
     "@types/jest": "^19.2.4",
     "@types/node": "~6.0.60",
+    "codelyzer": "^4.0.1",
     "ngx-logger": "^0.2.9",
     "core-js": "^2.4.1",
     "del": "^2.2.2",
