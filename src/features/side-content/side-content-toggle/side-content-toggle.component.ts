@@ -20,6 +20,9 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     @Input('roots')
     public roots: string[] = [];
 
+    @Input('hide')
+    public hideOns: string[] = [];
+
     constructor(
         private logger: NGXLogger,
         private router: Router,
@@ -53,6 +56,13 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
         return this._icon;
     }
 
+    public showComponent(): boolean {
+        if (this._currentUrl && this.hideOns && this.hideOns.length > 0) {
+            return !this.isPartOfHiddenRoute(this._currentUrl);
+        }
+        return true;
+    }
+
     private updateIcon() {
         let icon = this.showNavigateBack ? 'arrow_back' : 'menu';
         this.logger.trace('updating icon to ' + icon);
@@ -79,6 +89,10 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
 
     private isRootRoute(url: string): boolean {
         return !!this.roots.find(r => r === url);
+    }
+
+    private isPartOfHiddenRoute(url: string): boolean {
+        return !!this.hideOns.find(r => url.indexOf(r) >= 0);
     }
 
     /**

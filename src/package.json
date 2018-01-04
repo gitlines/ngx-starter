@@ -1,6 +1,6 @@
 {
   "name": "@elderbyte/ngx-starter",
-  "version": "5.0.0-beta",
+  "version": "5.0.1-beta",
   "description": "Angular Web App Starter library containing highly reusable modules and configuration.",
   "repository": {
     "type": "git",

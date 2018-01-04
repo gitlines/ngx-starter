@@ -1,4 +1,4 @@
 
-<button mat-icon-button (click)="onClick()">
+<button mat-icon-button (click)="onClick()" *ngIf="showComponent()">
   <mat-icon>{{icon | async}}</mat-icon>
 </button>
