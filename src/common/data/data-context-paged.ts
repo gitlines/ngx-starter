@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {Filter} from './filter';
 import {Page, Pageable, Sort} from './page';
 import {DataContext} from './data-context';
-import {NGXLogger} from 'ngx-logger';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/take';
 
@@ -15,21 +14,32 @@ import 'rxjs/add/operator/take';
  */
 export class PagedDataContext<T> extends DataContext<T> {
 
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
+
     private readonly _limit;
 
     private _pageCache: Map<number, Observable<Page<T>>> = new Map();
     private _latestPage = 0;
 
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
 
 
     constructor(
-        logger: NGXLogger,
         private pageLoader: (pageable: Pageable, filters: Filter[]) => Observable<Page<T>>,
         pageSize: number,
         _indexFn?: ((item: T) => any),
         _localSort?: ((a: T, b: T) => number),
         _localApply?: ((data: T[]) => T[])) {
-        super(logger, () => Observable.empty(), _indexFn, _localSort, _localApply);
+        super(() => Observable.empty(), _indexFn, _localSort, _localApply);
         this._limit = pageSize;
     }
 
@@ -76,10 +86,10 @@ export class PagedDataContext<T> extends DataContext<T> {
             .subscribe(() => {
                 this.logger.debug('paged-data-context: First page has been loaded. Loading remaining data ...');
                 // load rest in a recursive manner
-                this.loadAllRec()
+                this.loadAllRec();
             }, err => {
                 this.logger.error('paged-data-context: Failed to load first page of load all procedure!', err);
-            })
+            });
     }
 
 
@@ -93,7 +103,7 @@ export class PagedDataContext<T> extends DataContext<T> {
      *                                                                         *
      **************************************************************************/
 
-    private initContext(sorts?: Sort[], filters?: Filter[]): void{
+    private initContext(sorts?: Sort[], filters?: Filter[]): void {
         this._total = 0;
         this.rows = [];
         this._pageCache = new Map();

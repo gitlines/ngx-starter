@@ -3,7 +3,7 @@ import {Subject, Observable} from 'rxjs';
 import {Toast} from './toast';
 import {ToastType} from './toast-type';
 import {TranslateService} from '@ngx-translate/core';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 export * from './toast';
 export * from './toast-type';
@@ -12,65 +12,66 @@ export * from './toast-type';
 @Injectable()
 export class ToastService {
 
-  private subjet = new Subject<Toast>();
+    private readonly logger = LoggerFactory.getLogger('ToastService');
 
-  constructor(
-      private logger: NGXLogger,
-      private translate: TranslateService
-  ) {}
+    private subjet = new Subject<Toast>();
 
-  getNotificationsObservable(): Observable<Toast> {
-    return this.subjet.asObservable();
-  }
+    constructor(
+        private translate: TranslateService
+    ) {}
 
-  pushNotification(msg: Toast) {
-    this.subjet.next(msg);
-  }
+    getNotificationsObservable(): Observable<Toast> {
+        return this.subjet.asObservable();
+    }
 
-  public pushInfoRaw(msg: string) {
-      this.pushInfoToast(msg);
-  }
+    pushNotification(msg: Toast) {
+        this.subjet.next(msg);
+    }
 
-  public pushInfo(msgKey: string, interpolateParams?: Object) {
-      this.translateMessage(msgKey, interpolateParams).subscribe(
-          (res) => this.pushInfoToast(res),
-          (err) => this.pushInfoToast(msgKey)); // no translation found, push key
-  }
+    public pushInfoRaw(msg: string) {
+        this.pushInfoToast(msg);
+    }
 
-  public pushErrorRaw(msg: string, error?: any) {
-      this.logger.error(msg, error);
-      this.pushInfoToast(msg);
-  }
+    public pushInfo(msgKey: string, interpolateParams?: Object) {
+        this.translateMessage(msgKey, interpolateParams).subscribe(
+            (res) => this.pushInfoToast(res),
+            (err) => this.pushInfoToast(msgKey)); // no translation found, push key
+    }
 
-  public pushError(msgKey: string, interpolateParams?: any, error?: any) {
+    public pushErrorRaw(msg: string, error?: any) {
+        this.logger.error(msg, error);
+        this.pushInfoToast(msg);
+    }
 
-      this.translateMessage(msgKey, interpolateParams).subscribe(
-          (res) => {
-            this.logger.error(res, error);
-            this.pushErrorToast(res);
-          },
-          (err) => this.pushErrorToast(msgKey)); // no translation found, push key
-  }
+    public pushError(msgKey: string, interpolateParams?: any, error?: any) {
+
+        this.translateMessage(msgKey, interpolateParams).subscribe(
+            (res) => {
+                this.logger.error(res, error);
+                this.pushErrorToast(res);
+            },
+            (err) => this.pushErrorToast(msgKey)); // no translation found, push key
+    }
 
 
 
-  private pushInfoToast(msg: string) {
-      this.subjet.next({
-          message: msg,
-          type: ToastType.Success
-      });
-  }
+    private pushInfoToast(msg: string) {
+        this.subjet.next({
+            message: msg,
+            type: ToastType.Success
+        });
+    }
 
-  private pushErrorToast(msg: string) {
-      this.subjet.next({
-          message: msg,
-          type: ToastType.Error
-      });
-  }
+    private pushErrorToast(msg: string) {
+        this.subjet.next({
+            message: msg,
+            type: ToastType.Error
+        });
+    }
 
-  private translateMessage(msg: string, interpolateParams: any): Observable<string> {
-      return this.translate.get(msg, interpolateParams);
+    private translateMessage(msg: string, interpolateParams: any): Observable<string> {
+        return this.translate.get(msg, interpolateParams);
 
-  }
+    }
 
 }

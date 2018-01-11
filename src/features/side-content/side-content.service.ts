@@ -1,7 +1,7 @@
 
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router, RouterStateSnapshot} from '@angular/router';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 /**
  * This service manages the side content.
@@ -17,6 +17,8 @@ export class SideContentService {
      *                                                                         *
      **************************************************************************/
 
+    private readonly logger = LoggerFactory.getLogger('SideContentService');
+
     private _navigationOpen = false;
     private _sideContentOpen = false;
     private _detailContentOutlet = 'side';
@@ -31,7 +33,6 @@ export class SideContentService {
 
 
     constructor(
-        private logger: NGXLogger,
         private router: Router,
     ) {
 
@@ -41,10 +42,10 @@ export class SideContentService {
             .subscribe(event => {
 
                 if (this.isOutletActive(this.detailContentOutlet)) {
-                    this.logger.debug(`Side-Content: "${this.detailContentOutlet}" outlet is active -> showing side content!`);
+                    this.logger.debug(`"${this.detailContentOutlet}" outlet is active -> showing side content!`);
                     this.showSideContent();
                 }else {
-                    this.logger.debug(`Side-Content: "${this.detailContentOutlet}" outlet is NOT active -> HIDING side content!`);
+                    this.logger.debug(`"${this.detailContentOutlet}" outlet is NOT active -> HIDING side content!`);
                     this.closeSideContent();
                 }
                 this.closeSideNav();
@@ -130,7 +131,7 @@ export class SideContentService {
      * Closes the side detail content
      */
     public closeSideContent() {
-        this.logger.debug('Side-Content: Hiding ...');
+        this.logger.debug('Hiding ...');
         this.sideContentOpen = false;
 
 
@@ -188,7 +189,7 @@ export class SideContentService {
     }
 
     private showSideContent() {
-        this.logger.debug('Side-Content: Showing ...');
+        this.logger.debug('Showing ...');
         this.sideContentOpen = true;
     }
 

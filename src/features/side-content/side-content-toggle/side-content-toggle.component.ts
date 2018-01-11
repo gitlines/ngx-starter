@@ -4,7 +4,7 @@ import {SideContentService} from '../side-content.service';
 import {Subscription} from 'rxjs/Subscription';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
     selector: 'app-side-content-toggle',
@@ -12,6 +12,8 @@ import {NGXLogger} from 'ngx-logger';
     styleUrls: ['./side-content-toggle.component.scss']
 })
 export class SideContentToggleComponent implements OnInit, OnDestroy {
+
+    private readonly logger = LoggerFactory.getLogger('SideContentToggleComponent');
 
     private _icon = new BehaviorSubject<string>('menu');
     private sub: Subscription;
@@ -24,7 +26,6 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     public hideOns: string[] = [];
 
     constructor(
-        private logger: NGXLogger,
         private router: Router,
         private sideContentService: SideContentService,
     ) { }

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LanguageService} from '../language.service';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
     selector: 'app-language-switcher',
@@ -8,6 +9,8 @@ import {LanguageService} from '../language.service';
 })
 export class LanguageSwitcherComponent implements OnInit {
 
+
+    private readonly logger = LoggerFactory.getLogger('LanguageSwitcherComponent');
 
     @Input('slimMode')
     public slimMode: boolean;

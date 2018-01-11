@@ -2,7 +2,6 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ISuggestionProvider} from '../label-suggestion-provider';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
-import {NGXLogger} from 'ngx-logger';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
@@ -10,6 +9,7 @@ import 'rxjs/add/operator/debounce';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/empty';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
     selector: 'labels-input',
@@ -18,12 +18,13 @@ import 'rxjs/add/observable/empty';
 })
 export class LabelEditorComponent implements OnInit {
 
-
     /***************************************************************************
      *                                                                         *
      * Fields                                                                  *
      *                                                                         *
      **************************************************************************/
+
+    private readonly logger = LoggerFactory.getLogger('LabelEditorComponent');
 
     private _compareWith: (o1: any, o2: any) => boolean;
     private _nameResolver: (o1: any) => string;
@@ -47,7 +48,6 @@ export class LabelEditorComponent implements OnInit {
      **************************************************************************/
 
     constructor(
-        private logger: NGXLogger
     ) { }
 
     /***************************************************************************

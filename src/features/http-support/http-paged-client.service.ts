@@ -2,13 +2,28 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Page, Pageable, PageableUtil} from '../../common/data/page';
 import {Filter, FilterUtil} from '../../common/data/filter';
-import {NGXLogger} from 'ngx-logger';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
 
 @Injectable()
 export class HttpPagedClient {
+
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
+    private readonly logger = LoggerFactory.getLogger('HttpPagedClient');
+
+    /***************************************************************************
+     *                                                                         *
+     * Static                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
 
     private static buildHttpParams(pageable: Pageable | null, filters?: Filter[], params?: HttpParams): HttpParams {
 
@@ -25,7 +40,7 @@ export class HttpPagedClient {
 
     /***************************************************************************
      *                                                                         *
-     * Fields                                                                  *
+     * Constructor                                                             *
      *                                                                         *
      **************************************************************************/
 
@@ -33,9 +48,10 @@ export class HttpPagedClient {
      * Creates a new HttpPagedClient service
      */
     constructor(
-        private logger: NGXLogger,
         private http: HttpClient) {
     }
+
+
 
     /***************************************************************************
      *                                                                         *

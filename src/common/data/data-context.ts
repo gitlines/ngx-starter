@@ -3,8 +3,8 @@ import {Filter} from './filter';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {Sort} from './page';
-import {NGXLogger} from 'ngx-logger';
 import {Subject} from 'rxjs/Subject';
+import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 
 
 /**
@@ -55,6 +55,13 @@ export interface IDataContext<T> {
 
 export class DataContext<T> implements IDataContext<T> {
 
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
+    protected readonly logger: Logger = LoggerFactory.getLogger('DataContext');
 
     protected _total = 0;
     protected _loadingIndicator = false;
@@ -67,8 +74,13 @@ export class DataContext<T> implements IDataContext<T> {
     private _dataChange = new BehaviorSubject<T[]>([]);
     private _primaryIndex = new Map<any, T>();
 
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
+
     constructor(
-        protected logger: NGXLogger,
         private listFetcher: (sorts: Sort[], filters: Filter[]) => Observable<Array<T>>,
         private _indexFn?: ((item: T) => any),
         private _localSort?: ((a: T, b: T) => number),

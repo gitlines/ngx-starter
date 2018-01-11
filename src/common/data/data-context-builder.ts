@@ -5,7 +5,7 @@ import {Page, Pageable, Sort} from './page';
 import {Filter} from './filter';
 import {Observable} from 'rxjs/Observable';
 import {MaterialDataContext} from './data-context-material';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
 /**
@@ -13,26 +13,49 @@ import {NGXLogger} from 'ngx-logger';
  */
 export class DataContextBuilder<T> {
 
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
+    private readonly logger = LoggerFactory.getLogger('DataContextBuilder');
+
     private _indexFn?: ((item: T) => any);
     private _localSort?: (a: T, b: T) => number;
     private _localApply?: ((data: T[]) => T[]);
     private _pageSize = 30;
     private _materialSupport = false;
 
+    /***************************************************************************
+     *                                                                         *
+     * Static                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
     /**
      * Creates a new DataContextBuilder.
      * @param logger A global logger instance
      * @returns The type of data to manage.
      */
-    public static  start<T>(logger: NGXLogger): DataContextBuilder<T> {
-        if (!logger) throw new Error("You need to provide an instance of the logger!");
-        return new DataContextBuilder<T>(logger);
+    public static  start<T>(): DataContextBuilder<T> {
+        return new DataContextBuilder<T>();
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
+
     constructor(
-        private logger: NGXLogger
     ) { }
 
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
     public indexBy(indexFn?: ((item: T) => any)): DataContextBuilder<T> {
         this._indexFn = indexFn;
@@ -64,7 +87,6 @@ export class DataContextBuilder<T> {
 
     public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
         return this.applyProxies(new DataContext<T>(
-            this.logger,
             listFetcher,
             this._indexFn,
             this._localSort,
@@ -77,7 +99,6 @@ export class DataContextBuilder<T> {
     ): IDataContext<T> {
 
         return this.applyProxies(new PagedDataContext<T>(
-            this.logger,
             pageLoader,
             this._pageSize,
             this._indexFn,
@@ -87,7 +108,7 @@ export class DataContextBuilder<T> {
     }
 
     public buildEmpty(): IDataContext<T> {
-        let emptyContext = new DataContext<T>(this.logger, (a, b) => Observable.empty());
+        let emptyContext = new DataContext<T>( (a, b) => Observable.empty());
         return this.applyProxies(emptyContext);
     }
 

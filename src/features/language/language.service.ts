@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { WebLocalStorage } from '@elderbyte/ngx-simple-webstorage';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Injectable()
 export class LanguageService {
@@ -12,6 +12,8 @@ export class LanguageService {
      *                                                                         *
      **************************************************************************/
 
+    private readonly logger = LoggerFactory.getLogger('LanguageService');
+
     private LANGUAGE_STORAGE_KEY = 'language';
 
     /***************************************************************************
@@ -21,7 +23,6 @@ export class LanguageService {
      **************************************************************************/
 
     constructor(
-        private logger: NGXLogger,
         private translate: TranslateService,
         private webStorage: WebLocalStorage
     ) {

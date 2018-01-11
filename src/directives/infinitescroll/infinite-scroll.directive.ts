@@ -3,11 +3,14 @@ import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/operator/filter';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
 @Directive({ selector: '[infiniteScroll]' })
 export class InfiniteScrollDirective implements OnDestroy {
+
+    private readonly logger = LoggerFactory.getLogger('InfiniteScrollDirective');
+
 
     @Input('eventThrottle')
     public eventThrottle = 150;
@@ -22,7 +25,6 @@ export class InfiniteScrollDirective implements OnDestroy {
     private scrollContainer: HTMLElement;
 
     constructor(
-        private logger: NGXLogger,
         el: ElementRef) {
     }
 
