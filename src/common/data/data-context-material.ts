@@ -27,37 +27,37 @@ export class MaterialDataContext<T> extends DataSource<T> implements IDataContex
     public disconnect(collectionViewer: CollectionViewer): void {
     }
 
-    get rows(): T[] { return this.datacontext.rows; }
-    set rows(data: T[]) { this.datacontext.rows = data; }
+    public get rows(): T[] { return this.datacontext.rows; }
+    public set rows(data: T[]) { this.datacontext.rows = data; }
 
-    get total(): number { return this.datacontext.total; }
+    public get total(): number { return this.datacontext.total; }
 
-    get sorts(): Sort[] { return this.datacontext.sorts; }
+    public get sorts(): Sort[] { return this.datacontext.sorts; }
 
-    get filters(): Filter[] {return this.datacontext.filters; }
+    public get filters(): Filter[] {return this.datacontext.filters; }
 
-    get loadingIndicator(): boolean { return this.datacontext.loadingIndicator; }
+    public get loadingIndicator(): boolean { return this.datacontext.loadingIndicator; }
 
-    get rowsChanged(): Observable<T[]> { return this.datacontext.rowsChanged; }
+    public get rowsChanged(): Observable<T[]> { return this.datacontext.rowsChanged; }
 
 
-    start(sorts?: Sort[], filters?: Filter[]): void {
-        this.datacontext.start(sorts, filters);
+    public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
+        return this.datacontext.start(sorts, filters);
     }
 
-    findByIndex(key: any): T | undefined {
+    public findByIndex(key: any): T | undefined {
         return this.datacontext.findByIndex(key);
     }
 
-    get hasMoreData(): boolean {
+    public get hasMoreData(): boolean {
         return this.datacontext.hasMoreData;
     }
 
-    loadMore(): Observable<any> {
+    public loadMore(): Observable<any> {
         return this.datacontext.loadMore();
     }
 
-    loadAll(sorts?: Sort[], filters?: Filter[]): void {
+    public loadAll(sorts?: Sort[], filters?: Filter[]): void {
         this.datacontext.loadAll(sorts, filters);
     }
 

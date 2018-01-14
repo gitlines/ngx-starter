@@ -45,7 +45,7 @@ export interface IDataContext<T> {
      * Starts populating data context by loading first
      * batch of data.
      */
-    start(sorts?: Sort[], filters?: Filter[]): void;
+    start(sorts?: Sort[], filters?: Filter[]): Observable<any>;
 
     findByIndex(key: any): T | undefined;
 }
@@ -61,7 +61,7 @@ export class DataContext<T> implements IDataContext<T> {
      *                                                                         *
      **************************************************************************/
 
-    protected readonly logger: Logger = LoggerFactory.getLogger('DataContext');
+    private readonly log: Logger = LoggerFactory.getLogger('DataContext');
 
     protected _total = 0;
     protected _loadingIndicator = false;
@@ -94,12 +94,12 @@ export class DataContext<T> implements IDataContext<T> {
      *                                                                         *
      **************************************************************************/
 
-    public start(sorts?: Sort[], filters?: Filter[]): void {
+    public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
         this._total = 0;
         this.rows = [];
         this.setSorts(sorts);
         this.setFilters(filters);
-        this.loadData();
+        return this.loadData();
     }
 
     public get total(): number {
@@ -149,17 +149,21 @@ export class DataContext<T> implements IDataContext<T> {
         }
 
         if (this._localSort) {
-            this.logger.debug(`Apply local sort to ${rows.length} rows ...`);
+            this.log.debug(`Apply local sort to ${rows.length} rows ...`);
             rows.sort(this._localSort);
         }
 
         this._rows = rows;
-        this.logger.debug('data-context: Rows have changed: ' + this._rows.length);
+        this.log.debug('data-context: Rows have changed: ' + this._rows.length);
 
         this._dataChange.next(this._rows);
     }
 
-    // Private methods
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
 
     protected setSorts(sorts?: Sort[]) {
         this._sorts = sorts ? sorts.slice(0) : []; // clone
@@ -201,7 +205,7 @@ export class DataContext<T> implements IDataContext<T> {
                         this._total = list.length;
                         this.rows = list;
                         this._loadingIndicator = false;
-                        this.logger.debug('data-context: Got list data: ' + list.length);
+                        this.log.debug('data-context: Got list data: ' + list.length);
 
                         subject.next();
                     }, err => {
@@ -209,12 +213,12 @@ export class DataContext<T> implements IDataContext<T> {
                         this.rows = [];
                         this._loadingIndicator = false;
                         this.updateIndex();
-                        this.logger.error('data-context: Failed to query data', err);
+                        this.log.error('data-context: Failed to query data', err);
 
                         subject.error(err);
                     });
         }else {
-            this.logger.warn('data-context: Skipping data context load - no list fetcher present!');
+            this.log.warn('data-context: Skipping data context load - no list fetcher present!');
             subject.error(new Error('data-context: Skipping data context load - no list fetcher present!'));
         }
 

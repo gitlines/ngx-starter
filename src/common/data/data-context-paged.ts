@@ -5,6 +5,7 @@ import {Page, Pageable, Sort} from './page';
 import {DataContext} from './data-context';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/take';
+import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 
 
 
@@ -20,6 +21,7 @@ export class PagedDataContext<T> extends DataContext<T> {
      *                                                                         *
      **************************************************************************/
 
+    private readonly logger: Logger = LoggerFactory.getLogger('PagedDataContext');
 
     private readonly _limit;
 
@@ -66,29 +68,29 @@ export class PagedDataContext<T> extends DataContext<T> {
      */
     public loadMore(): Observable<any> {
         if (this.hasMoreData) {
-            this.logger.info('paged-data-context: Loading more...' + this._latestPage);
+            this.logger.info('Loading more...' + this._latestPage);
 
             if (this.loadingIndicator) { return Observable.empty(); }
             let nextPage = this._latestPage + 1;
             return this.fetchPage(nextPage, this._limit);
         } else {
-            this.logger.debug('paged-data-context: Cannot load more data, since no more data available.');
+            this.logger.debug('Cannot load more data, since no more data available.');
             return Observable.empty();
         }
     }
 
     public loadAll(sorts?: Sort[], filters?: Filter[]): void {
 
-        this.logger.debug('paged-data-context: Starting to load all data ...');
+        this.logger.debug('Starting to load all data ...');
 
         // load first page
         this.start(sorts, filters)
             .subscribe(() => {
-                this.logger.debug('paged-data-context: First page has been loaded. Loading remaining data ...');
+                this.logger.debug('First page has been loaded. Loading remaining data ...');
                 // load rest in a recursive manner
                 this.loadAllRec();
             }, err => {
-                this.logger.error('paged-data-context: Failed to load first page of load all procedure!', err);
+                this.logger.error('Failed to load first page of load all procedure!', err);
             });
     }
 
@@ -113,15 +115,15 @@ export class PagedDataContext<T> extends DataContext<T> {
     }
 
     private loadAllRec(): void {
-
         this.loadMore()
             .subscribe(() => {
-                this.logger.debug('paged-data-context: Loading more data finished. Latest page loaded: ' + this._latestPage);
+                this.logger.debug('Loading more data finished. Latest page loaded: ' + this._latestPage);
                 this.loadAllRec();
             }, err => {
-                this.logger.error('paged-data-context: Loading all failed!', err);
+                this.logger.error('Loading all failed!', err);
+            }, () => {
+                this.logger.info('All data loaded completely.');
             });
-
     }
 
     private fetchPage(pageIndex: number, pageSize: number): Observable<any> {
@@ -132,13 +134,13 @@ export class PagedDataContext<T> extends DataContext<T> {
 
         if (this._pageCache.has(pageIndex)) {
             // Page already loaded - skipping request!
-            this.logger.trace('paged-data-context: Skipping fetching page since its already in page observable cache.');
+            this.logger.trace('Skipping fetching page since its already in page observable cache.');
             subject.next();
         }else {
 
             this._loadingIndicator = true;
 
-            this.logger.debug(`paged-data-context: loading page ${pageIndex} using pageable:`, pageRequest);
+            this.logger.debug(`Loading page ${pageIndex} using pageable:`, pageRequest);
 
             let pageObs = this.pageLoader(pageRequest, this.filters);
 
@@ -147,7 +149,7 @@ export class PagedDataContext<T> extends DataContext<T> {
             pageObs.subscribe((page: Page<T>) => {
 
 
-                this.logger.debug('paged-data-context: Got page data:', page);
+                this.logger.debug('Got page data:', page);
 
                 this.populatePageData(page);
 
@@ -162,7 +164,7 @@ export class PagedDataContext<T> extends DataContext<T> {
             }, err => {
 
                 this._loadingIndicator = false;
-                this.logger.error('paged-data-context: Failed to query data', err);
+                this.logger.error('Failed to query data', err);
 
                 subject.error(err);
             });
