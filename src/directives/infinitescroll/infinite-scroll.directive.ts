@@ -88,7 +88,6 @@ export class InfiniteScrollDirective implements OnDestroy {
     private unregister(): void {
         if (this._scrollContainer) {
             this._scrollContainer.onscroll = null as any;
-            this._scrollContainer = null;
         }
     }
 
