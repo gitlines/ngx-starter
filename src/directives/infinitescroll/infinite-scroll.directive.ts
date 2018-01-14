@@ -9,6 +9,12 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 @Directive({ selector: '[infiniteScroll]' })
 export class InfiniteScrollDirective implements OnDestroy {
 
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
     private readonly logger = LoggerFactory.getLogger('InfiniteScrollDirective');
 
 
@@ -21,15 +27,27 @@ export class InfiniteScrollDirective implements OnDestroy {
     @Input('ignoreScrollEvent')
     public ignoreScrollEvent = false;
 
-    public _scrollStream$: ReplaySubject<UIEvent> = new ReplaySubject(1);
-    private scrollContainer: HTMLElement;
+    private readonly _scrollStream$: ReplaySubject<UIEvent> = new ReplaySubject(1);
+    private _scrollContainer: HTMLElement;
+
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
 
     constructor(
         el: ElementRef) {
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Properties                                                              *
+     *                                                                         *
+     **************************************************************************/
+
     @Output('closeToEnd')
-    get closeToEnd(): Observable<UIEvent>{
+    public get closeToEnd(): Observable<UIEvent>{
         return this._scrollStream$
             .filter(ev => !!(ev.target as HTMLElement))
             .throttleTime(this.eventThrottle)               // Relax
@@ -37,29 +55,50 @@ export class InfiniteScrollDirective implements OnDestroy {
             ;
     }
 
-
     @Input('containerId')
-    set containerId(containerId: string) {
+    public set containerId(containerId: string) {
+
+        this.unregister();
+
         let scrollContainer = document.getElementById(containerId);
         if (scrollContainer) {
             this.logger.debug('Found scroll container: ', scrollContainer);
             this.setup(scrollContainer);
+        } else {
+            this.logger.warn('Could not find scroll-container by id: ' + containerId);
         }
     }
 
-    ngOnDestroy(): void {
-        if (this.scrollContainer) {
-            this.scrollContainer.onscroll = null as any;
+    /***************************************************************************
+     *                                                                         *
+     * Life-Cycle Hooks                                                        *
+     *                                                                         *
+     **************************************************************************/
+
+    public ngOnDestroy(): void {
+        this.unregister();
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    private unregister(): void {
+        if (this._scrollContainer) {
+            this._scrollContainer.onscroll = null as any;
+            this._scrollContainer = null;
         }
     }
 
     private setup(scrollContainer: HTMLElement): void {
 
-        this.logger.info('Setting up scroll observable stream listener....');
+        this.logger.info('Setting up scroll observable stream listener on', scrollContainer);
 
-        this.scrollContainer = scrollContainer;
+        this._scrollContainer = scrollContainer;
 
-        this.scrollContainer.onscroll = ev => {
+        this._scrollContainer.onscroll = ev => {
             if (this.ignoreScrollEvent) { return; }
             this._scrollStream$.next(ev);
         };
