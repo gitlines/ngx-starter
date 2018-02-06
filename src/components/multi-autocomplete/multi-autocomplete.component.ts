@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {WordPositionFinder} from './word-position';
 import {Subscription} from 'rxjs/Subscription';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import 'rxjs/add/operator/debounceTime';
 
 
 export interface SuggestionProvider {
@@ -47,7 +48,7 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.availableSuggestions = this.formControl.valueChanges
-      .debounce(() => Observable.timer(150))
+      .debounceTime(150)
       .flatMap((value) => {
         let word = this.extractWordFrom(value,  this.cursorPosition);
         return this.getSuggestions(word);

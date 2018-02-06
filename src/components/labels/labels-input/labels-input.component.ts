@@ -6,6 +6,7 @@ import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/debounce';
+import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/empty';
@@ -127,7 +128,7 @@ export class LabelEditorComponent implements OnInit {
     ngOnInit() {
         this.availableSuggestions = this.labelInputControl.valueChanges
             .startWith(null)
-            .debounce(() => Observable.timer(150))
+            .debounceTime(150)
             .flatMap((value) => {
                 if (this._suggestionLoader) {
                     return this._suggestionLoader.loadSuggestions(value)
