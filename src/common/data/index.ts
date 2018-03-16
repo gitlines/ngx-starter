@@ -1,8 +1,10 @@
 
 export * from './data-context'
+export * from './data-context-base'
+export * from './data-context-simple'
 export * from './data-context-builder'
-export * from './data-context-material'
-export * from './data-context-paged'
+export * from './data-context-continuable-paged'
+export * from './data-context-active-page'
 export * from './field-comparator'
 export * from './filter'
 export * from './page'

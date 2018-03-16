@@ -1,7 +1,7 @@
 
 import {HttpParams} from '@angular/common/http';
 
-export class Page<T>{
+export class Page<T> {
 
   public content: T[];
   public totalElements: number;
@@ -26,7 +26,6 @@ export class Page<T>{
     page.numberOfElements = data.length;
     return page;
   }
-
 }
 
 

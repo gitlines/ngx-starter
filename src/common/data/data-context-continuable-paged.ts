@@ -2,10 +2,11 @@
 import {Observable} from 'rxjs';
 import {Filter} from './filter';
 import {Page, Pageable, Sort} from './page';
-import {DataContext} from './data-context';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/take';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
+import {IDataContextContinuable} from './data-context';
+import {DataContextBase} from './data-context-base';
 
 
 
@@ -13,7 +14,7 @@ import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
  * Extends a simple flat list data-context with pagination support.
  *
  */
-export class PagedDataContext<T> extends DataContext<T> {
+export class DataContextContinuablePaged<T> extends DataContextBase<T> implements IDataContextContinuable<T> {
 
     /***************************************************************************
      *                                                                         *
@@ -21,7 +22,7 @@ export class PagedDataContext<T> extends DataContext<T> {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger: Logger = LoggerFactory.getLogger('PagedDataContext');
+    private readonly logger: Logger = LoggerFactory.getLogger('DataContextContinuablePaged');
 
     private readonly _limit;
 
@@ -41,7 +42,7 @@ export class PagedDataContext<T> extends DataContext<T> {
         _indexFn?: ((item: T) => any),
         _localSort?: ((a: T, b: T) => number),
         _localApply?: ((data: T[]) => T[])) {
-        super(() => Observable.empty(), _indexFn, _localSort, _localApply);
+        super(_indexFn, _localSort, _localApply);
         this._limit = pageSize;
     }
 
@@ -51,14 +52,14 @@ export class PagedDataContext<T> extends DataContext<T> {
      *                                                                         *
      **************************************************************************/
 
-    /**
+       /**
      * Resets the data-context to a new filter / sorting strategy.
      * All current data will be discarded.
      *
      */
     public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
         this.initContext(sorts, filters);
-        return this.fetchPage(0, this._limit);
+        return this.loadData();
     }
 
     /**
@@ -105,11 +106,17 @@ export class PagedDataContext<T> extends DataContext<T> {
      *                                                                         *
      **************************************************************************/
 
+    protected loadData(): Observable<any> {
+        return this.fetchPage(0, this._limit);
+    }
+
     private initContext(sorts?: Sort[], filters?: Filter[]): void {
-        this._total = 0;
-        this.rows = [];
+
+        this.clear();
+
         this._pageCache = new Map();
         this._latestPage = 0;
+
         this.setSorts(sorts);
         this.setFilters(filters);
     }
@@ -136,9 +143,9 @@ export class PagedDataContext<T> extends DataContext<T> {
             // Page already loaded - skipping request!
             this.logger.trace('Skipping fetching page since its already in page observable cache.');
             subject.next();
-        }else {
+        } else {
 
-            this._loadingIndicator = true;
+            this.setLoadingIndicator(true);
 
             this.logger.debug(`Loading page ${pageIndex} using pageable:`, pageRequest);
 
@@ -157,13 +164,13 @@ export class PagedDataContext<T> extends DataContext<T> {
                     this._latestPage = page.number; // TODO This might cause that pages are skipped
                 }
 
-                this._loadingIndicator = false;
+                this.setLoadingIndicator(false);
 
                 subject.next();
 
             }, err => {
 
-                this._loadingIndicator = false;
+                this.setLoadingIndicator(false);
                 this.logger.error('Failed to query data', err);
 
                 subject.error(err);
@@ -178,7 +185,7 @@ export class PagedDataContext<T> extends DataContext<T> {
      */
     private populatePageData(page: Page<T>) {
         try {
-            this._total = page.totalElements;
+            this.setTotal(page.totalElements);
             const start = page.number * page.size;
 
             let newRows = [...this.rows];
@@ -187,8 +194,8 @@ export class PagedDataContext<T> extends DataContext<T> {
                 newRows[i + start] = item;
                 this.indexItem(item);
             }
-            this.rows = newRows;
-        }catch (err) {
+            this.setRows(newRows);
+        } catch (err) {
             this.logger.error('Failed to populate data with page', page, err);
         }
     }

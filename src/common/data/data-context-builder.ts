@@ -1,11 +1,12 @@
 
-import {DataContext, IDataContext} from './data-context';
-import {PagedDataContext} from './data-context-paged';
+import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
+import {DataContextContinuablePaged} from './data-context-continuable-paged';
 import {Page, Pageable, Sort} from './page';
 import {Filter} from './filter';
 import {Observable} from 'rxjs/Observable';
-import {MaterialDataContext} from './data-context-material';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {DataContextSimple} from './data-context-simple';
+import {DataContextActivePage} from './data-context-active-page';
 
 
 /**
@@ -25,7 +26,6 @@ export class DataContextBuilder<T> {
     private _localSort?: (a: T, b: T) => number;
     private _localApply?: ((data: T[]) => T[]);
     private _pageSize = 30;
-    private _materialSupport = false;
 
     /***************************************************************************
      *                                                                         *
@@ -68,10 +68,10 @@ export class DataContextBuilder<T> {
     }
 
     /**
-     * Adds support for Material DataSource to the resulting DataContext
+     * Adds support for Material DataSource to the resulting DataContextSimple
+     * @deprecated This is no longer required as Material-DataContext is supported by default now
      */
     public mdDataSource(): DataContextBuilder<T> {
-        this._materialSupport = true;
         return this;
     }
 
@@ -85,38 +85,48 @@ export class DataContextBuilder<T> {
         return this;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Builder                                                                 *
+     *                                                                         *
+     **************************************************************************/
+
     public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
-        return this.applyProxies(new DataContext<T>(
+        return new DataContextSimple<T>(
             listFetcher,
             this._indexFn,
             this._localSort,
-            this._localApply));
+            this._localApply);
     }
-
 
     public buildPaged(
         pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>
-    ): IDataContext<T> {
+    ): IDataContextContinuable<T> {
 
-        return this.applyProxies(new PagedDataContext<T>(
+        return new DataContextContinuablePaged<T>(
             pageLoader,
             this._pageSize,
             this._indexFn,
             this._localSort,
             this._localApply
-        ));
+        );
+    }
+
+    public buildActivePaged(
+        pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>
+    ): IDataContextActivePage<T> {
+
+        return new DataContextActivePage<T>(
+            pageLoader,
+            this._pageSize,
+            this._indexFn,
+            this._localSort,
+            this._localApply
+        );
     }
 
     public buildEmpty(): IDataContext<T> {
-        let emptyContext = new DataContext<T>( (a, b) => Observable.empty());
-        return this.applyProxies(emptyContext);
-    }
-
-    private applyProxies(context:  IDataContext<T>): IDataContext<T> {
-        if (this._materialSupport) {
-            context = new MaterialDataContext(context);
-        }
-        return context;
+        return new DataContextSimple<T>( (a, b) => Observable.empty());
     }
 
 }
