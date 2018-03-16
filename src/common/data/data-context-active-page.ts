@@ -36,6 +36,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
         _localApply?: ((data: T[]) => T[])) {
         super(_indexFn, _localSort, _localApply);
         this._pageSize = pageSize;
+        this._pageIndex = 0;
     }
 
     /***************************************************************************
@@ -49,7 +50,10 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     }
 
     public set pageIndex(index: number) {
-        this._pageIndex = index;
+        if (this._pageIndex !== index) {
+            this._pageIndex = index;
+            this.loadActivePage();
+        }
     }
 
     public get pageSize(): number {
@@ -57,7 +61,10 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     }
 
     public set pageSize(size: number) {
-        this._pageSize = size;
+        if (this._pageSize !== size) {
+            this._pageSize = size;
+            this.loadActivePage();
+        }
     }
 
     /***************************************************************************
@@ -68,9 +75,14 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
     /***************************************************************************
      *                                                                         *
-     * Private methods                                                              *
+     * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+    protected loadActivePage(): void {
+        this.clear();
+        this.loadData();
+    }
 
     protected loadData(): Observable<any> {
 

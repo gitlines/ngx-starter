@@ -58,7 +58,7 @@ export class PageableUtil {
     public static addPageQueryParams(params: HttpParams, pageable: Pageable): HttpParams {
         params = params.set('page', pageable.page.toString());
         params = params.set('size', pageable.size.toString());
-        for (let sort of pageable.sorts){
+        for (let sort of pageable.sorts) {
             params = params.append('sort', sort.prop + ',' + sort.dir);
         }
         return params;
