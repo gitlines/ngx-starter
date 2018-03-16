@@ -28,6 +28,10 @@ export interface IDataContext<T> {
      */
     readonly loadingIndicator: boolean;
 
+    /**
+     * The total count of all elements
+     */
+    readonly total: number;
 
     /**
      * Observable which emits when the data-context rows change
