@@ -11,7 +11,7 @@ import {DataContextBase} from './data-context-base';
 
 
 /**
- * Extends a simple flat list data-context with pagination support.
+ * Extends a simple flat list data-context with infinite-scroll pagination support.
  *
  */
 export class DataContextContinuablePaged<T> extends DataContextBase<T> implements IDataContextContinuable<T> {

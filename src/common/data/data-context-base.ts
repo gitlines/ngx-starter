@@ -5,6 +5,8 @@ import {Filter} from './filter';
 import {Sort} from './page';
 import {Observable} from 'rxjs/Observable';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {DataContextStatus} from './data-context-status';
 
 
 export abstract class DataContextBase<T> extends DataSource<T> implements IDataContext<T> {
@@ -26,6 +28,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     private _rows: T[] = [];
     private _dataChange = new BehaviorSubject<T[]>([]);
+    private _statusChanged = new ReplaySubject<DataContextStatus>(1);
     private _primaryIndex = new Map<any, T>();
 
     /***************************************************************************
@@ -91,6 +94,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     public get rowsChanged(): Observable<T[]> {
         return this._dataChange;
+    }
+
+    public get statusChanged(): Observable<DataContextStatus> {
+        return this._statusChanged;
     }
 
     public get rows(): T[] {
@@ -160,6 +167,18 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
             return this._indexFn(item);
         }
         return null;
+    }
+
+    protected onError(err: any) {
+        this.onStatus(DataContextStatus.error(err));
+    }
+
+    protected onSuccess() {
+        this.onStatus(DataContextStatus.success());
+    }
+
+    protected onStatus(status: DataContextStatus) {
+        this._statusChanged.next(status);
     }
 
     /***************************************************************************

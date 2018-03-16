@@ -1,4 +1,5 @@
 
+export * from './data-context-status'
 export * from './data-context'
 export * from './data-context-base'
 export * from './data-context-simple'

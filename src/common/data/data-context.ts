@@ -1,6 +1,7 @@
 import {Filter} from './filter';
 import {Observable} from 'rxjs/Observable';
 import {Sort} from './page';
+import {DataContextStatus} from './data-context-status';
 
 
 /**
@@ -32,6 +33,10 @@ export interface IDataContext<T> {
      */
     readonly rowsChanged: Observable<T[]>;
 
+    /**
+     * Observable which emits when the status changes (i.e. error)
+     */
+    readonly statusChanged: Observable<DataContextStatus>;
 
     /***************************************************************************
      *                                                                         *
