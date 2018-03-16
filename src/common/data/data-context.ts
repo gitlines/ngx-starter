@@ -22,6 +22,7 @@ export interface IDataContext<T> {
 
     readonly filters: Filter[];
 
+
     /**
      * Indicates that data is currently loading
      */
@@ -37,6 +38,7 @@ export interface IDataContext<T> {
      * Observable which emits when the status changes (i.e. error)
      */
     readonly statusChanged: Observable<DataContextStatus>;
+    readonly statusSnapshot: DataContextStatus;
 
     /***************************************************************************
      *                                                                         *
