@@ -150,6 +150,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         this.setRows([]);
         this.setLoadingIndicator(false);
         this.updateIndex();
+        this.onSuccess();
     }
 
     protected updateIndex(): void {
@@ -176,7 +177,9 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     }
 
     protected onSuccess() {
-        this.onStatus(DataContextStatus.success());
+        if (this.statusSnapshot.hasError) {
+            this.onStatus(DataContextStatus.success());
+        }
     }
 
     protected onStatus(status: DataContextStatus) {

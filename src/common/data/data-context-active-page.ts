@@ -88,10 +88,12 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
                 this.setRows(success.content);
                 this.setLoadingIndicator(false);
                 subject.next(success);
+                this.onSuccess();
             }, err => {
                 this.setLoadingIndicator(false);
                 this.actlogger.error('Failed to query data', err);
                 subject.error(err);
+                this.onError(err);
             });
 
         return subject.take(0);

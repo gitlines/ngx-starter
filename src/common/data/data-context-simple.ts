@@ -56,6 +56,7 @@ export class DataContextSimple<T> extends DataContextBase<T> {
                 .take(1)
                 .subscribe(
                     list => {
+                        this.onSuccess();
                         this.setTotal(list.length);
                         this.setRows(list);
                         this.setLoadingIndicator(false);
@@ -63,6 +64,7 @@ export class DataContextSimple<T> extends DataContextBase<T> {
 
                         subject.next();
                     }, err => {
+                        this.onError(err);
                         this.clear();
                         this.log.error('data-context: Failed to query data', err);
                         subject.error(err);

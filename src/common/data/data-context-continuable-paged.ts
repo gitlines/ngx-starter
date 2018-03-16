@@ -91,6 +91,7 @@ export class DataContextContinuablePaged<T> extends DataContextBase<T> implement
                 // load rest in a recursive manner
                 this.loadAllRec();
             }, err => {
+                this.onError(err);
                 this.logger.error('Failed to load first page of load all procedure!', err);
             });
     }
@@ -127,6 +128,7 @@ export class DataContextContinuablePaged<T> extends DataContextBase<T> implement
                 this.logger.debug('Loading more data finished. Latest page loaded: ' + this._latestPage);
                 this.loadAllRec();
             }, err => {
+                this.onError(err);
                 this.logger.error('Loading all failed!', err);
             }, () => {
                 this.logger.info('All data loaded completely.');
@@ -167,12 +169,12 @@ export class DataContextContinuablePaged<T> extends DataContextBase<T> implement
                 this.setLoadingIndicator(false);
 
                 subject.next();
+                this.onSuccess();
 
             }, err => {
-
+                this.onError(err);
                 this.setLoadingIndicator(false);
                 this.logger.error('Failed to query data', err);
-
                 subject.error(err);
             });
         }
@@ -196,6 +198,7 @@ export class DataContextContinuablePaged<T> extends DataContextBase<T> implement
             }
             this.setRows(newRows);
         } catch (err) {
+            this.onError(err);
             this.logger.error('Failed to populate data with page', page, err);
         }
     }
