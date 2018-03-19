@@ -6,14 +6,27 @@
     "docs:build": "compodoc -p tsconfig.json -n ngx-starter -d docs --hideGenerator",
     "docs:serve": "npm run docs:build -- -s",
     "docs:watch": "npm run docs:build -- -s -w",
-    "lint": "tslint --type-check --project tsconfig.json src/**/*.ts",
+    "lint": "tslint --project tsconfig.json src/**/*.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand"
   },
   "jest": {
     "preset": "jest-preset-angular",
-    "setupTestFrameworkScriptFile": "<rootDir>/src/jest.ts"
+    "setupTestFrameworkScriptFile": "<rootDir>/test/jest.ts",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    },
+    "collectCoverage": true
   },
   "repository": {
     "type": "git",
@@ -46,7 +59,7 @@
     "@elderbyte/ngx-simple-webstorage": "^5.0.0-beta",
     "@elderbyte/ts-logger": "^0.1.0",
     "@ngx-translate/core": "^9.1.1",
-    "@types/jest": "^19.2.4",
+    "@types/jest": "^22.2.0",
     "@types/node": "~6.0.60",
     "tslint": "^5.9.1",
     "codelyzer": "^4.0.1",
@@ -55,17 +68,16 @@
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
     "gulp-rollup": "^2.11.0",
-    "jest": "^20.0.3",
-    "jest-preset-angular": "^2.0.2",
+    "jest": "^22.4.2",
+    "jest-preset-angular": "^5.2.1",
     "node-sass": "^4.5.2",
     "node-sass-tilde-importer": "^1.0.0",
     "node-watch": "^0.5.2",
-    "protractor": "~5.1.0",
     "rollup": "^0.41.6",
     "run-sequence": "^1.2.2",
     "rxjs": "^5.5.2",
-    "ts-jest": "^20.0.10",
-    "ts-node": "~2.0.0",
+    "ts-jest": "^22.4.2",
+    "ts-node": "^5.0.1",
     "typescript": "^2.7.2",
     "zone.js": "^0.8.18"
   },

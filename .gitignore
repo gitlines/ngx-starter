@@ -27,6 +27,6 @@ Desktop.ini
 
 # Ngc generated files
 **/*.ngfactory.ts
-
+coverage/
 # Build files
 dist/*

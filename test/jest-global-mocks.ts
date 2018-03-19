@@ -1,3 +1,5 @@
+import {} from 'jest';
+
 const mock = () => {
   let storage = {};
   return {
