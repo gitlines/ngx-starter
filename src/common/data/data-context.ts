@@ -31,7 +31,7 @@ export interface IDataContext<T> {
     /**
      * The total count of all elements
      */
-    readonly total: number;
+    readonly total: number | undefined;
 
     /**
      * Observable which emits when the data-context rows change
@@ -85,8 +85,6 @@ export interface IDataContextContinuable<T> extends IDataContext<T> {
 }
 
 export interface IDataContextActivePage<T> extends IDataContext<T> {
-
-    readonly total: number;
 
     pageIndex: number;
 

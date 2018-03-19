@@ -18,7 +18,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     private readonly baselog: Logger = LoggerFactory.getLogger('DataContextBase');
 
-    private _total = 0;
+    private _total: number | undefined = undefined;
     private _loadingIndicator = false;
 
     private _sorts: Sort[] = [];
@@ -69,7 +69,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         return this.loadData();
     }
 
-    public get total(): number {
+    public get total(): number | undefined {
         return this._total;
     }
 
@@ -129,7 +129,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         this._dataChange.next(this._rows);
     }
 
-    protected setTotal(total: number): void {
+    protected setTotal(total: number | undefined): void {
         this._total = total;
     }
 
@@ -145,7 +145,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         this._filters = filters ? filters.slice(0) : []; // clone
     }
 
-    protected clear() {
+    protected clear(): void {
         this.setTotal(0);
         this.setRows([]);
         this.setLoadingIndicator(false);

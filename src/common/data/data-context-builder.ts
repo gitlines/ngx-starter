@@ -8,6 +8,8 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextSimple} from './data-context-simple';
 import {DataContextActivePage} from './data-context-active-page';
 import {Sort} from './sort';
+import {ContinuableListing} from './continuable-listing';
+import {DataContextContinuableToken, TokenChunkRequest} from './data-context-continuable-token';
 
 
 /**
@@ -106,6 +108,18 @@ export class DataContextBuilder<T> {
 
         return new DataContextContinuablePaged<T>(
             pageLoader,
+            this._pageSize,
+            this._indexFn,
+            this._localSort,
+            this._localApply
+        );
+    }
+
+    public buildContinuationToken(
+        nextChunkLoader: (tokenChunkRequest: TokenChunkRequest) => Observable<ContinuableListing<T>>
+    ): IDataContextContinuable<T> {
+        return new DataContextContinuableToken<T>(
+            nextChunkLoader,
             this._pageSize,
             this._indexFn,
             this._localSort,
