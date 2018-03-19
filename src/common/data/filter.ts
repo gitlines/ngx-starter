@@ -10,6 +10,9 @@ export class Filter {
 }
 
 
+/**
+ * @deprecated Switch to HttpParamsBuilder
+ */
 export class FilterUtil {
 
     public static addFilterQueryParams(params: HttpParams, filters: Filter[]): HttpParams {

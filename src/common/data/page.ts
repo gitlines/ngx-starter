@@ -46,7 +46,9 @@ export class Pageable {
   }
 }
 
-
+/**
+ * @deprecated Switch to HttpParamsBuilder
+ */
 export class PageableUtil {
     public static addPageQueryParams(params: HttpParams, pageable: Pageable): HttpParams {
         params = params.set('page', pageable.page.toString());

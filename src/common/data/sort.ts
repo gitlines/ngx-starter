@@ -1,4 +1,5 @@
 import {HttpParams} from '@angular/common/http';
+import {HttpParamsBuilder} from './http-params-builder';
 
 export class Sort {
     constructor (
@@ -7,6 +8,9 @@ export class Sort {
     ) { }
 }
 
+/**
+ * @deprecated Switch to HttpParamsBuilder
+ */
 export class SortUtil {
     public static addSortQueryParams(params: HttpParams, sorts: Sort[]): HttpParams {
         if (sorts) {

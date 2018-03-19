@@ -4,6 +4,7 @@ import {Page, Pageable, PageableUtil} from '../../common/data/page';
 import {Filter, FilterUtil} from '../../common/data/filter';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {HttpParamsBuilder} from '../../common/data/http-params-builder';
 
 
 
@@ -20,26 +21,6 @@ export class HttpPagedClient {
 
     /***************************************************************************
      *                                                                         *
-     * Static                                                                  *
-     *                                                                         *
-     **************************************************************************/
-
-
-    private static buildHttpParams(pageable: Pageable | null, filters?: Filter[], params?: HttpParams): HttpParams {
-
-        if (!params) { params = new HttpParams(); }
-
-        if (pageable) {
-            params = PageableUtil.addPageQueryParams(params, pageable);
-        }
-        if (filters) {
-            params = FilterUtil.addFilterQueryParams(params, filters);
-        }
-        return params;
-    }
-
-    /***************************************************************************
-     *                                                                         *
      * Constructor                                                             *
      *                                                                         *
      **************************************************************************/
@@ -50,8 +31,6 @@ export class HttpPagedClient {
     constructor(
         private http: HttpClient) {
     }
-
-
 
     /***************************************************************************
      *                                                                         *
@@ -67,7 +46,10 @@ export class HttpPagedClient {
      * @param params Additional parameters
      */
     public getPaged<T>(url: string, pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {
-        params = HttpPagedClient.buildHttpParams(pageable, filters, params);
+        params = HttpParamsBuilder.start(params)
+            .appendPageable(pageable)
+            .appendFilters(filters)
+            .build();
         this.logger.debug('sending paged request @ ' + url, params);
         return this.http.get<Page<T>>(url, { params: params });
     }
@@ -79,7 +61,9 @@ export class HttpPagedClient {
      * @param params Additional parameters
      */
     public getFiltered<T>(url: string, filters: Filter[], params?: HttpParams): Observable<T> {
-        params = HttpPagedClient.buildHttpParams(null, filters, params);
+        params = HttpParamsBuilder.start(params)
+            .appendFilters(filters)
+            .build();
         return this.http.get<T>(url, { params: params });
     }
 
