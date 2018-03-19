@@ -1,5 +1,6 @@
 
 import {HttpParams} from '@angular/common/http';
+import {Sort, SortUtil} from './sort';
 
 export class Page<T> {
 
@@ -28,14 +29,6 @@ export class Page<T> {
   }
 }
 
-
-export class Sort {
-  constructor (
-    public readonly prop: string,
-    public readonly dir: string
-  ) { }
-}
-
 export class Pageable {
 
   public readonly page: number;
@@ -58,9 +51,7 @@ export class PageableUtil {
     public static addPageQueryParams(params: HttpParams, pageable: Pageable): HttpParams {
         params = params.set('page', pageable.page.toString());
         params = params.set('size', pageable.size.toString());
-        for (let sort of pageable.sorts) {
-            params = params.append('sort', sort.prop + ',' + sort.dir);
-        }
+        SortUtil.addSortQueryParams(params, pageable.sorts);
         return params;
     }
 }

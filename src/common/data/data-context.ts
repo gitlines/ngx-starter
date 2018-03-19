@@ -1,7 +1,7 @@
 import {Filter} from './filter';
 import {Observable} from 'rxjs/Observable';
-import {Sort} from './page';
 import {DataContextStatus} from './data-context-status';
+import {Sort} from './sort';
 
 
 /**

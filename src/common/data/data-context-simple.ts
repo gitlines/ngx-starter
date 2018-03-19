@@ -1,11 +1,9 @@
 import {Subject} from 'rxjs/Subject';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {Observable} from 'rxjs/Observable';
 import {Filter} from './filter';
-import {IDataContext} from './data-context';
-import {Sort} from './page';
 import {DataContextBase} from './data-context-base';
+import {Sort} from './sort';
 
 
 export class DataContextSimple<T> extends DataContextBase<T> {

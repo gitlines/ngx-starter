@@ -1,12 +1,13 @@
 
 import {Observable} from 'rxjs';
 import {Filter} from './filter';
-import {Page, Pageable, Sort} from './page';
+import {Page, Pageable} from './page';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/take';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {IDataContextContinuable} from './data-context';
 import {DataContextBase} from './data-context-base';
+import {Sort} from './sort';
 
 
 
@@ -52,7 +53,7 @@ export class DataContextContinuablePaged<T> extends DataContextBase<T> implement
      *                                                                         *
      **************************************************************************/
 
-       /**
+     /**
      * Resets the data-context to a new filter / sorting strategy.
      * All current data will be discarded.
      *

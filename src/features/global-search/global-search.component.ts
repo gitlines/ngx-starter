@@ -4,7 +4,7 @@ import {
 import {GlobalSearchService, SearchQuery, SortOption} from './global-search.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {Sort} from '../../common/data/page';
+import {Sort} from '../../common/data/sort';
 
 
 
@@ -57,7 +57,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     );
   }
 
-  public set availableSort(available: SortOption[]){
+  public set availableSort(available: SortOption[]) {
     this._availableSort = available;
     if (available.length > 0) {
         this.selectedSort = available[0];
@@ -108,7 +108,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
     if (this.searchCollapsed) {
       // Show search
       this.searchCollapsed = false;
-    }else {
+    } else {
       // Collapse search
       this.searchCollapsed = true;
       this.globalSearch.query = SearchQuery.Empty;

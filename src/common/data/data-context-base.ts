@@ -2,7 +2,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {IDataContext} from './data-context';
 import {Filter} from './filter';
-import {Sort} from './page';
+import {Sort} from './sort';
 import {Observable} from 'rxjs/Observable';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {DataContextStatus} from './data-context-status';

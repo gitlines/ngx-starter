@@ -1,12 +1,13 @@
 
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
 import {DataContextContinuablePaged} from './data-context-continuable-paged';
-import {Page, Pageable, Sort} from './page';
+import {Page, Pageable} from './page';
 import {Filter} from './filter';
 import {Observable} from 'rxjs/Observable';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextSimple} from './data-context-simple';
 import {DataContextActivePage} from './data-context-active-page';
+import {Sort} from './sort';
 
 
 /**
