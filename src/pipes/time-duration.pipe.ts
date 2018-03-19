@@ -16,7 +16,7 @@ export class TimeDurationPipe implements PipeTransform {
 
   transform(value: string) {
 
-    const seconds = parseInt(value);
+    const seconds = parseInt(value, 10);
     const minutes = Math.round(Math.abs(seconds / 60));
     const hours = Math.round(Math.abs(minutes / 60));
     const days = Math.round(Math.abs(hours / 24));

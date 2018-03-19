@@ -32,11 +32,11 @@ export class WeightPipe implements PipeTransform {
 
         if (t > 1) {
             return t.toFixed(+precision) + 't';
-        }else if (kg > 1) {
+        } else if (kg > 1) {
             return kg.toFixed(+precision) + 'kg';
-        }else if (g > 1) {
+        } else if (g > 1) {
             return kg.toFixed(+precision) + 'g';
-        }else {
+        } else {
             return mg.toFixed(+precision) + 'mg';
         }
     }

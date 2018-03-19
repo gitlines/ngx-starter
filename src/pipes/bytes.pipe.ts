@@ -21,8 +21,8 @@ export class BytesPipe implements PipeTransform {
         'PB'
     ];
 
-    transform(bytes: number = 0, precision: number = 2): string {
-        if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) return '?';
+    transform(bytes = 0, precision = 2): string {
+        if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) { return '?' };
 
         let unit = 0;
 
