@@ -120,7 +120,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
      */
     private populateChunkData(chunk: ContinuableListing<T>): void {
         try {
-            this.setTotal(undefined);
+            this.setTotal(chunk.total);
             let newRows = [...this.rows];
             newRows.push(...chunk.content);
             this.setRows(newRows);

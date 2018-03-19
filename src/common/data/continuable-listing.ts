@@ -18,6 +18,12 @@ export class ContinuableListing<T> {
     nextContinuationToken?: string;
 
     /**
+     * The total number of elements
+     * Might be null if the server does not know this
+     */
+    total: number | undefined;
+
+    /**
      * Size of this chunk (max page size)
      */
     chunkSize: number;
