@@ -63,6 +63,9 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
      **************************************************************************/
 
     public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
+
+        this.baselog.debug('Starting fresh dataContext ...');
+
         this.clear();
         this.setSorts(sorts);
         this.setFilters(filters);
@@ -123,10 +126,11 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
             rows.sort(this._localSort);
         }
 
-        this._rows = rows;
-        this.baselog.debug('data-context: Rows have changed: ' + this._rows.length);
-
-        this._dataChange.next(this._rows);
+        if (!(this._rows.length === 0 && rows.length === 0)) {
+            this.baselog.debug('Rows have changed: ' + this._rows.length);
+            this._rows = rows;
+            this._dataChange.next(this._rows);
+        }
     }
 
     protected setTotal(total: number | undefined): void {

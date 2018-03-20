@@ -108,7 +108,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
 
             this.logger.debug(`Loading page ${pageIndex} using pageable:`, pageRequest);
 
-            let pageObs = this.pageLoader(pageRequest, this.filters);
+            const pageObs = this.pageLoader(pageRequest, this.filters);
 
             this._pageCache.set(pageIndex, pageObs);
 

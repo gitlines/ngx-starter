@@ -5,13 +5,14 @@ import {ContinuableListing} from './continuable-listing';
 import {DataContextContinuableBase} from './data-context-continuable-base';
 import {Subject} from 'rxjs/Subject';
 import {Sort} from './sort';
+import {Page} from './page';
 
 
 export class TokenChunkRequest {
     constructor (
-    public readonly nextContinuationToken: string | null | undefined,
-    public readonly filters: Filter[],
-    public readonly sorts: Sort[]
+        public readonly nextContinuationToken: string | null | undefined,
+        public readonly filters: Filter[],
+        public readonly sorts: Sort[]
     ) {}
 }
 
@@ -26,6 +27,8 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
      **************************************************************************/
 
     private readonly logger: Logger = LoggerFactory.getLogger('DataContextContinuableToken');
+
+    private _chunkCache: Set<string|undefined> = new Set();
 
     protected nextContinuationToken?: string;
 
@@ -64,7 +67,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
         const token = this.nextContinuationToken;
 
-        if (token) {
+        if (token && token.length > 0) {
             return this.fetchNextChunk(token);
         } else {
             this.logger.debug('Cannot load more data, since no more data available.');
@@ -80,6 +83,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
     protected clear(): void {
         super.clear();
+        this._chunkCache.clear();
         this.nextContinuationToken = undefined;
     }
 
@@ -90,28 +94,36 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
     private fetchNextChunk(nextToken?: string): Observable<ContinuableListing<T>> {
 
         this.setLoadingIndicator(true);
-
         const subject = new Subject<ContinuableListing<T>>();
 
-        this.nextChunkLoader(new TokenChunkRequest(nextToken, this.filters, this.sorts))
-            .take(1)
-            .subscribe(
-            chunk => {
-                this.logger.debug('Got next chunk data:', chunk);
-                this.nextContinuationToken = chunk.nextContinuationToken;
-                this.chunkSize = chunk.chunkSize;
-                this.populateChunkData(chunk);
-                this.setLoadingIndicator(false);
-                subject.next(chunk);
-                this.onSuccess();
-            }, err => {
-                this.onError(err);
-                this.logger.error('Failed to query data', err);
-                this.setLoadingIndicator(false);
-                subject.error(err);
-            }
-        );
+        nextToken = nextToken ? nextToken : undefined;
 
+        if (this._chunkCache.has(nextToken)) {
+            this.logger.trace('Skipping fetching chunk for token "' + nextToken + '" since its already in observable cache.');
+            subject.complete();
+        } else {
+
+            this._chunkCache.add(nextToken);
+
+            this.nextChunkLoader(new TokenChunkRequest(nextToken, this.filters, this.sorts))
+                .take(1)
+                .subscribe(
+                    chunk => {
+                        this.logger.debug('Got next chunk data:', chunk);
+                        this.nextContinuationToken = chunk.nextContinuationToken;
+                        this.chunkSize = chunk.chunkSize;
+                        this.populateChunkData(chunk);
+                        this.setLoadingIndicator(false);
+                        subject.next(chunk);
+                        this.onSuccess();
+                    }, err => {
+                        this.onError(err);
+                        this.logger.error('Failed to query data', err);
+                        this.setLoadingIndicator(false);
+                        subject.error(err);
+                    }
+                );
+        }
         return subject.take(1);
     }
 
