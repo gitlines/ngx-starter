@@ -176,13 +176,13 @@ export class LabelEditorComponent implements OnInit {
 
     public addLabels(labels: any[]) {
         this._labels.push(...labels);
-        this.labelInputControl.reset();
+        this.resetInput();
         this.onLabelsChanged();
     }
 
     public addLabel(label: any) {
         this._labels.push(label);
-        this.labelInputControl.reset();
+        this.resetInput();
         this.onLabelsChanged();
     }
 
@@ -214,6 +214,17 @@ export class LabelEditorComponent implements OnInit {
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+    private resetInput(): void {
+        // this.labelInputControl.reset();
+        this.labelInputControl.setValue(
+            null,
+            {
+                onlySelf: false,
+                emitEvent: false
+            }
+        )
+    }
 
     private buildLabels(rawName: string): any[] {
         if (this._labelBuilder) {
