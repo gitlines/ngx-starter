@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ISuggestionProvider} from '../label-suggestion-provider';
-import {MatAutocompleteSelectedEvent} from '@angular/material';
+import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
@@ -30,6 +30,7 @@ export class LabelEditorComponent implements OnInit {
     private _compareWith: (o1: any, o2: any) => boolean;
     private _nameResolver: (o1: any) => string;
     private _colorResolver: (o1: any) => string;
+    private _labelBuilder: (rawinput: string) => any[];
 
     private _allowCreate = true;
     private _labels: any[] = [];
@@ -67,7 +68,7 @@ export class LabelEditorComponent implements OnInit {
     }
 
     @Input('suggestionLoader')
-    public set suggestionLoader(provider: ISuggestionProvider<any>){
+    public set suggestionLoader(provider: ISuggestionProvider<any>) {
         this._suggestionLoader = provider;
     }
 
@@ -117,7 +118,16 @@ export class LabelEditorComponent implements OnInit {
         this._nameResolver = fn;
     }
 
-
+    /**
+     * A function which returns one or more labels for a given raw string
+     */
+    @Input('labelBuilder')
+    public set labelBuilder(fn: (rawinput: string) => any[]) {
+        if (typeof fn !== 'function') {
+            throw new Error('labelBuilder must be a function!');
+        }
+        this._labelBuilder = fn;
+    }
 
     /***************************************************************************
      *                                                                         *
@@ -125,7 +135,7 @@ export class LabelEditorComponent implements OnInit {
      *                                                                         *
      **************************************************************************/
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.availableSuggestions = this.labelInputControl.valueChanges
             .startWith(null)
             .debounceTime(150)
@@ -154,14 +164,20 @@ export class LabelEditorComponent implements OnInit {
         }
     }
 
-    public createNewLabels(newLabels: HTMLInputElement): void {
+    public createNewLabels(newLabels: MatChipInputEvent): void {
         if (this._allowCreate) {
             const newLabelString = newLabels.value;
             if (newLabelString) {
-                // TODO Support callback for creating new
-                // this.addLabel(Label.fromName(newLabelString));
+                const myLabels = this.buildLabels(newLabelString);
+                this.addLabels(myLabels);
             }
         }
+    }
+
+    public addLabels(labels: any[]) {
+        this._labels.push(labels);
+        this.labelInputControl.reset();
+        this.onLabelsChanged();
     }
 
     public addLabel(label: any) {
@@ -199,6 +215,14 @@ export class LabelEditorComponent implements OnInit {
      *                                                                         *
      **************************************************************************/
 
+    private buildLabels(rawName: string): any[] {
+        if (this._labelBuilder) {
+            return this._labelBuilder(rawName);
+        } else {
+            return [rawName];
+        }
+    }
+
     private onLabelsChanged(): void {
         this._labelsSubject.next(this._labels);
     }
@@ -210,13 +234,12 @@ export class LabelEditorComponent implements OnInit {
                 return suggestions
                     .filter(l => l)
                     .filter(l => !this._labels.some(el => this.areEqual(el, l)));
-            }else {
+            } else {
                 return suggestions;
             }
-        }else {
+        } else {
             return [];
         }
-
     }
 
     private areEqual(a: any, b: any): boolean {

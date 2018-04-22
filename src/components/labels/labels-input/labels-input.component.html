@@ -1,4 +1,5 @@
 <div fxLayout="column">
+
   <mat-form-field floatPlaceholder="never" class="full-width">
     <mat-chip-list #chips>
       <mat-chip *ngFor="let label of currentLabels" class="noselect" [color]="labelColor(label)" selected="true"
