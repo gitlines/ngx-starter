@@ -8,93 +8,130 @@ import 'rxjs/add/operator/debounceTime';
 
 
 export interface SuggestionProvider {
-  getSuggestions(input: string): Observable<string[]>;
+    getSuggestions(input: string): Observable<string[]>;
 }
 
 @Component({
-  selector: 'multi-autocomplete',
-  templateUrl: './multi-autocomplete.component.html',
-  styleUrls: ['./multi-autocomplete.component.scss']
+    selector: 'multi-autocomplete',
+    templateUrl: './multi-autocomplete.component.html',
+    styleUrls: ['./multi-autocomplete.component.scss']
 })
 export class MultiAutocompleteComponent implements OnInit, OnDestroy {
 
-  private readonly logger = LoggerFactory.getLogger('MultiAutocompleteComponent');
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
 
-  private _sub: Subscription;
+    private readonly logger = LoggerFactory.getLogger('MultiAutocompleteComponent');
 
-
-  @Input('placeholder')
-  public placeholder: string;
-
-  @Input('suggestionProvider')
-  public suggestionProvider: SuggestionProvider;
-
-  /**
-   * Occurs when the value has been changed and committed
-   */
-  @Output('modify')
-  public valueChanged = new EventEmitter<string>();
-
-  @ViewChild('suggestionInput')
-  public tagInput: ElementRef;
-  public formControl: FormControl = new FormControl();
-  public availableSuggestions: Observable<string[]>;
-
-  private wordFinder: WordPositionFinder;
-
-  constructor() {
-    this.wordFinder = new WordPositionFinder();
-  }
-
-  ngOnInit() {
-    this.availableSuggestions = this.formControl.valueChanges
-      .debounceTime(150)
-      .flatMap((value) => {
-        let word = this.extractWordFrom(value,  this.cursorPosition);
-        return this.getSuggestions(word);
-      });
-    this._sub = this.formControl.valueChanges.
-          subscribe(value => this.onValueChanged(value));
-  }
-
-  ngOnDestroy(): void {
-    this._sub.unsubscribe();
-  }
+    private _sub: Subscription;
 
 
-  public onValueChanged(value: string) {
-    this.logger.debug('value changed', value);
-    this.valueChanged.next(value);
-  }
+    @Input('placeholder')
+    public placeholder: string;
 
-  public insertSuggestion(suggestion: string) {
-    let full = this.formControl.value != null ? this.formControl.value : '';
-    let replacement = this.wordFinder.replaceWord(full,  this.cursorPosition, suggestion + ' ');
-    return replacement.newText;
-  }
+    @Input('suggestionProvider')
+    public suggestionProvider: SuggestionProvider;
 
-  private getSuggestions(input: string): Observable<string[]> {
+    /**
+     * Occurs when the value has been changed and committed
+     */
+    @Output('modify')
+    public valueChanged = new EventEmitter<string>();
 
-    if (this.suggestionProvider) {
-      return this.suggestionProvider.getSuggestions(input);
-    }else {
-      return Observable.from([]);
+    @ViewChild('suggestionInput')
+    public tagInput: ElementRef;
+    public formControl: FormControl = new FormControl();
+    public availableSuggestions: Observable<string[]>;
+
+    private wordFinder: WordPositionFinder;
+
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
+
+    constructor() {
+        this.wordFinder = new WordPositionFinder();
     }
-  }
 
-  private get cursorPosition(): number {
-    let input = this.tagInput.nativeElement as HTMLInputElement;
-    return input.selectionStart;
-  }
+    /***************************************************************************
+     *                                                                         *
+     * Life-Cycle                                                              *
+     *                                                                         *
+     **************************************************************************/
 
-  private set cursorPosition(position: number) {
-    let input = this.tagInput.nativeElement as HTMLInputElement;
-    input.selectionStart = position;
-  }
+    public ngOnInit(): void {
+        this.availableSuggestions = this.formControl.valueChanges
+            .debounceTime(150)
+            .flatMap((value) => {
+                let word = this.extractWordFrom(value,  this.cursorPosition);
+                return this.getSuggestions(word);
+            });
+        this._sub = this.formControl.valueChanges.
+        subscribe(value => this.onValueChanged(value));
+    }
 
-  private extractWordFrom(text: string, position: number): string {
-    let word = this.wordFinder.findWord(text, position);
-    return word.value;
-  }
+    public ngOnDestroy(): void {
+        this._sub.unsubscribe();
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     * Properties                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+
+    public onValueChanged(value: string) {
+        this.logger.debug('value changed', value);
+        this.valueChanged.next(value);
+    }
+
+    public insertSuggestion(suggestion: string) {
+        let full = this.formControl.value != null ? this.formControl.value : '';
+        let replacement = this.wordFinder.replaceWord(full,  this.cursorPosition, suggestion + ' ');
+        return replacement.newText;
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    private getSuggestions(input: string): Observable<string[]> {
+
+        if (this.suggestionProvider) {
+            return this.suggestionProvider.getSuggestions(input);
+        } else {
+            return Observable.from([]);
+        }
+    }
+
+    private get cursorPosition(): number {
+        let input = this.tagInput.nativeElement as HTMLInputElement;
+        return input.selectionStart;
+    }
+
+    private set cursorPosition(position: number) {
+        let input = this.tagInput.nativeElement as HTMLInputElement;
+        input.selectionStart = position;
+    }
+
+    private extractWordFrom(text: string, position: number): string {
+        let word = this.wordFinder.findWord(text, position);
+        return word.value;
+    }
 
 }
