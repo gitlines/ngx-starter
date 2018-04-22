@@ -77,7 +77,7 @@ export class LabelEditorComponent implements OnInit {
     }
 
     @Output('labelsChanged')
-    public get labelsChanged(): Observable<any[]>{
+    public get labelsChanged(): Observable<any[]> {
         return this._labelsSubject;
     }
 
@@ -133,7 +133,7 @@ export class LabelEditorComponent implements OnInit {
                 if (this._suggestionLoader) {
                     return this._suggestionLoader.loadSuggestions(value)
                         .map(labels => this.filterNotPresent(labels));
-                }else {
+                } else {
                     this.logger.debug('Cant provide suggestions since no suggestion provider was registered!');
                     return Observable.empty();
                 }
@@ -184,7 +184,7 @@ export class LabelEditorComponent implements OnInit {
     public labelName(label: any): string {
         if (label) {
             return this._nameResolver ?  this._nameResolver(label) : label.toString();
-        }else {
+        } else {
             return '';
         }
     }
