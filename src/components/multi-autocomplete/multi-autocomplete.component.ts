@@ -68,8 +68,14 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
         this.availableSuggestions = this.formControl.valueChanges
             .debounceTime(150)
             .flatMap((value) => {
-                let word = this.extractWordFrom(value,  this.cursorPosition);
-                return this.getSuggestions(word);
+
+                if (this.cursorPosition) {
+                    const cursor = this.cursorPosition;
+                    let word = this.extractWordFrom(value,  cursor);
+                    return this.getSuggestions(word);
+                } else {
+                    return Observable.empty();
+                }
             });
         this._sub = this.formControl.valueChanges.
         subscribe(value => this.onValueChanged(value));
@@ -100,8 +106,13 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
 
     public insertSuggestion(suggestion: string) {
         let full = this.formControl.value != null ? this.formControl.value : '';
-        let replacement = this.wordFinder.replaceWord(full,  this.cursorPosition, suggestion + ' ');
-        return replacement.newText;
+        if (this.cursorPosition) {
+            const cursor = this.cursorPosition;
+            let replacement = this.wordFinder.replaceWord(full, cursor, suggestion + ' ');
+            return replacement.newText;
+        } else {
+            this.logger.warn('Insert not possible as no cursor-position was available!')
+        }
     }
 
     /***************************************************************************
@@ -119,12 +130,12 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
         }
     }
 
-    private get cursorPosition(): number {
+    private get cursorPosition(): number | null {
         let input = this.tagInput.nativeElement as HTMLInputElement;
         return input.selectionStart;
     }
 
-    private set cursorPosition(position: number) {
+    private set cursorPosition(position: number | null) {
         let input = this.tagInput.nativeElement as HTMLInputElement;
         input.selectionStart = position;
     }
