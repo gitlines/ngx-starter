@@ -175,7 +175,7 @@ export class LabelEditorComponent implements OnInit {
     }
 
     public addLabels(labels: any[]) {
-        this._labels.push(labels);
+        this._labels.push(...labels);
         this.labelInputControl.reset();
         this.onLabelsChanged();
     }
