@@ -9,12 +9,13 @@ export * from './label-suggestion-provider';
 export {LabelEditorComponent} from './labels-input/labels-input.component'
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, ReactiveFormsModule,
-    FlexLayoutModule,
-    MatIconModule, MatInputModule, MatChipsModule, MatAutocompleteModule
-  ],
-  declarations: [LabelEditorComponent],
-  exports: [LabelEditorComponent]
+    imports: [
+        CommonModule, FormsModule, ReactiveFormsModule,
+
+        MatIconModule, MatInputModule, MatChipsModule, MatAutocompleteModule,
+        FlexLayoutModule
+    ],
+    declarations: [LabelEditorComponent],
+    exports: [LabelEditorComponent]
 })
 export class LabelsModule { }
