@@ -38,8 +38,7 @@ export class DataContextBuilder<T> {
 
     /**
      * Creates a new DataContextBuilder.
-     * @param logger A global logger instance
-     * @returns The type of data to manage.
+     * @returns A new DataContextBuilder for the given data type.
      */
     public static  start<T>(): DataContextBuilder<T> {
         return new DataContextBuilder<T>();
@@ -60,11 +59,19 @@ export class DataContextBuilder<T> {
      *                                                                         *
      **************************************************************************/
 
+    /**
+     * Optional index function where each element will be indexed by.
+     * If you have configured this, you can use the findByIndex(key) on the data-context.
+     */
     public indexBy(indexFn?: ((item: T) => any)): DataContextBuilder<T> {
         this._indexFn = indexFn;
         return this;
     }
 
+    /**
+     * The desired size of a page/chunk when loading data.
+     * Note that continuable apis might just take this as a wish or even completely ignore this param.
+     */
     public pageSize(size: number): DataContextBuilder<T> {
         this._pageSize = size;
         return this;
@@ -78,11 +85,19 @@ export class DataContextBuilder<T> {
         return this;
     }
 
+    /**
+     * Sort the data context locally by the given sort function.
+     * Note that this might be a costly operation when there are a lot of elements present.
+     * Prefer server side sorting if possible.
+     */
     public localSorted(localSort: (a: T, b: T) => number): DataContextBuilder<T> {
         this._localSort = localSort;
         return this;
     }
 
+    /**
+     * For each element which is added to the datacontext, apply the given function.
+     */
     public localApply(localApply?: ((data: T[]) => T[])): DataContextBuilder<T> {
         this._localApply = localApply;
         return this;
