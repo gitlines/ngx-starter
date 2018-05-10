@@ -29,8 +29,10 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
     private readonly logger: Logger = LoggerFactory.getLogger('DataContextContinuableToken');
 
     private _chunkCache: Set<string|undefined> = new Set();
+    private _expectedChunkToken?: string;
+    private _hasMoreData: boolean;
 
-    protected nextContinuationToken?: string;
+    // protected nextContinuationToken?: string;
 
     /***************************************************************************
      *                                                                         *
@@ -55,7 +57,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
      **************************************************************************/
 
     public get hasMoreData(): boolean {
-        return !!this.nextContinuationToken;
+        return this._hasMoreData;
     }
 
     public loadMore(): Observable<any> {
@@ -65,7 +67,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
             return Observable.empty();
         }
 
-        const token = this.nextContinuationToken;
+        const token = this._expectedChunkToken;
 
         if (token && token.length > 0) {
             return this.fetchNextChunk(token);
@@ -84,7 +86,8 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
     protected clear(): void {
         super.clear();
         this._chunkCache.clear();
-        this.nextContinuationToken = undefined;
+        this._hasMoreData = true;
+        this._expectedChunkToken = undefined;
     }
 
     protected loadData(): Observable<any> {
@@ -110,7 +113,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
                 .subscribe(
                     chunk => {
                         this.logger.debug('Got next chunk data:', chunk);
-                        this.nextContinuationToken = chunk.nextContinuationToken;
+                        this._hasMoreData = chunk.hasMore;
                         this.chunkSize = chunk.chunkSize;
                         this.populateChunkData(chunk);
                         this.setLoadingIndicator(false);
@@ -131,15 +134,34 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
      * Load the data from the given page into the current data context
      */
     private populateChunkData(chunk: ContinuableListing<T>): void {
-        try {
-            this.setTotal(chunk.total);
-            let newRows = [...this.rows];
-            newRows.push(...chunk.content);
-            this.setRows(newRows);
-        } catch (err) {
-            this.onError(err);
-            this.logger.error('Failed to populate data with chunk', chunk, err);
+        if (this.areTokenEqual(chunk.continuationToken, this._expectedChunkToken)) {
+            try {
+                this.setTotal(chunk.total);
+
+                if (chunk.continuationToken) {
+                    // We had previous chunks so append to current data.
+                    let newRows = [...this.rows];
+                    newRows.push(...chunk.content);
+                    this.setRows(newRows);
+                } else {
+                    this.setRows(chunk.content);
+                }
+
+            } catch (err) {
+                this.onError(err);
+                this.logger.error('Failed to populate data with chunk', chunk, err);
+            }
+            this._expectedChunkToken = chunk.nextContinuationToken;
+        } else {
+            this.logger.warn('Discarding continuable chunk (items: ' + chunk.content.length + ', token: ' + chunk.continuationToken + ' )' +
+                ' as it does not match the expected contiunation-token: ' + this._expectedChunkToken);
         }
     }
+
+    private areTokenEqual(token1?: string, token2?: string): boolean {
+        if (!token1 && !token2) { return true; }
+        return token1 === token2;
+    }
+
 
 }
