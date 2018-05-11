@@ -140,9 +140,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
                 if (chunk.continuationToken) {
                     // We had previous chunks so append to current data.
-                    let newRows = [...this.rows];
-                    newRows.push(...chunk.content);
-                    this.setRows(newRows);
+                    this.appendRows(chunk.content);
                 } else {
                     this.setRows(chunk.content);
                 }

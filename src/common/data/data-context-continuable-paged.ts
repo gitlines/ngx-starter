@@ -153,7 +153,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
                 newRows[i + start] = item;
                 this.indexItem(item);
             }
-            this.setRows(newRows);
+            this.setRows(newRows, true);
         } catch (err) {
             this.onError(err);
             this.logger.error('Failed to populate data with page', page, err);

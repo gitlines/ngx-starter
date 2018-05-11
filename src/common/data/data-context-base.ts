@@ -115,7 +115,23 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
      *                                                                         *
      **************************************************************************/
 
-    protected setRows(rows: T[]) {
+    /**
+     * Append the given rows to to existing ones.
+     */
+    protected appendRows(additionalRows: T[]): void {
+        // We had previous chunks so append to current data.
+        let newRows = [...this.rows];
+        newRows.push(...additionalRows);
+        this.indexAll(additionalRows);
+        this.setRows(newRows, true);
+    }
+
+    /**
+     * Replaces the existing rows with the given ones.
+     * @param rows The new rows.
+     * @param alreadyIndexed The rows will be indexed unless they already have been.
+     */
+    protected setRows(rows: T[], alreadyIndexed = false): void {
 
         if (this._localApply) {
             rows = this._localApply(rows);
@@ -124,6 +140,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         if (this._localSort) {
             this.baselog.debug(`Apply local sort to ${rows.length} rows ...`);
             rows.sort(this._localSort);
+        }
+
+        if (!alreadyIndexed) {
+            this.indexAll(rows);
         }
 
         if (!(this._rows.length === 0 && rows.length === 0)) {
@@ -159,13 +179,25 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     protected updateIndex(): void {
         this._primaryIndex.clear();
-        this.rows.forEach(item => this.indexItem(item));
+        this.indexAll(this.rows);
     }
 
+    /**
+     * Indexes the given item by key if there is an index function defined.
+     */
     protected indexItem(item: T): void {
         let key = this.getItemKey(item);
         if (key) {
             this._primaryIndex.set(key, item);
+        }
+    }
+
+    /**
+     * Indexes all the given items by key if there is an index function defined.
+     */
+    protected indexAll(items: T[]): void {
+        if (this._indexFn) {
+            items.forEach(item => this.indexItem(item));
         }
     }
 
