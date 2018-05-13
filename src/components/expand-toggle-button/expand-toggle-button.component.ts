@@ -1,9 +1,7 @@
 
-
-
 import {Component, Input, OnInit, Output} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject, Observable} from 'rxjs/index';
+
 
 @Component({
   selector: 'expand-toggle-button',

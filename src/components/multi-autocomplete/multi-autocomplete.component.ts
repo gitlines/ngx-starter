@@ -1,10 +1,9 @@
 import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
 import {WordPositionFinder} from './word-position';
-import {Subscription} from 'rxjs/Subscription';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import 'rxjs/add/operator/debounceTime';
+import {EMPTY, Observable, Subscription, of} from 'rxjs/index';
+import {debounceTime, flatMap} from 'rxjs/operators';
 
 
 export interface SuggestionProvider {
@@ -65,18 +64,19 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
      **************************************************************************/
 
     public ngOnInit(): void {
-        this.availableSuggestions = this.formControl.valueChanges
-            .debounceTime(150)
-            .flatMap((value) => {
+        this.availableSuggestions = this.formControl.valueChanges.pipe(
+            debounceTime(150),
+            flatMap((value) => {
 
                 if (this.cursorPosition) {
                     const cursor = this.cursorPosition;
                     let word = this.extractWordFrom(value,  cursor);
                     return this.getSuggestions(word);
                 } else {
-                    return Observable.empty();
+                    return EMPTY;
                 }
-            });
+            })
+        );
         this._sub = this.formControl.valueChanges.
         subscribe(value => this.onValueChanged(value));
     }
@@ -126,7 +126,7 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
         if (this.suggestionProvider) {
             return this.suggestionProvider.getSuggestions(input);
         } else {
-            return Observable.from([]);
+            return of([]);
         }
     }
 
@@ -137,7 +137,7 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
 
     private set cursorPosition(position: number | null) {
         let input = this.tagInput.nativeElement as HTMLInputElement;
-        input.selectionStart = position;
+        input.selectionStart = position ? position : 0;
     }
 
     private extractWordFrom(text: string, position: number): string {

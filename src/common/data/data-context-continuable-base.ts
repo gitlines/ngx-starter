@@ -3,7 +3,7 @@ import {DataContextBase} from './data-context-base';
 import {Sort} from './sort';
 import {Filter} from './filter';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/index';
 
 
 

@@ -2,6 +2,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router, RouterStateSnapshot} from '@angular/router';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {filter, map} from 'rxjs/operators';
 
 /**
  * This service manages the side content.
@@ -36,15 +37,16 @@ export class SideContentService {
         private router: Router,
     ) {
 
-        this.router.events
-            .filter(event => event instanceof NavigationEnd)
-            .map(event => event as NavigationEnd)
+        this.router.events.pipe(
+                filter(event => event instanceof NavigationEnd),
+                map(event => event as NavigationEnd)
+            )
             .subscribe(event => {
 
                 if (this.isOutletActive(this.detailContentOutlet)) {
                     this.logger.debug(`"${this.detailContentOutlet}" outlet is active -> showing side content!`);
                     this.showSideContent();
-                }else {
+                } else {
                     this.logger.debug(`"${this.detailContentOutlet}" outlet is NOT active -> HIDING side content!`);
                     this.closeSideContent();
                 }

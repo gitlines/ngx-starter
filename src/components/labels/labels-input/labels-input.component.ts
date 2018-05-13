@@ -2,15 +2,9 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ISuggestionProvider} from '../label-suggestion-provider';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/debounce';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/observable/empty';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {EMPTY, Observable, Subject} from 'rxjs/index';
+import {debounceTime, flatMap, map, startWith} from 'rxjs/operators';
 
 @Component({
     selector: 'labels-input',
@@ -136,18 +130,20 @@ export class LabelEditorComponent implements OnInit {
      **************************************************************************/
 
     public ngOnInit(): void {
-        this.availableSuggestions = this.labelInputControl.valueChanges
-            .startWith(null)
-            .debounceTime(150)
-            .flatMap((value) => {
+        this.availableSuggestions = this.labelInputControl.valueChanges.pipe(
+            startWith(null),
+            debounceTime(150),
+            flatMap((value) => {
                 if (this._suggestionLoader) {
-                    return this._suggestionLoader.loadSuggestions(value)
-                        .map(labels => this.filterNotPresent(labels));
+                    return this._suggestionLoader.loadSuggestions(value).pipe(
+                        map(labels => this.filterNotPresent(labels))
+                    );
                 } else {
                     this.logger.debug('Cant provide suggestions since no suggestion provider was registered!');
-                    return Observable.empty();
+                    return EMPTY;
                 }
-            });
+            })
+    );
     }
 
     /***************************************************************************

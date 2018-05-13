@@ -1,6 +1,6 @@
 {
   "name": "@elderbyte/ngx-starter",
-  "version": "5.4.6",
+  "version": "6.0.0-beta",
   "description": "Angular Web App Starter library containing highly reusable modules and configuration.",
   "repository": {
     "type": "git",
@@ -22,16 +22,16 @@
   "jsnext:main": "ngx-starter.js",
   "typings": "ngx-starter.d.ts",
   "peerDependencies": {
-    "@angular/core": "^5.0.2",
-    "@angular/common": "^5.0.2",
-    "@angular/forms": "^5.0.2",
-    "@angular/router": "^5.0.2",
-    "@angular/flex-layout": "^5.0.0-beta.13",
-    "@angular/material": "^5.2.4",
-    "@ngx-translate/core": "^9.0.1",
+    "@angular/core": "^6.0.1",
+    "@angular/common": "^6.0.1",
+    "@angular/forms": "^6.0.1",
+    "@angular/router": "^6.0.1",
+    "@angular/flex-layout": "^6.0.0-beta.15",
+    "@angular/material": "^6.0.1",
+    "@ngx-translate/core": "^10.0.1",
     "@elderbyte/ts-logger": "^0.1.0",
-    "@elderbyte/ngx-simple-webstorage": "^5.0.0-beta",
-    "rxjs": "^5.5.2",
-    "zone.js": "^0.8.18"
+    "@elderbyte/ngx-simple-webstorage": "^6.0.0-beta",
+    "rxjs": "^6.1.0",
+    "zone.js": "^0.8.26"
   }
 }

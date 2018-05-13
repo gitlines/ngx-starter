@@ -1,12 +1,10 @@
-import {Observable} from 'rxjs/Rx';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {Filter} from './filter';
 import {ContinuableListing} from './continuable-listing';
 import {DataContextContinuableBase} from './data-context-continuable-base';
-import {Subject} from 'rxjs/Subject';
 import {Sort} from './sort';
-import {Page} from './page';
-
+import {EMPTY, Observable, Subject} from 'rxjs/index';
+import {take} from 'rxjs/operators';
 
 export class TokenChunkRequest {
     constructor (
@@ -64,7 +62,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
         if (this.loadingIndicator) {
             this.logger.debug('Skipping load-more since already loading a chunk!');
-            return Observable.empty();
+            return EMPTY;
         }
 
         const token = this._expectedChunkToken;
@@ -73,7 +71,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
             return this.fetchNextChunk(token);
         } else {
             this.logger.debug('Cannot load more data, since no more data available.');
-            return Observable.empty();
+            return EMPTY;
         }
     }
 
@@ -109,7 +107,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
             this._chunkCache.add(nextToken);
 
             this.nextChunkLoader(new TokenChunkRequest(nextToken, this.filters, this.sorts))
-                .take(1)
+                .pipe(take(1))
                 .subscribe(
                     chunk => {
                         this.logger.debug('Got next chunk data:', chunk);
@@ -127,7 +125,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
                     }
                 );
         }
-        return subject.take(1);
+        return subject.pipe(take(1));
     }
 
     /**

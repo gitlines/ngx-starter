@@ -1,11 +1,11 @@
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/index';
 
 export interface ISuggestionProvider<T> {
 
   /**
    * Loads all suggestions, filtered by the given filter string.
    */
-  loadSuggestions(filter: string): Observable<T[]>;
+  loadSuggestions(filter: string | null): Observable<T[]>;
 }
 
 
