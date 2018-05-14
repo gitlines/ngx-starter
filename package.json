@@ -58,7 +58,7 @@
     "@angular/platform-browser": "^6.0.1",
     "@angular/platform-browser-dynamic": "^6.0.1",
     "@angular/router": "^6.0.1",
-    "@elderbyte/ngx-simple-webstorage": "^6.0.0-beta",
+    "@elderbyte/ngx-simple-webstorage": "^6.0.0",
     "@elderbyte/ts-logger": "^0.1.0",
     "@ngx-translate/core": "^10.0.1",
     "@types/jest": "^22.2.3",
