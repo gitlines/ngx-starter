@@ -10,7 +10,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand",
-    "update:angular": "ng update"
+    "update:ng": "ng update"
   },
   "jest": {
     "preset": "jest-preset-angular",
