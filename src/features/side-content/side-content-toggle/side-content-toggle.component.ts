@@ -1,10 +1,8 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {SideContentService} from '../side-content.service';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs/index';
 
 @Component({
     selector: 'app-side-content-toggle',
@@ -48,7 +46,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     public onClick(): void {
         if (this.showNavigateBack) {
             this.goBack(this._currentUrl);
-        }else {
+        } else {
             this.toggleSideContent();
         }
     }
@@ -111,7 +109,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
             if (this.isRootRoute(url)) { return url; };
             const parent = this.parent(url);
             return this.findRoot(parent);
-        }else {
+        } else {
             return '/';
         }
     }

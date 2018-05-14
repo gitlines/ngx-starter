@@ -1,9 +1,10 @@
-import { Observable } from 'rxjs/Rx';
 import {ConfirmDialog, ConfirmDialogConfig} from './confirm-dialog/confirm-dialog.component';
 import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
 import { Injectable } from '@angular/core';
 import {QuestionDialog, QuestionDialogConfig} from './question-dialog/question-dialog.component';
 import {TranslateService} from '@ngx-translate/core';
+import {Observable} from 'rxjs';
+import {flatMap, filter} from 'rxjs/operators';
 
 
 @Injectable()
@@ -44,15 +45,16 @@ export class CommonDialogService {
 
         const keys = [config.title, config.message];
 
-        return this.translateService.get(keys, config.interpolateParams)
-            .flatMap(translated => {
+        return this.translateService.get(keys, config.interpolateParams).pipe(
+            flatMap(translated => {
 
                 const title = translated[config.title];
                 const message = translated[config.message];
 
                 return this.confirm(title, message, config.config);
 
-            });
+            })
+            );
 
     }
 
@@ -73,7 +75,7 @@ export class CommonDialogService {
         let dialogRef = this.dialog.open(QuestionDialog, conf);
 
         return dialogRef.afterClosed()
-                .filter(response => !!response);
+                .pipe(filter(response => !!response));
     }
 
 
@@ -88,15 +90,15 @@ export class CommonDialogService {
 
         const keys = [config.title, config.question];
 
-        return this.translateService.get(keys, config.interpolateParams)
-            .flatMap(translated => {
+        return this.translateService.get(keys, config.interpolateParams).pipe(
+            flatMap(translated => {
 
                 const title = translated[config.title];
                 const message = translated[config.question];
 
                 return this.question(title, message, config.config);
 
-            });
+            }));
 
     }
 

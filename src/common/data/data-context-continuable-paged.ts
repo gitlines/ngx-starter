@@ -1,11 +1,10 @@
 
-import {Observable} from 'rxjs';
+import {EMPTY, Observable, Subject} from 'rxjs';
 import {Filter} from './filter';
 import {Page, Pageable} from './page';
-import {Subject} from 'rxjs/Subject';
-import 'rxjs/add/operator/take';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextContinuableBase} from './data-context-continuable-base';
+import {take} from 'rxjs/operators';
 
 /**
  * Extends a simple flat list data-context with infinite-scroll pagination support.
@@ -55,12 +54,12 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
         if (this.hasMoreData) {
             this.logger.info('Loading more...' + this._latestPage);
 
-            if (this.loadingIndicator) { return Observable.empty(); }
+            if (this.loadingIndicator) { return EMPTY; }
             let nextPage = this._latestPage + 1;
             return this.fetchPage(nextPage, this.chunkSize);
         } else {
             this.logger.debug('Cannot load more data, since no more data available.');
-            return Observable.empty();
+            return EMPTY;
         }
     }
 
@@ -136,7 +135,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
             });
         }
 
-        return subject.take(1);
+        return subject.pipe(take(1));
     }
 
     /**

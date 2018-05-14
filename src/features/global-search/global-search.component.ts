@@ -3,8 +3,9 @@ import {
 } from '@angular/core';
 import {GlobalSearchService, SearchQuery, SortOption} from './global-search.service';
 import {NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
 import {Sort} from '../../common/data/sort';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
 
 
@@ -49,8 +50,9 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
           this.availableSort = available;
         }),
 
-      router.events
-        .filter(event => event instanceof NavigationEnd)
+      router.events.pipe(
+         filter(event => event instanceof NavigationEnd)
+        )
         .subscribe(() => {
           this.searchCollapsed = true;
         })

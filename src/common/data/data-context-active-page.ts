@@ -1,10 +1,10 @@
 import {IDataContextActivePage} from './data-context';
 import {DataContextBase} from './data-context-base';
-import {Observable} from 'rxjs/Observable';
 import {Page, Pageable} from './page';
 import {Filter} from './filter';
-import {Subject} from 'rxjs/Subject';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
+import {Observable, Subject} from 'rxjs/index';
+import {take} from 'rxjs/operators';
 
 
 
@@ -93,7 +93,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
         const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sorts);
 
         this.pageLoader(pageRequest, this.filters)
-            .take(1)
+            .pipe(take(1))
             .subscribe(
             success => {
                 this.setTotal(success.totalElements);
@@ -108,7 +108,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
                 this.onError(err);
             });
 
-        return subject.take(0);
+        return subject.pipe(take(1));
     }
 
 

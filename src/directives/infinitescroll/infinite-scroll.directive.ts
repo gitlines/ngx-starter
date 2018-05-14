@@ -1,9 +1,7 @@
 import {Directive, ElementRef, Input, OnDestroy, Output} from '@angular/core';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/throttleTime';
-import 'rxjs/add/operator/filter';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {Observable, ReplaySubject} from 'rxjs/index';
+import {filter, throttleTime} from 'rxjs/operators';
 
 
 @Directive({ selector: '[infiniteScroll]' })
@@ -47,12 +45,12 @@ export class InfiniteScrollDirective implements OnDestroy {
      **************************************************************************/
 
     @Output('closeToEnd')
-    public get closeToEnd(): Observable<UIEvent>{
-        return this._scrollStream$
-            .filter(ev => !!(ev.target as HTMLElement))
-            .throttleTime(this.eventThrottle)               // Relax
-            .filter((ev: UIEvent) => this.isCloseToEnd(ev.target as HTMLElement))
-            ;
+    public get closeToEnd(): Observable<UIEvent> {
+        return this._scrollStream$.pipe(
+            filter(ev => !!(ev.target as HTMLElement)),
+            throttleTime(this.eventThrottle),               // Relax
+            filter((ev: UIEvent) => this.isCloseToEnd(ev.target as HTMLElement))
+            );
     }
 
     @Input('containerId')

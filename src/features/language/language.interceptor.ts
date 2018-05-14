@@ -1,8 +1,8 @@
 
 import {Injectable, Injector} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
 import {TranslateService} from '@ngx-translate/core';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class LanguageInterceptor implements HttpInterceptor {

@@ -3,13 +3,13 @@ import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './d
 import {DataContextContinuablePaged} from './data-context-continuable-paged';
 import {Page, Pageable} from './page';
 import {Filter} from './filter';
-import {Observable} from 'rxjs/Observable';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextSimple} from './data-context-simple';
 import {DataContextActivePage} from './data-context-active-page';
 import {Sort} from './sort';
 import {ContinuableListing} from './continuable-listing';
 import {DataContextContinuableToken, TokenChunkRequest} from './data-context-continuable-token';
+import {EMPTY, Observable} from 'rxjs/index';
 
 
 /**
@@ -156,7 +156,7 @@ export class DataContextBuilder<T> {
     }
 
     public buildEmpty(): IDataContext<T> {
-        return new DataContextSimple<T>( (a, b) => Observable.empty());
+        return new DataContextSimple<T>( (a, b) => EMPTY);
     }
 
 }

@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Subject, Observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {Sort} from '../../common/data';
+import {Subject, Observable} from 'rxjs';
+import {filter, map, mergeMap} from 'rxjs/operators';
 
 
 
@@ -38,15 +39,16 @@ export class GlobalSearchService {
 
   constructor(router: Router) {
 
-     router.events
-      .filter(event => event instanceof NavigationEnd)
-      .map(() => router.routerState.root)
-      .map(route => {
-        while (route.firstChild) { route = route.firstChild; }
-        return route;
-      })
-      .filter(route => route.outlet === 'primary')
-      .mergeMap(route => route.data)
+     router.events.pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(() => router.routerState.root),
+        map(route => {
+          while (route.firstChild) { route = route.firstChild; }
+          return route;
+        }),
+        filter(route => route.outlet === 'primary'),
+        mergeMap(route => route.data)
+      )
       .subscribe(currentRouteData  => {
         let enableGlobalSearch = currentRouteData['enableGlobalSearch'];
         this.showGlobalSearch = enableGlobalSearch != null ? !!enableGlobalSearch : !!currentRouteData['showGlobalSearch'];
@@ -57,7 +59,7 @@ export class GlobalSearchService {
     return this._availableSorts;
   }
 
-  public set availableSorts(sorts: SortOption[]){
+  public set availableSorts(sorts: SortOption[]) {
     this._availableSorts.next(sorts);
   }
 
@@ -69,7 +71,7 @@ export class GlobalSearchService {
     return this._query;
   }
 
-  set query(value: SearchQuery){
+  set query(value: SearchQuery) {
     this._query = value;
     this._querySubject.next(value);
   }
@@ -78,7 +80,7 @@ export class GlobalSearchService {
     return this._showGlobalSearchSubject;
   }
 
-  get showGlobalSearch(){
+  get showGlobalSearch() {
     return this._showGlobalSearch;
   }
 

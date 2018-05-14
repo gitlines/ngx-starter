@@ -2,7 +2,7 @@
 import {ValueAccessorBase} from './value-accessor-base';
 import {AbstractControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm, ValidationErrors, Validator} from '@angular/forms';
 import {forwardRef, Input, OnDestroy, Provider, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/index';
 
 
 export function buildFormIntegrationProviders(component: any): Provider[] {
@@ -86,7 +86,7 @@ export abstract class TemplateCompositeControl<T> extends ValueAccessorBase<T> i
     this._disabled = isDisabled;
   }
 
-  public get disabled(): boolean{ return this._disabled; }
+  public get disabled(): boolean { return this._disabled; }
 
   public setDisabledState(isDisabled: boolean): void {
     if (this.group) {
@@ -95,7 +95,7 @@ export abstract class TemplateCompositeControl<T> extends ValueAccessorBase<T> i
         if (ctrl) {
             if (isDisabled) {
                 ctrl.disable();
-            }else {
+            } else {
                 ctrl.enable();
             }
         }
@@ -116,7 +116,7 @@ export abstract class TemplateCompositeControl<T> extends ValueAccessorBase<T> i
     }
   }
 
-  protected set group(group: FormGroup){
+  protected set group(group: FormGroup) {
     this._group = group;
 
     this.unsubscribeAll();
