@@ -15,7 +15,7 @@ export const _MatPanelMixinBase = mixinColor(MatPanelComponentBase);
   inputs: ['color'],
   styleUrls: ['./mat-panel.component.scss'],
   host: {
-    'class': 'box',
+    'class': 'mat-panel',
   }
 })
 export class MatPanelComponent extends _MatPanelMixinBase implements OnInit, CanColor {
