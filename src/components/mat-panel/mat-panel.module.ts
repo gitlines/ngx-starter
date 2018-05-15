@@ -4,6 +4,8 @@ import {CommonModule} from '@angular/common';
 import {MatCommonModule} from '@angular/material';
 import {MatPanelComponent} from './mat-panel.component';
 
+export {MatPanelComponent} from './mat-panel.component'
+
 @NgModule({
     declarations: [
         MatPanelComponent
