@@ -156,7 +156,7 @@ gulp.task('copy:build', function () {
  * 8. Copy package.json from /src to /dist
  */
 gulp.task('copy:manifest', function () {
-    return gulp.src([`${srcFolder}/package.json`])
+    return gulp.src([`${srcFolder}/package.json`, `${srcFolder}/**/_*`])
         .pipe(gulp.dest(distFolder));
 });
 
