@@ -159,4 +159,23 @@ export class DataContextBuilder<T> {
         return new DataContextSimple<T>( (a, b) => EMPTY);
     }
 
+    public buildEmptyContinuable(): IDataContextContinuable<T> {
+        return new DataContextContinuablePaged<T>(
+            (a, b) => EMPTY,
+            this._pageSize,
+            this._indexFn,
+            this._localSort,
+            this._localApply
+        );
+    }
+
+    public buildEmptyActivePaged(): IDataContextActivePage<T> {
+        return new DataContextActivePage<T>(
+            (a, b) => EMPTY,
+            this._pageSize,
+            this._indexFn,
+            this._localSort,
+            this._localApply
+        );
+    }
 }
