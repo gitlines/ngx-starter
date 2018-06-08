@@ -40,7 +40,7 @@ export class UrlBuilder {
         let startDelimiter;
         if (part.includes('?')) {
             startDelimiter = '&';
-        }else {
+        } else {
             startDelimiter = '?';
         }
 

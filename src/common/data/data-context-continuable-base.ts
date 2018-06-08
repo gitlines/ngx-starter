@@ -31,12 +31,14 @@ export abstract class DataContextContinuableBase<T> extends DataContextBase<T> i
      **************************************************************************/
 
 
-    constructor(
+    protected constructor(
         chunkSize: number,
-        _indexFn?: ((item: T) => any),
-        _localSort?: ((a: T, b: T) => number),
-        _localApply?: ((data: T[]) => T[])) {
-        super(_indexFn, _localSort, _localApply);
+        indexFn?: ((item: T) => any),
+        localSort?: ((a: T, b: T) => number),
+        localApply?: ((data: T[]) => T[]),
+        activeSort?: Observable<Sort>
+    ) {
+        super(indexFn, localSort, localApply, activeSort);
         this._chunkSize = chunkSize;
     }
 

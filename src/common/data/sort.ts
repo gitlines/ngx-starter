@@ -1,11 +1,14 @@
 import {HttpParams} from '@angular/common/http';
-import {HttpParamsBuilder} from './http-params-builder';
 
 export class Sort {
     constructor (
         public readonly prop: string,
         public readonly dir: string
     ) { }
+
+    public equals(other: Sort): boolean {
+        return other && this.prop === other.prop && this.dir === other.dir;
+    }
 }
 
 /**

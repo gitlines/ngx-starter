@@ -24,6 +24,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     private _sorts: Sort[] = [];
     private readonly _filterContext = new FilterContext();
     private readonly _filterContextSub: Subscription;
+    private readonly _activeSortSub: Subscription;
 
     private _rows: T[] = [];
     private _dataChange = new BehaviorSubject<T[]>([]);
@@ -36,16 +37,24 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
      *                                                                         *
      **************************************************************************/
 
-    constructor(
+    protected constructor(
         private _indexFn?: ((item: T) => any),
         private _localSort?: ((a: T, b: T) => number),
-        private _localApply?: ((data: T[]) => T[])
+        private _localApply?: ((data: T[]) => T[]),
+        activeSort?: Observable<Sort>
     ) {
         super();
 
         this._filterContextSub = this._filterContext.filtersChanged.subscribe(
             () => this.reload()
         );
+
+        if (activeSort) {
+            activeSort.subscribe(
+                sort => this.setSort(sort)
+            );
+        }
+
     }
 
     /***************************************************************************
@@ -136,6 +145,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     public close(): void {
         this._filterContextSub.unsubscribe();
+        if (this._activeSortSub) { this._activeSortSub.unsubscribe(); }
     }
 
     /***************************************************************************
@@ -144,7 +154,14 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
      *                                                                         *
      **************************************************************************/
 
-    protected setSorts(sorts?: Sort[], skipReload = false) {
+    protected setSort(sort: Sort): void {
+        if (this.sorts.length === 1 && this.sorts[0].equals(sort)) {
+            return;
+        }
+        this.setSorts(sort ? [sort] : []);
+    }
+
+    protected setSorts(sorts?: Sort[], skipReload = false): void {
         this._sorts = sorts ? sorts.slice(0) : []; // clone
         if (!skipReload) { this.reload(); }
     }

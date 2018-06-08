@@ -29,6 +29,7 @@ export class DataContextBuilder<T> {
     private _indexFn?: ((item: T) => any);
     private _localSort?: (a: T, b: T) => number;
     private _localApply?: ((data: T[]) => T[]);
+    private _activeSort?: Observable<Sort>;
     private _pageSize = 30;
 
     /***************************************************************************
@@ -51,8 +52,7 @@ export class DataContextBuilder<T> {
      *                                                                         *
      **************************************************************************/
 
-    constructor(
-    ) { }
+    constructor() { }
 
     /***************************************************************************
      *                                                                         *
@@ -88,11 +88,20 @@ export class DataContextBuilder<T> {
 
     /**
      * Sort the data context locally by the given sort function.
+     *
      * Note that this might be a costly operation when there are a lot of elements present.
      * Prefer server side sorting if possible.
      */
     public localSorted(localSort: (a: T, b: T) => number): DataContextBuilder<T> {
         this._localSort = localSort;
+        return this;
+    }
+
+    /**
+     * Bind the data-context to the given reactive sort source.
+     */
+    public activeSorted(activeSort: Observable<Sort>): DataContextBuilder<T> {
+        this._activeSort = activeSort;
         return this;
     }
 
@@ -115,7 +124,9 @@ export class DataContextBuilder<T> {
             listFetcher,
             this._indexFn,
             this._localSort,
-            this._localApply);
+            this._localApply,
+            this._activeSort,
+        );
     }
 
     public buildPaged(
@@ -127,7 +138,8 @@ export class DataContextBuilder<T> {
             this._pageSize,
             this._indexFn,
             this._localSort,
-            this._localApply
+            this._localApply,
+            this._activeSort,
         );
     }
 
@@ -139,7 +151,8 @@ export class DataContextBuilder<T> {
             this._pageSize,
             this._indexFn,
             this._localSort,
-            this._localApply
+            this._localApply,
+            this._activeSort,
         );
     }
 
@@ -154,6 +167,7 @@ export class DataContextBuilder<T> {
             this._indexFn,
             this._localSort,
             this._localApply,
+            this._activeSort,
             activePage
         );
     }
@@ -168,7 +182,8 @@ export class DataContextBuilder<T> {
             this._pageSize,
             this._indexFn,
             this._localSort,
-            this._localApply
+            this._localApply,
+            this._activeSort,
         );
     }
 
@@ -178,7 +193,8 @@ export class DataContextBuilder<T> {
             this._pageSize,
             this._indexFn,
             this._localSort,
-            this._localApply
+            this._localApply,
+            this._activeSort,
         );
     }
 }

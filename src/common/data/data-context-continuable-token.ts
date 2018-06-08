@@ -42,10 +42,12 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
     constructor(
         private nextChunkLoader: (tokenChunkRequest: TokenChunkRequest) => Observable<ContinuableListing<T>>,
         chunkSize: number,
-        _indexFn?: ((item: T) => any),
-        _localSort?: ((a: T, b: T) => number),
-        _localApply?: ((data: T[]) => T[])) {
-        super(chunkSize, _indexFn, _localSort, _localApply);
+        indexFn?: ((item: T) => any),
+        localSort?: ((a: T, b: T) => number),
+        localApply?: ((data: T[]) => T[]),
+        activeSort?: Observable<Sort>
+    ) {
+        super(chunkSize, indexFn, localSort, localApply, activeSort);
     }
 
     /***************************************************************************
