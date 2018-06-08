@@ -10,7 +10,8 @@ import {Sort} from './sort';
 import {ContinuableListing} from './continuable-listing';
 import {DataContextContinuableToken, TokenChunkRequest} from './data-context-continuable-token';
 import {EMPTY, Observable} from 'rxjs/index';
-import {PageEvent} from '@angular/material';
+import {Sort as MatSortRequest} from '@angular/material';
+import {map} from 'rxjs/operators';
 
 
 /**
@@ -102,6 +103,16 @@ export class DataContextBuilder<T> {
      */
     public activeSorted(activeSort: Observable<Sort>): DataContextBuilder<T> {
         this._activeSort = activeSort;
+        return this;
+    }
+
+    /**
+     * Bind the data-context to the given reactive material sort source.
+     */
+    public activeSortedMat(activeSort: Observable<MatSortRequest>): DataContextBuilder<T> {
+        this._activeSort = activeSort.pipe(
+            map(matSort => new Sort(matSort.active, matSort.direction))
+        );
         return this;
     }
 
