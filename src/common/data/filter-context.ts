@@ -1,6 +1,5 @@
 import {Filter} from './filter';
-import {Subject} from 'rxjs/internal/Subject';
-import {Observable} from 'rxjs/internal/Observable';
+import {Observable, Subject} from 'rxjs';
 
 export class FilterContext {
 
