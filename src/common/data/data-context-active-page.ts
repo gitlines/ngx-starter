@@ -118,13 +118,13 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
      *                                                                         *
      **************************************************************************/
 
-    protected clear(): void {
-        super.clear();
+    protected clearAll(): void {
+        super.clearAll();
+        this._pageIndex = 0;
     }
 
-    protected loadActivePage(): Observable<any> {
-        this.clear();
-        return this.loadData();
+    protected loadActivePage(): void {
+        this.loadData();
     }
 
     protected loadData(): Observable<any> {
@@ -146,6 +146,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
                 this.onSuccess();
             }, err => {
                 this.setLoadingIndicator(false);
+                this.setRows([]);
                 this.actlogger.error('Failed to query data', err);
                 subject.error(err);
                 this.onError(err);
