@@ -134,7 +134,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     }
 
     public reload(): Observable<any> {
-        this.clear();
+        this.clearAll();
         return this.loadData();
     }
 
@@ -212,7 +212,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         this._loadingIndicator = loading;
     }
 
-    protected clear(): void {
+    /**
+     * Clears the current data-context state and all its cached data
+     */
+    protected clearAll(): void {
         this.setTotal(0);
         this.setRows([]);
         this.setLoadingIndicator(false);

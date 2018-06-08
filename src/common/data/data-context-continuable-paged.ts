@@ -80,7 +80,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
      **************************************************************************/
 
     protected onChunkSizeChanged(newSize: number): void {
-        this.clear();
+        this.clearAll();
         this.loadData();
     }
 
@@ -88,8 +88,8 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
         return this.fetchPage(0, this.chunkSize);
     }
 
-    protected clear(): void {
-        super.clear();
+    protected clearAll(): void {
+        super.clearAll();
         this._pageCache = new Map();
         this._latestPage = 0;
     }

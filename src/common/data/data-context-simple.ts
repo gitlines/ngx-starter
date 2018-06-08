@@ -64,7 +64,7 @@ export class DataContextSimple<T> extends DataContextBase<T> {
                         subject.next();
                     }, err => {
                         this.onError(err);
-                        this.clear();
+                        this.clearAll();
                         this.log.error('data-context: Failed to query data', err);
                         subject.error(err);
                     });

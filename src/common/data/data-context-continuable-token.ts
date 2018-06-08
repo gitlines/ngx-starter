@@ -83,8 +83,8 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
      *                                                                         *
      **************************************************************************/
 
-    protected clear(): void {
-        super.clear();
+    protected clearAll(): void {
+        super.clearAll();
         this._chunkCache.clear();
         this._hasMoreData = true;
         this._expectedChunkToken = undefined;
