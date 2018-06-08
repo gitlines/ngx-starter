@@ -57,19 +57,9 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     /***************************************************************************
      *                                                                         *
-     * Public API                                                              *
+     * Properties                                                              *
      *                                                                         *
      **************************************************************************/
-
-    public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
-
-        this.baselog.debug('Starting fresh dataContext ...');
-
-        this.clear();
-        this.setSorts(sorts);
-        this.setFilters(filters);
-        return this.loadData();
-    }
 
     public get total(): number | undefined {
         return this._total;
@@ -79,18 +69,22 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         return this._sorts;
     }
 
+    public set sorts(newSorts: Sort[]) {
+        this.setSorts(newSorts);
+    }
+
     public get filters(): Filter[] {
         return this._filters;
+    }
+
+    public set filters(newFilters: Filter[]) {
+        this.setFilters(newFilters);
     }
 
     public get loadingIndicator(): boolean {
         return this._loadingIndicator;
     }
 
-    public findByIndex(key: any): T | undefined {
-        if (!this._indexFn) { throw new Error('findByIndex requires you to pass a index function!'); }
-        return this._primaryIndex.get(key);
-    }
 
     public get rowsChanged(): Observable<T[]> {
         return this._dataChange;
@@ -110,9 +104,44 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     /***************************************************************************
      *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
+
+        this.baselog.debug('Starting fresh dataContext ...');
+
+        this.setSorts(sorts, true);
+        this.setFilters(filters, true);
+        return this.reload();
+    }
+
+    public reload(): Observable<any>{
+        this.clear();
+        return this.loadData();
+    }
+
+    public findByIndex(key: any): T | undefined {
+        if (!this._indexFn) { throw new Error('findByIndex requires you to pass a index function!'); }
+        return this._primaryIndex.get(key);
+    }
+
+    /***************************************************************************
+     *                                                                         *
      * Protected methods                                                       *
      *                                                                         *
      **************************************************************************/
+
+    protected setSorts(sorts?: Sort[], skipReload = false) {
+        this._sorts = sorts ? sorts.slice(0) : []; // clone
+        if (!skipReload) { this.reload(); }
+    }
+
+    protected setFilters(filters?: Filter[], skipReload = false) {
+        this._filters = filters ? filters.slice(0) : []; // clone
+        if (!skipReload) { this.reload(); }
+    }
 
     /**
      * Append the given rows to to existing ones.
@@ -158,14 +187,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     protected setLoadingIndicator(loading: boolean): void {
         this._loadingIndicator = loading;
-    }
-
-    protected setSorts(sorts?: Sort[]) {
-        this._sorts = sorts ? sorts.slice(0) : []; // clone
-    }
-
-    protected setFilters(filters?: Filter[]) {
-        this._filters = filters ? filters.slice(0) : []; // clone
     }
 
     protected clear(): void {
