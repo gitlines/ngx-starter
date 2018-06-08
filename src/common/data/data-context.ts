@@ -2,6 +2,7 @@ import {Filter} from './filter';
 import {DataContextStatus} from './data-context-status';
 import {Sort} from './sort';
 import {Observable} from 'rxjs';
+import {FilterContext} from './filter-context';
 
 
 /**
@@ -43,14 +44,19 @@ export interface IDataContext<T> {
     readonly statusSnapshot: DataContextStatus;
 
     /**
-     * Gets/Sets the current sorts
+     * Gets the current sorts
      */
     sorts: Sort[];
 
     /**
-     * Gets/Sets the current filters
+     * Gets the current filters
      */
-    filters: Filter[];
+    readonly filters: Filter[];
+
+    /**
+     * Gets the current filter context. Changes in this context are reflected by the data-context.
+     */
+    readonly filterContext: FilterContext;
 
     /***************************************************************************
      *                                                                         *
@@ -63,6 +69,11 @@ export interface IDataContext<T> {
      * batch of data.
      */
     start(sorts?: Sort[], filters?: Filter[]): Observable<any>;
+
+    /**
+     * Closes the data-context and cleans up resources
+     */
+    close(): void;
 
     findByIndex(key: any): T | undefined;
 }

@@ -4,7 +4,8 @@ import {Filter} from './filter';
 import {Sort} from './sort';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {DataContextStatus} from './data-context-status';
-import {BehaviorSubject, Observable} from 'rxjs/index';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {FilterContext} from './filter-context';
 
 
 export abstract class DataContextBase<T> extends DataSource<T> implements IDataContext<T> {
@@ -21,7 +22,8 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     private _loadingIndicator = false;
 
     private _sorts: Sort[] = [];
-    private _filters: Filter[] = [];
+    private readonly _filterContext = new FilterContext();
+    private readonly _filterContextSub: Subscription;
 
     private _rows: T[] = [];
     private _dataChange = new BehaviorSubject<T[]>([]);
@@ -40,6 +42,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         private _localApply?: ((data: T[]) => T[])
     ) {
         super();
+
+        this._filterContextSub = this._filterContext.filtersChanged.subscribe(
+            () => this.reload()
+        );
     }
 
     /***************************************************************************
@@ -53,6 +59,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     }
 
     public disconnect(collectionViewer: CollectionViewer): void {
+        this.close();
     }
 
     /***************************************************************************
@@ -74,11 +81,11 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     }
 
     public get filters(): Filter[] {
-        return this._filters;
+        return this._filterContext.filters;
     }
 
-    public set filters(newFilters: Filter[]) {
-        this.setFilters(newFilters);
+    public get filterContext(): FilterContext {
+        return this._filterContext;
     }
 
     public get loadingIndicator(): boolean {
@@ -113,11 +120,11 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         this.baselog.debug('Starting fresh dataContext ...');
 
         this.setSorts(sorts, true);
-        this.setFilters(filters, true);
+        this._filterContext.replaceFiltersWith(filters, true);
         return this.reload();
     }
 
-    public reload(): Observable<any>{
+    public reload(): Observable<any> {
         this.clear();
         return this.loadData();
     }
@@ -125,6 +132,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     public findByIndex(key: any): T | undefined {
         if (!this._indexFn) { throw new Error('findByIndex requires you to pass a index function!'); }
         return this._primaryIndex.get(key);
+    }
+
+    public close(): void {
+        this._filterContextSub.unsubscribe();
     }
 
     /***************************************************************************
@@ -135,11 +146,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     protected setSorts(sorts?: Sort[], skipReload = false) {
         this._sorts = sorts ? sorts.slice(0) : []; // clone
-        if (!skipReload) { this.reload(); }
-    }
-
-    protected setFilters(filters?: Filter[], skipReload = false) {
-        this._filters = filters ? filters.slice(0) : []; // clone
         if (!skipReload) { this.reload(); }
     }
 

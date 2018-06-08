@@ -10,21 +10,24 @@ export class Filter {
 }
 
 
+
 /**
  * @deprecated Switch to HttpParamsBuilder
  */
 export class FilterUtil {
 
+    /**
+     * @deprecated Switch to HttpParamsBuilder
+     */
     public static addFilterQueryParams(params: HttpParams, filters: Filter[]): HttpParams {
         if (filters) {
             for (let filter of filters) {
-                if (filter.value) { // Ignore filters without a value specified
+                if (filter.key && filter.value) { // Ignore filters without a key/value specified
                     params = params.append(filter.key, filter.value);
                 }
             }
         }
         return params;
     }
-
 }
 
