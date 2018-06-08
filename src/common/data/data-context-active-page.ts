@@ -103,7 +103,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
             hasChange = true;
         }
         if (this._pageSize !== request.pageSize) {
-            this._pageIndex = request.pageIndex;
+            this._pageSize = request.pageSize;
             hasChange = true;
         }
 

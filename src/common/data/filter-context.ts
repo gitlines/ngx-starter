@@ -58,7 +58,7 @@ export class FilterContext {
 
     public replaceFiltersWith(filters?: Filter[], skipChangeEvent = false) {
         if (filters) {
-            filters.forEach(f => this._filters.set(f.key, f.value))
+            filters.forEach(f => this._filters.set(f.key, f.value));
             if (!skipChangeEvent) { this.onFiltersChanged(); }
         }
     }
