@@ -16,12 +16,10 @@ export interface IDataContext<T> {
      *                                                                         *
      **************************************************************************/
 
+    /**
+     * Gets the current rows in the data-context
+     */
     readonly rows: T[];
-
-    readonly sorts: Sort[];
-
-    readonly filters: Filter[];
-
 
     /**
      * Indicates that data is currently loading
@@ -43,6 +41,16 @@ export interface IDataContext<T> {
      */
     readonly statusChanged: Observable<DataContextStatus>;
     readonly statusSnapshot: DataContextStatus;
+
+    /**
+     * Gets/Sets the current sorts
+     */
+    sorts: Sort[];
+
+    /**
+     * Gets/Sets the current filters
+     */
+    filters: Filter[];
 
     /***************************************************************************
      *                                                                         *
