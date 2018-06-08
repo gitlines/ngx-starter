@@ -120,7 +120,6 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
     protected clear(): void {
         super.clear();
-        this._pageIndex = 0;
     }
 
     protected loadActivePage(): Observable<any> {
