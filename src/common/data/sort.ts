@@ -1,8 +1,11 @@
 import {HttpParams} from '@angular/common/http';
 
 export class Sort {
+
+    public static NONE = new Sort(undefined, '');
+
     constructor (
-        public readonly prop: string,
+        public readonly prop: string | undefined,
         public readonly dir: string
     ) { }
 
@@ -17,7 +20,7 @@ export class Sort {
 export class SortUtil {
     public static addSortQueryParams(params: HttpParams, sorts: Sort[]): HttpParams {
         if (sorts) {
-            for (let sort of sorts) {
+            for (let sort of sorts.filter(s => !!s.prop)) {
                 params = params.append('sort', sort.prop + ',' + sort.dir);
             }
         }

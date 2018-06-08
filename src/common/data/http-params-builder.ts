@@ -20,7 +20,7 @@ export class HttpParamsBuilder {
     public appendFilters(filters?: Filter[]): this {
         if (filters) {
             for (let filter of filters) {
-                if (filter.value) { // Ignore filters without a value specified
+                if (filter && filter.key && filter.value) { // Ignore filters without a value specified
                     this.append(filter.key, filter.value);
                 }
             }
@@ -35,7 +35,9 @@ export class HttpParamsBuilder {
     public appendSorts(sorts?: Sort[]): this {
         if (sorts) {
             for (let sort of sorts) {
-                this.append('sort', sort.prop + ',' + sort.dir);
+                if (sort && sort.prop) {
+                    this.append('sort', sort.prop + ',' + sort.dir);
+                }
             }
         }
         return this;

@@ -49,6 +49,11 @@ export interface IDataContext<T> {
     sorts: Sort[];
 
     /**
+     * Gets the current single sort
+     */
+    sort: Sort;
+
+    /**
      * Gets the current filters
      */
     readonly filters: Filter[];

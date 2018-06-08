@@ -51,7 +51,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
         if (activeSort) {
             activeSort.subscribe(
-                sort => this.setSort(sort)
+                sort => this.sort = sort
             );
         }
 
@@ -87,6 +87,21 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     public set sorts(newSorts: Sort[]) {
         this.setSorts(newSorts);
+    }
+
+    public set sort(sort: Sort) {
+        if (this.sorts.length === 1 && this.sorts[0].equals(sort)) {
+            return;
+        }
+        this.setSorts(sort ? [sort] : []);
+    }
+
+    public get sort(): Sort {
+      if (this.sorts.length > 0) {
+          return this.sorts[0];
+      } else {
+          return Sort.NONE;
+      }
     }
 
     public get filters(): Filter[] {
@@ -153,13 +168,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
      * Protected methods                                                       *
      *                                                                         *
      **************************************************************************/
-
-    protected setSort(sort: Sort): void {
-        if (this.sorts.length === 1 && this.sorts[0].equals(sort)) {
-            return;
-        }
-        this.setSorts(sort ? [sort] : []);
-    }
 
     protected setSorts(sorts?: Sort[], skipReload = false): void {
         this._sorts = sorts ? sorts.slice(0) : []; // clone
