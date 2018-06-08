@@ -144,7 +144,8 @@ export class DataContextBuilder<T> {
     }
 
     public buildActivePaged(
-        pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>
+        pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>,
+        activePage?: Observable<PageRequest>
     ): IDataContextActivePage<T> {
 
         return new DataContextActivePage<T>(
@@ -152,7 +153,8 @@ export class DataContextBuilder<T> {
             this._pageSize,
             this._indexFn,
             this._localSort,
-            this._localApply
+            this._localApply,
+            activePage
         );
     }
 
@@ -170,14 +172,13 @@ export class DataContextBuilder<T> {
         );
     }
 
-    public buildEmptyActivePaged(activePage?: Observable<PageRequest>): IDataContextActivePage<T> {
+    public buildEmptyActivePaged(): IDataContextActivePage<T> {
         return new DataContextActivePage<T>(
             (a, b) => EMPTY,
             this._pageSize,
             this._indexFn,
             this._localSort,
-            this._localApply,
-            activePage
+            this._localApply
         );
     }
 }

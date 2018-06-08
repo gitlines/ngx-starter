@@ -48,7 +48,6 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
                  this.loadPage(pageRequest);
             });
         }
-
     }
 
     /***************************************************************************
