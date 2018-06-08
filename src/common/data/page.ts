@@ -29,6 +29,11 @@ export class Page<T> {
   }
 }
 
+export interface PageRequest {
+    pageIndex: number;
+    pageSize: number;
+}
+
 export class Pageable {
 
   public readonly page: number;

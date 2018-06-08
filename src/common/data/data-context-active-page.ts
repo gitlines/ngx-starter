@@ -1,9 +1,9 @@
 import {IDataContextActivePage} from './data-context';
 import {DataContextBase} from './data-context-base';
-import {Page, Pageable} from './page';
+import {Page, Pageable, PageRequest} from './page';
 import {Filter} from './filter';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Observable, Subject} from 'rxjs/index';
+import {Observable, Subject, Subscription} from 'rxjs/index';
 import {take} from 'rxjs/operators';
 
 
@@ -21,6 +21,8 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     private _pageIndex: number;
     private _pageSize: number;
 
+    private _sub: Subscription;
+
     /***************************************************************************
      *                                                                         *
      * Constructor                                                             *
@@ -31,12 +33,22 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     constructor(
         private pageLoader: (pageable: Pageable, filters: Filter[]) => Observable<Page<T>>,
         pageSize: number,
-        _indexFn?: ((item: T) => any),
-        _localSort?: ((a: T, b: T) => number),
-        _localApply?: ((data: T[]) => T[])) {
-        super(_indexFn, _localSort, _localApply);
+        indexFn?: ((item: T) => any),
+        localSort?: ((a: T, b: T) => number),
+        localApply?: ((data: T[]) => T[]),
+        activePage?: Observable<PageRequest>) {
+
+        super(indexFn, localSort, localApply);
+
         this._pageSize = pageSize;
         this._pageIndex = 0;
+
+        if (activePage) {
+            this._sub = activePage.subscribe(pageRequest => {
+                 this.loadPage(pageRequest);
+            });
+        }
+
     }
 
     /***************************************************************************
@@ -73,20 +85,46 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
      *                                                                         *
      **************************************************************************/
 
+
+    public close(): void {
+        super.close();
+        if (this._sub) {
+            this._sub.unsubscribe();
+        }
+    }
+
+    public loadPage(request: PageRequest): void {
+
+        let hasChange = false;
+
+        if (this._pageIndex !== request.pageIndex) {
+            this._pageIndex = request.pageIndex;
+            hasChange = true;
+        }
+        if (this._pageSize !== request.pageSize) {
+            this._pageIndex = request.pageIndex;
+            hasChange = true;
+        }
+
+        if (hasChange) {
+            this.loadActivePage();
+        }
+    }
+
     /***************************************************************************
      *                                                                         *
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
 
-    protected loadActivePage(): void {
+    protected loadActivePage(): Observable<any> {
         this.clear();
-        this.loadData();
+        return this.loadData();
     }
 
     protected loadData(): Observable<any> {
 
-        const subject = new Subject();
+        const subject = new Subject<any>();
 
         this.setLoadingIndicator(true);
 

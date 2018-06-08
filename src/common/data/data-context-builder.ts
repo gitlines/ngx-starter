@@ -1,7 +1,7 @@
 
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
 import {DataContextContinuablePaged} from './data-context-continuable-paged';
-import {Page, Pageable} from './page';
+import {Page, Pageable, PageRequest} from './page';
 import {Filter} from './filter';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextSimple} from './data-context-simple';
@@ -10,6 +10,7 @@ import {Sort} from './sort';
 import {ContinuableListing} from './continuable-listing';
 import {DataContextContinuableToken, TokenChunkRequest} from './data-context-continuable-token';
 import {EMPTY, Observable} from 'rxjs/index';
+import {PageEvent} from '@angular/material';
 
 
 /**
@@ -169,13 +170,14 @@ export class DataContextBuilder<T> {
         );
     }
 
-    public buildEmptyActivePaged(): IDataContextActivePage<T> {
+    public buildEmptyActivePaged(activePage?: Observable<PageRequest>): IDataContextActivePage<T> {
         return new DataContextActivePage<T>(
             (a, b) => EMPTY,
             this._pageSize,
             this._indexFn,
             this._localSort,
-            this._localApply
+            this._localApply,
+            activePage
         );
     }
 }
