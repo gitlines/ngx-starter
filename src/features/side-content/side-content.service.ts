@@ -44,10 +44,10 @@ export class SideContentService {
             .subscribe(event => {
 
                 if (this.isOutletActive(this.detailContentOutlet)) {
-                    this.logger.debug(`"${this.detailContentOutlet}" outlet is active -> showing side content!`);
+                    this.logger.trace(`"${this.detailContentOutlet}" outlet is active -> showing side content!`);
                     this.showSideContent();
                 } else {
-                    this.logger.debug(`"${this.detailContentOutlet}" outlet is NOT active -> HIDING side content!`);
+                    this.logger.trace(`"${this.detailContentOutlet}" outlet is NOT active -> HIDING side content!`);
                     this.closeSideContent();
                 }
                 this.closeSideNav();
@@ -191,7 +191,6 @@ export class SideContentService {
     }
 
     private showSideContent() {
-        this.logger.debug('Showing ...');
         this.sideContentOpen = true;
     }
 

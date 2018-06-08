@@ -11,6 +11,12 @@ import {BehaviorSubject, Observable, Subscription} from 'rxjs/index';
 })
 export class SideContentToggleComponent implements OnInit, OnDestroy {
 
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
+
     private readonly logger = LoggerFactory.getLogger('SideContentToggleComponent');
 
     private _icon = new BehaviorSubject<string>('menu');
@@ -23,12 +29,24 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     @Input('hide')
     public hideOns: string[] = [];
 
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
+
     constructor(
         private router: Router,
         private sideContentService: SideContentService,
     ) { }
 
-    ngOnInit() {
+    /***************************************************************************
+     *                                                                         *
+     * Life Cycle                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    public ngOnInit(): void {
 
         this.sub = this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -39,9 +57,15 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
     public onClick(): void {
         if (this.showNavigateBack) {
@@ -61,6 +85,12 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
         }
         return true;
     }
+
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
 
     private updateIcon() {
         let icon = this.showNavigateBack ? 'arrow_back' : 'menu';
