@@ -9,7 +9,7 @@ import {
     MatSelectChange,
     MatSlideToggle,
 } from '@angular/material';
-import {FilterContext} from '../../common/data';
+import {FilterContext} from '../../common/data/index';
 
 @Directive({
     selector: '[filterInput]'
@@ -25,7 +25,7 @@ export class FilterInputDirective implements OnInit, OnDestroy, AfterViewInit {
     private readonly logger = LoggerFactory.getLogger('FilterInputDirective');
 
     private readonly inputValue = new Subject<any>();
-    private _extractedName: string;
+    private _extractedName: string | null;
 
     private _sub: Subscription;
     private filterContext: FilterContext;
@@ -134,19 +134,19 @@ export class FilterInputDirective implements OnInit, OnDestroy, AfterViewInit {
         }
 
         this.logger.debug('hostValueSnapshot failed: Not supported host component!');
-        return undefined;
+        return null;
     }
 
-    private extractName(): string {
+    private extractName(): string | null {
         if (this.matInput && this.matInput.ngControl) {
             return this.matInput.ngControl.name;
         } else if (this.matSlideToggle) {
             return this.matSlideToggle.name;
         } else if (this.matSelect && this.matSelect.ngControl) {
             return this.matSelect.ngControl.name;
-        } else {
-            this.logger.debug('extractName failed: Not supported host component!');
         }
+        this.logger.debug('extractName failed: Not supported host component!');
+        return null;
     }
 
     /**
@@ -169,7 +169,11 @@ export class FilterInputDirective implements OnInit, OnDestroy, AfterViewInit {
 
             while (current && subPaths.length > 0) {
                 const sub = subPaths.shift();
-                current = current[sub];
+                if (sub) {
+                    current = current[sub as string];
+                } else {
+                    break;
+                }
             }
 
             return current;
