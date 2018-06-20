@@ -15,4 +15,5 @@ export * from './data-context-continuable-base'
 export * from './data-context-continuable-paged'
 export * from './data-context-continuable-token'
 export * from './data-context-active-page'
+export * from './data-context-active-page-local'
 

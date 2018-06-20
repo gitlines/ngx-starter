@@ -12,6 +12,7 @@ import {DataContextContinuableToken, TokenChunkRequest} from './data-context-con
 import {EMPTY, Observable} from 'rxjs/index';
 import {Sort as MatSortRequest} from '@angular/material';
 import {map} from 'rxjs/operators';
+import {DataContextActivePageLocal} from './data-context-active-page-local';
 
 
 /**
@@ -174,6 +175,22 @@ export class DataContextBuilder<T> {
 
         return new DataContextActivePage<T>(
             pageLoader,
+            this._pageSize,
+            this._indexFn,
+            this._localSort,
+            this._localApply,
+            this._activeSort,
+            activePage
+        );
+    }
+
+    public buildLocalActivePaged(
+        data: T[],
+        activePage?: Observable<PageRequest>
+    ): IDataContextActivePage<T> {
+
+        return new DataContextActivePageLocal<T>(
+            data,
             this._pageSize,
             this._indexFn,
             this._localSort,

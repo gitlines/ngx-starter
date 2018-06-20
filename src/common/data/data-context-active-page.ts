@@ -47,7 +47,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
         if (activePage) {
             this._sub = activePage.subscribe(pageRequest => {
-                 this.loadPage(pageRequest);
+                this.loadPage(pageRequest);
             });
         }
     }
