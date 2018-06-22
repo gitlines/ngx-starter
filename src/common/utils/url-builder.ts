@@ -34,17 +34,19 @@ export class UrlBuilder {
      */
     public appendParam(key: string, value: string): this {
 
-        const parts = this._rawUrl.split('#');
-        const part = parts[parts.length - 1]; // Get the last part
+        if (key && value) {
+            const parts = this._rawUrl.split('#');
+            const part = parts[parts.length - 1]; // Get the last part
 
-        let startDelimiter;
-        if (part.includes('?')) {
-            startDelimiter = '&';
-        } else {
-            startDelimiter = '?';
+            let startDelimiter;
+            if (part.includes('?')) {
+                startDelimiter = '&';
+            } else {
+                startDelimiter = '?';
+            }
+
+            this._rawUrl = this._rawUrl + startDelimiter + key + '=' + encodeURIComponent(value);
         }
-
-        this._rawUrl = this._rawUrl + startDelimiter + key + '=' + encodeURIComponent(value);
 
         return this;
     }
