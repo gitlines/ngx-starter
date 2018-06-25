@@ -7,3 +7,4 @@ export * from './language/index'
 export * from './side-content/index';
 export * from './toasts/index';
 export * from './toolbar/index';
+export * from './event-source/index';
