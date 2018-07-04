@@ -4,34 +4,51 @@ import {BehaviorSubject, Observable} from 'rxjs';
 
 
 export class ToolbarHeader {
-  constructor(
-    public name: string) {
-  }
+    constructor(
+        public name: string) {
+    }
 }
-
 
 @Injectable()
 export class ToolbarService {
 
-  private _titleChange: BehaviorSubject<ToolbarHeader>;
-  private _title: ToolbarHeader;
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
 
-  constructor() {
-    this._title = new ToolbarHeader('Home');
-    this._titleChange = new BehaviorSubject<ToolbarHeader>(this._title);
-  }
+    private _titleChange: BehaviorSubject<ToolbarHeader>;
+    private _title: ToolbarHeader;
 
-  public set title(title: ToolbarHeader){
-    this._title = title;
-    this._titleChange.next(title);
-  }
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
 
-  public get title(): ToolbarHeader{
-    return this._title;
-  }
+    constructor() {
+        this._title = new ToolbarHeader('Home');
+        this._titleChange = new BehaviorSubject<ToolbarHeader>(this._title);
+    }
 
-  public get titleChange(): Observable<ToolbarHeader> {
-    return this._titleChange;
-  }
+    /***************************************************************************
+     *                                                                         *
+     * Properties                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    public set title(title: ToolbarHeader) {
+        this._title = title;
+        this._titleChange.next(title);
+    }
+
+    public get title(): ToolbarHeader {
+        return this._title;
+    }
+
+    public get titleChange(): Observable<ToolbarHeader> {
+        return this._titleChange;
+    }
 
 }

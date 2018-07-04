@@ -1,30 +1,44 @@
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ToolbarService} from './toolbar.service';
-import {Subscription} from 'rxjs/index';
+import {Observable, Subscription} from 'rxjs/index';
+import {map} from 'rxjs/operators';
 
 @Component({
-  selector: 'toolbar-title',
-  templateUrl: './toolbar-title.component.html',
-  styleUrls: ['./toolbar-title.component.scss']
+    selector: 'toolbar-title',
+    templateUrl: './toolbar-title.component.html',
+    styleUrls: ['./toolbar-title.component.scss']
 })
-export class ToolbarTitleComponent implements OnInit, OnDestroy {
+export class ToolbarTitleComponent {
 
-  public title: string;
-  private _sub: Subscription;
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
 
-  constructor(
-    private toolbarService: ToolbarService
-  ) {
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
 
-  }
+    constructor(
+        private toolbarService: ToolbarService
+    ) {
 
-  ngOnInit(): void {
-    this._sub = this.toolbarService.titleChange
-      .subscribe(title => this.title = title.name);
-  }
+    }
 
-  ngOnDestroy(): void {
-    this._sub.unsubscribe();
-  }
+    /***************************************************************************
+     *                                                                         *
+     * Lifecycle                                                               *
+     *                                                                         *
+     **************************************************************************/
+
+    public title(): Observable<string> {
+        return this.toolbarService.titleChange
+            .pipe(
+                map(tb => tb.name)
+            )
+    }
 }
