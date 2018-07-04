@@ -48,7 +48,9 @@ export class GlobalSearchService {
      *                                                                         *
      **************************************************************************/
 
-    constructor(router: Router) {
+    constructor(
+        router: Router
+    ) {
 
         router.events.pipe(
             filter(event => event instanceof NavigationEnd),
