@@ -35,7 +35,7 @@ export class ToolbarTitleComponent {
      *                                                                         *
      **************************************************************************/
 
-    public title(): Observable<string> {
+    public get title(): Observable<string> {
         return this.toolbarService.titleChange
             .pipe(
                 map(tb => tb.name)
