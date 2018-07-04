@@ -47,7 +47,9 @@ export class ToolbarService {
         )
             .subscribe(currentRouteData  => {
                 let title = currentRouteData['title'];
-                this.title = new ToolbarHeader(title);
+                if (title) {
+                    this.title = new ToolbarHeader(title);
+                }
             });
     }
 
