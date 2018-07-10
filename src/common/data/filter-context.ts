@@ -23,9 +23,7 @@ export class FilterContext {
     }
 
     public get filters(): Filter[] {
-        return Array.from(this._filters.entries())
-            .filter((entry) => !!entry[0] && !!entry[1])
-            .map((entry) => new Filter(entry[0], entry[1]))
+       return this.buildFilters(this._filters)
     }
 
     public set filters(filters: Filter[]) {
@@ -52,15 +50,20 @@ export class FilterContext {
         }
     }
 
+    public updateFilters(filters?: Filter[], skipChangeEvent = false) {
+        if (filters) {
+            filters.forEach(f => this._filters.set(f.key, f.value));
+            if (!skipChangeEvent) { this.onFiltersChanged(); }
+        }
+    }
+
     public getFilter(key: string): string | undefined {
         return this._filters.get(key)
     }
 
     public replaceFiltersWith(filters?: Filter[], skipChangeEvent = false) {
-        if (filters) {
-            filters.forEach(f => this._filters.set(f.key, f.value));
-            if (!skipChangeEvent) { this.onFiltersChanged(); }
-        }
+        this._filters.clear();
+        this.updateFilters(filters, skipChangeEvent);
     }
 
     /***************************************************************************
@@ -68,6 +71,12 @@ export class FilterContext {
      * Private methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+    private buildFilters(filters: Map<string, string>): Filter[] {
+        return Array.from(filters.entries())
+            .filter((entry) => !!entry[0] && !!entry[1])
+            .map((entry) => new Filter(entry[0], entry[1]));
+    }
 
     private onFiltersChanged(): void {
         this._filtersChanged.next();

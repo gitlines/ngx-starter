@@ -30,8 +30,20 @@ export class FilterInputDirective implements OnInit, OnDestroy, AfterViewInit {
     private _sub: Subscription;
     private filterContext: FilterContext;
 
+    /**
+     * (Optional) The query param key
+     */
     @Input() public filterInputKey: string;
+
+    /**
+     * (Optional) Function which transforms the value object to a query param value
+     */
     @Input() public filterInputValueTransform: ((value: any) => any);
+
+    /**
+     * (Optional) Path on the value object to use as query param value
+     *  value = "type.id"
+     */
     @Input() public filterInputValue: string;
 
 
