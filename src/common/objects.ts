@@ -21,7 +21,9 @@ export class Objects {
         return value === null || value === undefined;
     }
 
-
+    /**
+     * Creates a copy of the object data.
+     */
     public static cloneData<T>(src: T): T {
 
         if (!src) { return src; }
@@ -30,7 +32,7 @@ export class Objects {
             const json = JSON.stringify(src);
             return JSON.parse(json) as T;
         } catch (err) {
-            this.logger.error('Failed to clone object', err);
+            throw new Error('Failed to clone object! ' + err.message);
         }
 
     }
