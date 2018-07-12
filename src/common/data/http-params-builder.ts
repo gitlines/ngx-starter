@@ -3,6 +3,7 @@ import {Filter} from './filter';
 import {Sort} from './sort';
 import {Pageable} from './page';
 import {TokenChunkRequest} from './data-context-continuable-token';
+import {Objects} from '../objects';
 
 
 export class HttpParamsBuilder {
@@ -20,7 +21,7 @@ export class HttpParamsBuilder {
     public appendFilters(filters?: Filter[]): this {
         if (filters) {
             for (let filter of filters) {
-                if (filter && filter.key && filter.value) { // Ignore filters without a value specified
+                if (filter && Objects.nonNull(filter.key) && Objects.nonNull(filter.value)) { // Ignore filters without a value specified
                     this.append(filter.key, filter.value);
                 }
             }
@@ -35,7 +36,7 @@ export class HttpParamsBuilder {
     public appendSorts(sorts?: Sort[]): this {
         if (sorts) {
             for (let sort of sorts) {
-                if (sort && sort.prop) {
+                if (sort && Objects.nonNull(sort.prop)) {
                     this.append('sort', sort.prop + ',' + sort.dir);
                 }
             }

@@ -1,6 +1,7 @@
 
 
 import {HttpParams} from '@angular/common/http';
+import {Objects} from '../objects';
 
 export class Filter {
     constructor(
@@ -22,7 +23,7 @@ export class FilterUtil {
     public static addFilterQueryParams(params: HttpParams, filters: Filter[]): HttpParams {
         if (filters) {
             for (let filter of filters) {
-                if (filter.key && filter.value) { // Ignore filters without a key/value specified
+                if (Objects.nonNull(filter.key) && Objects.nonNull(filter.value)) { // Ignore filters without a key/value specified
                     params = params.append(filter.key, filter.value);
                 }
             }

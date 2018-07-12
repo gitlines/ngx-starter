@@ -1,4 +1,5 @@
 import {HttpParams} from '@angular/common/http';
+import {Objects} from '../objects';
 
 export class Sort {
 
@@ -20,7 +21,7 @@ export class Sort {
 export class SortUtil {
     public static addSortQueryParams(params: HttpParams, sorts: Sort[]): HttpParams {
         if (sorts) {
-            for (let sort of sorts.filter(s => !!s.prop)) {
+            for (let sort of sorts.filter(s => Objects.nonNull(s.prop))) {
                 params = params.append('sort', sort.prop + ',' + sort.dir);
             }
         }
