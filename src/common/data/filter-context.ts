@@ -1,5 +1,6 @@
 import {Filter} from './filter';
 import {Observable, Subject} from 'rxjs';
+import {Objects} from '../objects';
 
 export class FilterContext {
 
@@ -74,9 +75,10 @@ export class FilterContext {
 
     private buildFilters(filters: Map<string, string>): Filter[] {
         return Array.from(filters.entries())
-            .filter((entry) => !!entry[0] && !!entry[1])
+            .filter((entry) => Objects.nonNull(entry[0]) && Objects.nonNull(entry[1]))
             .map((entry) => new Filter(entry[0], entry[1]));
     }
+
 
     private onFiltersChanged(): void {
         this._filtersChanged.next();
