@@ -12,11 +12,9 @@ import {EMPTY, Observable} from 'rxjs';
 import {Sort as MatSortRequest} from '@angular/material';
 import {map} from 'rxjs/operators';
 import {DataContextActivePageLocal} from './data-context-active-page-local';
-import {RestClientPaged} from '../rest/rest-client-paged';
-import {RestClientContinuable} from '../rest/rest-client-continuable';
-import {RestClientList} from '../rest/rest-client-list';
 import {TokenChunkRequest} from '../token-chunk-request';
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
+import {RestClientContinuable, RestClientList, RestClientPaged} from '../rest/rest-client';
 
 /**
  * Provides the ability to build a IDataContext<T>.

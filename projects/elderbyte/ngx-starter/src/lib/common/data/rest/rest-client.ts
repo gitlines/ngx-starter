@@ -2,10 +2,13 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {RestClientList} from './rest-client-list';
-import {RestClientPaged} from './rest-client-paged';
-import {RestClientContinuable} from './rest-client-continuable';
-
+import {HttpParamsBuilder} from '../http-params-builder';
+import {Sort} from '../sort';
+import {Filter} from '../filter';
+import {Page, Pageable} from '../page';
+import {LoggerFactory} from '@elderbyte/ts-logger';
+import {ContinuableListing} from '../continuable-listing';
+import {TokenChunkRequest} from '../token-chunk-request';
 
 export class RestClient<T, TID> {
 
@@ -99,7 +102,6 @@ export class RestClient<T, TID> {
      *                                                                         *
      **************************************************************************/
 
-
     public subResourceList<TS, TSID>(parent: T, subPath: string, idsParam = 'ids'): RestClientList<TS, TSID> {
         return new RestClientList(
             this.getEntityUrlBy(parent) + '/' + subPath,
@@ -147,3 +149,131 @@ export class RestClient<T, TID> {
     }
 }
 
+
+
+export class RestClientList<T, TID> extends RestClient<T, TID> {
+
+  /***************************************************************************
+   *                                                                         *
+   * Constructor                                                             *
+   *                                                                         *
+   **************************************************************************/
+
+  constructor(
+    restEndpoint: string,
+    http: HttpClient,
+    idsParam = 'ids'
+  ) {
+    super(restEndpoint, http, idsParam);
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public findAllFiltered(filters?: Filter[], sorts?: Sort[]): Observable<T[]> {
+    return this.findAll(
+      HttpParamsBuilder.start()
+        .appendFilters(filters)
+        .appendSorts(sorts)
+        .build()
+    );
+  }
+
+  public findAll(params?: HttpParams): Observable<T[]> {
+    return this.http.get<T[]>(this.restEndpoint, {
+      params: params
+    });
+  }
+
+}
+
+
+export class RestClientPaged<T, TID> extends RestClient<T, TID> {
+
+  private readonly logger = LoggerFactory.getLogger('RestClientPaged');
+
+  /***************************************************************************
+   *                                                                         *
+   * Constructor                                                             *
+   *                                                                         *
+   **************************************************************************/
+
+  constructor(
+    restEndpoint: string,
+    http: HttpClient,
+    idsParam = 'ids'
+  ) {
+    super(restEndpoint, http, idsParam);
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public findAllPaged(pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {
+    return this.getPaged(this.restEndpoint, pageable, filters, params);
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Private methods                                                         *
+   *                                                                         *
+   **************************************************************************/
+
+
+  /**
+   * Gets the requested data page as Page<T>
+   * @param url The resource url
+   * @param pageable The page request
+   * @param filters The filters request
+   * @param params Additional parameters
+   */
+  private getPaged(url: string, pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {
+    params = HttpParamsBuilder.start(params)
+      .appendPageable(pageable)
+      .appendFilters(filters)
+      .build();
+    return this.http.get<Page<T>>(url, { params: params });
+  }
+
+}
+
+export class RestClientContinuable<T, TID> extends RestClient<T, TID> {
+
+  /***************************************************************************
+   *                                                                         *
+   * Constructor                                                             *
+   *                                                                         *
+   **************************************************************************/
+
+  constructor(
+    restEndpoint: string,
+    http: HttpClient,
+    idsParam = 'ids'
+  ) {
+    super(restEndpoint, http, idsParam);
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public findAllContinuable(request: TokenChunkRequest, params?: HttpParams): Observable<ContinuableListing<T>> {
+
+    return this.http.get<ContinuableListing<T>>(this.restEndpoint,
+      {
+        params: HttpParamsBuilder.start(params)
+          .appendContinuationRequest(request)
+          .build()
+      }
+    );
+  }
+
+}
