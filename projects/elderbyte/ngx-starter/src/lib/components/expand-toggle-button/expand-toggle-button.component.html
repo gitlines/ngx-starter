@@ -1,0 +1,14 @@
+<button mat-button class="sidenav-button" (click)="onToggleExpand($event)" fxFill>
+  <div fxLayout="row" fxFlex>
+
+    <ng-content></ng-content>
+
+    <span fxFlex></span>
+
+    <div fxLayoutAlign="center center">
+      <mat-icon *ngIf="!isExpanded">keyboard_arrow_down</mat-icon>
+      <mat-icon *ngIf="isExpanded">keyboard_arrow_up</mat-icon>
+    </div>
+
+  </div>
+</button>
