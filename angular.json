@@ -50,7 +50,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-starter-demo:build"
+            "browserTarget": "ngx-starter-demo:build",
+            "port": 4300
           },
           "configurations": {
             "production": {
@@ -122,38 +123,38 @@
         }
       }
     },
-    "ngx-starter": {
-      "root": "projects/ngx-starter",
-      "sourceRoot": "projects/ngx-starter/src",
+    "@elderbyte/ngx-starter": {
+      "root": "projects/elderbyte/ngx-starter",
+      "sourceRoot": "projects/elderbyte/ngx-starter/src",
       "projectType": "library",
       "prefix": "ebs",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ngx-starter/tsconfig.lib.json",
-            "project": "projects/ngx-starter/ng-package.json"
+            "tsConfig": "projects/elderbyte/ngx-starter/tsconfig.lib.json",
+            "project": "projects/elderbyte/ngx-starter/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/ngx-starter/ng-package.prod.json"
+              "project": "projects/elderbyte/ngx-starter/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-starter/src/test.ts",
-            "tsConfig": "projects/ngx-starter/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-starter/karma.conf.js"
+            "main": "projects/elderbyte/ngx-starter/src/test.ts",
+            "tsConfig": "projects/elderbyte/ngx-starter/tsconfig.spec.json",
+            "karmaConfig": "projects/elderbyte/ngx-starter/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-starter/tsconfig.lib.json",
-              "projects/ngx-starter/tsconfig.spec.json"
+              "projects/elderbyte/ngx-starter/tsconfig.lib.json",
+              "projects/elderbyte/ngx-starter/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

@@ -17,11 +17,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-starter": [
-        "dist/ngx-starter"
+      "@elderbyte/ngx-starter": [
+        "dist/elderbyte/ngx-starter"
       ],
-      "ngx-starter/*": [
-        "dist/ngx-starter/*"
+      "@elderbyte/ngx-starter/*": [
+        "dist/elderbyte/ngx-starter/*"
       ]
     }
   }
