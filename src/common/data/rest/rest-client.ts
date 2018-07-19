@@ -4,6 +4,7 @@ import {Observable, Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {RestClientList} from './rest-client-list';
 import {RestClientPaged} from './rest-client-paged';
+import {RestClientContinuable} from './rest-client-continuable';
 
 
 export class RestClient<T, TID> {
@@ -109,6 +110,14 @@ export class RestClient<T, TID> {
 
     public subResourcePaged<TS, TSID>(parent: T, subPath: string, idsParam = 'ids'): RestClientPaged<TS, TSID> {
         return new RestClientPaged(
+            this.getEntityUrlBy(parent) + '/' + subPath,
+            this.http,
+            idsParam
+        );
+    }
+
+    public subResourceContinuable<TS, TSID>(parent: T, subPath: string, idsParam = 'ids'): RestClientContinuable<TS, TSID> {
+        return new RestClientContinuable(
             this.getEntityUrlBy(parent) + '/' + subPath,
             this.http,
             idsParam
