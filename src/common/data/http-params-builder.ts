@@ -2,8 +2,8 @@ import {HttpParams} from '@angular/common/http';
 import {Filter} from './filter';
 import {Sort} from './sort';
 import {Pageable} from './page';
-import {TokenChunkRequest} from './data-context/data-context-continuable-token';
 import {Objects} from '../objects';
+import {TokenChunkRequest} from './token-chunk-request';
 
 
 export class HttpParamsBuilder {

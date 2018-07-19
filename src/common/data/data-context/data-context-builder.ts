@@ -8,14 +8,15 @@ import {DataContextSimple} from './data-context-simple';
 import {DataContextActivePage} from './data-context-active-page';
 import {Sort} from '../sort';
 import {ContinuableListing} from '../continuable-listing';
-import {DataContextContinuableToken, TokenChunkRequest} from './data-context-continuable-token';
+import {DataContextContinuableToken} from './data-context-continuable-token';
 import {EMPTY, Observable} from 'rxjs/index';
 import {Sort as MatSortRequest} from '@angular/material';
 import {map} from 'rxjs/operators';
 import {DataContextActivePageLocal} from './data-context-active-page-local';
 import {RestClientPaged} from '../rest/rest-client-paged';
-import {RestClientContinuable, RestClientList} from '../rest';
-
+import {RestClientContinuable} from '../rest/rest-client-continuable';
+import {RestClientList} from '../rest/rest-client-list';
+import {TokenChunkRequest} from '../token-chunk-request';
 
 /**
  * Provides the ability to build a IDataContext<T>.

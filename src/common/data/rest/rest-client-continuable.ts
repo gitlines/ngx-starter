@@ -1,10 +1,10 @@
 
 import {RestClient} from './rest-client';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {TokenChunkRequest} from '../data-context';
-import {Observable} from 'rxjs/internal/Observable';
+import {Observable} from 'rxjs';
 import {ContinuableListing} from '../continuable-listing';
 import {HttpParamsBuilder} from '../http-params-builder';
+import {TokenChunkRequest} from '../token-chunk-request';
 
 
 export class RestClientContinuable<T, TID> extends RestClient<T, TID> {

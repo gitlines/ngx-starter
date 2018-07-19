@@ -1,19 +1,10 @@
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Filter} from '../filter';
 import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableBase} from './data-context-continuable-base';
 import {Sort} from '../sort';
 import {EMPTY, Observable, Subject} from 'rxjs/index';
 import {take} from 'rxjs/operators';
-
-export class TokenChunkRequest {
-    constructor (
-        public readonly nextContinuationToken: string | null | undefined,
-        public readonly filters: Filter[],
-        public readonly sorts: Sort[]
-    ) {}
-}
-
+import {TokenChunkRequest} from '../token-chunk-request';
 
 export class DataContextContinuableToken<T> extends DataContextContinuableBase<T> {
 

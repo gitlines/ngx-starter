@@ -2,7 +2,7 @@ import {RestClient} from './rest-client';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Filter} from '../filter';
 import {Sort} from '../sort';
-import {Observable} from 'rxjs/internal/Observable';
+import {Observable} from 'rxjs';
 import {HttpParamsBuilder} from '../http-params-builder';
 
 export class RestClientList<T, TID> extends RestClient<T, TID> {
