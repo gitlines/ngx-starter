@@ -1,8 +1,8 @@
-import {Filter} from './filter';
 import {DataContextStatus} from './data-context-status';
-import {Sort} from './sort';
 import {Observable} from 'rxjs';
-import {FilterContext} from './filter-context';
+import {Sort} from '../sort';
+import {Filter} from '../filter';
+import {FilterContext} from '../filter-context';
 
 
 /**

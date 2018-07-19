@@ -1,5 +1,5 @@
 import {} from 'jest'
-import {DataContextBuilder} from '../src/common/data/data-context-builder';
+import {DataContextBuilder} from '../src/common/data/data-context/data-context-builder';
 
 /**
  * Tests

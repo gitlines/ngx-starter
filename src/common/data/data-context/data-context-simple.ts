@@ -1,7 +1,7 @@
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Filter} from './filter';
+import {Filter} from '../filter';
 import {DataContextBase} from './data-context-base';
-import {Sort} from './sort';
+import {Sort} from '../sort';
 import {Observable, Subject} from 'rxjs/index';
 import {take} from 'rxjs/operators';
 

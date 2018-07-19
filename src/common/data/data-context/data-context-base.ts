@@ -1,11 +1,11 @@
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {IDataContext} from './data-context';
-import {Filter} from './filter';
-import {Sort} from './sort';
+import {IDataContext} from './';
+import {Filter} from '../filter';
+import {Sort} from '../sort';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {DataContextStatus} from './data-context-status';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
-import {FilterContext} from './filter-context';
+import {FilterContext} from '../filter-context';
 
 
 export abstract class DataContextBase<T> extends DataSource<T> implements IDataContext<T> {

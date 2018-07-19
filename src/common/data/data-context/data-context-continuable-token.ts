@@ -1,8 +1,8 @@
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Filter} from './filter';
-import {ContinuableListing} from './continuable-listing';
+import {Filter} from '../filter';
+import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableBase} from './data-context-continuable-base';
-import {Sort} from './sort';
+import {Sort} from '../sort';
 import {EMPTY, Observable, Subject} from 'rxjs/index';
 import {take} from 'rxjs/operators';
 

@@ -1,11 +1,11 @@
 
 import {EMPTY, Observable, Subject} from 'rxjs';
-import {Filter} from './filter';
-import {Page, Pageable} from './page';
+import {Filter} from '../filter';
+import {Page, Pageable} from '../page';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextContinuableBase} from './data-context-continuable-base';
 import {take} from 'rxjs/operators';
-import {Sort} from './sort';
+import {Sort} from '../sort';
 
 /**
  * Extends a simple flat list data-context with infinite-scroll pagination support.

@@ -1,9 +1,9 @@
 import {DataContextActivePage} from './data-context-active-page';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Sort} from './sort';
+import {Sort} from '../sort';
 import {Observable, of, throwError} from 'rxjs/index';
-import {Page, Pageable, PageRequest} from './page';
-import {Filter} from './filter';
+import {Page, Pageable, PageRequest} from '../page';
+import {Filter} from '../filter';
 
 export class DataContextActivePageLocal<T> extends DataContextActivePage<T> {
 

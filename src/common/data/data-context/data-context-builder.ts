@@ -1,13 +1,13 @@
 
-import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
+import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './';
 import {DataContextContinuablePaged} from './data-context-continuable-paged';
-import {Page, Pageable, PageRequest} from './page';
-import {Filter} from './filter';
+import {Page, Pageable, PageRequest} from '../page';
+import {Filter} from '../filter';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextSimple} from './data-context-simple';
 import {DataContextActivePage} from './data-context-active-page';
-import {Sort} from './sort';
-import {ContinuableListing} from './continuable-listing';
+import {Sort} from '../sort';
+import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableToken, TokenChunkRequest} from './data-context-continuable-token';
 import {EMPTY, Observable} from 'rxjs/index';
 import {Sort as MatSortRequest} from '@angular/material';

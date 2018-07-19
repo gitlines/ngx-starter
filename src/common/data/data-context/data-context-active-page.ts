@@ -1,11 +1,11 @@
-import {IDataContextActivePage} from './data-context';
+import {IDataContextActivePage} from './';
 import {DataContextBase} from './data-context-base';
-import {Page, Pageable, PageRequest} from './page';
-import {Filter} from './filter';
+import {Page, Pageable, PageRequest} from '../page';
+import {Filter} from '../filter';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {Observable, Subject, Subscription} from 'rxjs/index';
 import {take} from 'rxjs/operators';
-import {Sort} from './sort';
+import {Sort} from '../sort';
 
 
 
