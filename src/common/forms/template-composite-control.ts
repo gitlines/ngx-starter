@@ -2,7 +2,7 @@
 import {ValueAccessorBase} from './value-accessor-base';
 import {AbstractControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgForm, ValidationErrors, Validator} from '@angular/forms';
 import {forwardRef, Input, OnDestroy, Provider, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs/index';
+import {Subscription} from 'rxjs';
 
 
 export function buildFormIntegrationProviders(component: any): Provider[] {
