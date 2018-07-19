@@ -13,6 +13,8 @@ import {EMPTY, Observable} from 'rxjs/index';
 import {Sort as MatSortRequest} from '@angular/material';
 import {map} from 'rxjs/operators';
 import {DataContextActivePageLocal} from './data-context-active-page-local';
+import {RestClientPaged} from '../rest/rest-client-paged';
+import {RestClientContinuable, RestClientList} from '../rest';
 
 
 /**
@@ -141,6 +143,22 @@ export class DataContextBuilder<T> {
         );
     }
 
+    public buildClient(
+        restClient: RestClientList<T, any>
+    ): IDataContext<T> {
+        return this.build(
+            (sorts, filters) => restClient.findAllFiltered(filters, sorts)
+        );
+    }
+
+    public buildPagedClient(
+        restClient: RestClientPaged<T, any>
+    ): IDataContextContinuable<T> {
+        return this.buildPaged(
+            (pageable, filters) => restClient.findAllPaged(pageable, filters)
+        );
+    }
+
     public buildPaged(
         pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>
     ): IDataContextContinuable<T> {
@@ -168,11 +186,18 @@ export class DataContextBuilder<T> {
         );
     }
 
+    public buildContinuationTokenClient(
+        restClient: RestClientContinuable<T, any>
+    ): IDataContextContinuable<T> {
+        return this.buildContinuationToken(
+            (request) => restClient.findAllContinuable(request)
+        );
+    }
+
     public buildActivePaged(
-        pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>,
+        pageLoader: ((pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>),
         activePage?: Observable<PageRequest>
     ): IDataContextActivePage<T> {
-
         return new DataContextActivePage<T>(
             pageLoader,
             this._pageSize,
@@ -180,6 +205,16 @@ export class DataContextBuilder<T> {
             this._localSort,
             this._localApply,
             this._activeSort,
+            activePage
+        );
+    }
+
+    public buildActivePagedClient(
+        restClient: RestClientPaged<T, any>,
+        activePage?: Observable<PageRequest>
+    ): IDataContextActivePage<T> {
+        return this.buildActivePaged(
+            (pageable, filters) => restClient.findAllPaged(pageable, filters),
             activePage
         );
     }
