@@ -1,0 +1,13 @@
+
+<div *ngIf="slimMode" class="lang-container">
+  <div *ngFor="let lang of languages" class="language">
+    <div (click)="setLanguage(lang)" [ngClass]="{'active': isLanguageActive(lang)}">{{lang}}</div>
+  </div>
+</div>
+
+<mat-form-field>
+  <mat-select *ngIf="!slimMode"
+              placeholder="{{'language.language' | translate}}" name="language" [(ngModel)]="currentLanguage">
+    <mat-option *ngFor="let lang of languages" [value]="lang">{{ 'language.' + lang | translate }}</mat-option>
+  </mat-select>
+</mat-form-field>
