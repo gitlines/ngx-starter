@@ -22,7 +22,17 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     private _pageIndex: number;
     private _pageSize: number;
 
-    private _sub: Subscription;
+    /**
+     * Subscription to the event when the active page has changed.
+     * This will trigger a page reload.
+     */
+    private _activePageChangedSub: Subscription;
+
+    /**
+     * Subscription of an actual page load http request.
+     * If this is closed, it will cancel the http request.
+     */
+    private _activePageLoad: Subscription;
 
     /***************************************************************************
      *                                                                         *
@@ -46,7 +56,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
         this._pageIndex = 0;
 
         if (activePage) {
-            this._sub = activePage.subscribe(pageRequest => {
+            this._activePageChangedSub = activePage.subscribe(pageRequest => {
                 this.loadPage(pageRequest);
             });
         }
@@ -89,8 +99,8 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
     public close(): void {
         super.close();
-        if (this._sub) {
-            this._sub.unsubscribe();
+        if (this._activePageChangedSub) {
+            this._activePageChangedSub.unsubscribe();
         }
     }
 
@@ -135,7 +145,12 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
         const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sorts);
 
-        this.pageLoader(pageRequest, this.filters)
+        if (this._activePageLoad) {
+            // Cancel previous pending request
+            this._activePageLoad.unsubscribe();
+        }
+
+        this._activePageLoad = this.pageLoader(pageRequest, this.filters)
             .pipe(take(1))
             .subscribe(
             success => {
