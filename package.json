@@ -25,7 +25,8 @@
     "@angular/material": "^6.4.0",
     "@elderbyte/ts-logger": "^0.1.0",
     "@elderbyte/ngx-simple-webstorage": "^6.0.0",
-    "@ngx-translate/core": "^10.0.1",
+    "@ngx-translate/core": "^10.0.2",
+    "@ngx-translate/http-loader": "^3.0.1",
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
