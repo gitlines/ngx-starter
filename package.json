@@ -1,11 +1,11 @@
 {
   "name": "ngx-starter-demo",
-  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "build:lib": "ng build @elderbyte/ngx-starter --prod",
+    "release": "npm build:lib && npm publish dist/elderbyte/ngx-starter",
     "test": "ng test @elderbyte/ngx-starter",
     "lint": "ng lint @elderbyte/ngx-starter"
   },
