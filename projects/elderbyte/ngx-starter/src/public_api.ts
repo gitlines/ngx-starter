@@ -2,6 +2,5 @@
  * Public API Surface of ngx-starter
  */
 
-export * from './lib/ngx-starter.service';
-export * from './lib/ngx-starter.component';
-export * from './lib/ngx-starter.module';
+export * from './lib/demo/public_api';
+export * from './lib/pipes/public_api';
