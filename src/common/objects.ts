@@ -41,6 +41,6 @@ export class Objects {
      * Checks if the two given objects have the same data
      */
     public static dataEquals<T>(a: T, b: T): boolean {
-        return JSON.stringify(a) !== JSON.stringify(b);
+        return JSON.stringify(a) === JSON.stringify(b);
     }
 }
