@@ -22,7 +22,7 @@ export class FilterUtil {
      */
     public static addFilterQueryParams(params: HttpParams, filters: Filter[]): HttpParams {
         if (filters) {
-            for (let filter of filters) {
+            for (const filter of filters) {
                 if (Objects.nonNull(filter.key) && Objects.nonNull(filter.value)) { // Ignore filters without a key/value specified
                     params = params.append(filter.key, filter.value);
                 }

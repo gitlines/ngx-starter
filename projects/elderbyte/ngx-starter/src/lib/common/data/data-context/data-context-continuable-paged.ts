@@ -58,7 +58,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
             this.logger.info('Loading more...' + this._latestPage);
 
             if (this.loadingIndicator) { return EMPTY; }
-            let nextPage = this._latestPage + 1;
+            const nextPage = this._latestPage + 1;
             return this.fetchPage(nextPage, this.chunkSize);
         } else {
             this.logger.debug('Cannot load more data, since no more data available.');
@@ -98,7 +98,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
 
         const subject = new Subject();
 
-        let pageRequest = new Pageable(pageIndex, pageSize, this.sorts);
+        const pageRequest = new Pageable(pageIndex, pageSize, this.sorts);
 
         if (this._pageCache.has(pageIndex)) {
             // Page already loaded - skipping request!
@@ -149,9 +149,9 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
             this.setTotal(page.totalElements);
             const start = page.number * page.size;
 
-            let newRows = [...this.rows];
+            const newRows = [...this.rows];
             for (let i = 0; i < page.content.length; i++) {
-                let item = page.content[i];
+                const item = page.content[i];
                 newRows[i + start] = item;
                 this.indexItem(item);
             }

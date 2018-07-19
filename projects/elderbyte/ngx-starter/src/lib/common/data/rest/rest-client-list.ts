@@ -18,7 +18,7 @@ export class RestClientList<T, TID> extends RestClient<T, TID> {
         http: HttpClient,
         idsParam = 'ids'
     ) {
-        super(restEndpoint, http, idsParam)
+        super(restEndpoint, http, idsParam);
     }
 
     /***************************************************************************

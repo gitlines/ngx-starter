@@ -24,7 +24,7 @@ export class FilterContext {
     }
 
     public get filters(): Filter[] {
-       return this.buildFilters(this._filters)
+       return this.buildFilters(this._filters);
     }
 
     public set filters(filters: Filter[]) {
@@ -59,7 +59,7 @@ export class FilterContext {
     }
 
     public getFilter(key: string): string | undefined {
-        return this._filters.get(key)
+        return this._filters.get(key);
     }
 
     public replaceFiltersWith(filters?: Filter[], skipChangeEvent = false) {

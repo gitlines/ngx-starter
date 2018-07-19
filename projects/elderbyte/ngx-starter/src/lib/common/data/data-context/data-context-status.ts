@@ -38,6 +38,6 @@ export class DataContextStatus {
     }
 
     public get hasError(): boolean {
-        return !!this._error
+        return !!this._error;
     }
 }

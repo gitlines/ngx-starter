@@ -16,7 +16,7 @@ export class Page<T> {
 
 
     public static fromPage<TS>(data: TS[], total: number, pageable: Pageable) {
-        let page = new Page<TS>();
+        const page = new Page<TS>();
         page.content = data;
         page.totalElements = total;
         page.totalPages = total / pageable.size;
@@ -29,7 +29,7 @@ export class Page<T> {
     }
 
     public static from<TS>(data: TS[]) {
-        let page = new Page<TS>();
+        const page = new Page<TS>();
         page.content = data;
         page.totalElements = data.length;
         page.totalPages = 1;

@@ -48,8 +48,8 @@ export class RestClient<T, TID> {
      **************************************************************************/
 
     public findById(id: TID): Observable<T> {
-        return this.http.get<T>(this.getEntityUrl(id))
-    };
+        return this.http.get<T>(this.getEntityUrl(id));
+    }
 
     /**
      * Creates or Updates the given entity depending if it already has a valid id.

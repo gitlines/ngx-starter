@@ -22,7 +22,7 @@ export class BytesPipe implements PipeTransform {
     ];
 
     transform(bytes = 0, precision = 2): string {
-        if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) { return '?' };
+        if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) { return '?'; }
 
         let unit = 0;
 

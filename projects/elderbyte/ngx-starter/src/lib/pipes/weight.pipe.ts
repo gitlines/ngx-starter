@@ -26,9 +26,9 @@ export class WeightPipe implements PipeTransform {
             default: throw new Error(`Unknown input unit in weight pipe: '${unit}'`);
         }
 
-        let g = mg / 1000.0;
-        let kg = g / 1000.0;
-        let t = kg / 1000.0;
+        const g = mg / 1000.0;
+        const kg = g / 1000.0;
+        const t = kg / 1000.0;
 
         if (t > 1) {
             return t.toFixed(+precision) + 't';

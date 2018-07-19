@@ -6,9 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "build:lib": "ng build @elderbyte/ngx-starter --prod",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "test": "ng test @elderbyte/ngx-starter",
+    "lint": "ng lint @elderbyte/ngx-starter"
   },
   "private": true,
   "dependencies": {

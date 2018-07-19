@@ -20,7 +20,7 @@ export class HttpParamsBuilder {
 
     public appendFilters(filters?: Filter[]): this {
         if (filters) {
-            for (let filter of filters) {
+            for (const filter of filters) {
                 if (filter && Objects.nonNull(filter.key) && Objects.nonNull(filter.value)) { // Ignore filters without a value specified
                     this.append(filter.key, filter.value);
                 }
@@ -35,7 +35,7 @@ export class HttpParamsBuilder {
 
     public appendSorts(sorts?: Sort[]): this {
         if (sorts) {
-            for (let sort of sorts) {
+            for (const sort of sorts) {
                 if (sort && Objects.nonNull(sort.prop)) {
                     this.append('sort', sort.prop + ',' + sort.dir);
                 }
@@ -52,7 +52,7 @@ export class HttpParamsBuilder {
         if (pageable) {
             this.append('page', pageable.page.toString())
                 .append('size', pageable.size.toString())
-                .appendSorts(pageable.sorts)
+                .appendSorts(pageable.sorts);
         }
         return this;
     }

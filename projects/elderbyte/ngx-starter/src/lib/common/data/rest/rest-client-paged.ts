@@ -32,7 +32,7 @@ export class RestClientPaged<T, TID> extends RestClient<T, TID> {
 
     public findAllPaged(pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {
         return this.getPaged(this.restEndpoint, pageable, filters, params);
-    };
+    }
 
     /***************************************************************************
      *                                                                         *

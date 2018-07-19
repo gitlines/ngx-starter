@@ -21,7 +21,7 @@ export class Sort {
 export class SortUtil {
     public static addSortQueryParams(params: HttpParams, sorts: Sort[]): HttpParams {
         if (sorts) {
-            for (let sort of sorts.filter(s => Objects.nonNull(s.prop))) {
+            for (const sort of sorts.filter(s => Objects.nonNull(s.prop))) {
                 params = params.append('sort', sort.prop + ',' + sort.dir);
             }
         }
