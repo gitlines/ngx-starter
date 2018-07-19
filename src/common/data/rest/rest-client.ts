@@ -2,8 +2,8 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
-// import {RestClientList} from './rest-client-list';
-// import {RestClientPaged} from './rest-client-paged';
+import {RestClientList} from './rest-client-list';
+import {RestClientPaged} from './rest-client-paged';
 
 
 export class RestClient<T, TID> {
@@ -98,7 +98,7 @@ export class RestClient<T, TID> {
      *                                                                         *
      **************************************************************************/
 
-    /*
+
     public subResourceList<TS, TSID>(parent: T, subPath: string, idsParam = 'ids'): RestClientList<TS, TSID> {
         return new RestClientList(
             this.getEntityUrlBy(parent) + '/' + subPath,
@@ -113,7 +113,7 @@ export class RestClient<T, TID> {
             this.http,
             idsParam
         );
-    }*/
+    }
 
     /***************************************************************************
      *                                                                         *
