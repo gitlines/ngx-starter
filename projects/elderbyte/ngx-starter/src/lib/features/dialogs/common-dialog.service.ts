@@ -1,7 +1,7 @@
-import {ConfirmDialog, ConfirmDialogConfig} from './confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent, ConfirmDialogConfig} from './confirm-dialog/confirm-dialog.component';
 import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
 import { Injectable } from '@angular/core';
-import {QuestionDialog, QuestionDialogConfig} from './question-dialog/question-dialog.component';
+import {QuestionDialogComponent, QuestionDialogConfig} from './question-dialog/question-dialog.component';
 import {TranslateService} from '@ngx-translate/core';
 import {Observable} from 'rxjs';
 import {flatMap, filter} from 'rxjs/operators';
@@ -24,9 +24,9 @@ export class CommonDialogService {
      */
     public confirm(title: string, message: string, config?: MatDialogConfig): Observable<boolean> {
 
-        let dialogRef: MatDialogRef<ConfirmDialog>;
+        let dialogRef: MatDialogRef<ConfirmDialogComponent>;
 
-        dialogRef = this.dialog.open(ConfirmDialog, config);
+        dialogRef = this.dialog.open(ConfirmDialogComponent, config);
         dialogRef.componentInstance.title = title;
         dialogRef.componentInstance.message = message;
 
@@ -72,7 +72,7 @@ export class CommonDialogService {
         const conf = config || new MatDialogConfig();
         conf.data = { title: title, question: question };
 
-        const dialogRef = this.dialog.open(QuestionDialog, conf);
+        const dialogRef = this.dialog.open(QuestionDialogComponent, conf);
 
         return dialogRef.afterClosed()
                 .pipe(filter(response => !!response));

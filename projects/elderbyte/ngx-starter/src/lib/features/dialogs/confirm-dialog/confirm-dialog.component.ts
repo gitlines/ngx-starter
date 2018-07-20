@@ -16,12 +16,12 @@ export class ConfirmDialogConfig extends CommonDialogConfig {
     templateUrl: './confirm-dialog.component.html',
     styleUrls: ['./confirm-dialog.component.scss']
 })
-export class ConfirmDialog {
+export class ConfirmDialogComponent {
 
     public title: string;
     public message: string;
 
-    constructor(public dialogRef: MatDialogRef<ConfirmDialog>) {
+    constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) {
 
     }
 }

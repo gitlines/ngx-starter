@@ -16,12 +16,12 @@ export class QuestionDialogConfig extends CommonDialogConfig {
   templateUrl: './question-dialog.component.html',
   styleUrls: ['./question-dialog.component.scss']
 })
-export class QuestionDialog implements OnInit {
+export class QuestionDialogComponent implements OnInit {
 
   public answer: string;
 
   constructor(
-    public dialogRef: MatDialogRef<QuestionDialog>,
+    public dialogRef: MatDialogRef<QuestionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {

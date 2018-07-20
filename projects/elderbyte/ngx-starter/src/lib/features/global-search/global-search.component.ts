@@ -21,7 +21,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = [];
 
   @Output()
-  public onSearchCollapsed = new EventEmitter<boolean>();
+  public searchCollapsedChange = new EventEmitter<boolean>();
 
   @Input('hideWhenDisabled')
   public hideWhenDisabled: boolean;
@@ -96,7 +96,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
 
   set searchCollapsed(value: boolean) {
     this._searchCollapsed = value;
-    this.onSearchCollapsed.emit(this.searchCollapsed);
+    this.searchCollapsedChange.emit(this.searchCollapsed);
     if (!this._searchCollapsed) {
       setTimeout(() => this._txtSearch.nativeElement.focus(), 0);
     }

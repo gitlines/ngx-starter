@@ -1,13 +1,13 @@
 import { CommonDialogService } from './common-dialog.service';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 
-import {ConfirmDialog} from './confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent} from './confirm-dialog/confirm-dialog.component';
 import {MatButtonModule, MatDialogModule, MatIconModule, MatToolbarModule, MatInputModule} from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
-import {QuestionDialog} from './question-dialog/question-dialog.component';
+import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
 import {CommonDialogConfig} from './common-dialog-config';
 
 export {CommonDialogService} from './common-dialog.service';
@@ -24,10 +24,10 @@ export * from './question-dialog/question-dialog.component';
         TranslateModule
     ],
     declarations: [
-        ConfirmDialog, QuestionDialog
+        ConfirmDialogComponent, QuestionDialogComponent
     ],
     entryComponents: [
-        ConfirmDialog, QuestionDialog
+        ConfirmDialogComponent, QuestionDialogComponent
     ],
 })
 export class CommonDialogModule {

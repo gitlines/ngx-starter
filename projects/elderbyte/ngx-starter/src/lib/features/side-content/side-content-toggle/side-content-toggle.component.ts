@@ -27,7 +27,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     public roots: string[] = [];
 
     @Input('hide')
-    public hideOns: string[] = [];
+    public hide: string[] = [];
 
     /***************************************************************************
      *                                                                         *
@@ -80,7 +80,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     }
 
     public showComponent(): boolean {
-        if (this._currentUrl && this.hideOns && this.hideOns.length > 0) {
+        if (this._currentUrl && this.hide && this.hide.length > 0) {
             return !this.isPartOfHiddenRoute(this._currentUrl);
         }
         return true;
@@ -121,7 +121,7 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     }
 
     private isPartOfHiddenRoute(url: string): boolean {
-        return !!this.hideOns.find(r => url.indexOf(r) >= 0);
+        return !!this.hide.find(r => url.indexOf(r) >= 0);
     }
 
     /**
