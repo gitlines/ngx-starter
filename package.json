@@ -5,7 +5,8 @@
     "start": "ng serve",
     "build": "ng build",
     "build:lib": "ng build @elderbyte/ngx-starter --prod",
-    "release": "npm build:lib && npm publish dist/elderbyte/ngx-starter",
+    "release": "npm build:lib && npm publish:lib",
+    "publish:lib": "npm publish dist/elderbyte/ngx-starter",
     "test": "ng test @elderbyte/ngx-starter",
     "lint": "ng lint @elderbyte/ngx-starter"
   },
