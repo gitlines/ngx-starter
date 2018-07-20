@@ -96,33 +96,6 @@
         }
       }
     },
-    "ngx-starter-demo-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngx-starter-demo:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ngx-starter-demo:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "@elderbyte/ngx-starter": {
       "root": "projects/elderbyte/ngx-starter",
       "sourceRoot": "projects/elderbyte/ngx-starter/src",
@@ -133,7 +106,10 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/elderbyte/ngx-starter/tsconfig.lib.json",
-            "project": "projects/elderbyte/ngx-starter/ng-package.json"
+            "project": "projects/elderbyte/ngx-starter/ng-package.json",
+            "assets": [
+              "_theming.scss"
+            ]
           },
           "configurations": {
             "production": {
