@@ -8,6 +8,9 @@ export const appRoutes: Routes = [
     path: '',
     redirectTo: 'app/mixed-demo',
     pathMatch: 'full',
+    data: {
+      title: 'Demo Home'
+    }
   },
 
   {
@@ -23,12 +26,17 @@ export const appRoutes: Routes = [
       },
 
       {
-        path: 'cards-demo',
-        component: CardsDemoComponent,
+        path: 'sub',
+        children: [
+          {
+            path: 'tolbar-title-demo',
+            component: CardsDemoComponent,
+          },
+        ],
         data: {
-          title: 'Cards Demo'
+          title: 'Toolbar Demo'
         }
-      },
+      } ,
     ]
   },
 ];

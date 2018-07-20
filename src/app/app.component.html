@@ -1,13 +1,16 @@
-<span class="mat-caption">Greetings from @elderbyte/ngx-starter</span>
-<div fxLayout="row" fxFlex>
-  <a mat-button color="accent" routerLink="/app/cards-demo">Cards</a>
+<div fxLayout="row" fxFlex style="background-color: lightgoldenrodyellow">
+
+  <span class="mat-caption">Greetings from @elderbyte/ngx-starter</span>
+
   <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
+  <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
+
 </div>
 
 <mat-toolbar color="primary">
 
   <div fxLayout="row" fxFlex>
-    <toolbar-title></toolbar-title>
+    <toolbar-title [hidden]="searchOpen"></toolbar-title>
 
     <span fxFlex></span>
 
