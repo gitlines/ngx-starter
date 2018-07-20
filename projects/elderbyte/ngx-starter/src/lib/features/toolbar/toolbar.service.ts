@@ -12,7 +12,9 @@ export class ToolbarHeader {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ToolbarService {
 
   /***************************************************************************
@@ -44,10 +46,8 @@ export class ToolbarService {
       map(() => this.activatedRoute)
     )
       .subscribe(active  => {
-        const title = this.resolveTitle(active);
-        this.title = new ToolbarHeader(title);
+        this.updateTitle(active);
       });
-
   }
 
   /***************************************************************************
@@ -67,6 +67,21 @@ export class ToolbarService {
 
   public get titleChange(): Observable<ToolbarHeader> {
     return this._titleChange;
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public Api                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public updateTitle(activatedRoute: ActivatedRoute): void {
+
+    const title = this.resolveTitle(activatedRoute);
+
+    this.logger.debug('Updating Title to: ' + title, activatedRoute);
+
+    this.title = new ToolbarHeader(title);
   }
 
   /***************************************************************************

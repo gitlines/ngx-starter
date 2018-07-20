@@ -1,44 +1,67 @@
 
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {ToolbarService} from './toolbar.service';
 import {Observable, Subscription} from 'rxjs/index';
 import {map} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
-    selector: 'toolbar-title',
-    templateUrl: './toolbar-title.component.html',
-    styleUrls: ['./toolbar-title.component.scss']
+  selector: 'toolbar-title',
+  templateUrl: './toolbar-title.component.html',
+  styleUrls: ['./toolbar-title.component.scss']
 })
-export class ToolbarTitleComponent {
+export class ToolbarTitleComponent implements OnInit, AfterViewInit {
 
-    /***************************************************************************
-     *                                                                         *
-     * Fields                                                                  *
-     *                                                                         *
-     **************************************************************************/
+  /***************************************************************************
+   *                                                                         *
+   * Fields                                                                  *
+   *                                                                         *
+   **************************************************************************/
 
-    /***************************************************************************
-     *                                                                         *
-     * Constructor                                                             *
-     *                                                                         *
-     **************************************************************************/
+  /***************************************************************************
+   *                                                                         *
+   * Constructor                                                             *
+   *                                                                         *
+   **************************************************************************/
 
-    constructor(
-        private toolbarService: ToolbarService
-    ) {
+  constructor(
+    private toolbarService: ToolbarService,
+    private activatedRoute: ActivatedRoute
+  ) {
 
-    }
+  }
 
-    /***************************************************************************
-     *                                                                         *
-     * Lifecycle                                                               *
-     *                                                                         *
-     **************************************************************************/
+  /***************************************************************************
+   *                                                                         *
+   * Lifecycle                                                               *
+   *                                                                         *
+   **************************************************************************/
 
-    public get title(): Observable<string> {
-        return this.toolbarService.titleChange
-            .pipe(
-                map(tb => tb.name)
-            );
-    }
+  public ngOnInit(): void {
+
+  }
+
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+
+      this.toolbarService.updateTitle(this.activatedRoute);
+    }, 10);
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public Properties                                                       *
+   *                                                                         *
+   **************************************************************************/
+
+  public get title(): Observable<string> {
+    return this.toolbarService.titleChange
+      .pipe(
+        map(tb => tb.name)
+      );
+  }
+
+
+
+
 }

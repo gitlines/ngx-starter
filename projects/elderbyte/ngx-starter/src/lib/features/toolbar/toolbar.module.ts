@@ -24,12 +24,7 @@ export class ToolbarModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ToolbarModule,
-      providers: [
-        {
-          provide: ToolbarService,
-          useClass: ToolbarService
-        },
-      ]
+      providers: [ ]
     };
   }
 }

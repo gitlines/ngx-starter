@@ -16,6 +16,10 @@ import {RouterModule} from '@angular/router';
 import {appRoutes} from './app-routes';
 import { CardsDemoComponent } from './cards-demo/cards-demo.component';
 import {ToolbarModule} from '../../projects/elderbyte/ngx-starter/src/lib/features/toolbar/toolbar.module';
+import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
+
+LoggerFactory.getDefaultConfiguration()
+  .withMaxLevel(LogLevel.Debug);
 
 @NgModule({
   declarations: [
