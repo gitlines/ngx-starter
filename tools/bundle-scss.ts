@@ -8,7 +8,6 @@ import { writeFile } from 'fs-extra';
 async function bundleScss() {
   console.info('Bundling SCSS...');
 
-
   const library = 'elderbyte/ngx-starter';
 
   const base = './projects/' + library;
@@ -39,7 +38,7 @@ async function bundleScss() {
   console.log('imports:', imports);
 
   if (found) {
-    await writeFile('./dist/' + library + '/_theming.scss', bundledContent);
+    await writeFile('./dist/' + library + '/theming.scss', bundledContent);
   }
 }
 
