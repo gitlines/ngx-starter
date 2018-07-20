@@ -1,6 +1,19 @@
+<span class="mat-caption">Greetings from @elderbyte/ngx-starter</span>
+<div fxLayout="row" fxFlex>
+  <a mat-button color="accent" routerLink="/app/cards-demo">Cards</a>
+  <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
+</div>
 
 <mat-toolbar color="primary">
-  <h2>Greetings from @elderbyte/ngx-starter</h2>
+
+  <div fxLayout="row" fxFlex>
+    <toolbar-title></toolbar-title>
+
+    <span fxFlex></span>
+
+  </div>
+
+
 </mat-toolbar>
 
 <router-outlet></router-outlet>

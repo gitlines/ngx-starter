@@ -14,11 +14,14 @@ import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
 import { DemoPanelComponent } from './demo-panel/demo-panel.component';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app-routes';
+import { CardsDemoComponent } from './cards-demo/cards-demo.component';
+import {ToolbarModule} from '../../projects/elderbyte/ngx-starter/src/lib/features/toolbar/toolbar.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DemoPanelComponent
+    DemoPanelComponent,
+    CardsDemoComponent
   ],
   imports: [
 
@@ -41,6 +44,7 @@ import {appRoutes} from './app-routes';
     CommonPipesModule,
     ExpandToggleButtonModule,
     AccessDeniedModule,
+    ToolbarModule.forRoot(),
 
     TranslateModule.forRoot({
       loader: {
