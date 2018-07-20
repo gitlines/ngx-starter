@@ -1,0 +1,6 @@
+@import "lib/components/mat-panel/mat-panel-theme";
+
+// Create a theme.
+@mixin starter-theme($theme) {
+  @include mat-panel-theme($theme);
+}
