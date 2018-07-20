@@ -79,7 +79,7 @@ export class ToolbarService {
 
     const title = this.resolveTitle(activatedRoute);
 
-    this.logger.debug('Updating Title to: ' + title, activatedRoute);
+    this.logger.trace('Updating Title to: ' + title, activatedRoute);
 
     this.title = new ToolbarHeader(title);
   }

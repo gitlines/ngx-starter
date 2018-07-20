@@ -43,7 +43,6 @@ export class ToolbarTitleComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
-
       this.toolbarService.updateTitle(this.activatedRoute);
     }, 10);
   }
