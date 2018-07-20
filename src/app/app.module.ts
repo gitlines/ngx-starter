@@ -12,6 +12,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AccessDeniedModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/access-denied/access-denied.module';
 import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
 import { DemoPanelComponent } from './demo-panel/demo-panel.component';
+import {RouterModule} from '@angular/router';
+import {appRoutes} from './app-routes';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { DemoPanelComponent } from './demo-panel/demo-panel.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule.forRoot(appRoutes),
 
     SimpleWebStorageModule.forRoot(),
 
