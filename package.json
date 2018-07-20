@@ -3,10 +3,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:lib": "ng build @elderbyte/ngx-starter --prod",
-    "release": "npm build:lib && npm publish:lib",
-    "publish:lib": "npm publish dist/elderbyte/ngx-starter",
+    "build": "ng build @elderbyte/ngx-starter --prod",
+    "postbuild": "ts-node ./tools/bundle-scss",
+    "release": "npm run build && npm run upload",
+    "upload": "npm publish dist/elderbyte/ngx-starter",
     "test": "ng test @elderbyte/ngx-starter",
     "lint": "ng lint @elderbyte/ngx-starter"
   },
@@ -55,6 +55,9 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
-    "tslint": "~5.9.1"
+    "tslint": "~5.9.1",
+    "rimraf": "^2.6.2",
+    "fs-extra": "^7.0.0",
+    "scss-bundle": "^2.1.0"
   }
 }

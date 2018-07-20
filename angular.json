@@ -106,10 +106,7 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/elderbyte/ngx-starter/tsconfig.lib.json",
-            "project": "projects/elderbyte/ngx-starter/ng-package.json",
-            "assets": [
-              "_theming.scss"
-            ]
+            "project": "projects/elderbyte/ngx-starter/ng-package.json"
           },
           "configurations": {
             "production": {
