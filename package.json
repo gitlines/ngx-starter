@@ -3,6 +3,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "dev": "ng build @elderbyte/ngx-starter",
     "build": "ng build @elderbyte/ngx-starter --prod",
     "postbuild": "ts-node ./tools/bundle-scss",
     "release": "npm run build && npm run upload",

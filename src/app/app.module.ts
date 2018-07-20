@@ -11,10 +11,12 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AccessDeniedModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/access-denied/access-denied.module';
 import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
+import { DemoPanelComponent } from './demo-panel/demo-panel.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DemoPanelComponent
   ],
   imports: [
 
