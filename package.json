@@ -2,7 +2,7 @@
   "name": "ngx-starter-demo",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --aot",
     "dev": "ng build @elderbyte/ngx-starter",
     "build": "ng build @elderbyte/ngx-starter --prod",
     "postbuild": "ts-node ./tools/bundle-scss",

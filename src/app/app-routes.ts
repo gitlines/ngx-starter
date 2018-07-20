@@ -7,10 +7,7 @@ export const appRoutes: Routes = [
   {
     path: '',
     redirectTo: 'app/mixed-demo',
-    pathMatch: 'full',
-    data: {
-      title: 'Demo Home'
-    }
+    pathMatch: 'full'
   },
 
   {
@@ -29,14 +26,24 @@ export const appRoutes: Routes = [
         path: 'sub',
         children: [
           {
+            path: 'override-title',
+            component: CardsDemoComponent,
+            data: {
+              title: 'Overridden Title'
+            }
+          },
+          {
             path: 'tolbar-title-demo',
             component: CardsDemoComponent,
-          },
+          }
         ],
         data: {
-          title: 'Toolbar Demo'
+          _title: 'Base Title'
         }
       } ,
-    ]
+    ],
+    data: {
+      title: 'App Home'
+    }
   },
 ];
