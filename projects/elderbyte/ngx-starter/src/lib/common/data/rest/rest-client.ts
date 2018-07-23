@@ -76,6 +76,13 @@ export class RestClient<T, TID> {
             );
     }
 
+    public updateAll(updatedEntities: T[]): Observable<T> {
+      return this.http.put<T>(this.restEndpoint, updatedEntities)
+        .pipe(
+          tap(e => this.onLocalChanged(e))
+        );
+    }
+
     public delete(entity: T): Observable<any> {
         return this.http.delete(this.getEntityUrlBy(entity), { responseType: 'text' })
             .pipe(
