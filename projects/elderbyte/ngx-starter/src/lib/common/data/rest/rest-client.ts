@@ -76,10 +76,10 @@ export class RestClient<T, TID> {
             );
     }
 
-    public updateAll(updatedEntities: T[]): Observable<T> {
-      return this.http.put<T>(this.restEndpoint, updatedEntities)
+    public updateAll(updatedEntities: T[]): Observable<T[]> {
+      return this.http.put<T[]>(this.restEndpoint, updatedEntities)
         .pipe(
-          tap(e => this.onLocalChanged(e))
+          tap(e => this.onLocalChanged())
         );
     }
 
