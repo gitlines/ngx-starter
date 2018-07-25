@@ -61,7 +61,7 @@ export interface IDataContext<T> {
     /**
      * Gets the current filter context. Changes in this context are reflected by the data-context.
      */
-    readonly filterContext: FilterContext;
+    filterContext: FilterContext;
 
     /***************************************************************************
      *                                                                         *
