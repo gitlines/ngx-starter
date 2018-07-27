@@ -1,6 +1,6 @@
 
 import {Component, Input, OnInit, Output} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs/index';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 
 @Component({
@@ -9,29 +9,61 @@ import {BehaviorSubject, Observable} from 'rxjs/index';
 })
 export class ExpandToggleButtonComponent implements OnInit {
 
-  private _isExpanded: boolean;
-  private _expandedChanged = new BehaviorSubject<boolean>(false);
+  /***************************************************************************
+   *                                                                         *
+   * Fields                                                                  *
+   *                                                                         *
+   **************************************************************************/
 
-  ngOnInit(): void {
+  private _expanded: boolean;
+  private readonly _expandedChange = new BehaviorSubject<boolean>(false);
 
-  }
+  /***************************************************************************
+   *                                                                         *
+   * Life Cycle                                                              *
+   *                                                                         *
+   **************************************************************************/
 
+  public ngOnInit(): void { }
+
+  /***************************************************************************
+   *                                                                         *
+   * Properties                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+
+  /**
+   * @deprecated Please switch to standard 'expandedChange' output event
+   */
   @Output('changed')
-  public get expandedChanged(): Observable<boolean> {
-    return this._expandedChanged;
+  public get expandedChangeDeprecated(): Observable<boolean> {
+    return this._expandedChange.asObservable();
   }
 
-  public get isExpanded(): boolean {
-    return this._isExpanded;
+
+  @Output()
+  public get expandedChange(): Observable<boolean> {
+    return this._expandedChange.asObservable();
   }
 
-  @Input('expanded')
-  public set isExpanded(value: boolean) {
-    this._isExpanded = value;
-    this._expandedChanged.next(value);
+  public get expanded(): boolean {
+    return this._expanded;
   }
 
-  public onToggleExpand(event: any) {
-    this.isExpanded = !this.isExpanded;
+  @Input()
+  public set expanded(value: boolean) {
+    this._expanded = value;
+    this._expandedChange.next(value);
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public onToggleExpand(event: any): void {
+    this.expanded = !this.expanded;
   }
 }

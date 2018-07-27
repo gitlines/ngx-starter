@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DemoPanelComponent implements OnInit {
 
+  public expanded: boolean;
+
   constructor() { }
 
   ngOnInit() {

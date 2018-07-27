@@ -13,8 +13,10 @@
       <ebs-ngx-starter></ebs-ngx-starter>
 
 
-      <mat-toolbar color="accent" style="width: 250px">
-        <expand-toggle-button>You can toggle me</expand-toggle-button>
+      <mat-toolbar color="accent" style="width: 500px">
+        <expand-toggle-button [(expanded)]="expanded" fxFlex>
+          You can toggle me. State: {{expanded}}
+        </expand-toggle-button>
       </mat-toolbar>
 
     </mat-tab>
