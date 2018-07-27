@@ -22,8 +22,8 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     private _loadingIndicator = false;
 
     private _sorts: Sort[] = [];
-    private readonly _filterContext = new FilterContext();
-    private readonly _filterContextSub: Subscription;
+    private _filterContext: FilterContext;
+    private _filterContextSub: Subscription;
     private readonly _activeSortSub: Subscription;
 
     private _rows: T[] = [];
@@ -45,9 +45,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     ) {
         super();
 
-        this._filterContextSub = this._filterContext.filtersChanged.subscribe(
-            () => this.reload()
-        );
+        this.filterContext = new FilterContext();
 
         if (activeSort) {
             activeSort.subscribe(
@@ -112,6 +110,19 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
         return this._filterContext;
     }
 
+    public set filterContext(context: FilterContext) {
+
+        if (this._filterContextSub) { this._filterContextSub.unsubscribe(); }
+
+        this._filterContext = context;
+
+        if (context) {
+            this._filterContextSub = this._filterContext.filtersChanged.subscribe(
+                () => this.reload()
+            );
+        }
+    }
+
     public get loadingIndicator(): boolean {
         return this._loadingIndicator;
     }
@@ -159,7 +170,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     }
 
     public close(): void {
-        this._filterContextSub.unsubscribe();
+        if (this._filterContextSub) { this._filterContextSub.unsubscribe(); }
         if (this._activeSortSub) { this._activeSortSub.unsubscribe(); }
     }
 
