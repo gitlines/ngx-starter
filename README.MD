@@ -15,54 +15,17 @@ To install this library, run:
 $ npm install @elderbyte/ngx-starter --save
 ```
 
-## Consuming your library
+## Using this library
 
-Once you have published your library to npm, you can import your library in any Angular application by running:
-
-```bash
-$ npm install @elderbyte/ngx-starter
-```
-
-and then from your Angular `AppModule`:
-
-```typescript
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-
-// Import your library
-import { SampleModule } from '@elderbyte/ngx-starter';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-
-    // Specify your library as an import
-    LibraryModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-```
-
-Once your library is imported, you can use its components, directives and pipes in your Angular application:
-
-```xml
-<!-- You can now use your library component in app.component.html -->
-<h1>
-  {{title}}
-</h1>
-<sampleComponent></sampleComponent>
-```
+Import the modules you require and start using the components and directives.
 
 ## Development
 
-To generate all `*.js`, `*.d.ts` and `*.metadata.json` files:
+This angular managed repository contains two angular projects.
+
+* A demo app to showcase and test the library
+* The library project with the reusable components.
+
 
 ```bash
 $ npm run build
@@ -72,6 +35,12 @@ To lint all `*.ts` files:
 
 ```bash
 $ npm run lint
+```
+
+To build and upload to npm (requires previous login to npm and according permissions)
+
+```bash
+$ npm run release
 ```
 
 ## License
