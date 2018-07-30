@@ -1,4 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {IFileUploadClient} from '../../../common/data/rest/file-upload-client';
+import {forkJoin, Observable} from 'rxjs';
 
 @Component({
   selector: 'ebs-file-select',
@@ -16,12 +18,17 @@ export class FileSelectComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
 
   public files: Set<File> = new Set();
+  public uploadProgress: Map<File, Observable<number>>;
+  public totalProgress: Observable<any>;
 
   @Input()
   public multiple = false;
 
   @Input()
   public accept: string = undefined;
+
+  @Input()
+  public uploadClient: IFileUploadClient;
 
   @Output()
   public readonly filesChange = new EventEmitter<Set<File>>();
@@ -32,7 +39,8 @@ export class FileSelectComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  constructor() { }
+  constructor() {
+  }
 
   /***************************************************************************
    *                                                                         *
@@ -65,7 +73,15 @@ export class FileSelectComponent implements OnInit {
   }
 
   public startUpload(): void {
+    this.totalProgress = this.uploadAllFiles(this.files);
+  }
 
+  public progressOf(file: File): Observable<number> | undefined {
+    if (this.uploadProgress) {
+      return this.uploadProgress.get(file);
+    } else {
+      return undefined;
+    }
   }
 
   /***************************************************************************
@@ -76,6 +92,11 @@ export class FileSelectComponent implements OnInit {
 
   private openFileSelectDialog(): void {
     this.fileInput.nativeElement.click();
+  }
+
+  private uploadAllFiles(files: Set<File>): Observable<any> {
+    this.uploadProgress = this.uploadClient.uploadFiles(files);
+    return forkJoin(this.uploadProgress.values());
   }
 
 }
