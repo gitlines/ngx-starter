@@ -64,6 +64,10 @@ export class FileSelectComponent implements OnInit {
     this.filesChange.next(this.files);
   }
 
+  public startUpload(): void {
+
+  }
+
   /***************************************************************************
    *                                                                         *
    * Private methods                                                         *

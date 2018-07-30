@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileSelectComponent } from './file-select/file-select.component';
-import {MatButtonModule, MatIconModule, MatListModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatListModule, MatProgressBarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CommonPipesModule} from '../../pipes/common-pipes.module';
 
@@ -12,6 +12,8 @@ import {CommonPipesModule} from '../../pipes/common-pipes.module';
     FlexLayoutModule, MatListModule,
 
     MatButtonModule, MatIconModule,
+
+    MatProgressBarModule,
 
     CommonPipesModule
   ],
