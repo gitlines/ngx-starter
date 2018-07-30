@@ -23,9 +23,17 @@
 
     <mat-tab label="Features">
 
-      <app-language-switcher></app-language-switcher>
+      <h2>Language Switcher</h2>
 
+      <app-language-switcher></app-language-switcher>
       <h3>Translated: {{'greeting'| translate}}</h3>
+
+
+      <h2>File Upload</h2>
+
+      <ebs-file-select
+        [multiple]="true"
+      ></ebs-file-select>
 
     </mat-tab>
 

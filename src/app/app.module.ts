@@ -17,6 +17,7 @@ import {appRoutes} from './app-routes';
 import { CardsDemoComponent } from './cards-demo/cards-demo.component';
 import {ToolbarModule} from '../../projects/elderbyte/ngx-starter/src/lib/features/toolbar/toolbar.module';
 import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
+import {FileUploadModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/file-upload/file-upload.module';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -49,6 +50,7 @@ LoggerFactory.getDefaultConfiguration()
     ExpandToggleButtonModule,
     AccessDeniedModule,
     ToolbarModule.forRoot(),
+    FileUploadModule,
 
     TranslateModule.forRoot({
       loader: {
