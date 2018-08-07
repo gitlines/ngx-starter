@@ -79,15 +79,15 @@ export class EbsCardOrganizerComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public requestNewCard(stack: CardStack<any, any>): void {
+  public onRequestNewCard(stack: CardStack<any, any>): void {
       this.requestNewCard.next(stack);
   }
 
-  public requestRemoveCard(cardToDelete: any): void {
+  public onRequestRemoveCard(cardToDelete: any): void {
       this.requestRemoveCard.next(cardToDelete);
   }
 
-  public cardClicked(clickedCard: any): void {
+  public onCardClicked(clickedCard: any): void {
     this.cardClick.next(clickedCard);
   }
 

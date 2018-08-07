@@ -9,7 +9,7 @@
 
     <span fxFlex></span>
 
-    <button mat-icon-button (click)="requestNewCard($event)">
+    <button mat-icon-button (click)="onRequestNewCard($event)">
       <mat-icon>add</mat-icon>
     </button>
 
@@ -23,7 +23,7 @@
 
       <!-- card -->
       <mat-card *ngFor="let card of stack?.cards | async"
-                (click)="cardSelected($event, card)">
+                (click)="onCardSelected($event, card)">
         <mat-card-header>
 
           <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
@@ -31,7 +31,7 @@
 
             <ng-container *ngTemplateOutlet="cardTemplate || simpleCardTemplate; context: {$implicit: card}"></ng-container>
 
-            <button mat-icon-button class="hide" (click)="requestRemoveCard($event, card)">
+            <button mat-icon-button class="hide" (click)="onRequestRemoveCard($event, card)">
               <mat-icon>close</mat-icon>
             </button>
           </div>

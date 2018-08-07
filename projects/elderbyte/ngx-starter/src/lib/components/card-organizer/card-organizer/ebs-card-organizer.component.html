@@ -5,9 +5,9 @@
                     *ngFor="let stack of organizerModel.stacks | async"
                     [stack]="stack"
                     [cardTemplate]="stackCardTemplate"
-                    (requestNewCard)="requestNewCard($event)"
-                    (requestRemoveCard)="requestRemoveCard($event)"
-                    (cardClick)="cardClicked($event)"
+                    (requestNewCard)="onRequestNewCard($event)"
+                    (requestRemoveCard)="onRequestRemoveCard($event)"
+                    (cardClick)="onCardClicked($event)"
     >
     </ebs-card-stack>
 

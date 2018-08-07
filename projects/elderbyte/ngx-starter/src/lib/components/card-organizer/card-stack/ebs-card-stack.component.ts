@@ -58,16 +58,16 @@ export class EbsCardStackComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public requestNewCard(event: MouseEvent): void {
+  public onRequestNewCard(event: MouseEvent): void {
     this.requestNewCard.next(this.stack);
   }
 
-  public requestRemoveCard(event: MouseEvent, card: any): void {
+  public onRequestRemoveCard(event: MouseEvent, card: any): void {
     this.requestRemoveCard.next(card);
     this.stack.removeCard(card);
   }
 
-  public cardSelected(event: MouseEvent, card: any): void {
+  public onCardSelected(event: MouseEvent, card: any): void {
     this.cardClick.next(card);
   }
 }
