@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FileSelectComponent } from './file-select/file-select.component';
+import { EbsFileSelectComponent } from './file-select/file-select.component';
 import {MatButtonModule, MatIconModule, MatListModule, MatProgressBarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CommonPipesModule} from '../../pipes/common-pipes.module';
+import { EbsFileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,13 @@ import {CommonPipesModule} from '../../pipes/common-pipes.module';
 
     CommonPipesModule
   ],
-  declarations: [FileSelectComponent],
-  exports: [FileSelectComponent]
+  declarations: [
+    EbsFileSelectComponent,
+    EbsFileUploadComponent
+  ],
+  exports: [
+    EbsFileSelectComponent,
+    EbsFileUploadComponent
+  ]
 })
-export class FileUploadModule { }
+export class EbsFilesModule { }

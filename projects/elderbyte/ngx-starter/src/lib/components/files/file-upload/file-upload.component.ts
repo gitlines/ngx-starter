@@ -1,13 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IFileUploadClient} from '../../../common/data/rest/file-upload-client';
+import {Component, Input, OnInit} from '@angular/core';
 import {forkJoin, Observable} from 'rxjs';
+import {IFileUploadClient} from '../../../common/data/rest/file-upload-client';
 
 @Component({
-  selector: 'ebs-file-select',
-  templateUrl: './file-select.component.html',
-  styleUrls: ['./file-select.component.scss']
+  selector: 'ebs-file-upload',
+  templateUrl: './file-upload.component.html',
+  styleUrls: ['./file-upload.component.scss']
 })
-export class FileSelectComponent implements OnInit {
+export class EbsFileUploadComponent implements OnInit {
+
 
   /***************************************************************************
    *                                                                         *
@@ -15,8 +16,7 @@ export class FileSelectComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
-
+  @Input()
   public files: Set<File> = new Set();
   public uploadProgress: Map<File, Observable<number>>;
   public totalProgress: Observable<any>;
@@ -29,9 +29,6 @@ export class FileSelectComponent implements OnInit {
 
   @Input()
   public uploadClient: IFileUploadClient;
-
-  @Output()
-  public readonly filesChange = new EventEmitter<Set<File>>();
 
   /***************************************************************************
    *                                                                         *
@@ -58,21 +55,7 @@ export class FileSelectComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public selectFiles(event: any): void {
-    this.openFileSelectDialog();
-  }
-
-  public fileInputChanged(): void {
-    const fileList = this.fileInput.nativeElement.files;
-    for (const key in fileList) {
-      if (!isNaN(parseInt(key, 0))) {
-        this.files.add(fileList[key]);
-      }
-    }
-    this.filesChange.next(this.files);
-  }
-
-  public startUpload(): void {
+  public startUpload(event: any): void {
     this.totalProgress = this.uploadAllFiles(this.files);
   }
 
@@ -89,10 +72,6 @@ export class FileSelectComponent implements OnInit {
    * Private methods                                                         *
    *                                                                         *
    **************************************************************************/
-
-  private openFileSelectDialog(): void {
-    this.fileInput.nativeElement.click();
-  }
 
   private uploadAllFiles(files: Set<File>): Observable<any> {
     this.uploadProgress = this.uploadClient.uploadFiles(files);

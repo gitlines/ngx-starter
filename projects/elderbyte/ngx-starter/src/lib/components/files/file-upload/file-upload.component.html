@@ -14,15 +14,18 @@
     </mat-list-item>
   </mat-list>
 
-  <input type="file"
-         hidden #fileInput
-         [multiple]="multiple"
-         [accept]="accept"
-         (change)="fileInputChanged()"
-  />
+  <div fxLayout="row" fxLayoutGap="10px">
 
-  <button mat-icon-button (click)="selectFiles($event)">
-    <mat-icon>add</mat-icon>
-  </button>
+    <ebs-file-select
+      [multiple]="multiple"
+      [accept]="accept"
+      (filesChange)="files = $event"
+    ></ebs-file-select>
+
+    <button mat-icon-button *ngIf="uploadClient" color="primary" (click)="startUpload($event)" [disabled]="files.size === 0">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+  </div>
+
 
 </div>
