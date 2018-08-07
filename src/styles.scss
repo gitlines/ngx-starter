@@ -11,9 +11,132 @@
 
 // DEFAULT Theme
 $candy-app-primary: mat-palette($mat-blue);
-$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$candy-app-accent:  mat-palette($mat-orange);
 $candy-app-theme:   mat-light-theme($candy-app-primary, $candy-app-accent);
 
 // Set 'candy-app' as default theme
 @include angular-material-theme($candy-app-theme);
 // @include starter-theme($candy-app-theme);
+
+
+html, body {
+  min-height:100vh;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-weight: 300;
+}
+
+body {
+  display: block;
+  margin: 0px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+  position: fixed;
+
+  // Helps fonts on OSX looks more consistent with other systems
+  // Isn't currently in button styles due to performance concerns
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+h1,h2,h3,h4 {
+  font-weight: 300;
+}
+
+.mat-toolbar {
+  font-weight: 300!important;
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+.green {
+  background-color: green;
+}
+
+.padding-10 {
+  padding: 10px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+
+.scrollable {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/** https://bugzilla.mozilla.org/show_bug.cgi?id=1043520 **/
+.firefox-scroll-fix {
+  min-width:0;
+  min-height:0;
+}
+
+.side-detail {
+  max-width: 80vw;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+
+html, body {
+  min-height:100vh;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-weight: 300;
+}
+
+body {
+  display: block;
+  margin: 0px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+  position: fixed;
+
+  // Helps fonts on OSX looks more consistent with other systems
+  // Isn't currently in button styles due to performance concerns
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+starter-demo-root {
+  overflow: hidden;
+}
+
+
+.padding-10 {
+  padding: 10px;
+}
+
+.scrollable {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}

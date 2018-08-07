@@ -1,0 +1,55 @@
+
+
+<div fxLayout="column" class="card-stack hoverme" fxFlex>
+
+  <!-- Header -->
+  <header fxLayout="row" fxFlex="none" fxLayoutAlign="start center" class="padding-10" style="height: 62px">
+
+    <h3 class="mat-body-2 noselect">{{stack?.title}} <small class="mat-caption noselect">({{(stack?.cards | async)?.length}})</small></h3>
+
+    <span fxFlex></span>
+
+    <button mat-icon-button (click)="requestNewCard($event)">
+      <mat-icon>add</mat-icon>
+    </button>
+
+  </header>
+  <mat-divider></mat-divider>
+
+  <!-- card list -->
+  <div fxFlex fxLayout="column"  class="card-list">
+
+    <div fxLayout="column" fxLayoutGap="10px" class="scrollable padding-10">
+
+      <!-- card -->
+      <mat-card *ngFor="let card of stack?.cards | async"
+                (click)="cardSelected($event, card)">
+        <mat-card-header>
+
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+
+
+            <ng-container *ngTemplateOutlet="cardTemplate || simpleCardTemplate; context: {$implicit: card}"></ng-container>
+
+            <button mat-icon-button class="hide" (click)="requestRemoveCard($event, card)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </mat-card-header>
+      </mat-card>
+    </div>
+
+  </div>
+
+
+  <ng-template #simpleCardTemplate let-card>
+    <div fxLayout="column" fxFlex>
+      <mat-card-title class="noselect">{{card}}</mat-card-title>
+    </div>
+  </ng-template>
+
+</div>
+
+
+
+

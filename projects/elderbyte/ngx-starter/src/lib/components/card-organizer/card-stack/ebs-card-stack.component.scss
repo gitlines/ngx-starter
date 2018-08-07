@@ -1,0 +1,57 @@
+
+.card-stack {
+  background-color: #FAFAFA;
+  border-radius: 4px;
+  border: 1px solid #D1D1D1;
+}
+
+.card-list {
+  min-width: 120px;
+  min-height: 0;
+}
+
+mat-card {
+  padding: 10px;
+}
+
+.hoverme .hide{
+  visibility: hidden;
+}
+
+.hoverme:hover .hide{
+  visibility: visible;
+}
+
+.rotate {
+
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+
+.scrollable {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}

@@ -1,23 +1,62 @@
-<div fxLayout="row" fxFlex style="background-color: lightgoldenrodyellow">
+<mat-sidenav-container style="height:100%;">
+  <mat-sidenav-content fxLayout="column" fxFlex>
 
-  <span class="mat-caption">Greetings from @elderbyte/ngx-starter</span>
+    <div style="width: 100%" fxLayout="column">
+      <mat-toolbar color="primary" fxFlex="none">
 
-  <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
-  <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
-  <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
+        <div fxLayout="row" fxFlex>
+          <toolbar-title [hidden]="searchOpen"></toolbar-title>
 
-</div>
+          <span fxFlex></span>
 
-<mat-toolbar color="primary">
+          <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
+          <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
+          <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
 
-  <div fxLayout="row" fxFlex>
-    <toolbar-title [hidden]="searchOpen"></toolbar-title>
-
-    <span fxFlex></span>
-
-  </div>
+        </div>
+      </mat-toolbar>
+    </div>
 
 
-</mat-toolbar>
+    <div class="under-toolbar">
+      <router-outlet></router-outlet>
+    </div>
 
-<router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+
+    <!--
+<div fxLayout="column" fxFill class="app-root" style="background-color: lightblue"></div>
+
+
+    <div fxLayout="row" fxFlex="none" style="background-color: lightgoldenrodyellow">
+
+      <span class="mat-caption">Greetings from @elderbyte/ngx-starter</span>
+
+      <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
+      <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
+      <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
+
+    </div>
+
+    <mat-toolbar color="primary" fxFlex="none">
+
+      <div fxLayout="row" fxFlex>
+        <toolbar-title [hidden]="searchOpen"></toolbar-title>
+
+        <span fxFlex></span>
+
+      </div>
+    </mat-toolbar>
+
+    <div fxFlex="100" fxLayout="column" style="width: 100%; height: 100%; background-color: aquamarine">
+      <router-outlet ></router-outlet>
+    </div>
+    -->
+
+
+

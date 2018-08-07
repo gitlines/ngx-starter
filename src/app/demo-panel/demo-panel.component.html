@@ -1,6 +1,6 @@
 <div fxLayout="column" fxFill>
 
-  <mat-tab-group>
+  <mat-tab-group fxFill>
     <mat-tab label="Directives">
 
       <h2>test</h2>
@@ -9,9 +9,6 @@
     </mat-tab>
 
     <mat-tab label="Components">
-
-      <ebs-ngx-starter></ebs-ngx-starter>
-
 
       <mat-toolbar color="accent" style="width: 500px">
         <expand-toggle-button [(expanded)]="expanded" fxFlex>
@@ -34,6 +31,48 @@
       <ebs-file-upload
         [multiple]="true"
       ></ebs-file-upload>
+
+    </mat-tab>
+
+    <mat-tab label="Cards">
+
+    </mat-tab>
+
+    <mat-tab label="Scroll">
+
+
+      <div fxFill fxLayout="column">
+
+        <div class="scrollable">
+          <div style="width: 250px;height: 250px;background-color: darkorange">
+            A
+          </div>
+
+          <div style="width: 250px;height: 250px;background-color: darkcyan">
+            A
+          </div>
+
+          <div style="width: 250px;height: 250px;background-color: darkorange">
+            A
+          </div>
+
+          <div style="width: 250px;height: 250px;background-color: darkcyan">
+            A
+          </div>
+          <div style="width: 250px;height: 250px;background-color: darkorange">
+            A
+          </div>
+
+          <div style="width: 250px;height: 250px;background-color: darkcyan">
+            A
+          </div>
+        </div>
+
+
+      </div>
+
+
+
 
     </mat-tab>
 
