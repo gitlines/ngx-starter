@@ -1,7 +1,11 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 
+
 /**
- * Keeps track of a sub set of selected items.
+ * Provides a model of a selection.
+ * Supports single and multi selection.
+ *
+ * Supports custom selection equality (default by object value)
  */
 export class SelectionModel<T> {
 
