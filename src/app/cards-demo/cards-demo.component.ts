@@ -20,16 +20,19 @@ export class CardsDemoComponent implements OnInit {
         new CardStack('a', 'A', [
           '1',
           '2',
-          '2',
-          '2',
-          '2',
-          '2',
-          '2',
-          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
         ]),
-        new CardStack('a', 'B'),
-        new CardStack('a', 'C'),
-        new CardStack('a', 'D'),
+        new CardStack('b', 'B', [
+          'a',
+          'b',
+        ]),
+        new CardStack('c', 'C'),
+        new CardStack('d', 'D'),
       ]
     );
 
