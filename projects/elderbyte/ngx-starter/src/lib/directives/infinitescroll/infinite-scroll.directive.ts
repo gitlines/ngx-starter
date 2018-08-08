@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Input, OnDestroy, Output} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {Observable, ReplaySubject} from 'rxjs/index';
+import {Observable, ReplaySubject} from 'rxjs';
 import {filter, throttleTime} from 'rxjs/operators';
 
 
