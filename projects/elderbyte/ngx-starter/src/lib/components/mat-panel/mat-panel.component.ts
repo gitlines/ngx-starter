@@ -1,5 +1,6 @@
-import {Component, ElementRef, OnInit, Renderer2} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
 import {CanColor, mixinColor} from '@angular/material';
+import {ThemePalette} from '@angular/material/core/typings/common-behaviors/color';
 
 
 
@@ -19,6 +20,9 @@ export const _MatPanelMixinBase = mixinColor(MatPanelComponentBase);
   }
 })
 export class MatPanelComponent extends _MatPanelMixinBase implements OnInit, CanColor {
+
+  @Input()
+  public color: ThemePalette; // Fix CanColor interface issue
 
   constructor(renderer: Renderer2, elementRef: ElementRef) {
     super(renderer, elementRef);
