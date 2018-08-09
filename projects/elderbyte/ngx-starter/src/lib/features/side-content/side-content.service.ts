@@ -25,7 +25,6 @@ export class SideContentService {
     private _detailContentOutlet = 'side';
     private _clickOutsideToClose = true;
 
-
     /***************************************************************************
      *                                                                         *
      * Constructor                                                             *
@@ -45,10 +44,10 @@ export class SideContentService {
 
                 if (this.isOutletActive(this.detailContentOutlet)) {
                     this.logger.trace(`"${this.detailContentOutlet}" outlet is active -> showing side content!`);
-                    this.showSideContent();
+                    this.showSideContentInternal();
                 } else {
                     this.logger.trace(`"${this.detailContentOutlet}" outlet is NOT active -> HIDING side content!`);
-                    this.closeSideContent();
+                    this.closeSideContentInternal();
                 }
                 this.closeSideNav();
             });
@@ -133,9 +132,6 @@ export class SideContentService {
      * Closes the side detail content
      */
     public closeSideContent() {
-        this.logger.debug('Hiding ...');
-        this.sideContentOpen = false;
-
 
         const command = {};
         command['outlets'] = {};
@@ -172,6 +168,16 @@ export class SideContentService {
      *                                                                         *
      **************************************************************************/
 
+    private closeSideContentInternal(): void {
+        this.logger.trace('Hiding Side Content');
+        this.sideContentOpen = false;
+    }
+
+    private showSideContentInternal() {
+        this.logger.trace('Showing Side Content');
+        this.sideContentOpen = true;
+    }
+
     private isOutletActive(outlet: string): boolean {
         const rs: RouterStateSnapshot =  this.router.routerState.snapshot;
         const snap: ActivatedRouteSnapshot = rs.root;
@@ -190,8 +196,6 @@ export class SideContentService {
         return false;
     }
 
-    private showSideContent() {
-        this.sideContentOpen = true;
-    }
+
 
 }

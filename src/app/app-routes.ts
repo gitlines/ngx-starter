@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 import {DemoPanelComponent} from './demo-panel/demo-panel.component';
 import {CardsDemoComponent} from './cards-demo/cards-demo.component';
+import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
 
 
 export const appRoutes: Routes = [
@@ -46,4 +47,13 @@ export const appRoutes: Routes = [
       title: 'App Home'
     }
   },
+
+    // OUTLET SIDE
+
+    {
+        path: 'mixed-demo',
+        outlet: 'side',
+        component: DemoPanelSideComponent,
+
+    },
 ];

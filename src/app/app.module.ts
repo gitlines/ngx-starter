@@ -7,7 +7,7 @@ import {
   EbsFilesModule, EbsCardOrganizerModule, ToolbarModule, AccessDeniedModule,
   LanguageModule
 } from '@elderbyte/ngx-starter';
-import {MatButtonModule, MatCommonModule, MatSidenavModule, MatTabsModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatCommonModule, MatIconModule, MatSidenavModule, MatTabsModule, MatToolbarModule} from '@angular/material';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -19,6 +19,8 @@ import {appRoutes} from './app-routes';
 import { CardsDemoComponent } from './cards-demo/cards-demo.component';
 import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {SideContentService} from '../../projects/elderbyte/ngx-starter/src/lib/features/side-content/side-content.service';
+import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -27,6 +29,7 @@ LoggerFactory.getDefaultConfiguration()
   declarations: [
     AppComponent,
     DemoPanelComponent,
+    DemoPanelSideComponent,
     CardsDemoComponent
   ],
   imports: [
@@ -47,6 +50,7 @@ LoggerFactory.getDefaultConfiguration()
     MatToolbarModule,
     MatButtonModule,
     MatTabsModule,
+    MatIconModule,
 
     // Library
     CommonPipesModule,
@@ -66,7 +70,7 @@ LoggerFactory.getDefaultConfiguration()
 
     LanguageModule.forRoot()
   ],
-  providers: [],
+  providers: [SideContentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

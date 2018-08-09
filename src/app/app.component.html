@@ -1,4 +1,6 @@
+
 <mat-sidenav-container style="height:100%;">
+
   <mat-sidenav-content fxLayout="column" fxFlex>
 
     <div style="width: 100%" fxLayout="column">
@@ -10,6 +12,7 @@
           <span fxFlex></span>
 
           <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
+          <a mat-button color="accent" [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">Mixed Side</a>
           <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
           <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
 
@@ -23,40 +26,19 @@
     </div>
 
   </mat-sidenav-content>
+
+  <!-- Right Side Detial -->
+  <mat-sidenav fxLayout="column"
+               class="side-content, truncate" position="end" [fixedInViewport]="true"
+               mode="over"
+               [opened]="sideContentOpen"
+               (closedStart)="closeSideContent()"
+               [disableClose]="false">
+
+    <div class="my-side-content">
+      <router-outlet name="side"></router-outlet>
+    </div>
+
+  </mat-sidenav>
+
 </mat-sidenav-container>
-
-
-
-
-
-    <!--
-<div fxLayout="column" fxFill class="app-root" style="background-color: lightblue"></div>
-
-
-    <div fxLayout="row" fxFlex="none" style="background-color: lightgoldenrodyellow">
-
-      <span class="mat-caption">Greetings from @elderbyte/ngx-starter</span>
-
-      <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
-      <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
-      <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
-
-    </div>
-
-    <mat-toolbar color="primary" fxFlex="none">
-
-      <div fxLayout="row" fxFlex>
-        <toolbar-title [hidden]="searchOpen"></toolbar-title>
-
-        <span fxFlex></span>
-
-      </div>
-    </mat-toolbar>
-
-    <div fxFlex="100" fxLayout="column" style="width: 100%; height: 100%; background-color: aquamarine">
-      <router-outlet ></router-outlet>
-    </div>
-    -->
-
-
-
