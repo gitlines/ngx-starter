@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {forkJoin, Observable} from 'rxjs';
-import {IFileUploadClient} from '../../../common/data/rest/file-upload-client';
+import {FileUpload, IFileUploadClient} from '../../../common/data/rest/file-upload-client';
 
 @Component({
   selector: 'ebs-file-upload',
@@ -18,7 +18,7 @@ export class EbsFileUploadComponent implements OnInit {
 
   @Input()
   public files: Set<File> = new Set();
-  public uploadProgress: Map<File, Observable<number>>;
+  public uploadProgress: Map<File, FileUpload>;
   public totalProgress: Observable<any>;
 
   @Input()
@@ -59,12 +59,11 @@ export class EbsFileUploadComponent implements OnInit {
     this.totalProgress = this.uploadAllFiles(this.files);
   }
 
-  public progressOf(file: File): Observable<number> | undefined {
+  public statusOf(file: File): FileUpload {
     if (this.uploadProgress) {
       return this.uploadProgress.get(file);
-    } else {
-      return undefined;
     }
+    return undefined;
   }
 
   /***************************************************************************

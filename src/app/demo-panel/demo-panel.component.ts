@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {IFileUploadClient} from '@elderbyte/ngx-starter';
+import {FileUploadClient} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/rest/file-upload-client';
 
 @Component({
   selector: 'starter-demo-demo-panel',
@@ -8,8 +11,14 @@ import { Component, OnInit } from '@angular/core';
 export class DemoPanelComponent implements OnInit {
 
   public expanded: boolean;
+  public uploadClient: IFileUploadClient;
 
-  constructor() { }
+
+  constructor(
+    private http: HttpClient
+  ) {
+    this.uploadClient = new FileUploadClient(http, '/woot', 'POST');
+  }
 
   ngOnInit() {
   }

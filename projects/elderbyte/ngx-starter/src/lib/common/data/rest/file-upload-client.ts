@@ -1,9 +1,29 @@
-import {HttpClient, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
+import {Observable, ReplaySubject, Subject} from 'rxjs';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 export interface IFileUploadClient {
-  uploadFiles(files: Set<File>): Map<File, Observable<number>>;
-  uploadFile(file: File): Observable<number>;
+  uploadFiles(files: Set<File>): Map<File, FileUpload>;
+  uploadFile(file: File): FileUpload;
+}
+
+/**
+ * Represents a file upload
+ */
+export class FileUpload {
+  constructor(
+
+    /**
+     * The upload progress [0-100]
+     */
+    public readonly progress: Observable<number>,
+
+    /**
+     * If there was an error while uploading
+     */
+    public readonly error: Observable<HttpErrorResponse>
+
+  ) { }
 }
 
 export class FileUploadClient implements IFileUploadClient {
@@ -36,11 +56,11 @@ export class FileUploadClient implements IFileUploadClient {
    *                                                                         *
    **************************************************************************/
 
-  public uploadFiles(files: Set<File>): Map<File, Observable<number>> {
+  public uploadFiles(files: Set<File>): Map<File, FileUpload> {
     return this.uploader.uploadFiles(files, this.requestMethod);
   }
 
-  public uploadFile(file: File): Observable<number> {
+  public uploadFile(file: File): FileUpload {
     return this.uploader.uploadFile(file, this.requestMethod);
   }
 }
@@ -51,6 +71,8 @@ export class FileUploadClient implements IFileUploadClient {
  * Reports progress of the upload.
  */
 export class FileUploader {
+
+  private logger = LoggerFactory.getLogger('FileUploader');
 
   /***************************************************************************
    *                                                                         *
@@ -69,19 +91,19 @@ export class FileUploader {
    *                                                                         *
    **************************************************************************/
 
-  public createFile(file: File): Observable<number> {
+  public createFile(file: File): FileUpload {
     return this.uploadFile(file, 'POST');
   }
 
-  public updateFile(file: File): Observable<number> {
+  public updateFile(file: File): FileUpload {
     return this.uploadFile(file, 'PUT');
   }
 
-  public createFiles(files: Set<File>): Map<File, Observable<number>> {
+  public createFiles(files: Set<File>): Map<File, FileUpload> {
     return this.uploadFiles(files, 'POST');
   }
 
-  public updateFiles(files: Set<File>): Map<File, Observable<number>> {
+  public updateFiles(files: Set<File>): Map<File, FileUpload> {
     return this.uploadFiles(files, 'PUT');
   }
 
@@ -89,9 +111,9 @@ export class FileUploader {
    * Upload all given files, returns an observable map to track the progress of each upload.
    * @param files
    */
-  public uploadFiles(files: Set<File>, requestMethod: 'POST' | 'PUT' | 'PATCH'): Map<File, Observable<number>> {
+  public uploadFiles(files: Set<File>, requestMethod: 'POST' | 'PUT' | 'PATCH'): Map<File, FileUpload> {
 
-    const allProgress = new Map<File, Observable<number>>();
+    const allProgress = new Map<File, FileUpload>();
 
     files.forEach(file => {
       // create a new progress-subject for every file
@@ -106,7 +128,7 @@ export class FileUploader {
    * Upload the given file, returns an observable to track the progress of the upload.
    * @param file
    */
-  public uploadFile(file: File, requestMethod: 'POST' | 'PUT' | 'PATCH'): Observable<number> {
+  public uploadFile(file: File, requestMethod: 'POST' | 'PUT' | 'PATCH'): FileUpload {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
@@ -118,25 +140,40 @@ export class FileUploader {
 
     // create a new progress-subject for every file
     const progress = new Subject<number>();
+    const error = new ReplaySubject<any>(1);
 
     // send the http-request and subscribe for progress-updates
-    this.http.request(req).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
+    this.http.request(req)
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
 
-        // calculate the progress percentage
-        const percentDone = Math.round(100 * event.loaded / event.total);
+          // calculate the progress percentage
+          const percentDone = Math.round(100 * event.loaded / event.total);
 
-        // pass the percentage into the progress-stream
-        progress.next(percentDone);
-      } else if (event instanceof HttpResponse) {
+          // pass the percentage into the progress-stream
+          progress.next(percentDone);
 
-        // Close the progress-stream if we get an answer form the API
-        // The upload is complete
+        } else if (event instanceof HttpResponse) {
+          // Close the progress-stream if we get an answer form the API
+          // The upload is complete
+          progress.complete();
+        }
+      },
+      err => {
+        this.logger.warn('Upload failed', err);
+        progress.next(0);
+        error.next(err);
+      },
+      () => {
         progress.complete();
+        error.complete();
       }
-    });
+    );
 
-    return progress.asObservable();
+    return new FileUpload(
+      progress.asObservable(),
+      error.asObservable()
+    );
   }
 
   /***************************************************************************
