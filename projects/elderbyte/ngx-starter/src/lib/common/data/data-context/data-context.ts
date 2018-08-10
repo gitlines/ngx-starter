@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {Sort} from '../sort';
 import {Filter} from '../filter';
 import {FilterContext} from '../filter-context';
+import {PageRequest} from '../page';
 
 
 /**
@@ -113,5 +114,7 @@ export interface IDataContextActivePage<T> extends IDataContext<T> {
     pageIndex: number;
 
     pageSize: number;
+
+    page: PageRequest;
 
 }
