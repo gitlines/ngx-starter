@@ -3,11 +3,14 @@ import {IDataContext, IDataContextActivePage} from './data-context';
 import {Subscription, Unsubscribable} from 'rxjs';
 
 
-export class MatTableSupportBuilder {
+export class MatTableDataContextBindingBuilder {
 
   private _matSort: MatSort;
   private _matPaginator: MatPaginator;
 
+  public static start(): MatTableDataContextBindingBuilder {
+    return new MatTableDataContextBindingBuilder();
+  }
 
   public withSort(matSort: MatSort): this {
     this._matSort = matSort;

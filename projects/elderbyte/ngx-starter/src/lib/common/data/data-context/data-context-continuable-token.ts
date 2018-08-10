@@ -1,7 +1,6 @@
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableBase} from './data-context-continuable-base';
-import {Sort} from '../sort';
 import {EMPTY, Observable, Subject} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {TokenChunkRequest} from '../token-chunk-request';
@@ -35,10 +34,9 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
         chunkSize: number,
         indexFn?: ((item: T) => any),
         localSort?: ((a: T, b: T) => number),
-        localApply?: ((data: T[]) => T[]),
-        activeSort?: Observable<Sort>
+        localApply?: ((data: T[]) => T[])
     ) {
-        super(chunkSize, indexFn, localSort, localApply, activeSort);
+        super(chunkSize, indexFn, localSort, localApply);
     }
 
     /***************************************************************************

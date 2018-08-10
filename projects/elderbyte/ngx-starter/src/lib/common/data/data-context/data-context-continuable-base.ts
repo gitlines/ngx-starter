@@ -35,10 +35,9 @@ export abstract class DataContextContinuableBase<T> extends DataContextBase<T> i
         chunkSize: number,
         indexFn?: ((item: T) => any),
         localSort?: ((a: T, b: T) => number),
-        localApply?: ((data: T[]) => T[]),
-        activeSort?: Observable<Sort>
+        localApply?: ((data: T[]) => T[])
     ) {
-        super(indexFn, localSort, localApply, activeSort);
+        super(indexFn, localSort, localApply);
         this._chunkSize = chunkSize;
     }
 

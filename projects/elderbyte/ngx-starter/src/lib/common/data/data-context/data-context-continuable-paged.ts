@@ -37,9 +37,8 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
         indexFn?: ((item: T) => any),
         localSort?: ((a: T, b: T) => number),
         localApply?: ((data: T[]) => T[]),
-        activeSort?: Observable<Sort>
     ) {
-        super(pageSize, indexFn, localSort, localApply, activeSort);
+        super(pageSize, indexFn, localSort, localApply);
     }
 
     /***************************************************************************

@@ -4,7 +4,6 @@ import {Filter} from '../filter';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {take} from 'rxjs/operators';
-import {Sort} from '../sort';
 import {IDataContextActivePage} from './data-context';
 
 
@@ -45,22 +44,15 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     pageSize: number,
     indexFn?: ((item: T) => any),
     localSort?: ((a: T, b: T) => number),
-    localApply?: ((data: T[]) => T[]),
-    activeSort?: Observable<Sort>,
-    activePage?: Observable<PageRequest>) {
+    localApply?: ((data: T[]) => T[])
+  ) {
 
-    super(indexFn, localSort, localApply, activeSort);
+    super(indexFn, localSort, localApply);
 
     this._page = {
       pageSize: pageSize,
       pageIndex: 0
     };
-
-    if (activePage) {
-      this._activePageChangedSub = activePage.subscribe(pageRequest => {
-        this.page = pageRequest;
-      });
-    }
   }
 
   /***************************************************************************

@@ -1,8 +1,7 @@
 import {DataContextActivePage} from './data-context-active-page';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Sort} from '../sort';
 import {Observable, of, throwError} from 'rxjs';
-import {Page, Pageable, PageRequest} from '../page';
+import {Page, Pageable} from '../page';
 import {Filter} from '../filter';
 
 export class DataContextActivePageLocal<T> extends DataContextActivePage<T> {
@@ -27,13 +26,12 @@ export class DataContextActivePageLocal<T> extends DataContextActivePage<T> {
         pageSize: number,
         indexFn?: ((item: T) => any),
         localSort?: ((a: T, b: T) => number),
-        localApply?: ((data: T[]) => T[]),
-        activeSort?: Observable<Sort>,
-        activePage?: Observable<PageRequest>) {
+        localApply?: ((data: T[]) => T[])
+    ) {
 
         super((pageable, filters) => {
             return this.getPage(pageable, filters);
-        }, pageSize, indexFn, localSort, localApply, activeSort, activePage);
+        }, pageSize, indexFn, localSort, localApply);
     }
 
 

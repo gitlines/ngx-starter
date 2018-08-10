@@ -26,10 +26,9 @@ export class DataContextSimple<T> extends DataContextBase<T> {
         private listFetcher: (sorts: Sort[], filters: Filter[]) => Observable<Array<T>>,
         indexFn?: ((item: T) => any),
         localSort?: ((a: T, b: T) => number),
-        localApply?: ((data: T[]) => T[]),
-        activeSort?: Observable<Sort>
+        localApply?: ((data: T[]) => T[])
     ) {
-        super(indexFn, localSort, localApply, activeSort);
+        super(indexFn, localSort, localApply);
     }
 
     /***************************************************************************

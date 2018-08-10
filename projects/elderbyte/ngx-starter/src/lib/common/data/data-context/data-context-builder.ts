@@ -1,6 +1,6 @@
 
 import {DataContextContinuablePaged} from './data-context-continuable-paged';
-import {Page, Pageable, PageRequest} from '../page';
+import {Page, Pageable} from '../page';
 import {Filter} from '../filter';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextSimple} from './data-context-simple';
@@ -9,254 +9,253 @@ import {Sort} from '../sort';
 import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableToken} from './data-context-continuable-token';
 import {EMPTY, Observable} from 'rxjs';
-import {Sort as MatSortRequest} from '@angular/material';
-import {map} from 'rxjs/operators';
+import {MatPaginator, MatSort} from '@angular/material';
 import {DataContextActivePageLocal} from './data-context-active-page-local';
 import {TokenChunkRequest} from '../token-chunk-request';
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
 import {RestClientContinuable, RestClientList, RestClientPaged} from '../rest/rest-client';
+import {MatTableDataContextBindingBuilder} from './mat-table-data-context-binding';
 
 /**
  * Provides the ability to build a IDataContext<T>.
  */
 export class DataContextBuilder<T> {
 
-    /***************************************************************************
-     *                                                                         *
-     * Fields                                                                  *
-     *                                                                         *
-     **************************************************************************/
+  /***************************************************************************
+   *                                                                         *
+   * Fields                                                                  *
+   *                                                                         *
+   **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('DataContextBuilder');
+  private readonly logger = LoggerFactory.getLogger('DataContextBuilder');
 
-    private _indexFn?: ((item: T) => any);
-    private _localSort?: (a: T, b: T) => number;
-    private _localApply?: ((data: T[]) => T[]);
-    private _activeSort?: Observable<Sort>;
-    private _pageSize = 30;
+  private _indexFn?: ((item: T) => any);
+  private _localSort?: (a: T, b: T) => number;
+  private _localApply?: ((data: T[]) => T[]);
+  private _pageSize = 30;
 
-    /***************************************************************************
-     *                                                                         *
-     * Static                                                                  *
-     *                                                                         *
-     **************************************************************************/
+  private matTableSupport = MatTableDataContextBindingBuilder.start();
 
-    /**
-     * Creates a new DataContextBuilder.
-     * @returns A new DataContextBuilder for the given data type.
-     */
-    public static  start<T>(): DataContextBuilder<T> {
-        return new DataContextBuilder<T>();
-    }
+  /***************************************************************************
+   *                                                                         *
+   * Static                                                                  *
+   *                                                                         *
+   **************************************************************************/
 
-    /***************************************************************************
-     *                                                                         *
-     * Constructor                                                             *
-     *                                                                         *
-     **************************************************************************/
+  /**
+   * Creates a new DataContextBuilder.
+   * @returns A new DataContextBuilder for the given data type.
+   */
+  public static  start<T>(): DataContextBuilder<T> {
+    return new DataContextBuilder<T>();
+  }
 
-    constructor() { }
+  /***************************************************************************
+   *                                                                         *
+   * Constructor                                                             *
+   *                                                                         *
+   **************************************************************************/
 
-    /***************************************************************************
-     *                                                                         *
-     * Public API                                                              *
-     *                                                                         *
-     **************************************************************************/
+  constructor() { }
 
-    /**
-     * Optional index function where each element will be indexed by.
-     * If you have configured this, you can use the findByIndex(key) on the data-context.
-     */
-    public indexBy(indexFn?: ((item: T) => any)): DataContextBuilder<T> {
-        this._indexFn = indexFn;
-        return this;
-    }
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
 
-    /**
-     * The desired size of a page/chunk when loading data.
-     * Note that continuable apis might just take this as a wish or even completely ignore this param.
-     */
-    public pageSize(size: number): DataContextBuilder<T> {
-        this._pageSize = size;
-        return this;
-    }
+  /**
+   * Optional index function where each element will be indexed by.
+   * If you have configured this, you can use the findByIndex(key) on the data-context.
+   */
+  public indexBy(indexFn?: ((item: T) => any)): this {
+    this._indexFn = indexFn;
+    return this;
+  }
 
-    /**
-     * Adds support for Material DataSource to the resulting DataContextSimple
-     * @deprecated This is no longer required as Material-DataContext is supported by default now
-     */
-    public mdDataSource(): DataContextBuilder<T> {
-        return this;
-    }
+  /**
+   * The desired size of a page/chunk when loading data.
+   * Note that continuable apis might just take this as a wish or even completely ignore this param.
+   */
+  public pageSize(size: number): this {
+    this._pageSize = size;
+    return this;
+  }
 
-    /**
-     * Sort the data context locally by the given sort function.
-     *
-     * Note that this might be a costly operation when there are a lot of elements present.
-     * Prefer server side sorting if possible.
-     */
-    public localSorted(localSort: (a: T, b: T) => number): DataContextBuilder<T> {
-        this._localSort = localSort;
-        return this;
-    }
+  /**
+   * Adds support for Material DataSource to the resulting DataContextSimple
+   * @deprecated This is no longer required as Material-DataContext is supported by default now
+   */
+  public mdDataSource(): this {
+    return this;
+  }
 
-    /**
-     * Bind the data-context to the given reactive sort source.
-     */
-    public activeSorted(activeSort: Observable<Sort>): DataContextBuilder<T> {
-        this._activeSort = activeSort;
-        return this;
-    }
+  /**
+   * Sort the data context locally by the given sort function.
+   *
+   * Note that this might be a costly operation when there are a lot of elements present.
+   * Prefer server side sorting if possible.
+   */
+  public localSorted(localSort: (a: T, b: T) => number): this {
+    this._localSort = localSort;
+    return this;
+  }
 
-    /**
-     * Bind the data-context to the given reactive material sort source.
-     */
-    public activeSortedMat(activeSort: Observable<MatSortRequest>): DataContextBuilder<T> {
-        this._activeSort = activeSort.pipe(
-            map(matSort => new Sort(matSort.active, matSort.direction))
-        );
-        return this;
-    }
+  /**
+   * Bind the data-context to the given reactive sort source.
+   */
+  public activeSortedMat(matSort: MatSort): this {
+    this.matTableSupport.withSort(matSort);
+    return this;
+  }
 
-    /**
-     * For each element which is added to the datacontext, apply the given function.
-     */
-    public localApply(localApply?: ((data: T[]) => T[])): DataContextBuilder<T> {
-        this._localApply = localApply;
-        return this;
-    }
+  public activePagedMat(matPage: MatPaginator): this {
+    this.matTableSupport.withPaginator(matPage);
+    return this;
+  }
 
-    /***************************************************************************
-     *                                                                         *
-     * Builder                                                                 *
-     *                                                                         *
-     **************************************************************************/
+  /**
+   * For each element which is added to the datacontext, apply the given function.
+   */
+  public localApply(localApply?: ((data: T[]) => T[])): this {
+    this._localApply = localApply;
+    return this;
+  }
 
-    public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
-        return new DataContextSimple<T>(
-            listFetcher,
-            this._indexFn,
-            this._localSort,
-            this._localApply,
-            this._activeSort,
-        );
-    }
+  /***************************************************************************
+   *                                                                         *
+   * Builder                                                                 *
+   *                                                                         *
+   **************************************************************************/
 
-    public buildClient(
-        restClient: RestClientList<T, any>
-    ): IDataContext<T> {
-        return this.build(
-            (sorts, filters) => restClient.findAllFiltered(filters, sorts)
-        );
-    }
+  public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
+    return this.wrap(new DataContextSimple<T>(
+      listFetcher,
+      this._indexFn,
+      this._localSort,
+      this._localApply,
+    ));
+  }
 
-    public buildPagedClient(
-        restClient: RestClientPaged<T, any>
-    ): IDataContextContinuable<T> {
-        return this.buildPaged(
-            (pageable, filters) => restClient.findAllPaged(pageable, filters)
-        );
-    }
+  public buildClient(
+    restClient: RestClientList<T, any>
+  ): IDataContext<T> {
+    return this.build(
+      (sorts, filters) => restClient.findAllFiltered(filters, sorts)
+    );
+  }
 
-    public buildPaged(
-        pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>
-    ): IDataContextContinuable<T> {
+  public buildPagedClient(
+    restClient: RestClientPaged<T, any>
+  ): IDataContextContinuable<T> {
+    return this.buildPaged(
+      (pageable, filters) => restClient.findAllPaged(pageable, filters)
+    );
+  }
 
-        return new DataContextContinuablePaged<T>(
-            pageLoader,
-            this._pageSize,
-            this._indexFn,
-            this._localSort,
-            this._localApply,
-            this._activeSort,
-        );
-    }
+  public buildPaged(
+    pageLoader: (pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>
+  ): IDataContextContinuable<T> {
 
-    public buildContinuationToken(
-        nextChunkLoader: (tokenChunkRequest: TokenChunkRequest) => Observable<ContinuableListing<T>>
-    ): IDataContextContinuable<T> {
-        return new DataContextContinuableToken<T>(
-            nextChunkLoader,
-            this._pageSize,
-            this._indexFn,
-            this._localSort,
-            this._localApply,
-            this._activeSort,
-        );
-    }
+    return this.wrap(new DataContextContinuablePaged<T>(
+      pageLoader,
+      this._pageSize,
+      this._indexFn,
+      this._localSort,
+      this._localApply,
+    ));
+  }
 
-    public buildContinuationTokenClient(
-        restClient: RestClientContinuable<T, any>
-    ): IDataContextContinuable<T> {
-        return this.buildContinuationToken(
-            (request) => restClient.findAllContinuable(request)
-        );
-    }
+  public buildContinuationToken(
+    nextChunkLoader: (tokenChunkRequest: TokenChunkRequest) => Observable<ContinuableListing<T>>
+  ): IDataContextContinuable<T> {
+    return this.wrap(new DataContextContinuableToken<T>(
+      nextChunkLoader,
+      this._pageSize,
+      this._indexFn,
+      this._localSort,
+      this._localApply,
+    ));
+  }
 
-    public buildActivePaged(
-        pageLoader: ((pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>),
-        activePage?: Observable<PageRequest>
-    ): IDataContextActivePage<T> {
-        return new DataContextActivePage<T>(
-            pageLoader,
-            this._pageSize,
-            this._indexFn,
-            this._localSort,
-            this._localApply,
-            this._activeSort,
-            activePage
-        );
-    }
+  public buildContinuationTokenClient(
+    restClient: RestClientContinuable<T, any>
+  ): IDataContextContinuable<T> {
+    return this.buildContinuationToken(
+      (request) => restClient.findAllContinuable(request)
+    );
+  }
 
-    public buildActivePagedClient(
-        restClient: RestClientPaged<T, any>,
-        activePage?: Observable<PageRequest>
-    ): IDataContextActivePage<T> {
-        return this.buildActivePaged(
-            (pageable, filters) => restClient.findAllPaged(pageable, filters),
-            activePage
-        );
-    }
+  public buildActivePaged(
+    pageLoader: ((pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>)): IDataContextActivePage<T> {
+    return this.wrap(new DataContextActivePage<T>(
+      pageLoader,
+      this._pageSize,
+      this._indexFn,
+      this._localSort,
+      this._localApply,
+    ));
+  }
 
-    public buildLocalActivePaged(
-        data: T[],
-        activePage?: Observable<PageRequest>
-    ): IDataContextActivePage<T> {
+  public buildActivePagedClient(
+    restClient: RestClientPaged<T, any>
+  ): IDataContextActivePage<T> {
+    return this.buildActivePaged(
+      (pageable, filters) => restClient.findAllPaged(pageable, filters)
+    );
+  }
 
-        return new DataContextActivePageLocal<T>(
-            data,
-            this._pageSize,
-            this._indexFn,
-            this._localSort,
-            this._localApply,
-            this._activeSort,
-            activePage
-        );
-    }
+  public buildLocalActivePaged(
+    data: T[],
+  ): IDataContextActivePage<T> {
 
-    public buildEmpty(): IDataContext<T> {
-        return new DataContextSimple<T>( (a, b) => EMPTY);
-    }
+    return this.wrap(new DataContextActivePageLocal<T>(
+      data,
+      this._pageSize,
+      this._indexFn,
+      this._localSort,
+      this._localApply,
+    ));
+  }
 
-    public buildEmptyContinuable(): IDataContextContinuable<T> {
-        return new DataContextContinuablePaged<T>(
-            (a, b) => EMPTY,
-            this._pageSize,
-            this._indexFn,
-            this._localSort,
-            this._localApply,
-            this._activeSort,
-        );
-    }
+  public buildEmpty(): IDataContext<T> {
+    return this.wrap(
+      new DataContextSimple<T>( (a, b) => EMPTY)
+    );
+  }
 
-    public buildEmptyActivePaged(): IDataContextActivePage<T> {
-        return new DataContextActivePage<T>(
-            (a, b) => EMPTY,
-            this._pageSize,
-            this._indexFn,
-            this._localSort,
-            this._localApply,
-            this._activeSort,
-        );
-    }
+  public buildEmptyContinuable(): IDataContextContinuable<T> {
+    return this.wrap(new DataContextContinuablePaged<T>(
+      (a, b) => EMPTY,
+      this._pageSize,
+      this._indexFn,
+      this._localSort,
+      this._localApply
+    ));
+  }
+
+  public buildEmptyActivePaged(): IDataContextActivePage<T> {
+    return this.wrap(new DataContextActivePage<T>(
+      (a, b) => EMPTY,
+      this._pageSize,
+      this._indexFn,
+      this._localSort,
+      this._localApply,
+    ));
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Private methods                                                         *
+   *                                                                         *
+   **************************************************************************/
+
+  private wrap<DC extends IDataContext<T>>(dc: DC): DC {
+    this.applyBindings(dc);
+    return dc;
+  }
+
+  private applyBindings(dc: IDataContext<T>): void {
+    this.matTableSupport.bind(dc);
+  }
 }
