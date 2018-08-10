@@ -32,7 +32,7 @@ export class MatTableSupportBuilder {
 export class MatTableDataContextBinding implements Unsubscribable {
 
 
-  private readonly _subscriptions: Subscription[] = [];
+  private _subscriptions: Subscription[] = [];
 
   constructor(
     private _dataContext: IDataContext<any>,
@@ -40,10 +40,17 @@ export class MatTableDataContextBinding implements Unsubscribable {
     private _matPaginator: MatPaginator
   ) {
     this.subscribe();
+
+    this._dataContext.rowsChanged.subscribe(
+      changed => {},
+      err => {},
+      () => this.unsubscribe()
+    );
   }
 
   public unsubscribe(): void {
     this._subscriptions.forEach(s => s.unsubscribe());
+    this._subscriptions = [];
   }
 
   private subscribe(): void {
