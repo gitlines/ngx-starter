@@ -3,7 +3,7 @@ import {Filter} from '../filter';
 import {Sort} from '../sort';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {DataContextStatus} from './data-context-status';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {FilterContext} from '../filter-context';
 import {IDataContext} from './data-context';
 
@@ -27,9 +27,9 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     private readonly _activeSortSub: Subscription;
 
     private _rows: T[] = [];
-    private _dataChange = new BehaviorSubject<T[]>([]);
-    private _statusChanged = new BehaviorSubject<DataContextStatus>(DataContextStatus.success());
-    private _primaryIndex = new Map<any, T>();
+    private readonly _dataChange = new BehaviorSubject<T[]>([]);
+    private readonly _statusChanged = new BehaviorSubject<DataContextStatus>(DataContextStatus.success());
+    private readonly _primaryIndex = new Map<any, T>();
 
     /***************************************************************************
      *                                                                         *
@@ -172,6 +172,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     public close(): void {
         if (this._filterContextSub) { this._filterContextSub.unsubscribe(); }
         if (this._activeSortSub) { this._activeSortSub.unsubscribe(); }
+        this._dataChange.complete();
     }
 
     /***************************************************************************
