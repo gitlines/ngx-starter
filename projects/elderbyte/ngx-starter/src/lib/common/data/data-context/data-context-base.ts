@@ -108,7 +108,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     if (context) {
       this._filterContextSub = this._filterContext.filtersChanged.subscribe(
-        () => this.reload()
+        () => this.onFiltersChanged()
       );
     }
   }
@@ -172,9 +172,11 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    *                                                                         *
    **************************************************************************/
 
-  protected setSorts(sorts?: Sort[], skipReload = false): void {
+  protected setSorts(sorts?: Sort[], skipEvent = false): void {
     this._sorts = sorts ? sorts.slice(0) : []; // clone
-    if (!skipReload) { this.reload(); }
+    if (!skipEvent) {
+      this.onSortsChanged();
+    }
   }
 
   /**
@@ -266,17 +268,37 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     return null;
   }
 
-  protected onError(err: any) {
+  /***************************************************************************
+   *                                                                         *
+   * Event handler                                                           *
+   *                                                                         *
+   **************************************************************************/
+
+  /**
+   * Occurs when the sorts property has changed.
+   */
+  protected onSortsChanged(): void {
+    this.reload();
+  }
+
+  /**
+   * Occurs when the filters property has changed.
+   */
+  protected onFiltersChanged(): void {
+    this.reload();
+  }
+
+  protected onError(err: any): void {
     this.onStatus(DataContextStatus.error(err));
   }
 
-  protected onSuccess() {
+  protected onSuccess(): void {
     if (this.statusSnapshot.hasError) {
       this.onStatus(DataContextStatus.success());
     }
   }
 
-  protected onStatus(status: DataContextStatus) {
+  protected onStatus(status: DataContextStatus): void {
     this._statusChanged.next(status);
   }
 
