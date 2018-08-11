@@ -76,7 +76,10 @@ export abstract class DataContextContinuableBase<T> extends DataContextBase<T> i
   }
 
   public set chunkSize(size: number) {
-    this._chunkSize = size;
+    if (this._chunkSize !== size) {
+      this._chunkSize = size;
+      this.onChunkSizeChanged(size);
+    }
   }
 
   /***************************************************************************
