@@ -78,7 +78,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
   }
 
   public set sort(sort: Sort) {
-    if (this.sorts.length === 1 && this.sorts[0].equals(sort)) {
+    if (
+      this.sorts.length === 1
+      && sort && this.sorts[0]
+      && this.sorts[0].equals(sort)) {
       return;
     }
     this.setSorts(sort ? [sort] : []);
