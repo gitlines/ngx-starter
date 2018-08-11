@@ -221,7 +221,8 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     }
 
     /**
-     * Clears the current data-context state and all its cached data
+     * Clears the current data-context cached data.
+     * State such as current sorting and filters are kept.
      */
     protected clearAll(): void {
         this.setTotal(0);
