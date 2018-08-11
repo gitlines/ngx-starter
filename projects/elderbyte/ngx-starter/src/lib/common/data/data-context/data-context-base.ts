@@ -150,7 +150,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     }
 
     public reload(): Observable<any> {
-        this.clearAll();
         return this.loadData();
     }
 
