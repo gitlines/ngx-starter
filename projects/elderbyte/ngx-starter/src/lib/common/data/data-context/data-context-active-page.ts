@@ -164,5 +164,26 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     return subject.pipe(take(1));
   }
 
+  /***************************************************************************
+   *                                                                         *
+   * Event handlers                                                          *
+   *                                                                         *
+   **************************************************************************/
+
+  /**
+   * Occurs when the sorts property has changed.
+   */
+  protected onSortsChanged(): void {
+    this.pageIndex = 0;
+    super.onSortsChanged();
+  }
+
+  /**
+   * Occurs when the filters property has changed.
+   */
+  protected onFiltersChanged(): void {
+    this.pageIndex = 0;
+    super.onFiltersChanged();
+  }
 }
 
