@@ -98,7 +98,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
     if (hasChange) {
       this._page = request;
-      this.loadActivePage();
+      this.reload();
     }
   }
 
@@ -131,11 +131,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     this.pageIndex = 0;
   }
 
-  protected loadActivePage(): void {
-    this.loadData();
-  }
-
-  protected loadData(): Observable<any> {
+  protected reloadInternal(): Observable<any> {
 
     const subject = new Subject<any>();
 
@@ -167,8 +163,6 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
     return subject.pipe(take(1));
   }
-
-
 
 }
 

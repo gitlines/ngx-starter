@@ -44,7 +44,7 @@ export class DataContextSimple<T> extends DataContextBase<T> {
      *                                                                         *
      **************************************************************************/
 
-    protected loadData(): Observable<any> {
+    protected reloadInternal(): Observable<any> {
 
         const subject = new Subject();
 

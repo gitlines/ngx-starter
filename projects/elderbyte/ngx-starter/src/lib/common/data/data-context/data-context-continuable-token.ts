@@ -79,7 +79,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
         this._expectedChunkToken = undefined;
     }
 
-    protected loadData(): Observable<any> {
+    protected reloadInternal(): Observable<any> {
         return this.fetchNextChunk(undefined);
     }
 

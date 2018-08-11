@@ -80,10 +80,10 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
 
     protected onChunkSizeChanged(newSize: number): void {
         this.clearAll();
-        this.loadData();
+        this.reloadInternal();
     }
 
-    protected loadData(): Observable<any> {
+    protected reloadInternal(): Observable<any> {
         return this.fetchPage(0, this.chunkSize);
     }
 

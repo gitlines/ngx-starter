@@ -149,8 +149,11 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     return this.reload();
   }
 
+  /**
+   * Reloads the current active data.
+   */
   public reload(): Observable<any> {
-    return this.loadData();
+    return this.reloadInternal();
   }
 
   public findByIndex(key: any): T | undefined {
@@ -283,5 +286,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    *                                                                         *
    **************************************************************************/
 
-  protected abstract loadData(): Observable<any>;
+  /**
+   * Subclasses must implement this method and
+   * reload the currently held data.
+   * If possible, the current view state should be kept.
+   */
+  protected abstract reloadInternal(): Observable<any>;
 }
