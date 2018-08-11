@@ -1,6 +1,7 @@
 import {MatPaginator, MatSort} from '@angular/material';
 import {IDataContext, IDataContextActivePage} from './data-context';
 import {Subscription, Unsubscribable} from 'rxjs';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
 export class MatTableDataContextBindingBuilder {
@@ -34,13 +35,13 @@ export class MatTableDataContextBindingBuilder {
 
 export class MatTableDataContextBinding implements Unsubscribable {
 
-
+  private readonly logger = LoggerFactory.getLogger('MatTableDataContextBinding');
   private _subscriptions: Subscription[] = [];
 
   constructor(
-    private _dataContext: IDataContext<any>,
-    private _matSort: MatSort,
-    private _matPaginator: MatPaginator
+    private readonly _dataContext: IDataContext<any>,
+    private readonly _matSort: MatSort,
+    private readonly _matPaginator: MatPaginator
   ) {
     this.subscribe();
 
@@ -76,6 +77,9 @@ export class MatTableDataContextBinding implements Unsubscribable {
             pagedDataContext.page = pageRequest;
           })
         );
+      } else {
+        this.logger.warn('Can not bind the given paginator to the given data-context,' +
+          ' as the datacontext does not support pagination!', this._dataContext);
       }
     }
 

@@ -88,6 +88,8 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
    */
   public set page(request: PageRequest) {
 
+    if (!request) { throw new Error('Setting page PageRequest must not be null!'); }
+
     let hasChange = false;
 
     if (this._page.pageIndex !== request.pageIndex) {
