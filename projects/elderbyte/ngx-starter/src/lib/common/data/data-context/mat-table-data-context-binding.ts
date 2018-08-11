@@ -2,6 +2,8 @@ import {MatPaginator, MatSort} from '@angular/material';
 import {IDataContext, IDataContextActivePage} from './data-context';
 import {Subscription, Unsubscribable} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {map} from 'rxjs/operators';
+import {Sort} from '../sort';
 
 
 export class MatTableDataContextBindingBuilder {
@@ -61,7 +63,11 @@ export class MatTableDataContextBinding implements Unsubscribable {
 
     if (this._matSort) {
       this._subscriptions.push(
-        this._matSort.sortChange.subscribe(
+        this._matSort.sortChange
+          .pipe(
+            map((matSort) => new Sort(matSort.active, matSort.direction))
+          )
+          .subscribe(
           sort => this._dataContext.sort = sort
         )
       );
