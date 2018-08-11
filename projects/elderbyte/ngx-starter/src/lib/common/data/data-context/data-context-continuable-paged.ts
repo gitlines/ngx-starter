@@ -79,8 +79,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
      **************************************************************************/
 
     protected onChunkSizeChanged(newSize: number): void {
-        this.clearAll();
-        this.reloadInternal();
+        this.reload();
     }
 
     protected reloadInternal(): Observable<any> {
