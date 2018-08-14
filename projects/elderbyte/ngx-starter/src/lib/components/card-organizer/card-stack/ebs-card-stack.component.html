@@ -5,7 +5,7 @@
   <!-- Header -->
   <header fxLayout="row" fxFlex="none" fxLayoutAlign="start center" class="padding-10" style="height: 62px">
 
-    <h3 class="mat-body-2 noselect">{{stack?.title}} <small class="mat-caption noselect">({{(stack?.cards | async)?.length}})</small></h3>
+    <h3 class="mat-body-2 noselect">{{stack?.title | translate}} <small class="mat-caption noselect">({{(stack?.cards | async)?.length}})</small></h3>
 
     <span fxFlex></span>
 
