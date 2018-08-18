@@ -1,4 +1,4 @@
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort, PageEvent} from '@angular/material';
 import {IDataContext, IDataContextActivePage} from './data-context';
 import {Subscription, Unsubscribable} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
@@ -79,7 +79,7 @@ export class MatTableDataContextBinding implements Unsubscribable {
 
       if (pagedDataContext.page !== undefined) {
         this._subscriptions.push(
-          this._matPaginator.page.subscribe(pageRequest => {
+          this._matPaginator.page.subscribe((pageRequest: PageEvent) => {
             pagedDataContext.page = pageRequest;
           })
         );

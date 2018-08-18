@@ -25,7 +25,7 @@ export class CardOrganizerData<G, T> {
    **************************************************************************/
 
   constructor(
-    private readonly _groupGetter: ((T) => G),
+    private readonly _groupGetter: ((item: T) => G),
     initialStacks?: CardStack<G, T>[],
     sort?: ((a: T, b: T) => number)
   ) {

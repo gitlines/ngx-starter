@@ -140,7 +140,7 @@ export class RestClient<T, TID> {
      **************************************************************************/
 
     protected getId(entity: T): TID {
-        return entity['id'] as TID;
+        return (entity as any)['id'] as TID;
     }
 
     protected onLocalChanged(entity?: T): void {
