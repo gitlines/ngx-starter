@@ -133,7 +133,7 @@ export class SideContentService {
      */
     public closeSideContent() {
 
-        const command = {};
+        const command: any = {};
         command['outlets'] = {};
         command['outlets'][this.detailContentOutlet] = null;
 
@@ -152,7 +152,7 @@ export class SideContentService {
 
         this.clickOutsideToClose = clickOutsideToClose;
 
-        const command = {};
+        const command: any = {};
         command['outlets'] = {};
         command['outlets'][this.detailContentOutlet] = args;
 

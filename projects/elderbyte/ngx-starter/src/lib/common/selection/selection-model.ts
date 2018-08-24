@@ -18,7 +18,7 @@ export class SelectionModel<T> {
   private _multiple: boolean;
   private readonly _selection = new Map<any, T>();
   private readonly _selectionSubject = new BehaviorSubject<T[]>([]);
-  private readonly _keyGetter: ((T) => any);
+  private readonly _keyGetter: ((item: T) => any);
 
   /***************************************************************************
    *                                                                         *
@@ -36,7 +36,7 @@ export class SelectionModel<T> {
   constructor(
     multiple = false,
     initial?: T[],
-    keyGetter: ((T) => any) = a => a,
+    keyGetter: ((item: T) => any) = a => a,
   ) {
     this._multiple = multiple;
     this._keyGetter = keyGetter;

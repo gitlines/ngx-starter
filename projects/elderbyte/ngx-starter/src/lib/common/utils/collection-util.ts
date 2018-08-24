@@ -60,7 +60,7 @@ export class CollectionUtil {
    */
   // @dynamic
   public static groupByField<G, T>(items: T[], field: string): Map<G, T[]> {
-    return CollectionUtil.groupByKey(items, it => it[field] as G);
+    return CollectionUtil.groupByKey(items, it => (it as any)[field] as G);
   }
 
   /**
@@ -68,7 +68,7 @@ export class CollectionUtil {
    * @dynamic
    */
   // @dynamic
-  public static groupByKey<G, T>(items: T[], keyGetter: ((T) => G)): Map<G, T[]> {
+  public static groupByKey<G, T>(items: T[], keyGetter: ((item: T) => G)): Map<G, T[]> {
 
     return items.reduce((map, p) => {
 
