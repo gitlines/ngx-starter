@@ -11,15 +11,14 @@
       </mat-form-field>
     </mat-dialog-content>
 
-    <mat-dialog-actions>
+    <mat-dialog-actions fxLayoutAlign="end center">
 
-            <button [disabled]="!isValid" type="submit" mat-button color="primary">{{'actions.ok' | translate}}</button>
+        <button type="button" mat-button
+                (click)="cancel($event)">
+            {{'actions.cancel' | translate}}
+        </button>
 
-            <button type="button" mat-button
-                    (click)="cancel($event)">
-                {{'actions.cancel' | translate}}
-            </button>
-
+        <button [disabled]="!isValid" type="submit" mat-button color="primary">{{'actions.ok' | translate}}</button>
 
     </mat-dialog-actions>
 

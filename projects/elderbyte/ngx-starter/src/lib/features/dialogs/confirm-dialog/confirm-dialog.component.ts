@@ -9,6 +9,11 @@ export class ConfirmDialogConfig extends CommonDialogConfig {
      */
     public message: string;
 
+    /**
+     * If true, dialog will show 'yes' and 'no' instead of 'ok' and 'cancel' as options.
+     */
+    public yesNo? = false;
+
 }
 
 @Component({
@@ -20,6 +25,7 @@ export class ConfirmDialogComponent {
 
     public title: string;
     public message: string;
+    public yesNo: boolean = false;
 
     constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) {
 

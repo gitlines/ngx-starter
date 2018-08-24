@@ -15,7 +15,7 @@ export class CardsDemoComponent implements OnInit {
   ngOnInit() {
 
     this.cardData = new CardOrganizerData<string, string>(
-      link => link.relationshipType,
+      link => link,
       [
         new CardStack('a', 'A', [
           '1',

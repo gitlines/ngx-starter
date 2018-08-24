@@ -21,6 +21,11 @@ import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {SideContentService} from '../../projects/elderbyte/ngx-starter/src/lib/features/side-content/side-content.service';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
+import {
+    CommonDialogModule,
+    CommonDialogService,
+    ConfirmDialogComponent
+} from '../../projects/elderbyte/ngx-starter/src/lib/features/dialogs/common-dialog.module';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -54,6 +59,7 @@ LoggerFactory.getDefaultConfiguration()
 
     // Library
     CommonPipesModule,
+    CommonDialogModule,
     ExpandToggleButtonModule,
     AccessDeniedModule,
     ToolbarModule.forRoot(),
@@ -70,8 +76,8 @@ LoggerFactory.getDefaultConfiguration()
 
     LanguageModule.forRoot()
   ],
-  providers: [SideContentService],
-  bootstrap: [AppComponent]
+  providers: [SideContentService, CommonDialogService],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
 

@@ -22,13 +22,14 @@ export class CommonDialogService {
      * @param message
      * @param config
      */
-    public confirm(title: string, message: string, config?: MatDialogConfig): Observable<boolean> {
+    public confirm(title: string, message: string, config?: ConfirmDialogConfig): Observable<boolean> {
 
         let dialogRef: MatDialogRef<ConfirmDialogComponent>;
 
-        dialogRef = this.dialog.open(ConfirmDialogComponent, config);
+        dialogRef = this.dialog.open(ConfirmDialogComponent, config.config);
         dialogRef.componentInstance.title = title;
         dialogRef.componentInstance.message = message;
+        dialogRef.componentInstance.yesNo = config.yesNo;
 
         return dialogRef.afterClosed();
     }
@@ -51,7 +52,7 @@ export class CommonDialogService {
                 const title = translated[config.title];
                 const message = translated[config.message];
 
-                return this.confirm(title, message, config.config);
+                return this.confirm(title, message, config);
 
             })
             );

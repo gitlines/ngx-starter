@@ -4,14 +4,16 @@
 <mat-dialog-content>
     <p translate>{{ message }}</p>
 </mat-dialog-content>
-<mat-dialog-actions>
-    <button type="button" mat-raised-button
-            (click)="dialogRef.close(true)">
-        {{"actions.ok" | translate}}
-    </button>
+<mat-dialog-actions fxLayoutAlign="end center">
 
     <button type="button" mat-button
-            (click)="dialogRef.close()">
-        {{"actions.cancel" | translate}}
+            (click)="dialogRef.close(false)">
+        {{ (yesNo ? "actions.no" : "actions.cancel") | translate}}
     </button>
+
+    <button type="button" mat-raised-button
+            (click)="dialogRef.close(true)">
+        {{ (yesNo ? "actions.yes" : "actions.ok") | translate}}
+    </button>
+
 </mat-dialog-actions>

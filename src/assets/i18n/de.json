@@ -1,4 +1,11 @@
 {
-  "greeting": "Hallo Welt!"
+  "greeting": "Hallo Welt!",
+
+  "actions": {
+    "ok": "Ok",
+    "cancel": "Abbrechen",
+    "yes": "Ja",
+    "no": "Nein"
+  }
 }
 
