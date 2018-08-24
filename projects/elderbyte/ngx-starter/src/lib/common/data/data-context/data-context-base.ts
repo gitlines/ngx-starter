@@ -152,9 +152,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     return this.reload();
   }
 
-  /**
-   * Reloads the current active data.
-   */
   public reload(): Observable<any> {
     return this.reloadInternal();
   }

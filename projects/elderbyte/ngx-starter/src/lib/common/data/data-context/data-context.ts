@@ -77,6 +77,11 @@ export interface IDataContext<T> {
     start(sorts?: Sort[], filters?: Filter[]): Observable<any>;
 
     /**
+     * Reloads the current active data.
+     */
+    reload(): Observable<any>;
+
+    /**
      * Closes the data-context and cleans up resources
      */
     close(): void;
