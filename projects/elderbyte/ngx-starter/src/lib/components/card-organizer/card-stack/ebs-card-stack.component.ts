@@ -73,18 +73,17 @@ export class EbsCardStackComponent implements OnInit {
       event.stopPropagation();
     }
 
-    this.requestRemoveCard.next(card);
 
     if (this.removeConfirmation !== undefined) {
 
       this.removeConfirmation(card).pipe(first())
           .subscribe(
               confirmed => {
-                if (confirmed) { this.stack.removeCard(card); }
+                if (confirmed) { this.removeCard(card); }
               });
 
     } else {
-        this.stack.removeCard(card);
+        this.removeCard(card);
     }
 
   }
@@ -92,4 +91,16 @@ export class EbsCardStackComponent implements OnInit {
   public onCardSelected(event: MouseEvent, card: any): void {
     this.cardClick.next(card);
   }
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    private removeCard(card: any): void {
+        this.stack.removeCard(card);
+        this.requestRemoveCard.next(card);
+    }
+
 }
