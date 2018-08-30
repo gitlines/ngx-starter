@@ -2,7 +2,8 @@
 
 <mat-menu #languageMenu="matMenu">
   <button *ngFor="let lang of languages" (click)="currentLanguage = lang" mat-menu-item>
-    {{ 'language.' + lang | translate }}
+    <mat-icon>language</mat-icon>
+    <span [class.active]="isLanguageActive(lang)">{{ 'language.' + lang | translate }}</span>
   </button>
 </mat-menu>
 
