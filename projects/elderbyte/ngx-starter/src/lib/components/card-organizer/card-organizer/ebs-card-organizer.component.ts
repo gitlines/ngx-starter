@@ -10,6 +10,7 @@ import {
 import { CardOrganizerData } from '../card-organizer-data';
 import { CardStack } from '../card-stack';
 import { LoggerFactory } from '@elderbyte/ts-logger';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Directive({selector: '[ebsStackCard]'})
 export class EbsStackCardDirective {
@@ -36,6 +37,9 @@ export class EbsCardOrganizerComponent implements OnInit {
 
   @Input('organizerModel')
   public organizerModel: CardOrganizerData<any, any>;
+
+  @Input('removeConfirmation')
+  public removeConfirmation: (card: any) => Observable<boolean>;
 
   @Output('requestNewCard')
   public readonly requestNewCard = new EventEmitter<CardStack<any, any>>();

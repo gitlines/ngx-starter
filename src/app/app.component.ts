@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {SideContentService} from '../../projects/elderbyte/ngx-starter/src/lib/features/side-content/side-content.service';
+import {SideContentService} from '@elderbyte/ngx-starter';
 
 @Component({
   selector: 'starter-demo-root',

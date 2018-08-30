@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CardStack } from '../card-stack';
+import {Observable} from 'rxjs/internal/Observable';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'ebs-card-stack',
@@ -16,6 +18,9 @@ export class EbsCardStackComponent implements OnInit {
 
   @Input('stack')
   public stack: CardStack<any, any>;
+
+  @Input('removeConfirmation')
+  public removeConfirmation: (card: any) => Observable<boolean>;
 
   @Output('requestNewCard')
   public readonly requestNewCard = new EventEmitter<CardStack<any, any>>();
@@ -64,7 +69,19 @@ export class EbsCardStackComponent implements OnInit {
 
   public onRequestRemoveCard(event: MouseEvent, card: any): void {
     this.requestRemoveCard.next(card);
-    this.stack.removeCard(card);
+
+    if (this.removeConfirmation !== undefined) {
+
+      this.removeConfirmation(card).pipe(first())
+          .subscribe(
+              confirmed => {
+                if (confirmed) { this.stack.removeCard(card); }
+              });
+
+    } else {
+        this.stack.removeCard(card);
+    }
+
   }
 
   public onCardSelected(event: MouseEvent, card: any): void {

@@ -7,7 +7,9 @@ import {Observable} from 'rxjs';
 import {flatMap, filter} from 'rxjs/operators';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class CommonDialogService {
 
     constructor(

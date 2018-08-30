@@ -11,6 +11,7 @@ import {
   MatIconModule,
   MatRippleModule
 } from '@angular/material';
+import {CommonDialogModule} from '../../features/dialogs/common-dialog.module';
 
 export * from './card-organizer-data';
 export * from './card-stack';

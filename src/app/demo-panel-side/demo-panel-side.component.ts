@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {SideContentService} from '../../../projects/elderbyte/ngx-starter/src/lib/features/side-content/side-content.service';
+import { Component, OnInit} from '@angular/core';
+import { SideContentService } from '@elderbyte/ngx-starter';
 
 @Component({
   selector: 'starter-demo-panel-side',

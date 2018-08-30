@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IFileUploadClient} from '@elderbyte/ngx-starter';
-import {FileUploadClient} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/rest/file-upload-client';
-import {CommonDialogService} from '../../../projects/elderbyte/ngx-starter/src/lib/features/dialogs/common-dialog.service';
+import {IFileUploadClient, FileUploadClient, CommonDialogService} from '@elderbyte/ngx-starter';
 
 @Component({
   selector: 'starter-demo-demo-panel',
@@ -29,12 +27,12 @@ export class DemoPanelComponent implements OnInit {
   public openYesNo(event: any): void {
     this.dialogService.showConfirm({
         title: 'Simple yes or no question',
-        message: "Are you ok?",
+        message: 'Are you ok?',
         yesNo: true,
         config: {
           autoFocus: false
         }
-    }).subscribe()
+    }).subscribe();
   }
 
 }

@@ -5,9 +5,17 @@ import { AppComponent } from './app.component';
 import {
   CommonPipesModule, ExpandToggleButtonModule,
   EbsFilesModule, EbsCardOrganizerModule, ToolbarModule, AccessDeniedModule,
-  LanguageModule
+  LanguageModule, CommonDialogModule, SideContentModule
 } from '@elderbyte/ngx-starter';
-import {MatButtonModule, MatCommonModule, MatIconModule, MatSidenavModule, MatTabsModule, MatToolbarModule} from '@angular/material';
+import {
+    MatButtonModule,
+    MatCommonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatTabsModule,
+    MatToolbarModule
+} from '@angular/material';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -19,13 +27,7 @@ import {appRoutes} from './app-routes';
 import { CardsDemoComponent } from './cards-demo/cards-demo.component';
 import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {SideContentService} from '../../projects/elderbyte/ngx-starter/src/lib/features/side-content/side-content.service';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
-import {
-    CommonDialogModule,
-    CommonDialogService,
-    ConfirmDialogComponent
-} from '../../projects/elderbyte/ngx-starter/src/lib/features/dialogs/common-dialog.module';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -56,10 +58,12 @@ LoggerFactory.getDefaultConfiguration()
     MatButtonModule,
     MatTabsModule,
     MatIconModule,
+    MatDialogModule,
 
     // Library
     CommonPipesModule,
     CommonDialogModule,
+    SideContentModule.forRoot(),
     ExpandToggleButtonModule,
     AccessDeniedModule,
     ToolbarModule.forRoot(),
@@ -76,7 +80,7 @@ LoggerFactory.getDefaultConfiguration()
 
     LanguageModule.forRoot()
   ],
-  providers: [SideContentService, CommonDialogService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

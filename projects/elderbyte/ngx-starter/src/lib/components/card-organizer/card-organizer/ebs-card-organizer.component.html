@@ -5,6 +5,7 @@
                     *ngFor="let stack of organizerModel.stacks | async"
                     [stack]="stack"
                     [cardTemplate]="stackCardTemplate"
+                    [removeConfirmation]="removeConfirmation"
                     (requestNewCard)="onRequestNewCard($event)"
                     (requestRemoveCard)="onRequestRemoveCard($event)"
                     (cardClick)="onCardClicked($event)"

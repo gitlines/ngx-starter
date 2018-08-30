@@ -29,6 +29,9 @@ export * from './question-dialog/question-dialog.component';
     entryComponents: [
         ConfirmDialogComponent, QuestionDialogComponent
     ],
+    exports: [
+        ConfirmDialogComponent, QuestionDialogComponent
+    ]
 })
 export class CommonDialogModule {
 

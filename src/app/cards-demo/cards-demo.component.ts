@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {CardOrganizerData, CardStack} from '@elderbyte/ngx-starter';
+import { CardOrganizerData, CardStack, CommonDialogService } from '@elderbyte/ngx-starter';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'starter-demo-cards-demo',
@@ -10,12 +11,14 @@ export class CardsDemoComponent implements OnInit {
 
   public cardData: CardOrganizerData<string, string>;
 
-  constructor() { }
+  constructor(
+      private dialogService: CommonDialogService
+  ) { }
 
   ngOnInit() {
 
     this.cardData = new CardOrganizerData<string, string>(
-      link => link,
+        (link: string) => link,
       [
         new CardStack('a', 'A', [
           '1',
@@ -37,5 +40,18 @@ export class CardsDemoComponent implements OnInit {
     );
 
   }
+
+
+  public get confirmDeletion(): (() => Observable<boolean>) {
+      return this.confirmDeletionFunc.bind(this);
+  }
+
+    private confirmDeletionFunc(): Observable<boolean> {
+
+        return this.dialogService.showConfirm({
+            title: 'dialogs.confirm.title',
+            message: 'dialogs.confirm.message'
+        });
+    }
 
 }
