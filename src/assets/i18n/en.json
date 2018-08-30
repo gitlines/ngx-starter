@@ -1,6 +1,12 @@
 {
   "greeting": "Hello World!",
 
+  "language": {
+    "language": "Language",
+    "en": "English",
+    "de": "German"
+  },
+
   "actions": {
     "ok": "Ok",
     "cancel": "Cancel",
