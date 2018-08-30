@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import {LanguageSwitcherComponent} from './language-switcher/language-switcher.component';
 import {LanguageService} from './language.service';
 import {TranslateModule} from '@ngx-translate/core';
-import {MatSelectModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatMenuModule, MatSelectModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
 import {LanguageInterceptor} from './language.interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 export * from './language.service';
@@ -24,7 +25,12 @@ export * from './language.interceptor';
         CommonModule,
         TranslateModule,
         SimpleWebStorageModule,
+
         MatSelectModule,
+        MatIconModule, MatButtonModule,
+        MatMenuModule,
+        FlexLayoutModule,
+
         FormsModule
     ],
     exports: [
