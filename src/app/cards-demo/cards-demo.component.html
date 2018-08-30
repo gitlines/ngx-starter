@@ -3,6 +3,7 @@
   <ebs-card-organizer fxFill
                       [organizerModel]="cardData"
                       [removeConfirmation]="confirmDeletion"
+                      (cardClick)="cardClicked($event)"
 
   >
 

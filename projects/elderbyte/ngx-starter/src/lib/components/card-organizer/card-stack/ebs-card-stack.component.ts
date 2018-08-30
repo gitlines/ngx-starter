@@ -68,6 +68,11 @@ export class EbsCardStackComponent implements OnInit {
   }
 
   public onRequestRemoveCard(event: MouseEvent, card: any): void {
+
+    if (event) {
+      event.stopPropagation();
+    }
+
     this.requestRemoveCard.next(card);
 
     if (this.removeConfirmation !== undefined) {

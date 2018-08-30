@@ -46,6 +46,10 @@ export class CardsDemoComponent implements OnInit {
       return this.confirmDeletionFunc.bind(this);
   }
 
+  public cardClicked(card: any) {
+      console.log('Card has been clicked!');
+  }
+
     private confirmDeletionFunc(): Observable<boolean> {
 
         return this.dialogService.showConfirm({
