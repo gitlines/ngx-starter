@@ -8,7 +8,7 @@ import {DataContextActivePage} from './data-context-active-page';
 import {Sort} from '../sort';
 import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableToken} from './data-context-continuable-token';
-import {EMPTY, Observable} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {MatPaginator, MatSort} from '@angular/material';
 import {DataContextActivePageLocal} from './data-context-active-page-local';
 import {TokenChunkRequest} from '../token-chunk-request';
@@ -216,6 +216,12 @@ export class DataContextBuilder<T> {
       this._localSort,
       this._localApply,
     ));
+  }
+
+  public buildStatic(items: T[]): IDataContext<T> {
+    return this.wrap(
+      new DataContextSimple<T>( (a, b) => of(items))
+    );
   }
 
   public buildEmpty(): IDataContext<T> {

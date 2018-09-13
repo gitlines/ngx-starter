@@ -5,6 +5,7 @@
     "start": "ng serve --aot",
     "dev": "ng build @elderbyte/ngx-starter",
     "build": "ng build @elderbyte/ngx-starter --prod",
+    "build:dev": "ng build @elderbyte/ngx-starter",
     "postbuild": "ts-node ./tools/bundle-scss",
     "release": "npm run build && npm run upload",
     "upload": "npm publish dist/elderbyte/ngx-starter",

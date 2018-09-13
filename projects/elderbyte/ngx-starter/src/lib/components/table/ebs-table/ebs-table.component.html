@@ -1,0 +1,52 @@
+
+<div fxLayout="column" class="mat-elevation-z5" fxFlex>
+
+  <!-- TODO: Table toolbar injection here -->
+
+  <div fxLayout="column" class="scrollable">
+    <table
+      mat-table
+      class="responsiveTable"
+      [trackBy]="trackByFn"
+      [dataSource]="data"
+    >
+
+      <!-- selection Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox *ngIf="selectionModel.isMultipleSelection"
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selectionModel.hasValue && isAllSelected"
+                        [indeterminate]="selectionModel.hasValue && !isAllSelected">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let entity">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selectionModel.toggle(entity) : null"
+                        [checked]="selectionModel.isSelected(entity)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- project child content here -->
+      <ng-content></ng-content>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsInner; sticky: true"></tr>
+      <tr mat-row class="clickable" *matRowDef="let entity; columns: displayedColumnsInner;"
+          (click)="$event ? selectionModel.toggle(entity) : null">
+      </tr>
+    </table>
+  </div>
+
+  <span fxFlex></span>
+
+  <mat-progress-bar [mode]="data?.loadingIndicator ? 'indeterminate' : 'determinate'"></mat-progress-bar>
+
+  <mat-paginator #paginator
+                 [length]="data?.total"
+                 [pageIndex]="data?.pageIndex"
+                 [pageSize]="data?.pageSize"
+                 [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+
+</div>

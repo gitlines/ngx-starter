@@ -4,17 +4,23 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {
   CommonPipesModule, ExpandToggleButtonModule,
-  EbsFilesModule, EbsCardOrganizerModule, ToolbarModule, AccessDeniedModule,
-  LanguageModule, CommonDialogModule, SideContentModule
+  EbsFilesModule,
+  EbsCardOrganizerModule,
+  EbsTableModule,
+  ToolbarModule,
+  AccessDeniedModule,
+  LanguageModule,
+  CommonDialogModule,
+  SideContentModule
 } from '@elderbyte/ngx-starter';
 import {
-    MatButtonModule,
-    MatCommonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatTabsModule,
-    MatToolbarModule
+  MatButtonModule,
+  MatCommonModule,
+  MatDialogModule,
+  MatIconModule,
+  MatSidenavModule, MatSortModule, MatTableModule,
+  MatTabsModule,
+  MatToolbarModule
 } from '@angular/material';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -28,6 +34,7 @@ import { CardsDemoComponent } from './cards-demo/cards-demo.component';
 import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
+import { TableDemoComponent } from './table-demo/table-demo.component';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -37,7 +44,8 @@ LoggerFactory.getDefaultConfiguration()
     AppComponent,
     DemoPanelComponent,
     DemoPanelSideComponent,
-    CardsDemoComponent
+    CardsDemoComponent,
+    TableDemoComponent
   ],
   imports: [
 
@@ -60,6 +68,9 @@ LoggerFactory.getDefaultConfiguration()
     MatIconModule,
     MatDialogModule,
 
+    MatTableModule,
+    MatSortModule,
+
     // Library
     CommonPipesModule,
     CommonDialogModule,
@@ -69,6 +80,7 @@ LoggerFactory.getDefaultConfiguration()
     ToolbarModule.forRoot(),
     EbsFilesModule,
     EbsCardOrganizerModule,
+    EbsTableModule,
 
     TranslateModule.forRoot({
       loader: {
