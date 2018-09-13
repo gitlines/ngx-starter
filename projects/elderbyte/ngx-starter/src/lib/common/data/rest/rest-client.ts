@@ -10,6 +10,36 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 import {ContinuableListing} from '../continuable-listing';
 import {TokenChunkRequest} from '../token-chunk-request';
 
+export class InternalRestClientConfig {
+
+  public idField = 'id';
+  public idsParam = 'ids';
+
+  constructor(userConfig?: RestClientConfig) {
+    if (userConfig) {
+      if (userConfig.idField) { this.idField = userConfig.idField; }
+      if (userConfig.idsParam) { this.idsParam = userConfig.idsParam; }
+    }
+  }
+}
+
+/**
+ * Allows to customize the rest client
+ */
+export class RestClientConfig {
+
+  /**
+   * The field to use as id. Defaults to 'id'.
+   */
+  public idField?: string;
+
+  /**
+   * The query param to use for multiple ids. Defaults to 'ids'
+   */
+  public idsParam?: string;
+}
+
+
 export class RestClient<T, TID> {
 
     /***************************************************************************
@@ -19,6 +49,7 @@ export class RestClient<T, TID> {
      **************************************************************************/
 
     private readonly localChangeSubject = new Subject<T>();
+    protected readonly config: InternalRestClientConfig;
 
     /***************************************************************************
      *                                                                         *
@@ -29,9 +60,9 @@ export class RestClient<T, TID> {
     constructor(
         protected readonly restEndpoint: string,
         protected readonly http: HttpClient,
-        protected readonly idsParam: string
+        config?: RestClientConfig
     ) {
-
+      this.config = new InternalRestClientConfig(config);
     }
 
     /***************************************************************************
@@ -92,7 +123,7 @@ export class RestClient<T, TID> {
 
     public deleteAll(entities: T[]): Observable<any> {
         let params = new HttpParams();
-        entities.forEach(e => params = params.append(this.idsParam, String(this.getId(e))));
+        entities.forEach(e => params = params.append(this.config.idsParam, String(this.getId(e))));
         return this.http.delete(this.restEndpoint,
             {
                 params: params,
@@ -109,27 +140,27 @@ export class RestClient<T, TID> {
      *                                                                         *
      **************************************************************************/
 
-    public subResourceList<TS, TSID>(parent: T, subPath: string, idsParam = 'ids'): RestClientList<TS, TSID> {
+    public subResourceList<TS, TSID>(parent: T, subPath: string, config?: RestClientConfig): RestClientList<TS, TSID> {
         return new RestClientList(
             this.getEntityUrlBy(parent) + '/' + subPath,
             this.http,
-            idsParam
+            config
         );
     }
 
-    public subResourcePaged<TS, TSID>(parent: T, subPath: string, idsParam = 'ids'): RestClientPaged<TS, TSID> {
+    public subResourcePaged<TS, TSID>(parent: T, subPath: string, config?: RestClientConfig): RestClientPaged<TS, TSID> {
         return new RestClientPaged(
             this.getEntityUrlBy(parent) + '/' + subPath,
             this.http,
-            idsParam
+            config
         );
     }
 
-    public subResourceContinuable<TS, TSID>(parent: T, subPath: string, idsParam = 'ids'): RestClientContinuable<TS, TSID> {
+    public subResourceContinuable<TS, TSID>(parent: T, subPath: string, config?: RestClientConfig): RestClientContinuable<TS, TSID> {
         return new RestClientContinuable(
             this.getEntityUrlBy(parent) + '/' + subPath,
             this.http,
-            idsParam
+            config
         );
     }
 
@@ -140,7 +171,7 @@ export class RestClient<T, TID> {
      **************************************************************************/
 
     protected getId(entity: T): TID {
-        return (entity as any)['id'] as TID;
+        return (entity as any)[this.config.idField] as TID;
     }
 
     protected onLocalChanged(entity?: T): void {
@@ -157,7 +188,6 @@ export class RestClient<T, TID> {
 }
 
 
-
 export class RestClientList<T, TID> extends RestClient<T, TID> {
 
   /***************************************************************************
@@ -169,9 +199,9 @@ export class RestClientList<T, TID> extends RestClient<T, TID> {
   constructor(
     restEndpoint: string,
     http: HttpClient,
-    idsParam = 'ids'
+    config?: RestClientConfig
   ) {
-    super(restEndpoint, http, idsParam);
+    super(restEndpoint, http, config);
   }
 
   /***************************************************************************
@@ -197,7 +227,6 @@ export class RestClientList<T, TID> extends RestClient<T, TID> {
 
 }
 
-
 export class RestClientPaged<T, TID> extends RestClient<T, TID> {
 
   private readonly logger = LoggerFactory.getLogger('RestClientPaged');
@@ -211,9 +240,9 @@ export class RestClientPaged<T, TID> extends RestClient<T, TID> {
   constructor(
     restEndpoint: string,
     http: HttpClient,
-    idsParam = 'ids'
+    config?: RestClientConfig
   ) {
-    super(restEndpoint, http, idsParam);
+    super(restEndpoint, http, config);
   }
 
   /***************************************************************************
@@ -261,9 +290,9 @@ export class RestClientContinuable<T, TID> extends RestClient<T, TID> {
   constructor(
     restEndpoint: string,
     http: HttpClient,
-    idsParam = 'ids'
+    config?: RestClientConfig
   ) {
-    super(restEndpoint, http, idsParam);
+    super(restEndpoint, http, config);
   }
 
   /***************************************************************************
