@@ -40,9 +40,10 @@
 
   <span fxFlex></span>
 
-  <mat-progress-bar [mode]="data?.loadingIndicator ? 'indeterminate' : 'determinate'"></mat-progress-bar>
+  <mat-progress-bar fxFlex="none" [mode]="data?.loadingIndicator ? 'indeterminate' : 'determinate'"></mat-progress-bar>
 
   <mat-paginator #paginator
+                 fxFlex="none"
                  [length]="data?.total"
                  [pageIndex]="data?.pageIndex"
                  [pageSize]="data?.pageSize"

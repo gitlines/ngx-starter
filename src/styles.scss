@@ -140,3 +140,10 @@ starter-demo-root {
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
+
+
+/** https://bugzilla.mozilla.org/show_bug.cgi?id=1043520 **/
+.firefox-scroll-fix {
+  min-width:0;
+  min-height:0;
+}
