@@ -35,6 +35,7 @@ import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
 import { TableDemoComponent } from './table-demo/table-demo.component';
+import {MatPanelModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/mat-panel/mat-panel.module';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -81,6 +82,7 @@ LoggerFactory.getDefaultConfiguration()
     EbsFilesModule,
     EbsCardOrganizerModule,
     EbsTableModule,
+    MatPanelModule,
 
     TranslateModule.forRoot({
       loader: {

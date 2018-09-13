@@ -1,14 +1,13 @@
 import {Component, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
-import {CanColor, mixinColor} from '@angular/material';
-import {ThemePalette} from '@angular/material/core/typings/common-behaviors/color';
-
-
+import {CanColor, ThemePalette, mixinColor} from '@angular/material';
+import {Constructor} from '@angular/material/core/typings/common-behaviors/constructor';
 
 export class MatPanelComponentBase {
   constructor(public _renderer: Renderer2, public _elementRef: ElementRef) {}
 }
 
-export const _MatPanelMixinBase = mixinColor(MatPanelComponentBase);
+export const _MatPanelMixinBase: Constructor<CanColor> & typeof MatPanelComponentBase =  mixinColor(MatPanelComponentBase);
+
 
 @Component({
   selector: 'mat-panel',

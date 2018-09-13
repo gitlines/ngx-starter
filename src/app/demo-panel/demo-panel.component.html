@@ -10,11 +10,22 @@
 
     <mat-tab label="Components">
 
-      <mat-toolbar color="accent" style="width: 500px">
-        <expand-toggle-button [(expanded)]="expanded" fxFlex>
-          You can toggle me. State: {{expanded}}
-        </expand-toggle-button>
-      </mat-toolbar>
+      <div fxLayout="column" class="padding-10">
+
+        <mat-toolbar color="accent" style="width: 500px">
+          <expand-toggle-button [(expanded)]="expanded" fxFlex>
+            You can toggle me. State: {{expanded}}
+          </expand-toggle-button>
+        </mat-toolbar>
+
+
+        <mat-panel color="primary" class="padding-10">
+          <p>hello im a panel</p>
+        </mat-panel>
+
+      </div>
+
+
 
     </mat-tab>
 

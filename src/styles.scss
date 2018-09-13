@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
-// @import  '~@elderbyte/ngx-starter/_theming';
+@import '~dist/elderbyte/ngx-starter/theming';
 
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -16,7 +16,7 @@ $candy-app-theme:   mat-light-theme($candy-app-primary, $candy-app-accent);
 
 // Set 'candy-app' as default theme
 @include angular-material-theme($candy-app-theme);
-// @include starter-theme($candy-app-theme);
+@include starter-theme($candy-app-theme);
 
 
 html, body {
