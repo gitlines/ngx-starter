@@ -124,7 +124,7 @@ export class DataContextBuilder<T> {
 
   /***************************************************************************
    *                                                                         *
-   * Builder                                                                 *
+   * Loading Builder                                                         *
    *                                                                         *
    **************************************************************************/
 
@@ -135,22 +135,6 @@ export class DataContextBuilder<T> {
       this._localSort,
       this._localApply,
     ));
-  }
-
-  public buildClient(
-    restClient: RestClientList<T, any>
-  ): IDataContext<T> {
-    return this.build(
-      (sorts, filters) => restClient.findAllFiltered(filters, sorts)
-    );
-  }
-
-  public buildPagedClient(
-    restClient: RestClientPaged<T, any>
-  ): IDataContextContinuable<T> {
-    return this.buildPaged(
-      (pageable, filters) => restClient.findAllPaged(pageable, filters)
-    );
   }
 
   public buildPaged(
@@ -178,14 +162,6 @@ export class DataContextBuilder<T> {
     ));
   }
 
-  public buildContinuationTokenClient(
-    restClient: RestClientContinuable<T, any>
-  ): IDataContextContinuable<T> {
-    return this.buildContinuationToken(
-      (request) => restClient.findAllContinuable(request)
-    );
-  }
-
   public buildActivePaged(
     pageLoader: ((pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>)): IDataContextActivePage<T> {
     return this.wrap(new DataContextActivePage<T>(
@@ -197,13 +173,12 @@ export class DataContextBuilder<T> {
     ));
   }
 
-  public buildActivePagedClient(
-    restClient: RestClientPaged<T, any>
-  ): IDataContextActivePage<T> {
-    return this.buildActivePaged(
-      (pageable, filters) => restClient.findAllPaged(pageable, filters)
-    );
-  }
+  /***************************************************************************
+   *                                                                         *
+   * Static Data Builder                                                     *
+   *                                                                         *
+   **************************************************************************/
+
 
   public buildLocalActivePaged(
     data: T[],
@@ -248,6 +223,44 @@ export class DataContextBuilder<T> {
       this._localSort,
       this._localApply,
     ));
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Rest Client Builder                                                     *
+   *                                                                         *
+   **************************************************************************/
+
+  public buildClient(
+    restClient: RestClientList<T, any>
+  ): IDataContext<T> {
+    return this.build(
+      (sorts, filters) => restClient.findAllFiltered(filters, sorts)
+    );
+  }
+
+  public buildPagedClient(
+    restClient: RestClientPaged<T, any>
+  ): IDataContextContinuable<T> {
+    return this.buildPaged(
+      (pageable, filters) => restClient.findAllPaged(pageable, filters)
+    );
+  }
+
+  public buildContinuationTokenClient(
+    restClient: RestClientContinuable<T, any>
+  ): IDataContextContinuable<T> {
+    return this.buildContinuationToken(
+      (request) => restClient.findAllContinuable(request)
+    );
+  }
+  
+  public buildActivePagedClient(
+    restClient: RestClientPaged<T, any>
+  ): IDataContextActivePage<T> {
+    return this.buildActivePaged(
+      (pageable, filters) => restClient.findAllPaged(pageable, filters)
+    );
   }
 
   /***************************************************************************
