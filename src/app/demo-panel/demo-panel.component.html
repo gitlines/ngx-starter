@@ -12,6 +12,8 @@
 
       <div fxLayout="column" class="padding-10">
 
+        <h2>expand-toggle-button</h2>
+
         <mat-toolbar color="accent" style="width: 500px">
           <expand-toggle-button [(expanded)]="expanded" fxFlex>
             You can toggle me. State: {{expanded}}
@@ -19,9 +21,21 @@
         </mat-toolbar>
 
 
+        <h2>mat-panel</h2>
+
         <mat-panel color="primary" class="padding-10">
           <p>hello im a panel</p>
         </mat-panel>
+
+        <h2>ebs-label-input</h2>
+
+        <ebs-label-input
+          name="labels"
+          [(ngModel)]="myLabels"
+          placeholder="Labels"
+          [suggestionLoader]="labelSuggestions"
+        >
+        </ebs-label-input>
 
       </div>
 

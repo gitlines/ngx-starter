@@ -2,11 +2,16 @@
 
   <mat-form-field floatPlaceholder="never" class="full-width">
     <mat-chip-list #chips>
-      <mat-chip *ngFor="let label of currentLabels" class="noselect" [color]="labelColor(label)" selected="true"
-                [removable]="true" (remove)="removeLabel(label)">
+      <mat-chip *ngFor="let label of currentLabels"
+                class="noselect"
+                [color]="labelColor(label)"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="removeLabel(label)"
+      >
         {{labelName(label)}}
         <span fxFlex></span>
-        <mat-icon matChipRemove>cancel</mat-icon>
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
 
       <input matInput type="text"
@@ -14,7 +19,10 @@
              [matAutocomplete]="labelAutoComplete"
              [formControl]="labelInputControl"
              (matChipInputTokenEnd)="createNewLabels($event)"
-             name="labelInput"
+             [name]="name"
+             [disabled]="disabled"
+             [readonly]="readonly"
+             [required]="required"
              [placeholder]="placeholder"
              #labelInput>
     </mat-chip-list>

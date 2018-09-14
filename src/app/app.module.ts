@@ -11,7 +11,9 @@ import {
   AccessDeniedModule,
   LanguageModule,
   CommonDialogModule,
-  SideContentModule
+  SideContentModule,
+  EbsLabelsModule,
+  MatPanelModule
 } from '@elderbyte/ngx-starter';
 import {
   MatButtonModule,
@@ -35,7 +37,7 @@ import {LoggerFactory, LogLevel} from '@elderbyte/ts-logger';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
 import { TableDemoComponent } from './table-demo/table-demo.component';
-import {MatPanelModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/mat-panel/mat-panel.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -55,6 +57,9 @@ LoggerFactory.getDefaultConfiguration()
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
+
+    FormsModule,
+    ReactiveFormsModule,
 
     SimpleWebStorageModule.forRoot(),
 
@@ -83,6 +88,7 @@ LoggerFactory.getDefaultConfiguration()
     EbsCardOrganizerModule,
     EbsTableModule,
     MatPanelModule,
+    EbsLabelsModule,
 
     TranslateModule.forRoot({
       loader: {

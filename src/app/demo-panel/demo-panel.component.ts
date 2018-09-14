@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {IFileUploadClient, FileUploadClient, CommonDialogService} from '@elderbyte/ngx-starter';
+import {SuggestionProvider} from '../../../projects/elderbyte/ngx-starter/src/lib/common/suggestion-provider';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'starter-demo-demo-panel',
@@ -12,6 +14,13 @@ export class DemoPanelComponent implements OnInit {
   public expanded: boolean;
   public uploadClient: IFileUploadClient;
 
+  public myLabels = ['hello', 'world'];
+  public mySuggestions = ['Apple', 'Babbple', 'Here', 'there'];
+  public labelSuggestions = SuggestionProvider.build(
+    (filter) => of(
+      this.mySuggestions.filter(s => !filter || s.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))
+    )
+  );
 
   constructor(
     private http: HttpClient,

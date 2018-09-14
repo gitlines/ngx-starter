@@ -6,3 +6,4 @@ export * from './utils/public_api';
 export * from './selection/public_api';
 
 export * from './objects';
+export * from './suggestion-provider';

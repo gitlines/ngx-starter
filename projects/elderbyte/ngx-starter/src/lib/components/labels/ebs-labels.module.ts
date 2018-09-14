@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {LabelEditorComponent} from './labels-input/labels-input.component';
+import {EbsLabelInputComponent} from './labels-input/labels-input.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatIconModule, MatInputModule, MatChipsModule, MatAutocompleteModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-export * from './label-suggestion-provider';
-export {LabelEditorComponent} from './labels-input/labels-input.component';
+export {EbsLabelInputComponent} from './labels-input/labels-input.component';
 
 @NgModule({
     imports: [
@@ -15,7 +14,7 @@ export {LabelEditorComponent} from './labels-input/labels-input.component';
         MatIconModule, MatInputModule, MatChipsModule, MatAutocompleteModule,
         FlexLayoutModule
     ],
-    declarations: [LabelEditorComponent],
-    exports: [LabelEditorComponent]
+    declarations: [EbsLabelInputComponent],
+    exports: [EbsLabelInputComponent]
 })
-export class LabelsModule { }
+export class EbsLabelsModule { }
