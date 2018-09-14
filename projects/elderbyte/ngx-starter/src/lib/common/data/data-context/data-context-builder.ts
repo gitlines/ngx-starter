@@ -13,8 +13,9 @@ import {MatPaginator, MatSort} from '@angular/material';
 import {DataContextActivePageLocal} from './data-context-active-page-local';
 import {TokenChunkRequest} from '../token-chunk-request';
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
-import {RestClientContinuable, RestClientList, RestClientPaged} from '../rest/rest-client';
+import {RestClient, RestClientContinuable, RestClientList, RestClientPaged} from '../rest/rest-client';
 import {MatTableDataContextBindingBuilder} from './mat-table-data-context-binding';
+import {RestClientDataContextBinding} from './rest-client-data-context-binding';
 
 /**
  * Provides the ability to build a IDataContext<T>.
@@ -33,6 +34,7 @@ export class DataContextBuilder<T> {
   private _localSort?: (a: T, b: T) => number;
   private _localApply?: ((data: T[]) => T[]);
   private _pageSize = 30;
+  private _reloadOnLocalChanges = false;
 
   private matTableSupport = MatTableDataContextBindingBuilder.start();
 
@@ -119,6 +121,16 @@ export class DataContextBuilder<T> {
    */
   public localApply(localApply?: ((data: T[]) => T[])): this {
     this._localApply = localApply;
+    return this;
+  }
+
+  /**
+   * On a local change event, automatically reload data in the data-context.
+   * This means whenever there was an modify operation on the rest client,
+   * such as Update, Delete or Create, the data will be reloaded.
+   */
+  public reloadOnLocalChanges(): this {
+    this._reloadOnLocalChanges = true;
     return this;
   }
 
@@ -234,32 +246,36 @@ export class DataContextBuilder<T> {
   public buildClient(
     restClient: RestClientList<T, any>
   ): IDataContext<T> {
-    return this.build(
-      (sorts, filters) => restClient.findAllFiltered(filters, sorts)
+    return this.wrapClient(
+      this.build((sorts, filters) => restClient.findAllFiltered(filters, sorts)),
+      restClient
     );
   }
 
   public buildPagedClient(
     restClient: RestClientPaged<T, any>
   ): IDataContextContinuable<T> {
-    return this.buildPaged(
-      (pageable, filters) => restClient.findAllPaged(pageable, filters)
+    return this.wrapClient(
+      this.buildPaged((pageable, filters) => restClient.findAllPaged(pageable, filters)),
+      restClient
     );
   }
 
   public buildContinuationTokenClient(
     restClient: RestClientContinuable<T, any>
   ): IDataContextContinuable<T> {
-    return this.buildContinuationToken(
-      (request) => restClient.findAllContinuable(request)
+    return this.wrapClient(
+      this.buildContinuationToken((request) => restClient.findAllContinuable(request)),
+      restClient
     );
   }
-  
+
   public buildActivePagedClient(
     restClient: RestClientPaged<T, any>
   ): IDataContextActivePage<T> {
-    return this.buildActivePaged(
-      (pageable, filters) => restClient.findAllPaged(pageable, filters)
+    return this.wrapClient(
+      this.buildActivePaged((pageable, filters) => restClient.findAllPaged(pageable, filters)),
+      restClient
     );
   }
 
@@ -270,11 +286,15 @@ export class DataContextBuilder<T> {
    **************************************************************************/
 
   private wrap<DC extends IDataContext<T>>(dc: DC): DC {
-    this.applyBindings(dc);
+    this.matTableSupport.bind(dc);
     return dc;
   }
 
-  private applyBindings(dc: IDataContext<T>): void {
-    this.matTableSupport.bind(dc);
+  private wrapClient<DC extends IDataContext<T>>(dc: DC, restClient: RestClient<any, any>): DC {
+    if (this._reloadOnLocalChanges) {
+      const binding = new RestClientDataContextBinding(dc, restClient);
+    }
+    return dc;
   }
+
 }

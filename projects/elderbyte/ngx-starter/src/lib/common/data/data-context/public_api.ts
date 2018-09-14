@@ -10,6 +10,7 @@ export * from './data-context-active-page';
 export * from './data-context-active-page-local';
 
 export * from './mat-table-data-context-binding';
+export * from './rest-client-data-context-binding';
 
 export * from './data-context-builder';
 
