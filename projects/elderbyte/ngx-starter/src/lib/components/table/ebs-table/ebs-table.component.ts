@@ -17,7 +17,7 @@ import {
 import {MatColumnDef, MatPaginator, MatRowDef, MatSort, MatTable} from '@angular/material';
 import {IDataContextActivePage} from '../../../common/data/data-context/data-context';
 import {SelectionModel} from '../../../common/selection/selection-model';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
@@ -38,10 +38,16 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
   private readonly _itemClickSubject = new Subject();
 
+  private _subs: Subscription[];
+
   private _filterContext: FilterContext;
   private _displayedColumns: string[] = null;
   private _selectionVisible = false;
   private _matTableBinding: MatTableDataContextBinding;
+
+  private _currentColumnDefs: MatColumnDef[] = [];
+  private _currentRowDefs: MatRowDef<any>[] = [];
+
 
   /// Table
 
@@ -96,10 +102,26 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public ngAfterContentInit(): void {
 
     // Register the normal column defs to the table
-    this.columnDefs.forEach(columnDef => this.table.addColumnDef(columnDef));
+    this.updateColumnDefs(this.columnDefs.toArray());
 
     // Register any custom row definitions to the table
-    this.rowDefs.forEach(rowDef => this.table.addRowDef(rowDef));
+    this.updateRowDefs(this.rowDefs.toArray());
+
+    this._subs = [
+      this.columnDefs.changes.subscribe(
+          (columnDefs: QueryList<MatColumnDef>) => {
+              this.updateColumnDefs(columnDefs.toArray());
+              this.updateColumnsBase();
+          }
+      ),
+
+      this.rowDefs.changes.subscribe(
+        (rowDefs: QueryList<MatRowDef<any>>) => {
+            this.updateRowDefs(rowDefs.toArray());
+            this.updateColumnsBase();
+        }
+      )
+    ];
 
     this.updateColumnsBase();
   }
@@ -129,6 +151,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   }
 
   public ngOnDestroy(): void {
+
+    this._subs.forEach(sub => sub.unsubscribe());
 
     if (this._matTableBinding) {
       this._matTableBinding.unsubscribe();
@@ -269,6 +293,44 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
    *                                                                         *
    **************************************************************************/
 
+  private updateColumnDefs(columnDefs: MatColumnDef[] = []): void {
+
+      this.logger.trace('desired columns:', columnDefs);
+      this.logger.trace('current columns:', this._currentColumnDefs);
+
+      // remove columns not desired
+      this._currentColumnDefs
+          .filter(currentColumnDef => columnDefs.indexOf(currentColumnDef) === -1)
+          .forEach(columnToRemove => this.table.removeColumnDef(columnToRemove));
+
+      // add missing columns
+      columnDefs
+          .filter(desired => this._currentColumnDefs.indexOf(desired) === -1)
+          .forEach(columnToAdd => this.table.addColumnDef(columnToAdd));
+
+      // remember new state
+      this._currentColumnDefs = columnDefs;
+  }
+
+    private updateRowDefs(rowDefs: MatRowDef<any>[] = []): void {
+
+        this.logger.trace('desired rows:', rowDefs);
+        this.logger.trace('current rows:', this._currentRowDefs);
+
+        // remove columns not desired
+        this._currentRowDefs
+            .filter(currentRowDef => rowDefs.indexOf(currentRowDef) === -1)
+            .forEach(rowToRemove => this.table.removeRowDef(rowToRemove));
+
+        // add missing columns
+        rowDefs
+            .filter(desired => this._currentRowDefs.indexOf(desired) === -1)
+            .forEach(rowToAdd => this.table.addRowDef(rowToAdd));
+
+        // remember new state
+        this._currentRowDefs = rowDefs;
+    }
+
   private updateTableBinding(): void {
 
     if (this._matTableBinding) {
@@ -302,6 +364,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     if (this.selectionVisible) {
       columns = ['select', ...columns];
     }
+
+    this.logger.info(columns);
 
     this.displayedColumnsInner = columns;
   }

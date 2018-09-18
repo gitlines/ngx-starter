@@ -9,6 +9,14 @@ class Food {
 }
 
 
+class FoodProperty {
+    constructor(
+        public name: string,
+        public displayName: string
+    ) { }
+}
+
+
 @Component({
   selector: 'starter-demo-table-demo',
   templateUrl: './table-demo.component.html',
@@ -17,12 +25,13 @@ class Food {
 export class TableDemoComponent implements OnInit {
 
   public data: IDataContext<Food>;
+  public dynamicProperties: FoodProperty[] = [];
 
   constructor() { }
 
   public ngOnInit(): void {
     this.data = DataContextBuilder.start<Food>()
-      .buildStatic([
+      .buildLocalActivePaged([
         new Food('Bread', 45.53),
         new Food('Apple', 86.53),
         new Food('Milk', 34),
@@ -51,6 +60,19 @@ export class TableDemoComponent implements OnInit {
 
   public onItemClick(food: Food): void {
       console.log('item clicked:', food);
+  }
+
+  public toggleColumns(event: Event): void {
+      if (this.dynamicProperties.length === 0) {
+          this.dynamicProperties = [
+              new FoodProperty('category', 'Category'),
+              new FoodProperty('vegan', 'Vegan')
+          ];
+      } else {
+          this.dynamicProperties = [];
+      }
+
+      console.log(this.dynamicProperties);
   }
 
 }
