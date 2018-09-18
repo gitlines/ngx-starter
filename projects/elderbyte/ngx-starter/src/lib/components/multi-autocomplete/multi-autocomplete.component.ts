@@ -4,11 +4,8 @@ import {WordPositionFinder} from './word-position';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {EMPTY, Observable, Subscription, of} from 'rxjs';
 import {debounceTime, flatMap} from 'rxjs/operators';
+import {ISuggestionProvider} from '../../common/suggestion-provider';
 
-
-export interface SuggestionProvider {
-    getSuggestions(input: string): Observable<string[]>;
-}
 
 @Component({
     selector: 'multi-autocomplete',
@@ -32,7 +29,7 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
     public placeholder: string;
 
     @Input('suggestionProvider')
-    public suggestionProvider: SuggestionProvider;
+    public suggestionProvider: ISuggestionProvider<string>;
 
     /**
      * Occurs when the value has been changed and committed
@@ -124,7 +121,7 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
     private getSuggestions(input: string): Observable<string[]> {
 
         if (this.suggestionProvider) {
-            return this.suggestionProvider.getSuggestions(input);
+            return this.suggestionProvider.loadSuggestions(input);
         } else {
             return of([]);
         }

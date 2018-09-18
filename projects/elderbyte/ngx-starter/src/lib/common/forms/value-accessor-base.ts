@@ -50,7 +50,6 @@ export abstract class ValueAccessorBase<T> implements ControlValueAccessor {
     this._changed.push(fn);
   }
 
-
   public registerOnTouched(fn: () => void) {
     this._touched.push(fn);
   }
