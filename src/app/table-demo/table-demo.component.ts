@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IDataContext} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/data-context/data-context';
-import {DataContextBuilder} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/data-context/data-context-builder';
+import { IDataContext, DataContextBuilder } from '@elderbyte/ngx-starter';
 
 class Food {
   constructor(
@@ -44,6 +43,14 @@ export class TableDemoComponent implements OnInit {
       ]);
 
     this.data.start();
+  }
+
+  public onSelectionChange(selection: Food[]): void {
+      console.log('selection changed:', selection);
+  }
+
+  public onItemClick(food: Food): void {
+      console.log('item clicked:', food);
   }
 
 }

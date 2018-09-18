@@ -1,4 +1,4 @@
-import { Observable, BehaviorSubject } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 
 /**
@@ -17,7 +17,7 @@ export class SelectionModel<T> {
 
   private _multiple: boolean;
   private readonly _selection = new Map<any, T>();
-  private readonly _selectionSubject = new BehaviorSubject<T[]>([]);
+  private readonly _selectionSubject = new Subject<T[]>();
   private readonly _keyGetter: ((item: T) => any);
 
   /***************************************************************************

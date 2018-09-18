@@ -17,7 +17,7 @@ import {
 import {MatColumnDef, MatPaginator, MatRowDef, MatSort, MatTable} from '@angular/material';
 import {IDataContextActivePage} from '../../../common/data/data-context/data-context';
 import {SelectionModel} from '../../../common/selection/selection-model';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
@@ -35,6 +35,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
    **************************************************************************/
 
   private readonly logger = LoggerFactory.getLogger('EbsTableComponent');
+
+  private readonly _itemClickSubject = new Subject();
 
   private _filterContext: FilterContext;
   private _displayedColumns: string[] = null;
@@ -185,6 +187,11 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     return this._selectionVisible;
   }
 
+  @Output()
+  public get itemClick(): Observable<any> {
+    return this._itemClickSubject;
+  }
+
   /***************************************************************************
    *                                                                         *
    * Selection                                                               *
@@ -249,6 +256,11 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     if (this.data) {
       this.data.filterContext = context;
     }
+  }
+
+  public onItemClick(entity: any): void {
+    this.selectionModel.toggle(entity);
+    this._itemClickSubject.next(entity);
   }
 
   /***************************************************************************

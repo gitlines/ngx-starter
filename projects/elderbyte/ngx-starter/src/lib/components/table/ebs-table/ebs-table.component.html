@@ -33,7 +33,7 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumnsInner; sticky: true"></tr>
       <tr mat-row class="clickable" *matRowDef="let entity; columns: displayedColumnsInner;"
-          (click)="$event ? selectionModel.toggle(entity) : null">
+          (click)="$event ? onItemClick(entity) : null">
       </tr>
     </table>
   </div>
