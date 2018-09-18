@@ -81,8 +81,9 @@ export class RestClient<T, TID> {
      *                                                                         *
      **************************************************************************/
 
-    public findById(id: TID): Observable<T> {
-        return this.http.get<T>(this.getEntityUrl(id));
+    public findById(id: TID, params?: HttpParams): Observable<T> {
+        params = HttpParamsBuilder.start(params).build();
+        return this.http.get<T>(this.getEntityUrl(id), { params: params });
     }
 
     /**
