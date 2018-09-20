@@ -17,6 +17,8 @@ import {FormsModule} from '@angular/forms';
 import {FormSupportDirectivesModule} from '../../directives/forms/form-support-directives.module';
 import {CdkTableModule} from '@angular/cdk/table';
 
+export {EbsTableComponent} from './ebs-table/ebs-table.component';
+
 @NgModule({
   imports: [
     CommonModule, RouterModule,

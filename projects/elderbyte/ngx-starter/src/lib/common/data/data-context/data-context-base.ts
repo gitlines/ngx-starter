@@ -137,6 +137,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     return this._rows;
   }
 
+  public get isEmpty(): boolean {
+    return this._rows.length === 0;
+  }
+
   /***************************************************************************
    *                                                                         *
    * Public API                                                              *

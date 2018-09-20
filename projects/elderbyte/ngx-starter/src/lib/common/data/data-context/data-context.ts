@@ -24,6 +24,11 @@ export interface IDataContext<T> {
     readonly rows: T[];
 
     /**
+     * Indicates if the context holds no data
+     */
+    readonly isEmpty: boolean;
+
+    /**
      * Indicates that data is currently loading
      */
     readonly loadingIndicator: boolean;
