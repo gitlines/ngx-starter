@@ -3,7 +3,7 @@ import {Page, Pageable, PageRequest} from '../page';
 import {Filter} from '../filter';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {Observable, Subject, Subscription} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {first} from 'rxjs/operators';
 import {IDataContextActivePage} from './data-context';
 
 
@@ -135,24 +135,24 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
   protected reloadInternal(): Observable<any> {
 
-    const subject = new Subject<any>();
-
-    this.setLoadingIndicator(true);
-
-    const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sorts);
-
     if (this._activePageLoad) {
       // Cancel previous pending request
       this._activePageLoad.unsubscribe();
     }
 
+    const subject = new Subject<any>();
+
+    this.setLoadingIndicator(true);
+    const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sorts);
+
+
     this._activePageLoad = this.pageLoader(pageRequest, this.filters)
-      .pipe(take(1))
+      .pipe(first())
       .subscribe(
         success => {
+          this.setLoadingIndicator(false);
           this.setTotal(success.totalElements);
           this.setRows(success.content);
-          this.setLoadingIndicator(false);
           subject.next(success);
           this.onSuccess();
         }, err => {
@@ -161,9 +161,11 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
           this.actlogger.error('Failed to query data', err);
           subject.error(err);
           this.onError(err);
+        }, () => {
+          this.setLoadingIndicator(false);
         });
 
-    return subject.pipe(take(1));
+    return subject.pipe(first());
   }
 
   /***************************************************************************
