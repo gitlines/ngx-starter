@@ -40,14 +40,14 @@
 
   <div fxLayout="column" fxFlex fxLayoutAlign="center center">
 
-    <span *ngIf="data?.isEmpty && !data?.statusSnapshot.hasError">
+    <span class="hint mat-body-1" *ngIf="data?.isEmpty && !data?.statusSnapshot.hasError">
       {{'No data available' | translate}}
     </span>
 
     <div *ngIf="data?.statusSnapshot.hasError"
          fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
       <mat-icon color="warn">warning</mat-icon>
-      <span>{{'Error while loading data' | translate}}</span>
+      <span class="hint mat-body-1">{{'Error while loading data' | translate}}</span>
     </div>
 
   </div>
