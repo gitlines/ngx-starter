@@ -111,19 +111,19 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
       this.columnDefs.changes.subscribe(
           (columnDefs: QueryList<MatColumnDef>) => {
               this.updateColumnDefs(columnDefs.toArray());
-              this.updateColumnsBase();
+              this.updateColumnsBase('columnDefs');
           }
       ),
 
       this.rowDefs.changes.subscribe(
         (rowDefs: QueryList<MatRowDef<any>>) => {
             this.updateRowDefs(rowDefs.toArray());
-            this.updateColumnsBase();
+            this.updateColumnsBase('rowDefs');
         }
       )
     ];
 
-    this.updateColumnsBase();
+    this.updateColumnsBase('ngAfterContentInit');
   }
 
   public ngDoCheck(): void {
@@ -183,7 +183,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   @Input()
   public set displayedColumns(displayedColumns: string[]) {
     this._displayedColumns = displayedColumns;
-    this.updateColumnsBase();
+    this.updateColumnsBase('displayedColumns');
   }
 
   public get displayedColumns(): string[] {
@@ -204,7 +204,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   @Input()
   public set selectionVisible(visible: boolean) {
     this._selectionVisible = visible;
-    this.updateColumnsBase();
+    this.updateColumnsBase('selectionVisible');
   }
 
   public get selectionVisible(): boolean {
@@ -295,9 +295,6 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
   private updateColumnDefs(columnDefs: MatColumnDef[] = []): void {
 
-      this.logger.trace('desired columns:', columnDefs);
-      this.logger.trace('current columns:', this._currentColumnDefs);
-
       // remove columns not desired
       this._currentColumnDefs
           .filter(currentColumnDef => columnDefs.indexOf(currentColumnDef) === -1)
@@ -313,9 +310,6 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   }
 
     private updateRowDefs(rowDefs: MatRowDef<any>[] = []): void {
-
-        this.logger.trace('desired rows:', rowDefs);
-        this.logger.trace('current rows:', this._currentRowDefs);
 
         // remove columns not desired
         this._currentRowDefs
@@ -346,7 +340,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     }
   }
 
-  private updateColumnsBase(): void {
+  private updateColumnsBase(cause: string): void {
 
     let columns = this.displayedColumns;
 
@@ -365,7 +359,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
       columns = ['select', ...columns];
     }
 
-    this.logger.info(columns);
+    this.logger.debug('updateColumnsBase: cause ' + cause + ' updated!', columns);
 
     this.displayedColumnsInner = columns;
   }
