@@ -7,3 +7,4 @@ export * from './mat-panel/mat-panel.module';
 export * from './files/ebs-files.module';
 export * from './card-organizer/ebs-card-organizer.module';
 export * from './table/ebs-table.module';
+export * from './navigation/toolbar/ebs-toolbar.module';

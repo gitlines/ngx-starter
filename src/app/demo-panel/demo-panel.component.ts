@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IFileUploadClient, FileUploadClient, CommonDialogService} from '@elderbyte/ngx-starter';
-import {SuggestionProvider} from '../../../projects/elderbyte/ngx-starter/src/lib/common/suggestion-provider';
+import {IFileUploadClient, FileUploadClient, CommonDialogService, SuggestionProvider} from '@elderbyte/ngx-starter';
 import {of} from 'rxjs';
 
 @Component({

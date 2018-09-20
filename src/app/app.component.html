@@ -1,8 +1,30 @@
 
 <mat-sidenav-container style="height:100%;">
 
+  <!-- Left Side Nav -->
+  <mat-sidenav mode="over" class="side-navigation"
+               [opened]="navigationOpen" (closed)="closeSideNav()">
+
+    <mat-toolbar color="primary" class="side-nav-toolbar">
+
+      <mat-toolbar-row>
+        <div fxLayoutAlign="center center" style="width: 100%">
+          <span class="noselect" style="font-size: 30px">{{'ngx Demo App' | translate}}</span>
+        </div>
+      </mat-toolbar-row>
+
+      <mat-toolbar-row fxLayoutAlign="center center">
+        <mat-icon class="noselect side-nav-header-title-icon">blur_on</mat-icon>
+      </mat-toolbar-row>
+
+    </mat-toolbar>
+
+
+  </mat-sidenav>
+
   <mat-sidenav-content fxLayout="column" fxFlex>
 
+    <!--
     <div style="width: 100%" fxLayout="column">
       <mat-toolbar color="primary" fxFlex="none">
 
@@ -11,11 +33,7 @@
 
           <span fxFlex></span>
 
-          <!-- -->
-
-
           <span fxFlex></span>
-
 
           <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
           <a mat-button color="accent" [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">Mixed Side</a>
@@ -27,11 +45,9 @@
         </div>
       </mat-toolbar>
     </div>
+    -->
 
-
-    <div class="under-toolbar">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
 
   </mat-sidenav-content>
 

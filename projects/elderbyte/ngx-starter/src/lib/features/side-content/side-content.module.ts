@@ -22,16 +22,4 @@ export * from './side-content-toggle/side-content-toggle.component';
   ],
   imports : [ CommonModule, RouterModule, MatIconModule, MatButtonModule, FlexLayoutModule ]
 })
-export class SideContentModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: SideContentModule,
-      providers: [
-        {
-          provide: SideContentService,
-          useClass: SideContentService
-        },
-      ]
-    };
-  }
-}
+export class SideContentModule {}

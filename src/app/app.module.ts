@@ -13,7 +13,8 @@ import {
   CommonDialogModule,
   SideContentModule,
   EbsLabelsModule,
-  MatPanelModule
+  MatPanelModule,
+  EbsToolbarModule
 } from '@elderbyte/ngx-starter';
 import {
   MatButtonModule,
@@ -80,7 +81,7 @@ LoggerFactory.getDefaultConfiguration()
     // Library
     CommonPipesModule,
     CommonDialogModule,
-    SideContentModule.forRoot(),
+    SideContentModule,
     ExpandToggleButtonModule,
     AccessDeniedModule,
     ToolbarModule.forRoot(),
@@ -89,6 +90,7 @@ LoggerFactory.getDefaultConfiguration()
     EbsTableModule,
     MatPanelModule,
     EbsLabelsModule,
+    EbsToolbarModule,
 
     TranslateModule.forRoot({
       loader: {
