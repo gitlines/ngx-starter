@@ -1,0 +1,26 @@
+
+<div fxLayout="column" fxFill>
+
+  <ebs-toolbar>
+
+
+    <ng-container *ebsToolbarColumn="'left'">
+
+      <a mat-icon-button routerLink="/app/eatables">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+
+      <toolbar-title></toolbar-title>
+
+    </ng-container>
+
+  </ebs-toolbar>
+
+  <mat-list>
+    <mat-list-item *ngFor="let eatable of eatables">
+      {{eatable}}
+    </mat-list-item>
+  </mat-list>
+
+</div>
+
