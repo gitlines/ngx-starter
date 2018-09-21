@@ -2,18 +2,15 @@
 
   <ebs-toolbar>
 
-    <div *ebsToolbarColumn="'center'">
-      <div fxLayout="row" fxLayoutAlign="end center">
-        <button mat-icon-button (click)="openYesNo($event)">
-          <mat-icon>feedback</mat-icon>
-        </button>
-
-      </div>
+    <div *ebsToolbarColumn="'center'" fxLayout="row" fxLayoutAlign="end center" fxFlex>
+      <button mat-icon-button (click)="openYesNo($event)">
+        <mat-icon>feedback</mat-icon>
+      </button>
     </div>
 
   </ebs-toolbar>
 
-  <mat-tab-group fxFill>
+  <mat-tab-group fxFlex>
     <mat-tab label="Directives">
 
       <h2>test</h2>

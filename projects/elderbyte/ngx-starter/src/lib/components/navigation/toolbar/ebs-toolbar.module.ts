@@ -14,6 +14,7 @@ import {
 import {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
 import {LanguageModule} from '../../../features/language/language.module';
 import { EbsToolbarColumnDirective } from './ebs-toolbar-column.directive';
+import {ToolbarModule} from '../../../features/toolbar/toolbar.module';
 
 export {EbsToolbarService} from './ebs-toolbar.service';
 export {EbsToolbarColumnDirective} from './ebs-toolbar-column.directive';
@@ -28,7 +29,7 @@ export {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
         FlexLayoutModule, MatDividerModule,
 
         // navigation
-        MatToolbarModule,
+        MatToolbarModule, ToolbarModule,
 
         // buttons & indicators
         MatButtonModule, MatIconModule, MatBadgeModule,
