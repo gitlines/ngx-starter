@@ -1,47 +1,55 @@
 
 
-<mat-toolbar fxLayout="row" fxLayoutAlign="start center"
-             [color]="color ? color : 'primary'">
+<div fxLayout="row">
 
+  <mat-toolbar *ngIf="enableSideNavToggle" fxFlex="0"
+               fxLayout="row" fxLayoutAlign="center center"
+               color="accent">
 
-  <div *ngIf="enableSideNavToggle" fxLayout="row" fxLayoutAlign="start center" class="sideNavToggleContainer">
     <button mat-icon-button (click)="toggleSideNav()">
       <mat-icon>menu</mat-icon>
     </button>
-  </div>
 
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <ng-container *ngTemplateOutlet="leftColumnTemplate ? leftColumnTemplate: defaultLeftColumnTemplate"></ng-container>
-  </div>
+  </mat-toolbar>
 
-  <div fxLayout="row" fxLayoutAlign="center center" fxFlex>
-    <ng-container *ngTemplateOutlet="centerColumnTemplate ? centerColumnTemplate: defaultCenterColumnTemplate"></ng-container>
-  </div>
+  <mat-toolbar fxLayout="row" fxLayoutAlign="start center"
+               [color]="color ? color : 'primary'">
 
-  <div fxLayout="row" fxLayoutAlign="end center">
-    <ng-container *ngTemplateOutlet="rightColumnTemplate ? rightColumnTemplate: defaultRightColumnTemplate"></ng-container>
-  </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <ng-container *ngTemplateOutlet="leftColumnTemplate ? leftColumnTemplate: defaultLeftColumnTemplate"></ng-container>
+    </div>
 
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex>
+      <ng-container *ngTemplateOutlet="centerColumnTemplate ? centerColumnTemplate: defaultCenterColumnTemplate"></ng-container>
+    </div>
 
-  <!-- Default Templates -->
-
-  <ng-template #defaultLeftColumnTemplate>
-
-    <toolbar-title></toolbar-title>
-
-  </ng-template>
-
-  <ng-template #defaultCenterColumnTemplate>
-  </ng-template>
-
-  <ng-template #defaultRightColumnTemplate>
-
-    <app-language-switcher [slimMode]="true"></app-language-switcher>
-
-  </ng-template>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <ng-container *ngTemplateOutlet="rightColumnTemplate ? rightColumnTemplate: defaultRightColumnTemplate"></ng-container>
+    </div>
 
 
+    <!-- Default Templates -->
+
+    <ng-template #defaultLeftColumnTemplate>
+
+      <toolbar-title></toolbar-title>
+
+    </ng-template>
+
+    <ng-template #defaultCenterColumnTemplate>
+    </ng-template>
+
+    <ng-template #defaultRightColumnTemplate>
+
+      <app-language-switcher [slimMode]="true"></app-language-switcher>
+
+    </ng-template>
 
 
 
-</mat-toolbar>
+
+
+  </mat-toolbar>
+
+</div>
+
