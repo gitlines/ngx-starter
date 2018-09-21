@@ -15,11 +15,11 @@ export class EbsToolbarColumnDirective implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('EbsToolbarColumnDirective');
 
-  @Input('ebsToolbarColumn')
-  public columnId: string;
+  @Input()
+  public ebsToolbarColumn: string;
 
-  @Input('ebsToolbarDefault')
-  public asDefault: boolean;
+  @Input()
+  public ebsToolbarDefault: boolean;
 
   /***************************************************************************
    *                                                                         *
@@ -41,10 +41,10 @@ export class EbsToolbarColumnDirective implements OnInit {
 
   public ngOnInit(): void {
 
-    if (this.asDefault) {
-        this.logger.debug('Initializing default toolbar column: ' + this.columnId);
+    if (this.ebsToolbarDefault) {
+        this.logger.debug('Initializing default toolbar column: ' + this.ebsToolbarColumn);
 
-        switch (this.columnId) {
+        switch (this.ebsToolbarColumn) {
             case 'left':
                 this.toolbarService.registerLeftColumnDefault(this.templateRef);
                 break;
@@ -59,35 +59,5 @@ export class EbsToolbarColumnDirective implements OnInit {
         }
     }
   }
-
-  /***************************************************************************
-   *                                                                         *
-   * Properties                                                              *
-   *                                                                         *
-   **************************************************************************/
-
-
-  /***************************************************************************
-   *                                                                         *
-   * Selection                                                               *
-   *                                                                         *
-   **************************************************************************/
-
-
-  /***************************************************************************
-   *                                                                         *
-   * Public API                                                              *
-   *                                                                         *
-   **************************************************************************/
-
-
-
-  /***************************************************************************
-   *                                                                         *
-   * Private Methods                                                         *
-   *                                                                         *
-   **************************************************************************/
-
-
 
 }
