@@ -32,6 +32,9 @@ export class EbsToolbarComponent implements OnInit, OnDestroy, AfterContentInit 
   @Input()
   public color: string;
 
+  @Input()
+  public enableSideNavToggle = true;
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -72,7 +75,7 @@ export class EbsToolbarComponent implements OnInit, OnDestroy, AfterContentInit 
 
   public ngAfterContentInit(): void {
     this.columns.forEach(column => {
-      switch (column.columnId) {
+      switch (column.ebsToolbarColumn) {
           case 'left':
             this.leftColumnTemplate = column.templateRef;
             break;

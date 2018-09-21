@@ -4,6 +4,12 @@
              [color]="color ? color : 'primary'">
 
 
+  <div *ngIf="enableSideNavToggle" fxLayout="row" fxLayoutAlign="start center" class="sideNavToggleContainer">
+    <button mat-icon-button (click)="toggleSideNav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
   <div fxLayout="row" fxLayoutAlign="start center">
     <ng-container *ngTemplateOutlet="leftColumnTemplate ? leftColumnTemplate: defaultLeftColumnTemplate"></ng-container>
   </div>
@@ -20,10 +26,6 @@
   <!-- Default Templates -->
 
   <ng-template #defaultLeftColumnTemplate>
-
-    <button mat-icon-button (click)="toggleSideNav()">
-      <mat-icon>menu</mat-icon>
-    </button>
 
     <toolbar-title></toolbar-title>
 
