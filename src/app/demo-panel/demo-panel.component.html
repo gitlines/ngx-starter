@@ -2,7 +2,14 @@
 
   <ebs-toolbar>
 
+    <div *ebsToolbarColumn="'center'">
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="openYesNo($event)">
+          <mat-icon>feedback</mat-icon>
+        </button>
 
+      </div>
+    </div>
 
   </ebs-toolbar>
 

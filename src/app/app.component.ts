@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {SideContentService} from '@elderbyte/ngx-starter';
+import {ToastService} from '../../projects/elderbyte/ngx-starter/src/lib/features/toasts/toast.service';
 
 @Component({
   selector: 'starter-demo-root',
@@ -15,7 +16,8 @@ export class AppComponent {
 
   constructor(
     translateService: TranslateService,
-    private sideContentService: SideContentService
+    private sideContentService: SideContentService,
+    private toastService: ToastService
   ) {
     translateService.addLangs(['en', 'de']);
     translateService.defaultLang = 'en';
@@ -41,5 +43,9 @@ export class AppComponent {
 
     public closeSideContent() {
         this.sideContentService.closeSideContent();
+    }
+
+    public markAsFavorite(event: Event): void {
+      this.toastService.pushInfo('Marked as favorite!');
     }
 }

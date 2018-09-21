@@ -3,9 +3,9 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 import {EbsToolbarService} from './ebs-toolbar.service';
 
 @Directive({
-  selector: '[ebsToolbarColumnDefault]'
+  selector: '[ebsToolbarColumn]'
 })
-export class EbsToolbarColumnDefaultDirective implements OnInit {
+export class EbsToolbarColumnDirective implements OnInit {
 
   /***************************************************************************
    *                                                                         *
@@ -13,10 +13,13 @@ export class EbsToolbarColumnDefaultDirective implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsToolbarColumnDefaultDirective');
+  private readonly logger = LoggerFactory.getLogger('EbsToolbarColumnDirective');
 
-  @Input('ebsToolbarColumnDefault')
+  @Input('ebsToolbarColumn')
   public columnId: string;
+
+  @Input('ebsToolbarDefault')
+  public asDefault: boolean;
 
   /***************************************************************************
    *                                                                         *
@@ -25,7 +28,7 @@ export class EbsToolbarColumnDefaultDirective implements OnInit {
    **************************************************************************/
 
   constructor(
-      private templateRef: TemplateRef<any>,
+      public templateRef: TemplateRef<any>,
       private viewContainer: ViewContainerRef,
       private toolbarService: EbsToolbarService
   ) { }
@@ -38,20 +41,22 @@ export class EbsToolbarColumnDefaultDirective implements OnInit {
 
   public ngOnInit(): void {
 
-    this.logger.debug('Initializing default toolbar column: ' + this.columnId);
+    if (this.asDefault) {
+        this.logger.debug('Initializing default toolbar column: ' + this.columnId);
 
-    switch (this.columnId) {
-        case 'left':
-          this.toolbarService.registerLeftColumnDefault(this.templateRef);
-          break;
-        case 'center':
-          this.toolbarService.registerCenterColumnDefault(this.templateRef);
-          break;
-        case 'right':
-          this.toolbarService.registerRightColumnDefault(this.templateRef);
-          break;
-        default:
-          throw new Error('Could not identify column! Have you set the column property?');
+        switch (this.columnId) {
+            case 'left':
+                this.toolbarService.registerLeftColumnDefault(this.templateRef);
+                break;
+            case 'center':
+                this.toolbarService.registerCenterColumnDefault(this.templateRef);
+                break;
+            case 'right':
+                this.toolbarService.registerRightColumnDefault(this.templateRef);
+                break;
+            default:
+                throw new Error('Could not identify column! Have you set the column property?');
+        }
     }
   }
 

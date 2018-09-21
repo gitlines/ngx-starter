@@ -24,12 +24,16 @@
 
   <mat-sidenav-content fxLayout="column" fxFlex>
 
-    <ng-template ebsToolbarColumnDefault="right">
+    <ng-template ebsToolbarColumn="right" [ebsToolbarDefault]="true">
         <div fxLayout="row" fxLayoutAlign="end center">
+          <button mat-icon-button (click)="markAsFavorite($event)">
+            <mat-icon>favorite_border</mat-icon>
+          </button>
           <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
           <a mat-button color="accent" [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">Mixed Side</a>
           <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
           <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
+          <app-language-switcher [slimMode]="true"></app-language-switcher>
         </div>
     </ng-template>
 
@@ -58,6 +62,7 @@
     -->
 
     <router-outlet></router-outlet>
+    <app-toast></app-toast>
 
   </mat-sidenav-content>
 

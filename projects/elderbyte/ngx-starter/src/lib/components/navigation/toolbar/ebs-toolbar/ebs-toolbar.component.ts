@@ -1,16 +1,16 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterContentInit, Component, ContentChild, ContentChildren, Input, OnDestroy, OnInit, QueryList, TemplateRef} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {SideContentService} from '../../../../features/side-content/side-content.service';
-import {ToolbarService} from '../../../../features/toolbar/toolbar.service';
 import {EbsToolbarService} from '../ebs-toolbar.service';
 import {Subscription} from 'rxjs';
+import {EbsToolbarColumnDirective} from '../ebs-toolbar-column.directive';
 
 @Component({
   selector: 'ebs-toolbar',
   templateUrl: './ebs-toolbar.component.html',
   styleUrls: ['./ebs-toolbar.component.scss']
 })
-export class EbsToolbarComponent implements OnInit, OnDestroy {
+export class EbsToolbarComponent implements OnInit, OnDestroy, AfterContentInit {
 
   /***************************************************************************
    *                                                                         *
@@ -22,15 +22,15 @@ export class EbsToolbarComponent implements OnInit, OnDestroy {
 
   private _subs: Subscription[];
 
-  @Input()
+  @ContentChildren(EbsToolbarColumnDirective)
+  public columns: QueryList<EbsToolbarColumnDirective>;
+
   public leftColumnTemplate: any;
-
-  @Input()
   public centerColumnTemplate: any;
-
-  @Input()
   public rightColumnTemplate: any;
 
+  @Input()
+  public color: string;
 
   /***************************************************************************
    *                                                                         *
@@ -68,6 +68,24 @@ export class EbsToolbarComponent implements OnInit, OnDestroy {
       ),
     ];
 
+  }
+
+  public ngAfterContentInit(): void {
+    this.columns.forEach(column => {
+      switch (column.columnId) {
+          case 'left':
+            this.leftColumnTemplate = column.templateRef;
+            break;
+          case 'center':
+            this.centerColumnTemplate = column.templateRef;
+            break;
+          case 'right':
+            this.rightColumnTemplate = column.templateRef;
+            break;
+          default:
+            throw Error('Could not init Toolbar since columns are not identifiable! Have you set the columnId?');
+      }
+    });
   }
 
   public ngOnDestroy(): void {

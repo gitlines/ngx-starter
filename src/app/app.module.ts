@@ -39,6 +39,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
 import { TableDemoComponent } from './table-demo/table-demo.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ToastModule} from '../../projects/elderbyte/ngx-starter/src/lib/features/toasts/toast.module';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -81,6 +82,7 @@ LoggerFactory.getDefaultConfiguration()
     // Library
     CommonPipesModule,
     CommonDialogModule,
+    ToastModule.forRoot(),
     SideContentModule,
     ExpandToggleButtonModule,
     AccessDeniedModule,

@@ -13,10 +13,10 @@ import {
 } from '@angular/material';
 import {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
 import {LanguageModule} from '../../../features/language/language.module';
-import { EbsToolbarColumnDefaultDirective } from './ebs-toolbar-column-default.directive';
+import { EbsToolbarColumnDirective } from './ebs-toolbar-column.directive';
 
 export {EbsToolbarService} from './ebs-toolbar.service';
-export {EbsToolbarColumnDefaultDirective} from './ebs-toolbar-column-default.directive';
+export {EbsToolbarColumnDirective} from './ebs-toolbar-column.directive';
 export {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ export {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
         // translations
         TranslateModule, LanguageModule
     ],
-    declarations: [EbsToolbarComponent, EbsToolbarColumnDefaultDirective],
-    exports: [EbsToolbarComponent, EbsToolbarColumnDefaultDirective]
+    declarations: [EbsToolbarComponent, EbsToolbarColumnDirective],
+    exports: [EbsToolbarComponent, EbsToolbarColumnDirective]
 })
 export class EbsToolbarModule {}
