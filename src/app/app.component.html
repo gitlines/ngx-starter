@@ -24,6 +24,16 @@
 
   <mat-sidenav-content fxLayout="column" fxFlex>
 
+    <ng-template ebsToolbarColumnDefault="right">
+        <div fxLayout="row" fxLayoutAlign="end center">
+          <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
+          <a mat-button color="accent" [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">Mixed Side</a>
+          <a mat-button color="accent" routerLink="/app/sub/tolbar-title-demo">TB Title</a>
+          <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
+        </div>
+    </ng-template>
+
+
     <!--
     <div style="width: 100%" fxLayout="column">
       <mat-toolbar color="primary" fxFlex="none">
