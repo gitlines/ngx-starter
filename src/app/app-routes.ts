@@ -2,6 +2,7 @@ import {Routes} from '@angular/router';
 import {DemoPanelComponent} from './demo-panel/demo-panel.component';
 import {CardsDemoComponent} from './cards-demo/cards-demo.component';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
+import {TableDemoComponent} from './table-demo/table-demo.component';
 
 
 export const appRoutes: Routes = [
@@ -28,14 +29,14 @@ export const appRoutes: Routes = [
         children: [
           {
             path: 'override-title',
-            component: CardsDemoComponent,
+            component: DemoPanelComponent,
             data: {
               title: 'Overridden Title'
             }
           },
           {
-            path: 'tolbar-title-demo',
-            component: CardsDemoComponent,
+            path: 'toolbar-title-demo',
+            component: DemoPanelComponent,
           }
         ],
         data: {
