@@ -3,6 +3,16 @@ import {TranslateService} from '@ngx-translate/core';
 import {SideContentService} from '@elderbyte/ngx-starter';
 import {ToastService} from '../../projects/elderbyte/ngx-starter/src/lib/features/toasts/toast.service';
 
+export class MenuItem {
+
+    constructor(
+        public icon: string,
+        public name: string,
+        public link: string) {
+    }
+}
+
+
 @Component({
   selector: 'starter-demo-root',
   templateUrl: './app.component.html',
@@ -14,15 +24,25 @@ export class AppComponent {
   public searchOpen = false;
   public title = 'starter-demo';
 
-  constructor(
+    public menuItems: MenuItem[];
+
+
+    constructor(
     translateService: TranslateService,
     private sideContentService: SideContentService,
     private toastService: ToastService
   ) {
     translateService.addLangs(['en', 'de']);
     translateService.defaultLang = 'en';
-  }
 
+        this.menuItems = [
+
+            new MenuItem('list', 'Eatables', 'app/eatables'),
+            new MenuItem('person', 'Mixed', 'app/mixed-demo'),
+            new MenuItem('business', 'TB Title', 'app/sub/toolbar-title-demo'),
+            new MenuItem('business', 'Override Title', 'app/sub/override-title'),
+        ];
+  }
 
     public get navigationOpen(): boolean {
         return this.sideContentService.navigationOpen;

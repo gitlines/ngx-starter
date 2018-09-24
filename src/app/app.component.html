@@ -5,19 +5,34 @@
   <mat-sidenav mode="over" class="side-navigation"
                [opened]="navigationOpen" (closed)="closeSideNav()">
 
-    <mat-toolbar color="primary" class="side-nav-toolbar">
+    <div fxLayout="column" fxFlex>
 
-      <mat-toolbar-row>
-        <div fxLayoutAlign="center center" style="width: 100%">
-          <span class="noselect" style="font-size: 30px">{{'ngx Demo App' | translate}}</span>
-        </div>
-      </mat-toolbar-row>
+      <mat-toolbar color="primary" class="side-nav-toolbar">
 
-      <mat-toolbar-row fxLayoutAlign="center center">
-        <mat-icon class="noselect side-nav-header-title-icon">blur_on</mat-icon>
-      </mat-toolbar-row>
+        <mat-toolbar-row>
+          <div fxLayoutAlign="center center" style="width: 100%">
+            <span class="noselect" style="font-size: 30px">{{'ngx Demo App' | translate}}</span>
+          </div>
+        </mat-toolbar-row>
 
-    </mat-toolbar>
+        <mat-toolbar-row fxLayoutAlign="center center">
+          <mat-icon class="noselect side-nav-header-title-icon">blur_on</mat-icon>
+        </mat-toolbar-row>
+
+      </mat-toolbar>
+
+      <!-- Menu -->
+      <div fxLayout="column" fxFlex class="firefox-scroll-fix">
+        <mat-nav-list class="scrollable">
+          <mat-list-item *ngFor="let item of menuItems" routerLink="{{item.link}}" routerLinkActive="active-nav">
+            <mat-icon mat-list-icon class="noselect nav-icon">{{item.icon}}</mat-icon>
+            <span style="width: 15px"></span>
+            <a class="noselect mat-body-1">{{ item.name | translate}}</a>
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
+
+    </div>
 
 
   </mat-sidenav>
@@ -30,11 +45,6 @@
           <button mat-icon-button (click)="markAsFavorite($event)">
             <mat-icon>favorite_border</mat-icon>
           </button>
-          <a mat-button color="accent" routerLink="/app/eatables">Eatables</a>
-          <a mat-button color="accent" routerLink="/app/mixed-demo">Mixed</a>
-          <a mat-button color="accent" [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">Mixed Side</a>
-          <a mat-button color="accent" routerLink="/app/sub/toolbar-title-demo">TB Title</a>
-          <a mat-button color="accent" routerLink="/app/sub/override-title">Override Title</a>
           <app-language-switcher [slimMode]="true"></app-language-switcher>
         </div>
     </ng-template>
