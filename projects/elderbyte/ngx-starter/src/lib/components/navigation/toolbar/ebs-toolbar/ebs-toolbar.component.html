@@ -2,7 +2,7 @@
 
 <div fxLayout="row">
 
-  <mat-toolbar *ngIf="enableSideNavToggle" fxFlex="0"
+  <mat-toolbar *ngIf="sideNavToggleEnabled" fxFlex="0"
                fxLayout="row" fxLayoutAlign="center center"
                color="accent">
 
@@ -36,18 +36,15 @@
 
     </ng-template>
 
-    <ng-template #defaultCenterColumnTemplate>
-    </ng-template>
+
+    <ng-template #defaultCenterColumnTemplate></ng-template>
+
 
     <ng-template #defaultRightColumnTemplate>
 
       <app-language-switcher [slimMode]="true"></app-language-switcher>
 
     </ng-template>
-
-
-
-
 
   </mat-toolbar>
 

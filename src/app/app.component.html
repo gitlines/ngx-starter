@@ -49,8 +49,15 @@
         </div>
     </ng-template>
 
-    <router-outlet></router-outlet>
-    <app-toast></app-toast>
+    <div fxLayout="column" fxFill>
+      <ebs-toolbar></ebs-toolbar>
+      <div fxLayout="column" fxFlex>
+        <router-outlet></router-outlet>
+        <app-toast></app-toast>
+      </div>
+
+    </div>
+
 
   </mat-sidenav-content>
 

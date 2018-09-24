@@ -1,63 +1,53 @@
-import {Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {EbsToolbarService} from './ebs-toolbar.service';
+import {EbsToolbarColumnPosition} from './ebs-toolbar-column-position';
 
 @Directive({
-  selector: '[ebsToolbarColumn]'
+    selector: '[ebsToolbarColumn]'
 })
-export class EbsToolbarColumnDirective implements OnInit {
+export class EbsToolbarColumnDirective implements OnInit, OnDestroy {
 
-  /***************************************************************************
-   *                                                                         *
-   * Fields                                                                  *
-   *                                                                         *
-   **************************************************************************/
+    /***************************************************************************
+     *                                                                         *
+     * Fields                                                                  *
+     *                                                                         *
+     **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsToolbarColumnDirective');
+    private readonly logger = LoggerFactory.getLogger('EbsToolbarColumnDirective');
 
-  @Input()
-  public ebsToolbarColumn: string;
+    /** Position at which column should be placed. */
+    @Input()
+    public ebsToolbarColumn: EbsToolbarColumnPosition;
 
-  @Input()
-  public ebsToolbarDefault: boolean;
+    /** If the column should be considered as default (fallback). */
+    @Input()
+    public ebsToolbarDefault: boolean;
 
-  /***************************************************************************
-   *                                                                         *
-   * Constructor                                                             *
-   *                                                                         *
-   **************************************************************************/
+    /***************************************************************************
+     *                                                                         *
+     * Constructor                                                             *
+     *                                                                         *
+     **************************************************************************/
 
-  constructor(
-      public templateRef: TemplateRef<any>,
-      private viewContainer: ViewContainerRef,
-      private toolbarService: EbsToolbarService
-  ) { }
+    constructor(
+        private viewContainer: ViewContainerRef,
+        private toolbarService: EbsToolbarService,
+        public templateRef: TemplateRef<any>,
+    ) { }
 
-  /***************************************************************************
-   *                                                                         *
-   * Life Cycle                                                              *
-   *                                                                         *
-   **************************************************************************/
+    /***************************************************************************
+     *                                                                         *
+     * Life Cycle                                                              *
+     *                                                                         *
+     **************************************************************************/
 
-  public ngOnInit(): void {
-
-    if (this.ebsToolbarDefault) {
-        this.logger.debug('Initializing default toolbar column: ' + this.ebsToolbarColumn);
-
-        switch (this.ebsToolbarColumn) {
-            case 'left':
-                this.toolbarService.registerLeftColumnDefault(this.templateRef);
-                break;
-            case 'center':
-                this.toolbarService.registerCenterColumnDefault(this.templateRef);
-                break;
-            case 'right':
-                this.toolbarService.registerRightColumnDefault(this.templateRef);
-                break;
-            default:
-                throw new Error('Could not identify column! Have you set the column property?');
-        }
+    public ngOnInit(): void {
+        this.toolbarService.registerColumn(this.ebsToolbarColumn, this.templateRef, this.ebsToolbarDefault);
     }
-  }
+
+    public ngOnDestroy(): void {
+        this.toolbarService.deregisterColumn(this.templateRef, this.ebsToolbarColumn);
+    }
 
 }
