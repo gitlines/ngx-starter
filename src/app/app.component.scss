@@ -3,6 +3,21 @@ $layout-breakpoint-sm:     960px !default;
 $layout-breakpoint-md:     1280px !default;
 $layout-breakpoint-lg:     1920px !default;
 
+
+
+$toolbar-height: 64px !default;
+$toolbar-medium-tall-height: 88px !default;
+$toolbar-tall-height: 128px !default;
+
+// Mobile portrait heights
+$toolbar-height-mobile-portrait: 56px !default;
+
+// Mobile landscape heights
+$toolbar-height-mobile-landscape: 48px !default;
+
+$mat-xsmall: 'max-width: 599px';
+$mat-small: 'max-width: 959px';
+
 .app-root {
   margin: 0;
   width: 100%;
@@ -32,5 +47,20 @@ mat-sidenav-container {
 }
 
 
+/******************************
+Main Content
+*******************************/
 
+.under-toolbar {
+  position: fixed;
+  width: 100%;
+
+  top: $toolbar-height;
+  height: calc(100% - #{$toolbar-height});
+
+  @media ($mat-xsmall) {
+    top: $toolbar-height-mobile-portrait;
+    height: calc(100% - #{$toolbar-height-mobile-portrait});
+  }
+}
 

@@ -49,14 +49,12 @@
         </div>
     </ng-template>
 
-    <div fxLayout="column" fxFill>
-      <ebs-toolbar></ebs-toolbar>
-      <div fxLayout="column" fxFlex>
-        <router-outlet></router-outlet>
-        <app-toast></app-toast>
-      </div>
-
+    <ebs-toolbar></ebs-toolbar>
+    <div class="under-toolbar">
+      <router-outlet></router-outlet>
+      <app-toast></app-toast>
     </div>
+
 
 
   </mat-sidenav-content>
