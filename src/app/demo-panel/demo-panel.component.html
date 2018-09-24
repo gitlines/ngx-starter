@@ -1,6 +1,22 @@
 <div fxLayout="column" fxFill>
 
-  <mat-tab-group fxFill>
+  <ng-template ebsToolbarColumn="center">
+
+    <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+
+      <button mat-icon-button (click)="openYesNo($event)">
+        <mat-icon>feedback</mat-icon>
+      </button>
+
+      <a mat-icon-button [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">
+        <mat-icon>details</mat-icon>
+      </a>
+
+    </div>
+
+  </ng-template>
+
+  <mat-tab-group fxFill class="firefox-scroll-fix">
     <mat-tab label="Directives">
 
       <h2>test</h2>

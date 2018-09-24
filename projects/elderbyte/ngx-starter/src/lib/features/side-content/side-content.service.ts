@@ -8,7 +8,9 @@ import {filter, map} from 'rxjs/operators';
  * This service manages the side content.
  * This is usually the left side which is a 'side nav' and the right side which shows detail information.
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class SideContentService {
 
 

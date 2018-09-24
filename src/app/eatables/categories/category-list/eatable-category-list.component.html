@@ -1,0 +1,12 @@
+
+
+<div fxLayout="column" fxFill>
+
+  <mat-list class="scrollable">
+    <mat-list-item *ngFor="let category of categories" [routerLink]="category">
+      {{category}}
+    </mat-list-item>
+  </mat-list>
+
+</div>
+

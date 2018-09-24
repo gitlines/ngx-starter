@@ -2,7 +2,8 @@
   "name": "ngx-starter-demo",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot",
+    "start": "ng serve",
+    "start:aot": "ng serve --aot",
     "dev": "ng build @elderbyte/ngx-starter",
     "build": "ng build @elderbyte/ngx-starter --prod",
     "build:dev": "ng build @elderbyte/ngx-starter",

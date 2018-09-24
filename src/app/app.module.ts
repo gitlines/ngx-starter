@@ -13,16 +13,17 @@ import {
   CommonDialogModule,
   SideContentModule,
   EbsLabelsModule,
-  MatPanelModule
+  MatPanelModule,
+  EbsToolbarModule
 } from '@elderbyte/ngx-starter';
 import {
-  MatButtonModule,
-  MatCommonModule,
-  MatDialogModule,
-  MatIconModule,
-  MatSidenavModule, MatSortModule, MatTableModule,
-  MatTabsModule,
-  MatToolbarModule
+    MatButtonModule,
+    MatCommonModule,
+    MatDialogModule,
+    MatIconModule, MatListModule,
+    MatSidenavModule, MatSortModule, MatTableModule,
+    MatTabsModule,
+    MatToolbarModule
 } from '@angular/material';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -38,6 +39,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
 import { TableDemoComponent } from './table-demo/table-demo.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ToastModule} from '../../projects/elderbyte/ngx-starter/src/lib/features/toasts/toast.module';
+import { EatableCategoryListComponent } from './eatables/categories/category-list/eatable-category-list.component';
+import { EatableCategoryDetailComponent } from './eatables/categories/category-detail/eatable-category-detail.component';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -48,7 +52,9 @@ LoggerFactory.getDefaultConfiguration()
     DemoPanelComponent,
     DemoPanelSideComponent,
     CardsDemoComponent,
-    TableDemoComponent
+    TableDemoComponent,
+    EatableCategoryListComponent,
+    EatableCategoryDetailComponent
   ],
   imports: [
 
@@ -73,6 +79,7 @@ LoggerFactory.getDefaultConfiguration()
     MatTabsModule,
     MatIconModule,
     MatDialogModule,
+    MatListModule,
 
     MatTableModule,
     MatSortModule,
@@ -80,7 +87,8 @@ LoggerFactory.getDefaultConfiguration()
     // Library
     CommonPipesModule,
     CommonDialogModule,
-    SideContentModule.forRoot(),
+    ToastModule.forRoot(),
+    SideContentModule,
     ExpandToggleButtonModule,
     AccessDeniedModule,
     ToolbarModule.forRoot(),
@@ -89,6 +97,7 @@ LoggerFactory.getDefaultConfiguration()
     EbsTableModule,
     MatPanelModule,
     EbsLabelsModule,
+    EbsToolbarModule,
 
     TranslateModule.forRoot({
       loader: {
