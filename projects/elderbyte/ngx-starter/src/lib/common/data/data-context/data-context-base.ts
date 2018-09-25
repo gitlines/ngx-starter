@@ -168,6 +168,8 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
   public close(): void {
     if (this._filterContextSub) { this._filterContextSub.unsubscribe(); }
     this._dataChange.complete();
+    this.clearAll();
+    this.baselog.debug('DataContext has been closed!');
   }
 
   /***************************************************************************
