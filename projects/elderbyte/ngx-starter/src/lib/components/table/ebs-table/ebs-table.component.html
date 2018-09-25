@@ -57,12 +57,24 @@
                     [color]="(data && data.statusSnapshot.hasError) ? 'warn' : 'primary'">
   </mat-progress-bar>
 
-  <mat-paginator #paginator
+
+  <!-- Optional Paginator Toolbar -->
+  <mat-paginator #paginator *ngIf="isActivePaged"
                  fxFlex="none"
                  [length]="data?.total"
-                 [pageIndex]="data?.pageIndex"
-                 [pageSize]="data?.pageSize"
+                 [pageIndex]="dataActivePaged?.pageIndex"
+                 [pageSize]="dataActivePaged?.pageSize"
                  [pageSizeOptions]="pageSizeOptions">
   </mat-paginator>
+
+  <!-- Optional Continuation Toolbar -->
+  <div *ngIf="isContinuable" class="table-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" style="padding-right: 10px" fxFlex="none">
+
+    <span class="mat-caption noselect" style="color: gray">{{data?.rows.length}} of {{data?.total ? data?.total : '∞'}}</span>
+
+    <button mat-mini-fab color="accent" [disabled]="data?.loadingIndicator || !dataContinuable.hasMoreData" (click)="dataContinuable.loadMore()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
 
 </div>

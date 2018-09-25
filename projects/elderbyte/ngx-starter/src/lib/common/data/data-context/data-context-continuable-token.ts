@@ -2,7 +2,7 @@ import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableBase} from './data-context-continuable-base';
 import {EMPTY, Observable, Subject} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {first, take} from 'rxjs/operators';
 import {TokenChunkRequest} from '../token-chunk-request';
 
 export class DataContextContinuableToken<T> extends DataContextContinuableBase<T> {
@@ -85,36 +85,38 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
     private fetchNextChunk(nextToken?: string): Observable<ContinuableListing<T>> {
 
-        this.setLoadingIndicator(true);
+
         const subject = new Subject<ContinuableListing<T>>();
 
         nextToken = nextToken ? nextToken : undefined;
 
         if (this._chunkCache.has(nextToken)) {
-            this.logger.trace('Skipping fetching chunk for token "' + nextToken + '" since its already in observable cache.');
+            this.logger.debug('Skipping fetching chunk for token "' + nextToken + '" since its already in observable cache.');
             subject.complete();
         } else {
 
-            this._chunkCache.add(nextToken);
+          this.setLoadingIndicator(true);
 
-            this.nextChunkLoader(new TokenChunkRequest(nextToken, this.filters, this.sorts))
-                .pipe(take(1))
-                .subscribe(
-                    chunk => {
-                        this.logger.debug('Got next chunk data:', chunk);
-                        this._hasMoreData = chunk.hasMore;
-                        this.chunkSize = chunk.chunkSize;
-                        this.populateChunkData(chunk);
-                        this.setLoadingIndicator(false);
-                        subject.next(chunk);
-                        this.onSuccess();
-                    }, err => {
-                        this.onError(err);
-                        this.logger.error('Failed to query data', err);
-                        this.setLoadingIndicator(false);
-                        subject.error(err);
-                    }
-                );
+          this._chunkCache.add(nextToken);
+
+          this.nextChunkLoader(new TokenChunkRequest(nextToken, this.filters, this.sorts))
+              .pipe(first())
+              .subscribe(
+                  chunk => {
+                      this.logger.debug('Got next chunk data:', chunk);
+                      this._hasMoreData = chunk.hasMore;
+                      this.chunkSize = chunk.chunkSize;
+                      this.populateChunkData(chunk);
+                      this.setLoadingIndicator(false);
+                      subject.next(chunk);
+                      this.onSuccess();
+                  }, err => {
+                      this.onError(err);
+                      this.logger.error('Failed to query data', err);
+                      this.setLoadingIndicator(false);
+                      subject.error(err);
+                  }
+              );
         }
         return subject.pipe(take(1));
     }

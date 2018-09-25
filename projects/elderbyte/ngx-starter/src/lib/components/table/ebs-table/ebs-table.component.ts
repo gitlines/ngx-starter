@@ -15,7 +15,7 @@ import {
   MatTableDataContextBindingBuilder
 } from '../../../common/data/data-context/mat-table-data-context-binding';
 import {MatColumnDef, MatPaginator, MatRowDef, MatSort, MatTable} from '@angular/material';
-import {IDataContextActivePage} from '../../../common/data/data-context/data-context';
+import {IDataContext, IDataContextActivePage, IDataContextContinuable} from '../../../common/data/data-context/data-context';
 import {SelectionModel} from '../../../common/selection/selection-model';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -75,7 +75,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public pageSizeOptions = [5, 10, 15, 20, 30];
 
   /** Underlying data context. */
-  private _data: IDataContextActivePage<any>;
+  private _data: IDataContext<any>;
 
   /** Underlying selection model. */
   public readonly selectionModel: SelectionModel<any> =
@@ -109,16 +109,16 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
     this._subs = [
       this.columnDefs.changes.subscribe(
-          (columnDefs: QueryList<MatColumnDef>) => {
-              this.updateColumnDefs(columnDefs.toArray());
-              this.updateColumnsBase('columnDefs');
-          }
+        (columnDefs: QueryList<MatColumnDef>) => {
+          this.updateColumnDefs(columnDefs.toArray());
+          this.updateColumnsBase('columnDefs');
+        }
       ),
 
       this.rowDefs.changes.subscribe(
         (rowDefs: QueryList<MatRowDef<any>>) => {
-            this.updateRowDefs(rowDefs.toArray());
-            this.updateColumnsBase('rowDefs');
+          this.updateRowDefs(rowDefs.toArray());
+          this.updateColumnsBase('rowDefs');
         }
       )
     ];
@@ -171,13 +171,30 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
    **************************************************************************/
 
   @Input()
-  public set data(data: IDataContextActivePage<any>) {
+  public set data(data: IDataContext<any>) {
     this._data = data;
     this.updateTableBinding();
   }
 
-  public get data(): IDataContextActivePage<any> {
+  public get data(): IDataContext<any> {
     return this._data;
+  }
+
+  public get dataActivePaged(): IDataContextActivePage<any> {
+    return this._data as IDataContextActivePage<any>;
+  }
+
+  public get dataContinuable(): IDataContextContinuable<any> {
+    return this._data as IDataContextContinuable<any>;
+  }
+
+  public get isContinuable(): boolean {
+    return 'hasMoreData' in this._data;
+  }
+
+  public get isActivePaged(): boolean {
+    return 'pageIndex' in this._data
+        && 'pageSize' in this._data;
   }
 
   @Input()
@@ -295,35 +312,35 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
   private updateColumnDefs(columnDefs: MatColumnDef[] = []): void {
 
-      // remove columns not desired
-      this._currentColumnDefs
-          .filter(currentColumnDef => columnDefs.indexOf(currentColumnDef) === -1)
-          .forEach(columnToRemove => this.table.removeColumnDef(columnToRemove));
+    // remove columns not desired
+    this._currentColumnDefs
+      .filter(currentColumnDef => columnDefs.indexOf(currentColumnDef) === -1)
+      .forEach(columnToRemove => this.table.removeColumnDef(columnToRemove));
 
-      // add missing columns
-      columnDefs
-          .filter(desired => this._currentColumnDefs.indexOf(desired) === -1)
-          .forEach(columnToAdd => this.table.addColumnDef(columnToAdd));
+    // add missing columns
+    columnDefs
+      .filter(desired => this._currentColumnDefs.indexOf(desired) === -1)
+      .forEach(columnToAdd => this.table.addColumnDef(columnToAdd));
 
-      // remember new state
-      this._currentColumnDefs = columnDefs;
+    // remember new state
+    this._currentColumnDefs = columnDefs;
   }
 
-    private updateRowDefs(rowDefs: MatRowDef<any>[] = []): void {
+  private updateRowDefs(rowDefs: MatRowDef<any>[] = []): void {
 
-        // remove columns not desired
-        this._currentRowDefs
-            .filter(currentRowDef => rowDefs.indexOf(currentRowDef) === -1)
-            .forEach(rowToRemove => this.table.removeRowDef(rowToRemove));
+    // remove columns not desired
+    this._currentRowDefs
+      .filter(currentRowDef => rowDefs.indexOf(currentRowDef) === -1)
+      .forEach(rowToRemove => this.table.removeRowDef(rowToRemove));
 
-        // add missing columns
-        rowDefs
-            .filter(desired => this._currentRowDefs.indexOf(desired) === -1)
-            .forEach(rowToAdd => this.table.addRowDef(rowToAdd));
+    // add missing columns
+    rowDefs
+      .filter(desired => this._currentRowDefs.indexOf(desired) === -1)
+      .forEach(rowToAdd => this.table.addRowDef(rowToAdd));
 
-        // remember new state
-        this._currentRowDefs = rowDefs;
-    }
+    // remember new state
+    this._currentRowDefs = rowDefs;
+  }
 
   private updateTableBinding(): void {
 
