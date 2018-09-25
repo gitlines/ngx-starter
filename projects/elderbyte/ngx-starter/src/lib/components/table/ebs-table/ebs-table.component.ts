@@ -189,10 +189,12 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   }
 
   public get isContinuable(): boolean {
+    if (!this._data) { return false; }
     return 'hasMoreData' in this._data;
   }
 
   public get isActivePaged(): boolean {
+    if (!this._data) { return false; }
     return 'pageIndex' in this._data
         && 'pageSize' in this._data;
   }
