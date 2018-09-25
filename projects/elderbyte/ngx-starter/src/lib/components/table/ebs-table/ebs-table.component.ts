@@ -158,10 +158,6 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
       this._matTableBinding.unsubscribe();
       this._matTableBinding = null;
     }
-
-    if (this.data) {
-      this.data.close();
-    }
   }
 
   /***************************************************************************
