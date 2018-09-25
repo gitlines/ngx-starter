@@ -55,6 +55,8 @@ export class EventSourceService {
       try {
         const eventSource = new EventSource(eventSourceUrl, eventSourceInitDict);
 
+        eventSource.onopen = (event) => this.logger.debug('EventSource connection opened to: ' + eventSourceUrl, event);
+
         eventSource.onmessage = (event) => {
           this.zone.run(() => observer.next(event.data)); // Ensure we run inside Angulars zone
         };

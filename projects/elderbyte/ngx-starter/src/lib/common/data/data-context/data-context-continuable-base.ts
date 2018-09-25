@@ -50,7 +50,7 @@ export abstract class DataContextContinuableBase<T> extends DataContextBase<T> i
   public reload(): Observable<any> {
     // Since continuable data-contexts are appending data,
     // we need to clear it for a reload.
-    this.clearAll();
+    this.clearAll(true);
     return super.reload();
   }
 

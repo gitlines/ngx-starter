@@ -72,8 +72,8 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
      *                                                                         *
      **************************************************************************/
 
-    protected clearAll(): void {
-        super.clearAll();
+    protected clearAll(silent = false): void {
+        super.clearAll(silent);
         this._chunkCache.clear();
         this._hasMoreData = true;
         this._expectedChunkToken = undefined;
@@ -114,6 +114,8 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
                       this.onError(err);
                       this.logger.error('Failed to query data', err);
                       this.setLoadingIndicator(false);
+                      this.setRows([]);
+                      this.setTotal(0);
                       subject.error(err);
                   }
               );

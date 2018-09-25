@@ -83,16 +83,16 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
     }
 
     protected reloadInternal(): Observable<any> {
-        return this.fetchPage(0, this.chunkSize);
+        return this.fetchPage(0, this.chunkSize, true);
     }
 
-    protected clearAll(): void {
-        super.clearAll();
+    protected clearAll(silent = false): void {
+        super.clearAll(silent);
         this._pageCache = new Map();
         this._latestPage = 0;
     }
 
-    private fetchPage(pageIndex: number, pageSize: number): Observable<any> {
+    private fetchPage(pageIndex: number, pageSize: number, clear = false): Observable<any> {
 
         const subject = new Subject();
 
@@ -117,7 +117,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
 
                 this.logger.debug('Got page data:', page);
 
-                this.populatePageData(page);
+                this.populatePageData(page, clear);
 
                 if (this._latestPage < page.number) {
                     this._latestPage = page.number; // TODO This might cause that pages are skipped
@@ -130,6 +130,8 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
 
             }, err => {
                 this.onError(err);
+                this.setRows([]);
+                this.setTotal(0);
                 this.setLoadingIndicator(false);
                 this.logger.error('Failed to query data', err);
                 subject.error(err);
@@ -142,12 +144,12 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
     /**
      * Load the data from the given page into the current data context
      */
-    private populatePageData(page: Page<T>): void {
+    private populatePageData(page: Page<T>, clear: boolean): void {
         try {
             this.setTotal(page.totalElements);
             const start = page.number * page.size;
 
-            const newRows = [...this.rows];
+            const newRows = clear ? [] : [...this.rows];
             for (let i = 0; i < page.content.length; i++) {
                 const item = page.content[i];
                 newRows[i + start] = item;

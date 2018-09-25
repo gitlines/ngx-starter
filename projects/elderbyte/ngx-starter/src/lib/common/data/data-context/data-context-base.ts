@@ -56,7 +56,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {
-    this.close();
+    // this.close(); Closing will destroy the DC
   }
 
   /***************************************************************************
@@ -233,16 +233,19 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    * Clears the current data-context cached data.
    * State such as current sorting and filters are kept.
    */
-  protected clearAll(): void {
-    this.setTotal(0);
-    this.setRows([]);
+  protected clearAll(silent = false): void {
     this.setLoadingIndicator(false);
-    this.updateIndex();
-    this.onSuccess();
+    this.clearIndex();
+
+    if (!silent) {
+      this.setTotal(0);
+      this.setRows([]);
+      this.onSuccess();
+    }
   }
 
   protected updateIndex(): void {
-    this._primaryIndex.clear();
+    this.clearIndex();
     this.indexAll(this.rows);
   }
 
@@ -318,4 +321,8 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    * If possible, the current view state should be kept.
    */
   protected abstract reloadInternal(): Observable<any>;
+
+  private clearIndex(): void {
+    this._primaryIndex.clear();
+  }
 }
