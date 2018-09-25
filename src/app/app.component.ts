@@ -20,8 +20,6 @@ export class MenuItem {
 })
 export class AppComponent {
 
-
-  public searchOpen = false;
   public title = 'starter-demo';
 
     public menuItems: MenuItem[];

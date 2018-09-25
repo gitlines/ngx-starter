@@ -39,17 +39,21 @@
 
   <mat-sidenav-content>
 
-    <!-- Toolbar default for right column -->
-    <ng-template ebsToolbarColumn="right" [ebsToolbarDefault]="true">
+
+    <ebs-toolbar>
+
+      <!-- Toolbar default for right column -->
+      <ng-template ebsToolbarColumn="right" [ebsToolbarDefault]="true">
         <div fxLayout="row" fxLayoutAlign="end center">
           <button mat-icon-button (click)="markAsFavorite($event)">
             <mat-icon>favorite_border</mat-icon>
           </button>
           <app-language-switcher [slimMode]="true"></app-language-switcher>
         </div>
-    </ng-template>
+      </ng-template>
 
-    <ebs-toolbar></ebs-toolbar>
+    </ebs-toolbar>
+
     <div class="under-toolbar">
       <router-outlet></router-outlet>
       <app-toast></app-toast>

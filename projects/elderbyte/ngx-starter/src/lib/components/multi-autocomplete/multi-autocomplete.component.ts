@@ -38,7 +38,8 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
     public valueChanged = new EventEmitter<string>();
 
     @ViewChild('suggestionInput')
-    public tagInput: ElementRef;
+    public suggestionInput: ElementRef<HTMLInputElement>;
+
     public formControl: FormControl = new FormControl();
     public availableSuggestions: Observable<string[]>;
 
@@ -128,13 +129,10 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
     }
 
     private get cursorPosition(): number | null {
-        const input = this.tagInput.nativeElement as HTMLInputElement;
-        return input.selectionStart;
-    }
-
-    private set cursorPosition(position: number | null) {
-        const input = this.tagInput.nativeElement as HTMLInputElement;
-        input.selectionStart = position ? position : 0;
+      if (this.suggestionInput) {
+        return this.suggestionInput.nativeElement.selectionStart;
+      }
+      return null;
     }
 
     private extractWordFrom(text: string, position: number): string {
