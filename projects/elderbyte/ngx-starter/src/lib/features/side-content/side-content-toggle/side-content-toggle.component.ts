@@ -23,10 +23,10 @@ export class SideContentToggleComponent implements OnInit, OnDestroy {
     private sub: Subscription;
     private _currentUrl: string;
 
-    @Input('roots')
+    @Input()
     public roots: string[] = [];
 
-    @Input('hide')
+    @Input()
     public hide: string[] = [];
 
     /***************************************************************************

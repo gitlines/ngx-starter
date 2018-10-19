@@ -16,13 +16,13 @@ export class InfiniteScrollDirective implements OnDestroy {
     private readonly logger = LoggerFactory.getLogger('InfiniteScrollDirective');
 
 
-    @Input('eventThrottle')
+    @Input()
     public eventThrottle = 150;
 
-    @Input('offsetFactor')
+    @Input()
     public offsetFactor = 1;
 
-    @Input('ignoreScrollEvent')
+    @Input()
     public ignoreScrollEvent = false;
 
     private readonly _scrollStream$: ReplaySubject<UIEvent> = new ReplaySubject(1);

@@ -35,10 +35,10 @@ export class EbsCardOrganizerComponent implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('EbsCardOrganizerComponent');
 
-  @Input('organizerModel')
+  @Input()
   public organizerModel: CardOrganizerData<any, any>;
 
-  @Input('removeConfirmation')
+  @Input()
   public removeConfirmation: (card: any) => Observable<boolean>;
 
   @Output('requestNewCard')

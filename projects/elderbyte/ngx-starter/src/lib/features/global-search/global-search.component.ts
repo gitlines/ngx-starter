@@ -23,7 +23,7 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   @Output()
   public searchCollapsedChange = new EventEmitter<boolean>();
 
-  @Input('hideWhenDisabled')
+  @Input()
   public hideWhenDisabled: boolean;
 
   private _availableSort: SortOption[] = [];

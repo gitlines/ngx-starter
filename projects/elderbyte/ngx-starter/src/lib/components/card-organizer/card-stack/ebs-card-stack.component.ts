@@ -16,10 +16,10 @@ export class EbsCardStackComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  @Input('stack')
+  @Input()
   public stack: CardStack<any, any>;
 
-  @Input('removeConfirmation')
+  @Input()
   public removeConfirmation: (card: any) => Observable<boolean>;
 
   @Output('requestNewCard')
@@ -33,10 +33,10 @@ export class EbsCardStackComponent implements OnInit {
 
   // Templates
 
-  @Input('cardTemplate')
+  @Input()
   public cardTemplate: any;
 
-  @Input('canCollapse')
+  @Input()
   public canCollapse = false;
 
   /***************************************************************************
@@ -77,13 +77,13 @@ export class EbsCardStackComponent implements OnInit {
     if (this.removeConfirmation !== undefined) {
 
       this.removeConfirmation(card).pipe(first())
-          .subscribe(
-              confirmed => {
-                if (confirmed) { this.removeCard(card); }
-              });
+        .subscribe(
+          confirmed => {
+            if (confirmed) { this.removeCard(card); }
+          });
 
     } else {
-        this.removeCard(card);
+      this.removeCard(card);
     }
 
   }
@@ -92,15 +92,15 @@ export class EbsCardStackComponent implements OnInit {
     this.cardClick.next(card);
   }
 
-    /***************************************************************************
-     *                                                                         *
-     * Public API                                                              *
-     *                                                                         *
-     **************************************************************************/
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
 
-    private removeCard(card: any): void {
-        this.stack.removeCard(card);
-        this.requestRemoveCard.next(card);
-    }
+  private removeCard(card: any): void {
+    this.stack.removeCard(card);
+    this.requestRemoveCard.next(card);
+  }
 
 }

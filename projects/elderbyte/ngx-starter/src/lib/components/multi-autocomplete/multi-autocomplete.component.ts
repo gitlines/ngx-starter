@@ -25,10 +25,10 @@ export class MultiAutocompleteComponent implements OnInit, OnDestroy {
     private _sub: Subscription;
 
 
-    @Input('placeholder')
+    @Input()
     public placeholder: string;
 
-    @Input('suggestionProvider')
+    @Input()
     public suggestionProvider: ISuggestionProvider<string>;
 
     /**

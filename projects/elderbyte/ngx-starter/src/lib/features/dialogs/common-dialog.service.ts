@@ -18,22 +18,18 @@ export class CommonDialogService {
     ) { }
 
     /**
-     * @deprecated
+     * @deprecated Use showConfirm({...}) instead
      *
      * @param title
      * @param message
      * @param config
      */
-    public confirm(title: string, message: string, config?: ConfirmDialogConfig): Observable<boolean> {
-
-        let dialogRef: MatDialogRef<ConfirmDialogComponent>;
-
-        dialogRef = this.dialog.open(ConfirmDialogComponent, config.config);
-        dialogRef.componentInstance.title = title;
-        dialogRef.componentInstance.message = message;
-        dialogRef.componentInstance.yesNo = config.yesNo;
-
-        return dialogRef.afterClosed();
+    public confirm(title: string, message: string, config?: MatDialogConfig): Observable<boolean> {
+      return this.showConfirm({
+        title: title,
+        message: message,
+        config: config
+      });
     }
 
 
@@ -51,10 +47,19 @@ export class CommonDialogService {
         return this.translateService.get(keys, config.interpolateParams).pipe(
             flatMap(translated => {
 
-                const title = translated[config.title];
-                const message = translated[config.message];
+              const title = translated[config.title];
+              const message = translated[config.message];
 
-                return this.confirm(title, message, config);
+              // return this.confirm(title, message, config);
+
+              let dialogRef: MatDialogRef<ConfirmDialogComponent>;
+
+              dialogRef = this.dialog.open(ConfirmDialogComponent, config.config);
+              dialogRef.componentInstance.title = title;
+              dialogRef.componentInstance.message = message;
+              dialogRef.componentInstance.yesNo = config.yesNo;
+
+              return dialogRef.afterClosed();
 
             })
             );
@@ -62,7 +67,7 @@ export class CommonDialogService {
     }
 
     /**
-     * @deprecated
+     * @deprecated Use showQuestion({...}) instead
      *
      * Creates a modal question dialog.
      *
@@ -71,14 +76,11 @@ export class CommonDialogService {
      * @param config
      */
     public question(title: string, question: string, config?: MatDialogConfig): Observable<string> {
-
-        const conf = config || new MatDialogConfig();
-        conf.data = { title: title, question: question };
-
-        const dialogRef = this.dialog.open(QuestionDialogComponent, conf);
-
-        return dialogRef.afterClosed()
-                .pipe(filter(response => !!response));
+      return this.showQuestion({
+        title: title,
+        question: question,
+        config: config
+      });
     }
 
 
@@ -96,10 +98,17 @@ export class CommonDialogService {
         return this.translateService.get(keys, config.interpolateParams).pipe(
             flatMap(translated => {
 
-                const title = translated[config.title];
-                const message = translated[config.question];
+              const title = translated[config.title];
+              const message = translated[config.question];
 
-                return this.question(title, message, config.config);
+
+              const dlgConf = config.config || new MatDialogConfig();
+              dlgConf.data = { title: title, question: message };
+
+              const dialogRef = this.dialog.open(QuestionDialogComponent, dlgConf);
+
+              return dialogRef.afterClosed()
+                .pipe(filter(response => !!response));
 
             }));
 

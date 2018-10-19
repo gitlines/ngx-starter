@@ -12,7 +12,7 @@ export class LanguageSwitcherComponent implements OnInit {
 
     private readonly logger = LoggerFactory.getLogger('LanguageSwitcherComponent');
 
-    @Input('slimMode')
+    @Input()
     public slimMode: boolean;
 
     /***************************************************************************
