@@ -9,6 +9,6 @@
     "@ngx-translate/core": "^10.0.1",
     "rxjs": "^6.3.0",
     "@elderbyte/ts-logger": "^0.1.0",
-    "@elderbyte/ngx-simple-webstorage": "^6.0.0"
+    "@elderbyte/ngx-simple-webstorage": "^7.0.0"
   }
 }
