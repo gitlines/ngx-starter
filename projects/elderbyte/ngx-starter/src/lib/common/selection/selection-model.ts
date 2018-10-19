@@ -51,7 +51,14 @@ export class SelectionModel<T> {
    *                                                                         *
    **************************************************************************/
 
+  /**
+   * @deprecated Please use the new 'changed' property
+   */
   public get onChange(): Observable<T[]> {
+    return this.changed;
+  }
+
+  public get changed(): Observable<T[]> {
     return this._selectionSubject.asObservable();
   }
 

@@ -20,6 +20,7 @@ import {SelectionModel} from '../../../common/selection/selection-model';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {CdkColumnDef, CdkRowDef, CdkTable} from '@angular/cdk/table';
 
 @Component({
   selector: 'ebs-table',
@@ -45,8 +46,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   private _selectionVisible = false;
   private _matTableBinding: MatTableDataContextBinding;
 
-  private _currentColumnDefs: MatColumnDef[] = [];
-  private _currentRowDefs: MatRowDef<any>[] = [];
+  private _currentColumnDefs: CdkColumnDef[] = [];
+  private _currentRowDefs: CdkRowDef<any>[] = [];
 
 
   /// Table
@@ -54,7 +55,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public displayedColumnsInner: string[] = [];
 
   @ViewChild(MatTable)
-  public table: MatTable<any>;
+  public table: CdkTable<any>;
 
   @ViewChild(MatPaginator)
   protected paginator: MatPaginator;
@@ -63,10 +64,10 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   protected sort: MatSort;
 
   @ContentChildren(MatColumnDef)
-  public columnDefs: QueryList<MatColumnDef>;
+  public columnDefs: QueryList<CdkColumnDef>;
 
   @ContentChildren(MatRowDef)
-  public rowDefs: QueryList<MatRowDef<any>>;
+  public rowDefs: QueryList<CdkRowDef<any>>;
 
   @Input()
   public idField = 'id';
@@ -116,7 +117,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
       ),
 
       this.rowDefs.changes.subscribe(
-        (rowDefs: QueryList<MatRowDef<any>>) => {
+        (rowDefs: QueryList<CdkRowDef<any>>) => {
           this.updateRowDefs(rowDefs.toArray());
           this.updateColumnsBase('rowDefs');
         }
@@ -244,12 +245,12 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
   @Output()
   public get selectionChange(): Observable<any[]> {
-    return this.selectionModel.onChange;
+    return this.selectionModel.changed;
   }
 
   @Output()
   public get selectionSingleChange(): Observable<any> {
-    return this.selectionModel.onChange.pipe(
+    return this.selectionModel.changed.pipe(
       map(selection => {
         if (selection.length > 0) {
           return selection[0];
@@ -308,7 +309,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
    *                                                                         *
    **************************************************************************/
 
-  private updateColumnDefs(columnDefs: MatColumnDef[] = []): void {
+  private updateColumnDefs(columnDefs: CdkColumnDef[] = []): void {
+
 
     // remove columns not desired
     this._currentColumnDefs
@@ -324,7 +326,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     this._currentColumnDefs = columnDefs;
   }
 
-  private updateRowDefs(rowDefs: MatRowDef<any>[] = []): void {
+  private updateRowDefs(rowDefs: CdkRowDef<any>[] = []): void {
 
     // remove columns not desired
     this._currentRowDefs
