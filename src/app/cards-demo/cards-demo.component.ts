@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CardOrganizerData, CardStack, CommonDialogService, CardDropEvent } from '@elderbyte/ngx-starter';
 import { Observable } from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {ComparatorBuilder} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/field-comparator';
 
 
 export enum Status {
@@ -91,9 +90,10 @@ export class CardsDemoComponent implements OnInit {
 
   public myCardDropped(event: CardDropEvent<string>): void {
 
-    this.logger.info('card dropped', event);
+    if (!event.copy) {
+      event.fromStack.removeCard(event.card);
+    }
 
-    event.fromStack.removeCard(event.card);
     event.toStack.addCard(event.card);
   }
 

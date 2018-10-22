@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {CardDropEvent, CardStack} from '../card-stack';
 import {Observable} from 'rxjs/internal/Observable';
 import {first} from 'rxjs/operators';
@@ -46,6 +46,9 @@ export class EbsCardStackComponent implements OnInit {
   @Input()
   public canCollapse = false;
 
+  @Input()
+  public copyOnDrag = false;
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -70,7 +73,6 @@ export class EbsCardStackComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-
   public cardEntered(event: CdkDragEnter<any>): void {
     this.logger.debug('Drag enter:', event);
   }
@@ -86,7 +88,8 @@ export class EbsCardStackComponent implements OnInit {
     const cardDrop = new CardDropEvent(
       event.previousContainer.data,
       event.container.data,
-      event.item.data
+      event.item.data,
+      this.copyOnDrag
     );
 
     this.cardDropped.next(cardDrop);

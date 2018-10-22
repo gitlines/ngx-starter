@@ -1,7 +1,7 @@
 import {
   Component, ContentChild,
   Directive,
-  EventEmitter,
+  EventEmitter, HostListener,
   Input,
   OnInit,
   Output, TemplateRef,
@@ -41,6 +41,9 @@ export class EbsCardOrganizerComponent implements OnInit {
   @Input()
   public removeConfirmation: (card: any) => Observable<boolean>;
 
+  @Input()
+  public copyOnDrag: boolean;
+
   @Output('requestNewCard')
   public readonly requestNewCard = new EventEmitter<CardStack<any, any>>();
 
@@ -55,6 +58,8 @@ export class EbsCardOrganizerComponent implements OnInit {
 
   @ContentChild(EbsStackCardDirective, {read: TemplateRef})
   public stackCardTemplate: TemplateRef<any>;
+
+
 
   /***************************************************************************
    *                                                                         *
@@ -72,6 +77,16 @@ export class EbsCardOrganizerComponent implements OnInit {
 
   public ngOnInit(): void {
     this.logger.info('_stackCardTemplate: ', this.stackCardTemplate);
+  }
+
+  @HostListener('document:keydown.shift', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.logger.debug('Shift pressed:', event);
+    this.copyOnDrag = true;
+  }
+
+  @HostListener('document:keyup.shift', ['$event']) onKeyupHandler(event: KeyboardEvent) {
+    this.logger.debug('Shift released:', event);
+    this.copyOnDrag = false;
   }
 
   /***************************************************************************

@@ -4,7 +4,8 @@ export class CardDropEvent<T, D = any> {
   constructor (
     public readonly fromStack: CardStack<T, D>,
     public readonly toStack: CardStack<T, D>,
-    public readonly card: T
+    public readonly card: T,
+    public readonly copy: boolean
   ) { }
 }
 
