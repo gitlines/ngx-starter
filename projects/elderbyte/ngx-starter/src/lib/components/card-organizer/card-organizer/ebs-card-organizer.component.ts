@@ -79,16 +79,14 @@ export class EbsCardOrganizerComponent implements OnInit {
    **************************************************************************/
 
   public ngOnInit(): void {
-    this.logger.info('_stackCardTemplate: ', this.stackCardTemplate);
+
   }
 
   @HostListener('document:keydown.shift', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    this.logger.debug('Shift pressed:', event);
     this.copyOnDrag = true;
   }
 
   @HostListener('document:keyup.shift', ['$event']) onKeyupHandler(event: KeyboardEvent) {
-    this.logger.debug('Shift released:', event);
     this.copyOnDrag = false;
   }
 

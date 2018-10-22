@@ -80,16 +80,14 @@ export class EbsCardStackComponent implements OnInit {
    **************************************************************************/
 
   public cardEntered(event: CdkDragEnter<any>): void {
-    this.logger.debug('Drag enter:', event);
+    // this.logger.debug('Drag enter:', event);
   }
 
   public cardExited(event: CdkDragExit<any>): void {
-    this.logger.debug('Drag exit', event);
+    // this.logger.debug('Drag exit', event);
   }
 
   public cardDrop(event: CdkDragDrop<CardStack<any, any>>): void {
-
-    this.logger.debug('CdkDragDrop:', event);
 
     const cardDrop = new CardDropEvent(
       event.previousContainer.data,
