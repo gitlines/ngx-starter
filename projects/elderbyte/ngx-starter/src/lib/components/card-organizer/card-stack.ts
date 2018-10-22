@@ -30,8 +30,6 @@ export class CardStack<T, D = any> {
 
   private _title: string;
   private _data: D;
-  private _connectedStacks: string[] = [];
-
 
   private _sort: (a: T, b: T) => number;
 
@@ -42,13 +40,13 @@ export class CardStack<T, D = any> {
    *                                                                         *
    **************************************************************************/
 
-  public static newStack<T>(id: string, title: string, connectedStacks?: string[], initialCards?: T[]): CardStack<T>  {
-    return new CardStack(id, title, connectedStacks, null, initialCards);
+  public static newStack<T>(id: string, title: string, initialCards?: T[]): CardStack<T>  {
+    return new CardStack(id, title, null, initialCards);
   }
 
-  public static newStackData<T, D>(id: string, title: string, stackData: D,
-                                   connectedStacks?: string[], initialCards?: T[]): CardStack<T, D>  {
-    return new CardStack(id, title, connectedStacks, null, initialCards);
+  public static newStackData<T, D>(id: string, title: string,
+                                   stackData: D, initialCards?: T[]): CardStack<T, D>  {
+    return new CardStack(id, title, null, initialCards);
   }
 
   /***************************************************************************
@@ -63,13 +61,11 @@ export class CardStack<T, D = any> {
    * @param id The unique stack id
    * @param title The display title of this stack
    * @param data Custom data attached to this stack
-   * @param connectedStacks Connected stacks for drag / drop
    * @param initialCards Initial card data
    */
   constructor(
     id: string,
     title: string,
-    connectedStacks?: string[],
     data?: D,
     initialCards?: T[],
   ) {
@@ -77,7 +73,6 @@ export class CardStack<T, D = any> {
     this._data = data;
     this._title = title;
     this._cards = new BehaviorSubject<T[]>(initialCards ? initialCards : []);
-    this.connectedStackIds = connectedStacks ? connectedStacks : [];
   }
 
   /***************************************************************************
@@ -119,20 +114,6 @@ export class CardStack<T, D = any> {
    */
   public set title(title: string) {
     this._title = title;
-  }
-
-  /**
-   * Gets all stack-ids which are connected to this one for drag-drop.
-   */
-  public get connectedStackIds(): string[] {
-    return this._connectedStacks;
-  }
-
-  /**
-   * Sets all stack-ids which are connected to this one for drag-drop.
-   */
-  public set connectedStackIds(ids: string[]) {
-    this._connectedStacks = ids;
   }
 
   /**

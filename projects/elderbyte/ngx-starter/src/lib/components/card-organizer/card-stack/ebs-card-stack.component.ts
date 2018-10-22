@@ -2,7 +2,7 @@ import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@ang
 import {CardDropEvent, CardStack} from '../card-stack';
 import {Observable} from 'rxjs/internal/Observable';
 import {first} from 'rxjs/operators';
-import {CdkDragDrop, CdkDragEnter, CdkDragExit} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDropList} from '@angular/cdk/drag-drop';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
@@ -37,6 +37,12 @@ export class EbsCardStackComponent implements OnInit {
 
   @Output('cardDropped')
   public readonly cardDropped = new EventEmitter<CardDropEvent<any, any>>();
+
+  @Input()
+  public canEnterPredicate: (card: any, stack: CardStack<any, any>) => boolean;
+
+  @Input()
+  public connectedTo: string[] = [];
 
   // Templates
 
@@ -93,6 +99,15 @@ export class EbsCardStackComponent implements OnInit {
     );
 
     this.cardDropped.next(cardDrop);
+  }
+
+  public get enterPredicate(): (drag: CdkDrag<any>, drop: CdkDropList<any>) => boolean {
+    return (drag: CdkDrag<any>, drop: CdkDropList<any>)  => {
+      if (this.canEnterPredicate) {
+       return this.canEnterPredicate(drag.data, drop.data);
+      }
+      return true;
+    };
   }
 
   /***************************************************************************

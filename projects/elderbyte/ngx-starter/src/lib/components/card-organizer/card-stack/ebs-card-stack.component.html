@@ -26,8 +26,9 @@
          [id]="stack.id"
          cdkDropList
          [cdkDropListData]="stack"
-         [cdkDropListConnectedTo]="stack.connectedStackIds"
+         [cdkDropListConnectedTo]="connectedTo"
 
+         [cdkDropListEnterPredicate]="enterPredicate"
          (cdkDropListEntered)="cardEntered($event)"
          (cdkDropListExited)="cardExited($event)"
          (cdkDropListDropped)="cardDrop($event)"

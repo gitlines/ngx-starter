@@ -51,15 +51,15 @@ export class CardsDemoComponent implements OnInit {
 
     this.cardData = new CardOrganizerData<string>(
       [
-          CardStack.newStack(Status.Backlog, 'Backlog', [Status.ToDo]),
-          CardStack.newStack(Status.ToDo, 'ToDo', [Status.Backlog, Status.Doing]),
-          CardStack.newStack(Status.Doing, 'Doing', [Status.Done, Status.ToDo]),
-          CardStack.newStack(Status.Done, 'Done', [Status.Doing]),
+          CardStack.newStack(Status.Backlog, 'Backlog'),
+          CardStack.newStack(Status.ToDo, 'ToDo'),
+          CardStack.newStack(Status.Doing, 'Doing'),
+          CardStack.newStack(Status.Done, 'Done'),
         ],
       (a, b) => a > b ? 1 : -1
     );
 
-    this.cardData.replaceStackCards([
+    this.cardData.replaceStackCards( Status.Backlog,[
           '1',
           '2',
           '3',
@@ -68,15 +68,15 @@ export class CardsDemoComponent implements OnInit {
           '6',
           '7',
           '8',
-        ], Status.Backlog
+        ]
       );
 
 
-    this.cardData.replaceStackCards(
+    this.cardData.replaceStackCards(Status.ToDo,
       [
         'a',
         'b',
-      ], Status.ToDo
+      ],
     );
 
   }
@@ -87,6 +87,11 @@ export class CardsDemoComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
+  public get canEnter(): (card: string, stack: CardStack<string>) => boolean {
+    return (card: string, stack: CardStack<string>) => {
+      return stack.id !== Status.Done;
+    };
+  }
 
   public myCardDropped(event: CardDropEvent<string>): void {
 

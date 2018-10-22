@@ -1,6 +1,7 @@
 import { CardStack } from './card-stack';
 import { Observable, BehaviorSubject } from 'rxjs';
 import {CollectionUtil} from '../../common/utils/collection-util';
+import {map} from 'rxjs/operators';
 
 /**
  * Represents the data-model of a data driven card organizer.
@@ -42,6 +43,12 @@ export class CardOrganizerData<T, D = any> {
       return this._stacks.asObservable();
   }
 
+  public get stackIds(): Observable<string[]> {
+    return this.stacks.pipe(
+      map(stacks => stacks.map(s => s.id))
+    );
+  }
+
   public get stacksSnapshot(): CardStack<T, D>[] {
     return this._stacks.getValue();
   }
@@ -67,7 +74,7 @@ export class CardOrganizerData<T, D = any> {
    * @param card The card data
    * @param stackId The stack id
    */
-  public addCard(card: T, stackId: string): void {
+  public addCard(stackId: string, card: T): void {
     const stack = this.findStackById(stackId);
     if (stack) {
       stack.addCard(card);
@@ -98,7 +105,7 @@ export class CardOrganizerData<T, D = any> {
    * @param cards
    * @param stackId
    */
-  public replaceStackCards(cards: T[], stackId: string) {
+  public replaceStackCards(stackId: string, cards: T[]) {
     const stack = this.findStackById(stackId);
     if (stack) {
       stack.replaceCards(cards);

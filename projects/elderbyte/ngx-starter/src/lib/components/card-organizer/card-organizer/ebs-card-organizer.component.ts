@@ -44,6 +44,9 @@ export class EbsCardOrganizerComponent implements OnInit {
   @Input()
   public copyOnDrag: boolean;
 
+  @Input()
+  public canEnterPredicate: (card: any, stack: CardStack<any, any>) => boolean;
+
   @Output('requestNewCard')
   public readonly requestNewCard = new EventEmitter<CardStack<any, any>>();
 

@@ -6,6 +6,8 @@
                       (cardClick)="cardClicked($event)"
                       (requestNewCard)="createNewCard($event)"
                       (cardDropped)="myCardDropped($event)"
+                      [canEnterPredicate]="canEnter"
+
   >
 
   </ebs-card-organizer>
