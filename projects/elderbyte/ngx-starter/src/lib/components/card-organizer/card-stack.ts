@@ -1,7 +1,21 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 
+export class CardDropEvent<T, D = any> {
+  constructor (
+    public readonly fromStack: CardStack<T, D>,
+    public readonly toStack: CardStack<T, D>,
+    public readonly card: T
+  ) { }
+}
 
-export class CardStack<G, T> {
+
+/**
+ * Represents a card stack model.
+ *
+ * D: Type of the attached stack data
+ * T: Type of the attached card data
+ */
+export class CardStack<T, D = any> {
 
   /***************************************************************************
    *                                                                         *
@@ -9,10 +23,32 @@ export class CardStack<G, T> {
    *                                                                         *
    **************************************************************************/
 
+  private readonly _id: string;
   private readonly _cards: BehaviorSubject<T[]>;
   private readonly _collapsed = new BehaviorSubject<boolean>(false);
 
+  private _title: string;
+  private _data: D;
+  private _connectedStacks: string[] = [];
+
+
   private _sort: (a: T, b: T) => number;
+
+
+  /***************************************************************************
+   *                                                                         *
+   * Static Builder                                                          *
+   *                                                                         *
+   **************************************************************************/
+
+  public static newStack<T>(id: string, title: string, connectedStacks?: string[], initialCards?: T[]): CardStack<T>  {
+    return new CardStack(id, title, connectedStacks, null, initialCards);
+  }
+
+  public static newStackData<T, D>(id: string, title: string, stackData: D,
+                                   connectedStacks?: string[], initialCards?: T[]): CardStack<T, D>  {
+    return new CardStack(id, title, connectedStacks, null, initialCards);
+  }
 
   /***************************************************************************
    *                                                                         *
@@ -20,12 +56,27 @@ export class CardStack<G, T> {
    *                                                                         *
    **************************************************************************/
 
+  /**
+   * Creates a new card stack model
+   *
+   * @param id The unique stack id
+   * @param title The display title of this stack
+   * @param data Custom data attached to this stack
+   * @param connectedStacks Connected stacks for drag / drop
+   * @param initialCards Initial card data
+   */
   constructor(
-    public readonly group: G,
-    public title: string,
-    initialCards?: T[]
+    id: string,
+    title: string,
+    connectedStacks?: string[],
+    data?: D,
+    initialCards?: T[],
   ) {
+    this._id = id;
+    this._data = data;
+    this._title = title;
     this._cards = new BehaviorSubject<T[]>(initialCards ? initialCards : []);
+    this.connectedStackIds = connectedStacks ? connectedStacks : [];
   }
 
   /***************************************************************************
@@ -33,6 +84,55 @@ export class CardStack<G, T> {
    * Properties                                                              *
    *                                                                         *
    **************************************************************************/
+
+  /**
+   * Gets the id of this stack.
+   */
+  public get id(): string {
+    return this._id;
+  }
+
+  /**
+   * Gets the custom data attached to this stack.
+   */
+  public get data(): D {
+    return this._data;
+  }
+
+  /**
+   * Attach custom data to this stack.
+   */
+  public set data(data: D) {
+    this._data = data;
+  }
+
+  /**
+   * Gets the display title of this stack
+   */
+  public get title(): string {
+    return this._title;
+  }
+
+  /**
+   * Sets the display title of this stack
+   */
+  public set title(title: string) {
+    this._title = title;
+  }
+
+  /**
+   * Gets all stack-ids which are connected to this one for drag-drop.
+   */
+  public get connectedStackIds(): string[] {
+    return this._connectedStacks;
+  }
+
+  /**
+   * Sets all stack-ids which are connected to this one for drag-drop.
+   */
+  public set connectedStackIds(ids: string[]) {
+    this._connectedStacks = ids;
+  }
 
   /**
    * Observable stream of the current cards in this stack

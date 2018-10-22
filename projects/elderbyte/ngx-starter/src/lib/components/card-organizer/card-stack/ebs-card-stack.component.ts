@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CardStack } from '../card-stack';
+import {CardDropEvent, CardStack} from '../card-stack';
 import {Observable} from 'rxjs/internal/Observable';
 import {first} from 'rxjs/operators';
+import {CdkDragDrop, CdkDragEnter, CdkDragExit} from '@angular/cdk/drag-drop';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
   selector: 'ebs-card-stack',
@@ -15,6 +17,8 @@ export class EbsCardStackComponent implements OnInit {
    * Fields                                                                  *
    *                                                                         *
    **************************************************************************/
+
+  private readonly logger = LoggerFactory.getLogger('EbsCardStackComponent');
 
   @Input()
   public stack: CardStack<any, any>;
@@ -30,6 +34,9 @@ export class EbsCardStackComponent implements OnInit {
 
   @Output('cardClick')
   public readonly cardClick = new EventEmitter<any>();
+
+  @Output('cardDropped')
+  public readonly cardDropped = new EventEmitter<CardDropEvent<any, any>>();
 
   // Templates
 
@@ -59,9 +66,38 @@ export class EbsCardStackComponent implements OnInit {
 
   /***************************************************************************
    *                                                                         *
+   * Public API Drag & Drop                                                  *
+   *                                                                         *
+   **************************************************************************/
+
+
+  public cardEntered(event: CdkDragEnter<any>): void {
+    this.logger.debug('Drag enter:', event);
+  }
+
+  public cardExited(event: CdkDragExit<any>): void {
+    this.logger.debug('Drag exit', event);
+  }
+
+  public cardDrop(event: CdkDragDrop<CardStack<any, any>>): void {
+
+    this.logger.debug('CdkDragDrop:', event);
+
+    const cardDrop = new CardDropEvent(
+      event.previousContainer.data,
+      event.container.data,
+      event.item.data
+    );
+
+    this.cardDropped.next(cardDrop);
+  }
+
+  /***************************************************************************
+   *                                                                         *
    * Public API                                                              *
    *                                                                         *
    **************************************************************************/
+
 
   public onRequestNewCard(event: MouseEvent): void {
     this.requestNewCard.next(this.stack);

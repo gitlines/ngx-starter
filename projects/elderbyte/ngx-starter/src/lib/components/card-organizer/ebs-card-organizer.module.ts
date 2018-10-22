@@ -11,7 +11,7 @@ import {
   MatIconModule,
   MatRippleModule
 } from '@angular/material';
-import {CommonDialogModule} from '../../features/dialogs/common-dialog.module';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 export * from './card-organizer-data';
 export * from './card-stack';
@@ -25,6 +25,8 @@ export * from './card-stack/ebs-card-stack.component';
 
     MatIconModule, MatButtonModule, MatCardModule, MatDividerModule,
     MatRippleModule,
+
+    DragDropModule,
 
     FlexLayoutModule, TranslateModule
   ],

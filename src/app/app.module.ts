@@ -29,7 +29,6 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
 import { DemoPanelComponent } from './demo-panel/demo-panel.component';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app-routes';
@@ -66,8 +65,6 @@ LoggerFactory.getDefaultConfiguration()
 
     FormsModule,
     ReactiveFormsModule,
-
-    SimpleWebStorageModule.forRoot(),
 
     FlexLayoutModule,
 

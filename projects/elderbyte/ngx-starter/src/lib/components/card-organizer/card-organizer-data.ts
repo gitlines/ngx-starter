@@ -8,7 +8,7 @@ import {CollectionUtil} from '../../common/utils/collection-util';
  * This component organizes cards in card-stacks.
  *
  */
-export class CardOrganizerData<G, T> {
+export class CardOrganizerData<T, D = any> {
 
   /***************************************************************************
    *                                                                         *
@@ -16,7 +16,7 @@ export class CardOrganizerData<G, T> {
    *                                                                         *
    **************************************************************************/
 
-  private readonly _stacks: BehaviorSubject<CardStack<G, T>[]>;
+  private readonly _stacks: BehaviorSubject<CardStack<T, D>[]>;
 
   /***************************************************************************
    *                                                                         *
@@ -25,11 +25,10 @@ export class CardOrganizerData<G, T> {
    **************************************************************************/
 
   constructor(
-    private readonly _groupGetter: ((item: T) => G),
-    initialStacks?: CardStack<G, T>[],
+    initialStacks?: CardStack<T, D>[],
     sort?: ((a: T, b: T) => number)
   ) {
-    this._stacks = new BehaviorSubject<CardStack<G, T>[]>(initialStacks ? initialStacks : []);
+    this._stacks = new BehaviorSubject<CardStack<T, D>[]>(initialStacks ? initialStacks : []);
     this.sort = sort;
   }
 
@@ -39,30 +38,16 @@ export class CardOrganizerData<G, T> {
    *                                                                         *
    **************************************************************************/
 
-  public get stacks(): Observable<CardStack<G, T>[]> {
+  public get stacks(): Observable<CardStack<T, D>[]> {
       return this._stacks.asObservable();
   }
 
-  public get stacksSnapshot(): CardStack<G, T>[] {
+  public get stacksSnapshot(): CardStack<T, D>[] {
     return this._stacks.getValue();
   }
 
   public set sort(sort: ((a: T, b: T) => number)) {
     this.stacksSnapshot.forEach(s => s.sort = sort);
-  }
-
-  public set cards (cards: T[]) {
-
-    const grouped = CollectionUtil.groupByKey<G, T>(cards, this._groupGetter);
-
-    this.stacksSnapshot.forEach(stack => {
-      const newData = grouped.get(stack.group);
-      if (newData) {
-        stack.replaceCards(newData);
-      } else {
-        stack.clear();
-      }
-    });
   }
 
   public get cards(): T[] {
@@ -77,14 +62,55 @@ export class CardOrganizerData<G, T> {
    *                                                                         *
    **************************************************************************/
 
-  public addCard(card: T): void {
-    const group = this._groupGetter(card);
-    const stack = this.findStack(group);
-    stack.addCard(card);
+  /**
+   * Adds the given card to the stack with the given id.
+   * @param card The card data
+   * @param stackId The stack id
+   */
+  public addCard(card: T, stackId: string): void {
+    const stack = this.findStackById(stackId);
+    if (stack) {
+      stack.addCard(card);
+    }
   }
 
-  public findStack(group: G): CardStack<G, T> {
-    return this._stacks.getValue().find(s => s.group === group);
+  /**
+   * Replaces all cards in the matching stacks, defined by the stack-id-getter
+   * @param cards
+   * @param stackIdGetter
+   */
+  public replaceStackCardsDynamic(cards: T[], stackIdGetter: ((item: T) => string)) {
+
+    const grouped = CollectionUtil.groupByKey<string, T>(cards, stackIdGetter);
+
+    this.stacksSnapshot.forEach(stack => {
+      const newData = grouped.get(stack.id);
+      if (newData) {
+        stack.replaceCards(newData);
+      } else {
+        stack.clear();
+      }
+    });
+  }
+
+  /**
+   * Replace all cards in the given stack with the new cards.
+   * @param cards
+   * @param stackId
+   */
+  public replaceStackCards(cards: T[], stackId: string) {
+    const stack = this.findStackById(stackId);
+    if (stack) {
+      stack.replaceCards(cards);
+    }
+  }
+
+  public findStackByData(data: D): CardStack<T, D> {
+    return this._stacks.getValue().find(s => s.data === data);
+  }
+
+  public findStackById(id: string): CardStack<T, D> {
+    return this._stacks.getValue().find(s => s.id === id);
   }
 
 }

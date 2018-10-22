@@ -17,12 +17,25 @@
   <mat-divider></mat-divider>
 
   <!-- card list -->
-  <div fxFlex fxLayout="column"  class="card-list">
+  <div fxFlex fxLayout="column" class="card-container"
 
-    <div fxLayout="column" fxLayoutGap="10px" class="scrollable padding-10">
+
+  >
+
+    <div fxLayout="column"  fxLayoutGap="10px" class="scrollable padding-10 card-list"
+         [id]="stack.id"
+         cdkDropList
+         [cdkDropListData]="stack"
+         [cdkDropListConnectedTo]="stack.connectedStackIds"
+
+         (cdkDropListEntered)="cardEntered($event)"
+         (cdkDropListExited)="cardExited($event)"
+         (cdkDropListDropped)="cardDrop($event)"
+    >
 
       <!-- card -->
-      <mat-card *ngFor="let card of stack?.cards | async"
+      <mat-card *ngFor="let card of stack?.cards | async" class="card"
+                cdkDrag [cdkDragData]="card"
                 (click)="onCardSelected($event, card)">
         <mat-card-header>
 

@@ -8,7 +8,7 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { CardOrganizerData } from '../card-organizer-data';
-import { CardStack } from '../card-stack';
+import {CardDropEvent, CardStack} from '../card-stack';
 import { LoggerFactory } from '@elderbyte/ts-logger';
 import {Observable} from 'rxjs/internal/Observable';
 
@@ -49,6 +49,9 @@ export class EbsCardOrganizerComponent implements OnInit {
 
   @Output('cardClick')
   public readonly cardClick = new EventEmitter<any>();
+
+  @Output('cardDropped')
+  public readonly cardDropped = new EventEmitter<CardDropEvent<any, any>>();
 
   @ContentChild(EbsStackCardDirective, {read: TemplateRef})
   public stackCardTemplate: TemplateRef<any>;
@@ -93,6 +96,10 @@ export class EbsCardOrganizerComponent implements OnInit {
 
   public onCardClicked(clickedCard: any): void {
     this.cardClick.next(clickedCard);
+  }
+
+  public onCardDropped(event: CardDropEvent<any, any>): void {
+    this.cardDropped.next(event);
   }
 
 }
