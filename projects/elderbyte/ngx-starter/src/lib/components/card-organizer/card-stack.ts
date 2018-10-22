@@ -46,7 +46,7 @@ export class CardStack<T, D = any> {
 
   public static newStackData<T, D>(id: string, title: string,
                                    stackData: D, initialCards?: T[]): CardStack<T, D>  {
-    return new CardStack(id, title, null, initialCards);
+    return new CardStack(id, title, stackData, initialCards);
   }
 
   /***************************************************************************
