@@ -41,32 +41,51 @@ export class EventSourceService {
    */
   public observableJson<T>(eventSourceUrl: string): Observable<T> {
     return this.observable(eventSourceUrl).pipe(
-      map(data => JSON.parse(data))
+      map(event => JSON.parse(event.data))
     );
   }
 
   /**
    * Creates an observable stream for the given event source url.
    */
-  public observable(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): Observable<any> {
+  public observable(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): Observable<MessageEvent> {
 
     return Observable.create((observer: Observer<any>) => {
 
       try {
         const eventSource = new EventSource(eventSourceUrl, eventSourceInitDict);
 
-        eventSource.onopen = (event) => this.logger.debug('EventSource connection opened to: ' + eventSourceUrl, event);
+        eventSource.onopen = (event) => {
+          this.logger.debug('EventSource connection opened to: ' + eventSourceUrl +
+            ', state: ' + this.readyStateAsString(eventSource), event);
+        };
 
         eventSource.onmessage = (event) => {
-          this.zone.run(() => observer.next(event.data)); // Ensure we run inside Angulars zone
+          this.logger.trace('EventSource on-message:', event);
+          this.zone.run(() => observer.next(event)); // Ensure we run inside Angulars zone
         };
 
-        eventSource.onerror = x => observer.error(x);
+        eventSource.onerror = (error) => {
+
+          if (eventSource.readyState === eventSource.CLOSED) {
+
+            // We can safely treat it as a normal situation. Another way of detecting the end of the stream
+            // is to insert a special element in the stream of events, which the client can identify as the last one.
+
+            this.logger.debug('The SSE stream has been closed by the server.');
+            eventSource.close();
+            observer.complete();
+          } else {
+            this.logger.warn('There was an SSE error, current state: ' + this.readyStateAsString(eventSource), error);
+            // observer.error(error);
+          }
+        };
 
         return () => {
-          // Close the event-source on Teardown
+          this.logger.debug('Closing the event-source since observable is in teardown.');
           eventSource.close();
         };
+
       } catch (err) {
         this.logger.error('Failed to subscribe to SSE at ' + eventSourceUrl, err);
         observer.error(err);
@@ -74,6 +93,25 @@ export class EventSourceService {
       }
     });
 
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Private methods                                                         *
+   *                                                                         *
+   **************************************************************************/
+
+
+  private readyStateAsString(source: EventSource): string {
+    if (source.readyState === source.OPEN) {
+      return 'OPEN';
+    } else if (source.readyState === source.CLOSED) {
+      return 'CLOSED';
+    } else if (source.readyState === source.CONNECTING) {
+      return 'CONNECTING';
+    } else {
+      return 'UNKNOWN';
+    }
   }
 
 }
