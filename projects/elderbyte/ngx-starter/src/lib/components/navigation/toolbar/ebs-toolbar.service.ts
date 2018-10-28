@@ -44,7 +44,7 @@ export class EbsToolbarService {
      */
     public registerColumn(position: EbsToolbarColumnPosition, template: TemplateRef<any>, setDefault = false): void {
 
-        this.logger.debug('Registering toolbar column at position ' + position, template);
+        this.logger.trace('Registering toolbar column at position ' + position, template);
 
         if (setDefault) {
             this.columnDefaults.set(position, template);
@@ -64,13 +64,13 @@ export class EbsToolbarService {
 
         if (position) {
             if (this.columns.get(position) === template) {
-                this.logger.debug('Deregistering toolbar column at position ' + position, template);
+                this.logger.trace('Deregistering toolbar column at position ' + position, template);
                 this.columns.delete(position);
             }
         } else {
             this.columns.forEach((value: TemplateRef<any>, key: EbsToolbarColumnPosition) => {
                 if (value === template) {
-                    this.logger.debug('Deregistering toolbar column', template);
+                    this.logger.trace('Deregistering toolbar column', template);
                     this.columns.delete(key);
                 }
             });

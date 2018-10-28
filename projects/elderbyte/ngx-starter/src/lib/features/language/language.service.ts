@@ -26,7 +26,7 @@ export class LanguageService {
     private translate: TranslateService,
     private webStorage: WebLocalStorage
   ) {
-    this.logger.debug('Initializing language service with webstore: ', webStorage);
+    this.logger.trace('Initializing language service with webstore: ', webStorage);
 
     // this.translate.addLangs(['en', 'de']);
     // this.translate.defaultLang = 'en';
