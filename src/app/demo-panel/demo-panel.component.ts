@@ -10,6 +10,19 @@ import {of} from 'rxjs';
 })
 export class DemoPanelComponent implements OnInit {
 
+
+
+
+  public dateTimeSummerUs = '2018-07-05T08:15:30-05:00';
+  public dateTimeSummerZurich = '2018-07-05T08:15:30+02:00';
+  public dateTimeSummerUtc = '2018-07-05T08:15:30Z';
+
+  public dateTimeWinterUs = '2018-12-05T08:15:30-05:00';
+  public dateTimeWinterZurich = '2018-12-05T08:15:30+01:00';
+  public dateTimeWinterUtc = '2018-12-05T08:15:30Z';
+
+
+
   public expanded: boolean;
   public uploadClient: IFileUploadClient;
 

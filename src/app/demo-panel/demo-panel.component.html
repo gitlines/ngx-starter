@@ -19,8 +19,22 @@
   <mat-tab-group fxFill class="firefox-scroll-fix">
     <mat-tab label="Directives">
 
-      <h2>test</h2>
+      <h2>weight</h2>
       <p>{{123 | weight}}</p>
+
+      <h2>date</h2>
+
+      <ul>
+        <li><h3>Summer (2018.07.05 08:15)</h3></li>
+        <li>US {{dateTimeSummerUs | date:'yyyy.MM.dd hh:mm'}}</li>
+        <li>Zurich {{dateTimeSummerZurich | date:'yyyy.MM.dd hh:mm'}}</li>
+        <li>UTC {{dateTimeSummerUtc | date:'yyyy.MM.dd hh:mm'}}</li>
+        <li><h3>Winter (2018.12.05 08:15)</h3></li>
+        <li>US {{dateTimeWinterUs | date:'yyyy.MM.dd hh:mm'}}</li>
+        <li>Zurich {{dateTimeWinterZurich | date:'yyyy.MM.dd hh:mm'}}</li>
+        <li>UTC {{dateTimeWinterUtc | date:'yyyy.MM.dd hh:mm'}}</li>
+      </ul>
+
 
     </mat-tab>
 
