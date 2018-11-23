@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {SideContentService} from '@elderbyte/ngx-starter';
-import {ToastService} from '../../projects/elderbyte/ngx-starter/src/lib/features/toasts/toast.service';
+import {SideContentService, ToastService} from '@elderbyte/ngx-starter';
 
 export class MenuItem {
 

@@ -14,7 +14,8 @@ import {
   SideContentModule,
   EbsLabelsModule,
   MatPanelModule,
-  EbsToolbarModule
+  EbsToolbarModule,
+  ToastModule
 } from '@elderbyte/ngx-starter';
 import {
     MatButtonModule,
@@ -38,7 +39,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.component';
 import { TableDemoComponent } from './table-demo/table-demo.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ToastModule} from '../../projects/elderbyte/ngx-starter/src/lib/features/toasts/toast.module';
 import { EatableCategoryListComponent } from './eatables/categories/category-list/eatable-category-list.component';
 import { EatableCategoryDetailComponent } from './eatables/categories/category-detail/eatable-category-detail.component';
 

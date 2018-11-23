@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IDataContext, DataContextBuilder, Uuid } from '@elderbyte/ngx-starter';
+import { IDataContext, DataContextBuilder, Uuid, ContinuableListing} from '@elderbyte/ngx-starter';
 import {of, throwError} from 'rxjs';
-import {ContinuableListing} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/continuable-listing';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 class Food {
