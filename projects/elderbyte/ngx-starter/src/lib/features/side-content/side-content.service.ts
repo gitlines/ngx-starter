@@ -33,7 +33,6 @@ export class SideContentService {
      *                                                                         *
      **************************************************************************/
 
-
     constructor(
         private router: Router,
     ) {
@@ -119,27 +118,28 @@ export class SideContentService {
     /**
      * Toggles the side navigation
      */
-    public toggleSidenav() {
+    public toggleSidenav(): boolean {
         this.navigationOpen = !this.navigationOpen;
+        return this.navigationOpen;
     }
 
     /**
      * Closes the side navigation
      */
-    public closeSideNav() {
+    public closeSideNav(): void {
         this.navigationOpen = false;
     }
 
     /**
      * Closes the side detail content
      */
-    public closeSideContent() {
+    public closeSideContent(): Promise<boolean> {
 
         const command: any = {};
         command['outlets'] = {};
         command['outlets'][this.detailContentOutlet] = null;
 
-        this.router.navigate([
+        return this.router.navigate([
             command
             ]);
     }
