@@ -125,13 +125,19 @@ export class CommonDialogService {
    *
    * @param interpolateParams
    */
-  private translateInterpolatedParams(interpolateParams: object): Observable<string | any> {
-    return this.translateService.get( (<any>Object).values(interpolateParams)).pipe(
+  private translateInterpolatedParams(interpolateParams: any): Observable<string | any> {
+
+    const values = Object.getOwnPropertyNames(interpolateParams)
+          .map(key => interpolateParams[key]);
+
+    return this.translateService.get(values).pipe(
       map(translated => {
 
-        for (const [key, value] of (<any>Object).entries(interpolateParams)) {
-          (interpolateParams as any)[key] = translated[value];
-        }
+        Object.getOwnPropertyNames(interpolateParams)
+          .forEach(key => {
+            const value = interpolateParams[key];
+            interpolateParams[key] = translated[value];
+          });
 
         return interpolateParams;
       }));
