@@ -12,6 +12,13 @@
     "cancel": "Abbrechen",
     "yes": "Ja",
     "no": "Nein"
+  },
+
+  "dialogs": {
+    "confirm": {
+      "title": "Do you really?",
+      "message": "Do you really wanna {{type}}"
+    }
   }
 }
 
