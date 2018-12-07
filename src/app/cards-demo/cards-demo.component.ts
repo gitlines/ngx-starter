@@ -124,7 +124,10 @@ export class CardsDemoComponent implements OnInit {
 
       return this.dialogService.showConfirm({
           title: 'dialogs.confirm.title',
-          message: 'dialogs.confirm.message'
+          message: 'dialogs.confirm.message',
+          interpolateParams: {
+            type: 'actions.ok'
+          }
       });
   }
 
