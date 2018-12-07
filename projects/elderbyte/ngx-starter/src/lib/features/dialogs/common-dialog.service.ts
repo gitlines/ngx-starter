@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 import {QuestionDialogComponent, QuestionDialogConfig} from './question-dialog/question-dialog.component';
 import {TranslateService} from '@ngx-translate/core';
 import {Observable} from 'rxjs';
-import {flatMap, filter} from 'rxjs/operators';
-
+import {flatMap, filter, map} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -44,26 +43,30 @@ export class CommonDialogService {
 
         const keys = [config.title, config.message];
 
-        return this.translateService.get(keys, config.interpolateParams).pipe(
-            flatMap(translated => {
+        return this.translateInterpolatedParams(config.interpolateParams).pipe(
+          flatMap(
+            interpolateParams => {
+              return this.translateService.get(keys, interpolateParams).pipe(
+                flatMap(translated => {
 
-              const title = translated[config.title];
-              const message = translated[config.message];
+                  const title = translated[config.title];
+                  const message = translated[config.message];
 
-              // return this.confirm(title, message, config);
+                  // return this.confirm(title, message, config);
 
-              let dialogRef: MatDialogRef<ConfirmDialogComponent>;
+                  let dialogRef: MatDialogRef<ConfirmDialogComponent>;
 
-              dialogRef = this.dialog.open(ConfirmDialogComponent, config.config);
-              dialogRef.componentInstance.title = title;
-              dialogRef.componentInstance.message = message;
-              dialogRef.componentInstance.yesNo = config.yesNo;
+                  dialogRef = this.dialog.open(ConfirmDialogComponent, config.config);
+                  dialogRef.componentInstance.title = title;
+                  dialogRef.componentInstance.message = message;
+                  dialogRef.componentInstance.yesNo = config.yesNo;
 
-              return dialogRef.afterClosed();
-
-            })
-            );
-
+                  return dialogRef.afterClosed();
+                })
+              );
+            }
+          )
+        );
     }
 
     /**
@@ -95,7 +98,9 @@ export class CommonDialogService {
 
         const keys = [config.title, config.question];
 
-        return this.translateService.get(keys, config.interpolateParams).pipe(
+      return this.translateInterpolatedParams(config.interpolateParams).pipe(
+        flatMap(interpolateParams => {
+          return this.translateService.get(keys, interpolateParams).pipe(
             flatMap(translated => {
 
               const title = translated[config.title];
@@ -111,8 +116,24 @@ export class CommonDialogService {
                 .pipe(filter(response => !!response));
 
             }));
-
+        })
+      );
     }
 
+  /**
+   * Translates a list of params
+   *
+   * @param interpolateParams
+   */
+  private translateInterpolatedParams(interpolateParams: object): Observable<string | any> {
+    return this.translateService.get( (<any>Object).values(interpolateParams)).pipe(
+      map(translated => {
 
+        for (const [key, value] of (<any>Object).entries(interpolateParams)) {
+          (interpolateParams as any)[key] = translated[value];
+        }
+
+        return interpolateParams;
+      }));
+  }
 }
