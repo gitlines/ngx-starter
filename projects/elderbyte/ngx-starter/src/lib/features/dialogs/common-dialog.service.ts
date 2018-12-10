@@ -155,6 +155,8 @@ export class CommonDialogService {
    */
   private translateInterpolatedParams(interpolateParams: any): Observable<string | any> {
 
+    if (!interpolateParams) { return null; }
+
     const values = Object.getOwnPropertyNames(interpolateParams)
       .map(key => interpolateParams[key]);
 
