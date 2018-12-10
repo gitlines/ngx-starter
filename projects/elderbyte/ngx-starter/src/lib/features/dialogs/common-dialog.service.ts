@@ -158,7 +158,9 @@ export class CommonDialogService {
     if (!interpolateParams) { return null; }
 
     const values = Object.getOwnPropertyNames(interpolateParams)
-      .map(key => interpolateParams[key]);
+      .map(key => interpolateParams[key])
+      .filter(value => !!value)
+      .map(value => value + '');
 
     return this.translateService.get(values).pipe(
       map(translated => {
