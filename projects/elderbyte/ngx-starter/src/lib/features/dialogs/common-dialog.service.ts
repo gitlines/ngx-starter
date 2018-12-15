@@ -3,8 +3,9 @@ import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
 import { Injectable } from '@angular/core';
 import {QuestionDialogComponent, QuestionDialogConfig} from './question-dialog/question-dialog.component';
 import {TranslateService} from '@ngx-translate/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {flatMap, filter, map} from 'rxjs/operators';
+import {CommonDialogConfig} from './common-dialog-config';
 
 @Injectable({
   providedIn: 'root'
@@ -62,31 +63,28 @@ export class CommonDialogService {
 
     if (!config) { throw new Error('Argument must not be null: config'); }
 
-    const keys = [config.title, config.message];
 
-    return this.translateInterpolatedParams(config.interpolateParams).pipe(
-      flatMap(
-        interpolateParams => {
-          return this.translateService.get(keys, interpolateParams).pipe(
-            flatMap(translated => {
+    const rawMessages = new Map<string, string>();
+    rawMessages.set('title', config.title);
+    rawMessages.set('message', config.message);
 
-              const title = translated[config.title];
-              const message = translated[config.message];
 
-              // return this.confirm(title, message, config);
+    return this.resolveTranslatedMap(rawMessages, config.interpolateParams).pipe(
+      flatMap(messages => {
 
-              let dialogRef: MatDialogRef<ConfirmDialogComponent>;
+        const title = messages.get('title');
+        const message = messages.get('message');
 
-              dialogRef = this.dialog.open(ConfirmDialogComponent, config.config);
-              dialogRef.componentInstance.title = title;
-              dialogRef.componentInstance.message = message;
-              dialogRef.componentInstance.yesNo = config.yesNo;
+        let dialogRef: MatDialogRef<ConfirmDialogComponent>;
 
-              return dialogRef.afterClosed();
-            })
-          );
-        }
-      )
+        dialogRef = this.dialog.open(ConfirmDialogComponent, config.config);
+        dialogRef.componentInstance.title = title;
+        dialogRef.componentInstance.message = message;
+        dialogRef.componentInstance.yesNo = config.yesNo;
+
+        return dialogRef.afterClosed();
+
+      })
     );
   }
 
@@ -117,26 +115,27 @@ export class CommonDialogService {
 
     if (!config) { throw new Error('Argument must not be null: config'); }
 
-    const keys = [config.title, config.question];
+    const rawMessages = new Map<string, string>();
+    rawMessages.set('title', config.title);
+    rawMessages.set('question', config.question);
 
-    return this.translateInterpolatedParams(config.interpolateParams).pipe(
-      flatMap(interpolateParams => {
-        return this.translateService.get(keys, interpolateParams).pipe(
-          flatMap(translated => {
+    return this.resolveTranslatedMap(rawMessages, config.interpolateParams).pipe(
+      flatMap(messages => {
 
-            const title = translated[config.title];
-            const message = translated[config.question];
+        const title = messages.get('title');
+        const question = messages.get('question');
 
+        const dlgConf = config.config || new MatDialogConfig();
+        dlgConf.data = {
+          title: title,
+          question: question
+        };
 
-            const dlgConf = config.config || new MatDialogConfig();
-            dlgConf.data = { title: title, question: message };
+        const dialogRef = this.dialog.open(QuestionDialogComponent, dlgConf);
 
-            const dialogRef = this.dialog.open(QuestionDialogComponent, dlgConf);
+        return dialogRef.afterClosed()
+          .pipe(filter(response => !!response));
 
-            return dialogRef.afterClosed()
-              .pipe(filter(response => !!response));
-
-          }));
       })
     );
   }
@@ -148,6 +147,22 @@ export class CommonDialogService {
    *                                                                         *
    **************************************************************************/
 
+  private resolveTranslatedMap(messages: Map<string, string>, interpolateParams?: object): Observable<Map<string, string>> {
+
+    const rawMessages = Array.from(messages.values());
+
+    return this.translateInterpolatedParams(interpolateParams).pipe(
+      flatMap(translatedParams =>  this.translateService.get(rawMessages, translatedParams)),
+      map(translatedValues => {
+        const translated = new Map<string, string>();
+        messages.forEach((rawValue, key) => {
+          translated.set(key, translatedValues[rawValue] || rawValue);
+        });
+        return translated;
+      }),
+    );
+  }
+
   /**
    * Translates a list of params
    *
@@ -155,7 +170,7 @@ export class CommonDialogService {
    */
   private translateInterpolatedParams(interpolateParams: any): Observable<string | any> {
 
-    if (!interpolateParams) { return null; }
+    if (!interpolateParams) { return of({}); }
 
     const values = Object.getOwnPropertyNames(interpolateParams)
       .map(key => interpolateParams[key])
