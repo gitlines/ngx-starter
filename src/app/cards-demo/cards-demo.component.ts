@@ -122,6 +122,7 @@ export class CardsDemoComponent implements OnInit {
 
   private confirmDeletionFunc(): Observable<boolean> {
 
+    /**/
       return this.dialogService.showConfirm({
           title: 'dialogs.confirm.title',
           message: 'dialogs.confirm.message',
@@ -129,6 +130,13 @@ export class CardsDemoComponent implements OnInit {
             type: 'actions.ok'
           }
       });
+
+    /*
+    return this.dialogService.showConfirm({
+      title: 'dialogs.confirm.title',
+      message: 'dialogs.confirm.message'
+    });
+    */
   }
 
 }
