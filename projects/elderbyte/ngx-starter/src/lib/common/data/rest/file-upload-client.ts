@@ -1,6 +1,7 @@
-import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
-import {Observable, ReplaySubject, Subject} from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
+import {from, Observable, of, ReplaySubject, Subject} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {catchError, mergeMap, tap} from 'rxjs/operators';
 
 export interface IFileUploadClient {
   uploadFiles(files: Set<File>): Map<File, FileUpload>;
@@ -12,6 +13,10 @@ export interface IFileUploadClient {
  */
 export class FileUpload {
   constructor(
+    /**
+     * The http request
+     */
+    public readonly httpRequest: Observable<HttpEvent<any>>,
 
     /**
      * The upload progress [0-100]
@@ -109,17 +114,23 @@ export class FileUploader {
 
   /**
    * Upload all given files, returns an observable map to track the progress of each upload.
-   * @param files
+   * @param files The files to upload
+   * @param requestMethod The HTTP method to use for upload requests
+   * @param maxConcurrency Max uploading in parallel
    */
-  public uploadFiles(files: Set<File>, requestMethod: 'POST' | 'PUT' | 'PATCH'): Map<File, FileUpload> {
+  public uploadFiles(files: Set<File>, requestMethod: 'POST' | 'PUT' | 'PATCH', maxConcurrency = 1): Map<File, FileUpload> {
 
     const allProgress = new Map<File, FileUpload>();
 
     files.forEach(file => {
-      // create a new progress-subject for every file
-      const progress = this.uploadFile(file, requestMethod);
-      allProgress.set(file, progress);
+      // create a new upload job for every file
+      allProgress.set(file, this.createUploadJob(file, requestMethod));
     });
+
+    const jobs = Array.from(allProgress.values());
+
+    // Start upload jobs
+    this.uploadConcurrent(jobs, maxConcurrency);
 
     return allProgress;
   }
@@ -129,6 +140,28 @@ export class FileUploader {
    * @param file
    */
   public uploadFile(file: File, requestMethod: 'POST' | 'PUT' | 'PATCH'): FileUpload {
+    const fileUpload = this.createUploadJob(file, requestMethod);
+    this.uploadConcurrent([fileUpload], 1);
+    return fileUpload;
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Private methods                                                         *
+   *                                                                         *
+   **************************************************************************/
+
+  private uploadConcurrent(jobs: FileUpload[], maxConcurrency: number): void {
+    from(jobs).pipe(
+        mergeMap(j => j.httpRequest, maxConcurrency)
+    ).subscribe(
+      success => this.logger.trace('Upload successful!', success)
+    );
+  }
+
+
+  private createUploadJob(file: File, requestMethod: 'POST' | 'PUT' | 'PATCH'): FileUpload {
+
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
@@ -143,8 +176,8 @@ export class FileUploader {
     const error = new ReplaySubject<any>(1);
 
     // send the http-request and subscribe for progress-updates
-    this.http.request(req)
-      .subscribe(event => {
+    const httpUpload = this.http.request(req).pipe(
+      tap(event => {
         if (event.type === HttpEventType.UploadProgress) {
 
           // calculate the progress percentage
@@ -158,30 +191,24 @@ export class FileUploader {
           // The upload is complete
           progress.complete();
         }
-      },
-      err => {
+      }, err => {},
+        () => {
+        progress.complete();
+        error.complete();
+      }),
+      catchError(err => {
         this.logger.warn('Upload failed', err);
         progress.next(0);
         error.next(err);
-      },
-      () => {
-        progress.complete();
-        error.complete();
-      }
+        return of(err);
+      })
     );
 
     return new FileUpload(
+      httpUpload,
       progress.asObservable(),
       error.asObservable()
     );
   }
-
-  /***************************************************************************
-   *                                                                         *
-   * Private methods                                                         *
-   *                                                                         *
-   **************************************************************************/
-
-
 
 }
