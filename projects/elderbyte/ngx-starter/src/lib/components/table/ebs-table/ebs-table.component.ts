@@ -57,8 +57,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   @ViewChild(MatTable)
   public table: CdkTable<any>;
 
-  @ViewChild(MatPaginator)
-  protected paginator: MatPaginator;
+
+  private _paginator: MatPaginator;
 
   @ContentChild(MatSort)
   protected sort: MatSort;
@@ -166,6 +166,16 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
    * Properties                                                              *
    *                                                                         *
    **************************************************************************/
+
+  @ViewChild(MatPaginator)
+  public set paginator(paginator: MatPaginator) {
+    this._paginator = paginator;
+    this.updateTableBinding();
+  }
+
+  public get paginator(): MatPaginator {
+    return this._paginator;
+  }
 
   @Input()
   public set data(data: IDataContext<any>) {
