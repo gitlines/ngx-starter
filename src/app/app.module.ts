@@ -41,6 +41,7 @@ import { TableDemoComponent } from './table-demo/table-demo.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { EatableCategoryListComponent } from './eatables/categories/category-list/eatable-category-list.component';
 import { EatableCategoryDetailComponent } from './eatables/categories/category-detail/eatable-category-detail.component';
+import { TableMasterDetailComponent } from './table-master-detail/table-master-detail.component';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Debug);
@@ -53,7 +54,8 @@ LoggerFactory.getDefaultConfiguration()
     CardsDemoComponent,
     TableDemoComponent,
     EatableCategoryListComponent,
-    EatableCategoryDetailComponent
+    EatableCategoryDetailComponent,
+    TableMasterDetailComponent
   ],
   imports: [
 

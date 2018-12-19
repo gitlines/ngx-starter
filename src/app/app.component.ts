@@ -34,6 +34,7 @@ export class AppComponent {
 
         this.menuItems = [
 
+          new MenuItem('list', 'Table M/D', 'app/master-detail'),
             new MenuItem('list', 'Eatables', 'app/eatables'),
             new MenuItem('person', 'Mixed', 'app/mixed-demo'),
             new MenuItem('business', 'TB Title', 'app/sub/toolbar-title-demo'),

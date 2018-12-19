@@ -2,13 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IDataContext, DataContextBuilder, Uuid, ContinuableListing} from '@elderbyte/ngx-starter';
 import {of, throwError} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-
-class Food {
-  constructor(
-    public name: string,
-    public price: number
-  ) { }
-}
+import {Food} from '../model/food';
 
 
 class FoodProperty {
@@ -51,6 +45,7 @@ export class TableDemoComponent implements OnInit {
 
 
   public simpleDataContext: IDataContext<Food> = DataContextBuilder.start<Food>()
+    .pageSize(5)
     .buildLocalActivePaged(this.foods);
 
   public emptyDataContext = DataContextBuilder.start<Food>()
