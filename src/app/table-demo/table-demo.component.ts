@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IDataContext, DataContextBuilder, Uuid, ContinuableListing} from '@elderbyte/ngx-starter';
 import {of, throwError} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {Food} from '../model/food';
+import {Food, FoodStore} from '../model/food';
 
 
 class FoodProperty {
@@ -23,30 +23,9 @@ export class TableDemoComponent implements OnInit {
   private readonly logger = LoggerFactory.getLogger('TableDemoComponent');
 
 
-  private foods = [
-    new Food('Bread', 45.53),
-    new Food('Apple', 86.53),
-    new Food('Milk', 34),
-    new Food('Meat', 42),
-    new Food('Fish', 12),
-
-    new Food('Bread 2', 45.53),
-    new Food('Apple 2', 86.53),
-    new Food('Milk 2', 34),
-    new Food('Meat 2', 42),
-    new Food('Fish 2', 12),
-
-    new Food('Bread 3', 45.53),
-    new Food('Apple 3', 86.53),
-    new Food('Milk 3', 34),
-    new Food('Meat 3', 42),
-    new Food('Fish 3', 12)
-  ];
-
-
   public simpleDataContext: IDataContext<Food> = DataContextBuilder.start<Food>()
     .pageSize(5)
-    .buildLocalActivePaged(this.foods);
+    .buildLocalActivePaged(FoodStore.foods);
 
   public emptyDataContext = DataContextBuilder.start<Food>()
     .buildLocalActivePaged([]);
@@ -65,7 +44,7 @@ export class TableDemoComponent implements OnInit {
       response.continuationToken = chunkRequest.nextContinuationToken;
       response.nextContinuationToken = Uuid.generate();
       response.hasMore = true;
-      response.content = this.foods;
+      response.content = FoodStore.foods;
 
       return of(response);
     });

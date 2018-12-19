@@ -44,7 +44,7 @@ import { EatableCategoryDetailComponent } from './eatables/categories/category-d
 import { TableMasterDetailComponent } from './table-master-detail/table-master-detail.component';
 
 LoggerFactory.getDefaultConfiguration()
-  .withMaxLevel(LogLevel.Debug);
+  .withMaxLevel(LogLevel.Trace);
 
 @NgModule({
   declarations: [

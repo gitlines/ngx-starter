@@ -8,6 +8,9 @@ import {Sort} from '../sort';
 
 export class MatTableDataContextBindingBuilder {
 
+
+  private readonly logger = LoggerFactory.getLogger('MatTableDataContextBindingBuilder');
+
   private _matSort: MatSort;
   private _matPaginator: MatPaginator;
 
