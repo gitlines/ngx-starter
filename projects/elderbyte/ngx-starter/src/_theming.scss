@@ -1,5 +1,76 @@
 @import "lib/components/mat-panel/mat-panel-theme";
 
+
+// ElderByte Theme
+
+$ebs-elder-blue: (
+  50: #eceff1,
+  100: #0051b4,
+  200: #004592,
+  300: #003b79,
+  400: #38507f,
+  500: #002852, // Official Main Color tone
+  600: #001a47,
+  700: #001a39,
+  800: #00152b,
+  900: #000029,
+  A100: #eceff1,
+  A200: #38507f,
+  A400: #002852,
+  A700: #000029,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+
+
+$ebs-elder-gold: (
+  50: #fff8e1,
+  100: #eed292,
+  200: #f6d797,
+  300: #efd08f,
+  400: #c9ad6e,
+  500: #BB9F61, // Official ElderByte Accent tone
+  600: #ad955e,
+  700: #97804e,
+  800: #806940,
+  900: #897135,
+  A100: #fff8e1,
+  A200: #efd08f,
+  A400: #BB9F61,
+  A700: #897135,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $dark-primary-text,
+    600: $dark-primary-text,
+    700: $dark-primary-text,
+    800: $dark-primary-text,
+    900: $dark-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text,
+  )
+);
+
 // Create a theme.
 @mixin starter-theme($theme) {
   @include mat-panel-theme($theme);
