@@ -62,7 +62,7 @@ export class ReactiveEventSource<T = any> {
 
           if (!this.closed) {
             // There was an error - try reconnecting
-            this.logger.debug('There was an error in the sse connection. (reconnecting...)', err);
+            this.logger.debug('Attempting to reconnect event-source at' + this.eventSourceUrl + '...');
 
             setTimeout(() => {
               this.reconnect();
@@ -138,7 +138,7 @@ export class ReactiveEventSource<T = any> {
 
         eventSource.onerror = (error) => {
 
-          this.logger.warn('There was an SSE error, current state: ' + this.readyStateAsString(eventSource), error);
+          this.logger.trace('There was an SSE error, current state: ' + this.readyStateAsString(eventSource), error);
 
           this.zone.run(() => {  // Ensure we run inside Angulars zone
             // While a EventSource should automatically reconnect as long its not closed,
@@ -150,8 +150,11 @@ export class ReactiveEventSource<T = any> {
         };
 
         return () => {
-          this.logger.debug('Closing the event-source since observable is in teardown.');
-          eventSource.close();
+          if (eventSource.readyState !== eventSource.CLOSED) {
+            // Close Event Source if not already closed.
+            this.logger.debug('Closing the event-source since observable is in teardown.');
+            eventSource.close();
+          }
         };
 
       } catch (err) {
