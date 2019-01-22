@@ -66,18 +66,12 @@ export class EventSourceService {
         };
 
         eventSource.onerror = (error) => {
-
           if (eventSource.readyState === eventSource.CLOSED) {
-
             // We can safely treat it as a normal situation. Another way of detecting the end of the stream
             // is to insert a special element in the stream of events, which the client can identify as the last one.
-
-            this.logger.debug('The SSE stream has been closed by the server.');
-            eventSource.close();
-            observer.complete();
+            this.logger.debug('The SSE stream was closed. Reconnecting to ' + eventSourceUrl + '...');
           } else {
             this.logger.warn('There was an SSE error, current state: ' + this.readyStateAsString(eventSource), error);
-            // observer.error(error);
           }
         };
 
