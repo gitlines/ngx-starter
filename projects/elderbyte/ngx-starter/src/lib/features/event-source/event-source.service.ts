@@ -1,7 +1,7 @@
-import {Observable, Observer} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {Injectable, NgZone} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {ReactiveEventSource} from './reactive-event-source';
 
 /**
  * Angular reactive EventSource integration
@@ -36,76 +36,36 @@ export class EventSourceService {
    **************************************************************************/
 
   /**
-   * Creates an observable stream for the given event source url and transforms the
-   * data to the given json type.
+   * Creates an reactive, automatic reconnecting event source.
+   *
+   * @param eventSourceUrl The url to the event source
+   * @param eventSourceInitDict Additional configuration to use when connecting. (optional)
    */
-  public observableJson<T>(eventSourceUrl: string): Observable<T> {
-    return this.observable(eventSourceUrl).pipe(
-      map(event => JSON.parse(event.data))
+  public reactiveEventSource<T = any>(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): ReactiveEventSource<T> {
+    return new ReactiveEventSource(
+      this.zone,
+      eventSourceUrl,
+      eventSourceInitDict
     );
   }
 
   /**
-   * Creates an observable stream for the given event source url.
+   * Creates an observable stream for the given event source url and transforms the
+   * data to the given json type.
+   *
+   * @deprecated Use reactiveEventSource directly for more control.
    */
-  public observable(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): Observable<MessageEvent> {
-
-    return Observable.create((observer: Observer<any>) => {
-
-      try {
-        const eventSource = new EventSource(eventSourceUrl, eventSourceInitDict);
-
-        eventSource.onopen = (event) => {
-          this.logger.debug('EventSource connection opened to: ' + eventSourceUrl +
-            ', state: ' + this.readyStateAsString(eventSource), event);
-        };
-
-        eventSource.onmessage = (event) => {
-          this.logger.trace('EventSource on-message:', event);
-          this.zone.run(() => observer.next(event)); // Ensure we run inside Angulars zone
-        };
-
-        eventSource.onerror = (error) => {
-          if (eventSource.readyState === eventSource.CLOSED) {
-            // We can safely treat it as a normal situation. Another way of detecting the end of the stream
-            // is to insert a special element in the stream of events, which the client can identify as the last one.
-            this.logger.debug('The SSE stream was closed. Reconnecting to ' + eventSourceUrl + '...');
-          } else {
-            this.logger.warn('There was an SSE error, current state: ' + this.readyStateAsString(eventSource), error);
-          }
-        };
-
-        return () => {
-          this.logger.debug('Closing the event-source since observable is in teardown.');
-          eventSource.close();
-        };
-
-      } catch (err) {
-        this.logger.error('Failed to subscribe to SSE at ' + eventSourceUrl, err);
-        observer.error(err);
-        observer.complete();
-      }
-    });
-
+  public observableJson<T>(eventSourceUrl: string): Observable<T> {
+    return this.reactiveEventSource(eventSourceUrl).eventsJson();
   }
 
-  /***************************************************************************
-   *                                                                         *
-   * Private methods                                                         *
-   *                                                                         *
-   **************************************************************************/
-
-
-  private readyStateAsString(source: EventSource): string {
-    if (source.readyState === source.OPEN) {
-      return 'OPEN';
-    } else if (source.readyState === source.CLOSED) {
-      return 'CLOSED';
-    } else if (source.readyState === source.CONNECTING) {
-      return 'CONNECTING';
-    } else {
-      return 'UNKNOWN';
-    }
+  /**
+   * Creates an observable stream for the given event source url.
+   *
+   * @deprecated Use reactiveEventSource directly for more control.
+   */
+  public observable(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): Observable<MessageEvent> {
+    return this.reactiveEventSource(eventSourceUrl, eventSourceInitDict).events;
   }
 
 }
