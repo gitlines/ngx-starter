@@ -23,9 +23,9 @@
     <mat-tab label="Components">
 
       <mat-toolbar color="accent" style="width: 500px">
-        <expand-toggle-button [(expanded)]="expanded" fxFlex>
+        <ebs-expand-toggle-button [(expanded)]="expanded" fxFlex>
           You can toggle me. State: {{expanded}}
-        </expand-toggle-button>
+        </ebs-expand-toggle-button>
       </mat-toolbar>
 
     </mat-tab>
@@ -34,7 +34,7 @@
 
       <h2>Language Switcher</h2>
 
-      <app-language-switcher></app-language-switcher>
+      <ebs-language-switcher></ebs-language-switcher>
       <h3>Translated: {{'greeting'| translate}}</h3>
 
 

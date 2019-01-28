@@ -14,7 +14,7 @@ import {
 import {RouterModule} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
-import {FormSupportDirectivesModule} from '../../directives/forms/form-support-directives.module';
+import {EbsFormSupportDirectivesModule} from '../../directives/forms/ebs-form-support-directives.module';
 import {CdkTableModule} from '@angular/cdk/table';
 
 export {EbsTableComponent} from './ebs-table/ebs-table.component';
@@ -27,7 +27,7 @@ export {EbsTableComponent} from './ebs-table/ebs-table.component';
     FlexLayoutModule, MatDividerModule,
 
     // forms
-    FormsModule, FormSupportDirectivesModule,
+    FormsModule, EbsFormSupportDirectivesModule,
 
     // form controls
     MatCheckboxModule,

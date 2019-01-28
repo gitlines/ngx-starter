@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IFileUploadClient, FileUploadClient, CommonDialogService, SuggestionProvider} from '@elderbyte/ngx-starter';
+import {IFileUploadClient, FileUploadClient, EbsCommonDialogService, SuggestionProvider} from '@elderbyte/ngx-starter';
 import {of} from 'rxjs';
 
 @Component({
@@ -36,7 +36,7 @@ export class DemoPanelComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private dialogService: CommonDialogService
+    private dialogService: EbsCommonDialogService
   ) {
     this.uploadClient = new FileUploadClient(http, '/woot', 'POST');
   }

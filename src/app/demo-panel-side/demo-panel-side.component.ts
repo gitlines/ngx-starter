@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { SideContentService } from '@elderbyte/ngx-starter';
+import { EbsSideContentService } from '@elderbyte/ngx-starter';
 
 @Component({
   selector: 'starter-demo-panel-side',
@@ -11,7 +11,7 @@ export class DemoPanelSideComponent implements OnInit {
   public expanded: boolean;
 
   constructor(
-      private sideContentService: SideContentService
+      private sideContentService: EbsSideContentService
   ) { }
 
   ngOnInit() {

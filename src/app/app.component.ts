@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {SideContentService, ToastService} from '@elderbyte/ngx-starter';
+import {EbsSideContentService, EbsToastService} from '@elderbyte/ngx-starter';
 
 export class MenuItem {
 
@@ -26,8 +26,8 @@ export class AppComponent {
 
     constructor(
     translateService: TranslateService,
-    private sideContentService: SideContentService,
-    private toastService: ToastService
+    private sideContentService: EbsSideContentService,
+    private toastService: EbsToastService
   ) {
     translateService.addLangs(['en', 'de']);
     translateService.defaultLang = 'en';

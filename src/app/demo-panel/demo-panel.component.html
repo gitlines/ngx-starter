@@ -45,9 +45,9 @@
         <h2>expand-toggle-button</h2>
 
         <mat-toolbar color="accent" style="width: 500px">
-          <expand-toggle-button [(expanded)]="expanded" fxFlex>
+          <ebs-expand-toggle-button [(expanded)]="expanded" fxFlex>
             You can toggle me. State: {{expanded}}
-          </expand-toggle-button>
+          </ebs-expand-toggle-button>
         </mat-toolbar>
 
 
@@ -78,7 +78,7 @@
       <div fxLayout="column" class="padding-10">
         <h2>Language Switcher</h2>
 
-        <app-language-switcher></app-language-switcher>
+        <ebs-language-switcher></ebs-language-switcher>
         <h3>Translated: {{'greeting'| translate}}</h3>
 
 

@@ -3,19 +3,18 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {
-  CommonPipesModule, ExpandToggleButtonModule,
+  EbsPipesModule, EbsExpandToggleButtonModule,
   EbsFilesModule,
   EbsCardOrganizerModule,
   EbsTableModule,
-  ToolbarModule,
-  AccessDeniedModule,
-  LanguageModule,
-  CommonDialogModule,
-  SideContentModule,
-  EbsLabelsModule,
-  MatPanelModule,
   EbsToolbarModule,
-  ToastModule
+  EbsAccessDeniedModule,
+  EbsLanguageModule,
+  EbsCommonDialogModule,
+  EbsSideContentModule,
+  EbsLabelsModule,
+  EbsMatPanelModule,
+  EbsToastModule
 } from '@elderbyte/ngx-starter';
 import {
     MatButtonModule,
@@ -84,17 +83,16 @@ LoggerFactory.getDefaultConfiguration()
     MatSortModule,
 
     // Library
-    CommonPipesModule,
-    CommonDialogModule,
-    ToastModule.forRoot(),
-    SideContentModule,
-    ExpandToggleButtonModule,
-    AccessDeniedModule,
-    ToolbarModule.forRoot(),
+    EbsPipesModule,
+    EbsCommonDialogModule,
+    EbsToastModule.forRoot(),
+    EbsSideContentModule,
+    EbsExpandToggleButtonModule,
+    EbsAccessDeniedModule,
     EbsFilesModule,
     EbsCardOrganizerModule,
     EbsTableModule,
-    MatPanelModule,
+    EbsMatPanelModule,
     EbsLabelsModule,
     EbsToolbarModule,
 
@@ -106,7 +104,7 @@ LoggerFactory.getDefaultConfiguration()
       }
     }),
 
-    LanguageModule.forRoot()
+    EbsLanguageModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

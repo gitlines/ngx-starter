@@ -12,9 +12,9 @@ import {
     MatToolbarModule
 } from '@angular/material';
 import {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
-import {LanguageModule} from '../../../features/language/language.module';
+import {EbsLanguageModule} from '../../../features/language/ebs-language.module';
 import { EbsToolbarColumnDirective } from './ebs-toolbar-column.directive';
-import {ToolbarModule} from '../../../features/toolbar/toolbar.module';
+import {EbsToolbarTitleComponent} from './ebs-toolbar-title/ebs-toolbar-title.component';
 
 export {EbsToolbarService} from './ebs-toolbar.service';
 export {EbsToolbarColumnDirective} from './ebs-toolbar-column.directive';
@@ -29,15 +29,15 @@ export {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
         FlexLayoutModule, MatDividerModule,
 
         // navigation
-        MatToolbarModule, ToolbarModule,
+        MatToolbarModule,
 
         // buttons & indicators
         MatButtonModule, MatIconModule, MatBadgeModule,
 
         // translations
-        TranslateModule, LanguageModule
+        TranslateModule, EbsLanguageModule
     ],
-    declarations: [EbsToolbarComponent, EbsToolbarColumnDirective],
-    exports: [EbsToolbarComponent, EbsToolbarColumnDirective]
+    declarations: [EbsToolbarComponent, EbsToolbarColumnDirective, EbsToolbarTitleComponent],
+    exports: [EbsToolbarComponent, EbsToolbarColumnDirective, EbsToolbarTitleComponent]
 })
 export class EbsToolbarModule {}
