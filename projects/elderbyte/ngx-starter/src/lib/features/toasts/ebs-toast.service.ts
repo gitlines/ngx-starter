@@ -100,3 +100,12 @@ export class EbsToastService {
 
 }
 
+/**
+ * @deprecated Please switch to EbsToastService
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class ToastService extends EbsToastService {
+
+}
