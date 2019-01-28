@@ -16,27 +16,11 @@ export * from './ebs-toast.service';
   declarations: [
     EbsToastComponent
   ],
-  providers: [
-    EbsToastService
-  ],
   exports : [
     EbsToastComponent
   ],
   imports : [ CommonModule, MatSnackBarModule ]
 })
 export class EbsToastModule {
-
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: EbsToastModule,
-      providers: [
-        {
-          provide: EbsToastService,
-          useClass: EbsToastService
-        }
-      ]
-    };
-  }
-
 
 }
