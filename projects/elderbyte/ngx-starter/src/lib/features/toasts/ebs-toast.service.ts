@@ -14,66 +14,89 @@ export * from './toast-type';
 })
 export class EbsToastService {
 
-    private readonly logger = LoggerFactory.getLogger('EbsToastService');
+  /***************************************************************************
+   *                                                                         *
+   * Fields                                                                  *
+   *                                                                         *
+   **************************************************************************/
 
-    private subjet = new Subject<Toast>();
+  private readonly logger = LoggerFactory.getLogger('EbsToastService');
 
-    constructor(
-        private translate: TranslateService
-    ) {}
+  private subjet = new Subject<Toast>();
 
-    getNotificationsObservable(): Observable<Toast> {
-        return this.subjet.asObservable();
-    }
+  /***************************************************************************
+   *                                                                         *
+   * Constructor                                                             *
+   *                                                                         *
+   **************************************************************************/
 
-    pushNotification(msg: Toast) {
-        this.subjet.next(msg);
-    }
+  constructor(
+    private translate: TranslateService
+  ) {}
 
-    public pushInfoRaw(msg: string) {
-        this.pushInfoToast(msg);
-    }
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
 
-    public pushInfo(msgKey: string, interpolateParams?: Object) {
-        this.translateMessage(msgKey, interpolateParams).subscribe(
-            (res) => this.pushInfoToast(res),
-            (err) => this.pushInfoToast(msgKey)); // no translation found, push key
-    }
+  public getNotificationsObservable(): Observable<Toast> {
+    return this.subjet.asObservable();
+  }
 
-    public pushErrorRaw(msg: string, error?: any) {
-        this.logger.error(msg, error);
-        this.pushInfoToast(msg);
-    }
+  public pushNotification(msg: Toast) {
+    this.subjet.next(msg);
+  }
 
-    public pushError(msgKey: string, interpolateParams?: any, error?: any) {
+  public pushInfoRaw(msg: string) {
+    this.pushInfoToast(msg);
+  }
 
-        this.translateMessage(msgKey, interpolateParams).subscribe(
-            (res) => {
-                this.logger.error(res, error);
-                this.pushErrorToast(res);
-            },
-            (err) => this.pushErrorToast(msgKey)); // no translation found, push key
-    }
+  public pushInfo(msgKey: string, interpolateParams?: Object) {
+    this.translateMessage(msgKey, interpolateParams).subscribe(
+      (res) => this.pushInfoToast(res),
+      (err) => this.pushInfoToast(msgKey)); // no translation found, push key
+  }
 
+  public pushErrorRaw(msg: string, error?: any) {
+    this.logger.error(msg, error);
+    this.pushInfoToast(msg);
+  }
 
+  public pushError(msgKey: string, interpolateParams?: any, error?: any) {
 
-    private pushInfoToast(msg: string) {
-        this.subjet.next({
-            message: msg,
-            type: ToastType.Success
-        });
-    }
+    this.translateMessage(msgKey, interpolateParams).subscribe(
+      (res) => {
+        this.logger.error(res, error);
+        this.pushErrorToast(res);
+      },
+      (err) => this.pushErrorToast(msgKey)); // no translation found, push key
+  }
 
-    private pushErrorToast(msg: string) {
-        this.subjet.next({
-            message: msg,
-            type: ToastType.Error
-        });
-    }
+  /***************************************************************************
+   *                                                                         *
+   * Private methods                                                         *
+   *                                                                         *
+   **************************************************************************/
 
-    private translateMessage(msg: string, interpolateParams: any): Observable<string> {
-        return this.translate.get(msg, interpolateParams);
+  private pushInfoToast(msg: string) {
+    this.subjet.next({
+      message: msg,
+      type: ToastType.Success
+    });
+  }
 
-    }
+  private pushErrorToast(msg: string) {
+    this.subjet.next({
+      message: msg,
+      type: ToastType.Error
+    });
+  }
+
+  private translateMessage(msg: string, interpolateParams: any): Observable<string> {
+    return this.translate.get(msg, interpolateParams);
+
+  }
 
 }
+
