@@ -5,7 +5,9 @@
              [selectionVisible]="true"
              [idField]="'name'"
              matSort
-             [data]="data">
+             [data]="data"
+             (itemClick)="openDetail($event)"
+  >
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>

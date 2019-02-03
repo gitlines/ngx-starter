@@ -83,4 +83,10 @@ export const appRoutes: Routes = [
         component: DemoPanelSideComponent,
 
     },
+  {
+    path: 'foods/:id',
+    outlet: 'side',
+    component: DemoPanelSideComponent,
+
+  },
 ];

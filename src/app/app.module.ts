@@ -85,7 +85,7 @@ LoggerFactory.getDefaultConfiguration()
     // Library
     EbsPipesModule,
     EbsCommonDialogModule,
-    EbsToastModule.forRoot(),
+    EbsToastModule,
     EbsSideContentModule,
     EbsExpandToggleButtonModule,
     EbsAccessDeniedModule,

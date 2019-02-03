@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Food, FoodStore} from '../model/food';
 import {IDataContextActivePage, DataContextBuilder} from '@elderbyte/ngx-starter';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'starter-demo-table-master-detail',
@@ -15,7 +16,9 @@ export class TableMasterDetailComponent implements OnInit {
 
   public data: IDataContextActivePage<Food>;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   public ngOnInit(): void {
     this.data = DataContextBuilder.start<Food>()
@@ -23,6 +26,10 @@ export class TableMasterDetailComponent implements OnInit {
       .buildLocalActivePaged(FoodStore.foods);
 
     this.data.start();
+  }
+
+  public openDetail(food: Food): void {
+    this.router.navigate([{outlets: {'side': ['foods', food.name]}}]);
   }
 
 }
