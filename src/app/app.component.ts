@@ -23,10 +23,8 @@ export class AppComponent {
 
     public menuItems: MenuItem[];
 
-
     constructor(
     translateService: TranslateService,
-    private sideContentService: EbsSideContentService,
     private toastService: EbsToastService
   ) {
     translateService.addLangs(['en', 'de']);
@@ -42,25 +40,9 @@ export class AppComponent {
         ];
   }
 
-    public get navigationOpen(): boolean {
-        return this.sideContentService.navigationOpen;
-    }
-
-    public get sideContentOpen(): boolean {
-        return this.sideContentService.sideContentOpen;
-    }
-
     public get disableClose(): boolean {
         return false;
         // return this.sideContentService.clickOutsideToClose;
-    }
-
-    public closeSideNav() {
-        this.sideContentService.closeSideNav();
-    }
-
-    public closeSideContent() {
-        this.sideContentService.closeSideContent();
     }
 
     public markAsFavorite(event: Event): void {

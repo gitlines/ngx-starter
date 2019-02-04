@@ -1,80 +1,34 @@
 
-<mat-sidenav-container style="height:100%;">
+<ebs-shell>
 
-  <!-- Left Side Nav -->
-  <mat-sidenav mode="over" class="side-navigation"
-               [opened]="navigationOpen" (closed)="closeSideNav()">
+  <ng-template ebsShellSideLeft>
 
-    <div fxLayout="column" fxFlex>
-
-      <mat-toolbar color="primary" class="side-nav-toolbar">
-
-        <mat-toolbar-row>
-          <div fxLayoutAlign="center center" style="width: 100%">
-            <span class="noselect" style="font-size: 30px">{{'ngx Demo App' | translate}}</span>
-          </div>
-        </mat-toolbar-row>
-
-        <mat-toolbar-row fxLayoutAlign="center center">
-          <mat-icon class="noselect side-nav-header-title-icon">blur_on</mat-icon>
-        </mat-toolbar-row>
-
-      </mat-toolbar>
-
-      <!-- Menu -->
-      <div fxLayout="column" fxFlex class="firefox-scroll-fix">
-        <mat-nav-list class="scrollable">
-          <mat-list-item *ngFor="let item of menuItems" routerLink="{{item.link}}" routerLinkActive="active-nav">
-            <mat-icon mat-list-icon class="noselect nav-icon">{{item.icon}}</mat-icon>
-            <span style="width: 15px"></span>
-            <a class="noselect mat-body-1">{{ item.name | translate}}</a>
-          </mat-list-item>
-        </mat-nav-list>
-      </div>
-
-    </div>
-
-
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-
-
-    <ebs-toolbar>
-
-      <!-- Toolbar default for right column -->
-      <ng-template ebsToolbarColumn="right" [ebsToolbarDefault]="true">
-        <div fxLayout="row" fxLayoutAlign="end center">
-          <button mat-icon-button (click)="markAsFavorite($event)">
-            <mat-icon>favorite_border</mat-icon>
-          </button>
-          <ebs-language-switcher [slimMode]="true"></ebs-language-switcher>
+    <!-- App Header -->
+    <mat-toolbar color="primary" class="side-nav-toolbar">
+      <mat-toolbar-row>
+        <div fxLayoutAlign="center center" style="width: 100%">
+          <span class="noselect" style="font-size: 30px">{{'ngx Demo App' | translate}}</span>
         </div>
-      </ng-template>
+      </mat-toolbar-row>
 
-    </ebs-toolbar>
+      <mat-toolbar-row fxLayoutAlign="center center">
+        <mat-icon class="noselect side-nav-header-title-icon">blur_on</mat-icon>
+      </mat-toolbar-row>
+    </mat-toolbar>
 
-    <div class="under-toolbar">
-      <router-outlet></router-outlet>
-      <ebs-toast></ebs-toast>
+    <!-- Menu -->
+    <div fxLayout="column" fxFlex class="firefox-scroll-fix">
+      <mat-nav-list class="scrollable">
+        <mat-list-item *ngFor="let item of menuItems" routerLink="{{item.link}}" routerLinkActive="active-nav">
+          <mat-icon mat-list-icon class="noselect nav-icon">{{item.icon}}</mat-icon>
+          <span style="width: 15px"></span>
+          <a class="noselect mat-body-1">{{ item.name | translate}}</a>
+        </mat-list-item>
+      </mat-nav-list>
     </div>
 
+  </ng-template>
 
 
-  </mat-sidenav-content>
 
-  <!-- Right Side Detial -->
-  <mat-sidenav fxLayout="column"
-               class="side-content, truncate" position="end" [fixedInViewport]="true"
-               mode="over"
-               [opened]="sideContentOpen"
-               (closedStart)="closeSideContent()"
-               [disableClose]="false">
-
-    <div class="my-side-content">
-      <router-outlet name="side"></router-outlet>
-    </div>
-
-  </mat-sidenav>
-
-</mat-sidenav-container>
+</ebs-shell>

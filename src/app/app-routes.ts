@@ -36,18 +36,18 @@ export const appRoutes: Routes = [
       },
 
       {
-          path: 'eatables',
-          component: EatableCategoryListComponent,
-          data: {
-              title: 'Eatables'
-          }
+        path: 'eatables',
+        component: EatableCategoryListComponent,
+        data: {
+          title: 'Eatables'
+        }
       },
       {
-          path: 'eatables/:id',
-          component: EatableCategoryDetailComponent,
-          data: {
-              title: 'Eatable Detail'
-          }
+        path: 'eatables/:id',
+        component: EatableCategoryDetailComponent,
+        data: {
+          title: 'Eatable Detail'
+        }
       },
 
       {
@@ -75,14 +75,14 @@ export const appRoutes: Routes = [
     }
   },
 
-    // OUTLET SIDE
+  // OUTLET SIDE
 
-    {
-        path: 'mixed-demo',
-        outlet: 'side',
-        component: DemoPanelSideComponent,
+  {
+    path: 'mixed-demo',
+    outlet: 'side',
+    component: DemoPanelSideComponent,
 
-    },
+  },
   {
     path: 'foods/:id',
     outlet: 'side',

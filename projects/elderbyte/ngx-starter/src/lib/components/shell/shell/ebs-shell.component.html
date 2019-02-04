@@ -1,0 +1,45 @@
+
+<mat-sidenav-container style="height:100%;">
+
+  <!-- Left Side Nav -->
+  <mat-sidenav mode="over" class="side-navigation"
+               [opened]="leftSideContentOpen"
+               (closed)="closeLeftSideContent()">
+    <ng-container *ngTemplateOutlet="sideContentLeft || fallbackSideContentLeft;"></ng-container>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+
+    <ebs-toolbar></ebs-toolbar>
+
+    <div class="under-toolbar">
+      <router-outlet></router-outlet>
+      <ebs-toast></ebs-toast>
+    </div>
+
+  </mat-sidenav-content>
+
+  <!-- Right Side Detial -->
+  <mat-sidenav fxLayout="column"
+               class="side-content, truncate" position="end" [fixedInViewport]="true"
+               mode="over"
+               [opened]="sideContentOpen"
+               (closedStart)="closeSideContent()"
+               [disableClose]="false">
+    <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
+  </mat-sidenav>
+
+</mat-sidenav-container>
+
+<ng-template #fallbackSideContentLeft>
+  <div fxLayout="column" fxFlex>
+    <p class="noselect">No Left Side Content Defined!</p>
+  </div>
+</ng-template>
+
+<ng-template #fallbackSideContentRight>
+  <div class="my-side-content">
+    <router-outlet name="side"></router-outlet>
+  </div>
+</ng-template>

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {
+  EbsShellModule,
   EbsPipesModule, EbsExpandToggleButtonModule,
   EbsFilesModule,
   EbsCardOrganizerModule,
@@ -83,6 +84,7 @@ LoggerFactory.getDefaultConfiguration()
     MatSortModule,
 
     // Library
+    EbsShellModule,
     EbsPipesModule,
     EbsCommonDialogModule,
     EbsToastModule,
