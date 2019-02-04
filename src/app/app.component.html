@@ -1,4 +1,3 @@
-
 <ebs-shell>
 
   <ng-template ebsShellSideLeft>
@@ -16,16 +15,13 @@
       </mat-toolbar-row>
     </mat-toolbar>
 
-    <!-- Menu -->
-    <div fxLayout="column" fxFlex class="firefox-scroll-fix">
-      <mat-nav-list class="scrollable">
-        <mat-list-item *ngFor="let item of menuItems" routerLink="{{item.link}}" routerLinkActive="active-nav">
-          <mat-icon mat-list-icon class="noselect nav-icon">{{item.icon}}</mat-icon>
-          <span style="width: 15px"></span>
-          <a class="noselect mat-body-1">{{ item.name | translate}}</a>
-        </mat-list-item>
-      </mat-nav-list>
-    </div>
+    <ebs-nav-list>
+      <ebs-nav-link icon="list" title="Table M/D" routerLink="app/master-detail"></ebs-nav-link>
+      <ebs-nav-link icon="list" title="Eatables" routerLink="app/eatables"></ebs-nav-link>
+      <ebs-nav-link icon="person" title="Mixed" routerLink="app/mixed-demo"></ebs-nav-link>
+      <ebs-nav-link icon="business" title="TB Title" routerLink="app/sub/toolbar-title-demo"></ebs-nav-link>
+      <ebs-nav-link icon="business" title="Override Title" routerLink="app/sub/override-title"></ebs-nav-link>
+    </ebs-nav-list>
 
   </ng-template>
 

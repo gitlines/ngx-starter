@@ -1,0 +1,30 @@
+<a mat-button
+   class="nav-link"
+   fxLayout="row" fxLayoutAlign="start center"
+   tabIndex="0"
+
+   [routerLink]="routerLink"
+   routerLinkActive="nav-link-active"
+   #rla="routerLinkActive"
+
+   [color]="rla.isActive ? 'accent' : ''"
+>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+
+    <mat-icon *ngIf="!svgIcon" mat-list-icon
+              [fontIcon]="fontIcon"
+              [fontSet]="fontSet"
+    >{{icon}}</mat-icon>
+
+    <mat-icon *ngIf="svgIcon" mat-list-icon
+              [svgIcon]="svgIcon"
+    ></mat-icon>
+
+    <span class="noselect mat-body-1"
+          [class.mat-body-2]="rla.isActive">
+      {{ title | translate}}
+    </span>
+  </div>
+
+</a>
