@@ -2,6 +2,22 @@
 // a:focus {outline:0;}
 
 .nav-link {
-  min-height: 45px;
+  min-height: 48px;
   border-radius: 0;
+}
+
+.nav-icon-inactive {
+  color: #757575;
+}
+
+.nav-text {
+  font-size: 16px;
+}
+
+.nav-text-inactive {
+  color: #757575;
+}
+
+.nav-text-active {
+
 }

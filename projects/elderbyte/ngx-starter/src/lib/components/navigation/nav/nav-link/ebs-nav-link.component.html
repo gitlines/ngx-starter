@@ -7,22 +7,26 @@
    routerLinkActive="nav-link-active"
    #rla="routerLinkActive"
 
-   [color]="rla.isActive ? 'accent' : ''"
+   [color]="rla.isActive ? 'primary' : ''"
 >
 
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
 
     <mat-icon *ngIf="!svgIcon" mat-list-icon
+              [class.nav-icon-inactive]="!rla.isActive"
               [fontIcon]="fontIcon"
-              [fontSet]="fontSet"
-    >{{icon}}</mat-icon>
+              [fontSet]="fontSet">
+      {{icon}}
+    </mat-icon>
 
     <mat-icon *ngIf="svgIcon" mat-list-icon
               [svgIcon]="svgIcon"
     ></mat-icon>
 
-    <span class="noselect mat-body-1"
-          [class.mat-body-2]="rla.isActive">
+    <span class="noselect nav-text"
+          [class.nav-text-active]="rla.isActive"
+          [class.nav-text-inactive]="!rla.isActive"
+    >
       {{ title | translate}}
     </span>
   </div>
