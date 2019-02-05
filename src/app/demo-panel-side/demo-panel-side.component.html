@@ -1,96 +1,99 @@
 
-
-<mat-toolbar color="primary">
-
-  <button mat-icon-button (click)="close($event)">
-    <mat-icon> close </mat-icon>
-  </button>
-
-  <span fxFlex></span>
-
-</mat-toolbar>
-
 <div fxLayout="column" fxFill>
-
-  <mat-tab-group fxFill>
-    <mat-tab label="Directives">
-
-      <a mat-button (click)="navigate()">Router Link</a>
-      <p>{{123 | weight}}</p>
-
-    </mat-tab>
-
-    <mat-tab label="Components">
-
-      <mat-toolbar color="accent" style="width: 500px">
-        <ebs-expand-toggle-button [(expanded)]="expanded" fxFlex>
-          You can toggle me. State: {{expanded}}
-        </ebs-expand-toggle-button>
-      </mat-toolbar>
-
-    </mat-tab>
-
-    <mat-tab label="Features">
-
-      <h2>Language Switcher</h2>
-
-      <ebs-language-switcher></ebs-language-switcher>
-      <h3>Translated: {{'greeting'| translate}}</h3>
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="close($event)">
+      <mat-icon> close </mat-icon>
+    </button>
+    <span fxFlex></span>
+  </mat-toolbar>
 
 
-      <h2>File Upload</h2>
+  <div fxLayout="column" fxFlex>
 
-      <ebs-file-upload
-        [multiple]="true"
-      ></ebs-file-upload>
+    <mat-tab-group fxFill>
+      <mat-tab label="Directives">
 
-    </mat-tab>
+        <a mat-button (click)="navigate()">Router Link</a>
+        <p>{{123 | weight}}</p>
 
-    <mat-tab label="Cards">
+      </mat-tab>
 
-    </mat-tab>
+      <mat-tab label="Components">
 
-    <mat-tab label="Scroll">
+        <mat-toolbar color="accent" style="width: 500px">
+          <ebs-expand-toggle-button [(expanded)]="expanded" fxFlex>
+            You can toggle me. State: {{expanded}}
+          </ebs-expand-toggle-button>
+        </mat-toolbar>
+
+      </mat-tab>
+
+      <mat-tab label="Features">
+
+        <h2>Language Switcher</h2>
+
+        <ebs-language-switcher></ebs-language-switcher>
+        <h3>Translated: {{'greeting'| translate}}</h3>
 
 
-      <div fxFill fxLayout="column">
+        <h2>File Upload</h2>
 
-        <div class="scrollable">
-          <div style="width: 250px;height: 250px;background-color: darkorange">
-            A
+        <ebs-file-upload
+          [multiple]="true"
+        ></ebs-file-upload>
+
+      </mat-tab>
+
+      <mat-tab label="Cards">
+
+      </mat-tab>
+
+      <mat-tab label="Scroll">
+
+
+        <div fxFill fxLayout="column">
+
+          <div class="scrollable">
+            <div style="width: 250px;height: 250px;background-color: darkorange">
+              A
+            </div>
+
+            <div style="width: 250px;height: 250px;background-color: darkcyan">
+              A
+            </div>
+
+            <div style="width: 250px;height: 250px;background-color: darkorange">
+              A
+            </div>
+
+            <div style="width: 250px;height: 250px;background-color: darkcyan">
+              A
+            </div>
+            <div style="width: 250px;height: 250px;background-color: darkorange">
+              A
+            </div>
+
+            <div style="width: 250px;height: 250px;background-color: darkcyan">
+              A
+            </div>
           </div>
 
-          <div style="width: 250px;height: 250px;background-color: darkcyan">
-            A
-          </div>
 
-          <div style="width: 250px;height: 250px;background-color: darkorange">
-            A
-          </div>
-
-          <div style="width: 250px;height: 250px;background-color: darkcyan">
-            A
-          </div>
-          <div style="width: 250px;height: 250px;background-color: darkorange">
-            A
-          </div>
-
-          <div style="width: 250px;height: 250px;background-color: darkcyan">
-            A
-          </div>
         </div>
 
 
-      </div>
+
+
+      </mat-tab>
+
+    </mat-tab-group>
 
 
 
-
-    </mat-tab>
-
-  </mat-tab-group>
-
+  </div>
 
 
 </div>
+
+
 
