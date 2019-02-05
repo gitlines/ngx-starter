@@ -64,6 +64,7 @@ LoggerFactory.getDefaultConfiguration()
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
+    RouterModule,
 
     FormsModule,
     ReactiveFormsModule,
