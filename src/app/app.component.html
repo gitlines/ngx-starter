@@ -1,5 +1,18 @@
 <ebs-shell>
 
+
+  <!-- Toolbar default for right column -->
+  <ng-template ebsToolbarColumn="right" [ebsToolbarDefault]="true">
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <button mat-icon-button (click)="markAsFavorite($event)">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+      <ebs-language-switcher [slimMode]="true"></ebs-language-switcher>
+    </div>
+  </ng-template>
+
+
+  <!-- Left Side Content -->
   <ng-template ebsShellSideLeft>
 
     <!-- App Header -->
@@ -15,6 +28,7 @@
       </mat-toolbar-row>
     </mat-toolbar>
 
+    <!-- App Navigation links -->
     <ebs-nav-list>
       <ebs-nav-link icon="list" title="Table M/D" routerLink="app/master-detail"></ebs-nav-link>
       <ebs-nav-link icon="list" title="Eatables" routerLink="app/eatables"></ebs-nav-link>
@@ -24,7 +38,5 @@
     </ebs-nav-list>
 
   </ng-template>
-
-
 
 </ebs-shell>
