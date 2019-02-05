@@ -1,0 +1,15 @@
+
+.scrollable {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/** https://bugzilla.mozilla.org/show_bug.cgi?id=1043520 **/
+.firefox-scroll-fix {
+  min-width:0;
+  min-height:0;
+}
+
+.ebs-nav-list-full {
+  min-width: 350px;
+}

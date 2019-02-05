@@ -15,27 +15,41 @@
   <!-- Left Side Content -->
   <ng-template ebsShellSideLeft>
 
-    <!-- App Header -->
-    <mat-toolbar color="primary" class="side-nav-toolbar">
-      <mat-toolbar-row>
-        <div fxLayoutAlign="center center" style="width: 100%">
-          <span class="noselect" style="font-size: 30px">{{'ngx Demo App' | translate}}</span>
-        </div>
-      </mat-toolbar-row>
+    <div fxLayout="column" fxFill>
 
-      <mat-toolbar-row fxLayoutAlign="center center">
-        <mat-icon class="noselect side-nav-header-title-icon">blur_on</mat-icon>
-      </mat-toolbar-row>
-    </mat-toolbar>
+      <!-- Header -->
+      <mat-panel  fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px"
+                  color="primary" class="light padding-10">
 
-    <!-- App Navigation links -->
-    <ebs-nav-list>
-      <ebs-nav-link icon="list" title="Table M/D" routerLink="app/master-detail"></ebs-nav-link>
-      <ebs-nav-link icon="list" title="Eatables" routerLink="app/eatables"></ebs-nav-link>
-      <ebs-nav-link icon="person" title="Mixed" routerLink="app/mixed-demo"></ebs-nav-link>
-      <ebs-nav-link icon="business" title="TB Title" routerLink="app/sub/toolbar-title-demo"></ebs-nav-link>
-      <ebs-nav-link icon="business" title="Override Title" routerLink="app/sub/override-title"></ebs-nav-link>
-    </ebs-nav-list>
+        <h3 class="noselect mat-display-1">Demo</h3>
+        <mat-icon class="noselect title-icon title-icon-hide">bookmark_border</mat-icon>
+      </mat-panel>
+
+      <!-- App Navigation links -->
+      <ebs-nav-list fxFlex>
+        <ebs-nav-link icon="list" title="Table M/D" routerLink="app/master-detail"></ebs-nav-link>
+        <ebs-nav-link icon="list" title="Eatables" routerLink="app/eatables"></ebs-nav-link>
+        <ebs-nav-link icon="person" title="Mixed" routerLink="app/mixed-demo"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="TB Title" routerLink="app/sub/toolbar-title-demo"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Override Title" routerLink="app/sub/override-title"></ebs-nav-link>
+
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+        <ebs-nav-link icon="business" title="Test Loooong" routerLink="app/loooong"></ebs-nav-link>
+      </ebs-nav-list>
+    </div>
 
   </ng-template>
 

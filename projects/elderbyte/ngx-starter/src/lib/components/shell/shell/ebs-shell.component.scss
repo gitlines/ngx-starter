@@ -3,8 +3,6 @@ $layout-breakpoint-sm:     960px !default;
 $layout-breakpoint-md:     1280px !default;
 $layout-breakpoint-lg:     1920px !default;
 
-
-
 $toolbar-height: 64px !default;
 $toolbar-medium-tall-height: 88px !default;
 $toolbar-tall-height: 128px !default;
@@ -24,14 +22,6 @@ $mat-small: 'max-width: 959px';
   height: 100%;
   overflow: hidden;
 }
-/* min-height:100vh; */
-
-/*
-:host {
-  min-height: 100%;
-  display: flex;
-}*/
-
 
 mat-sidenav {
   margin: 0;
@@ -44,6 +34,23 @@ mat-sidenav-container {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+
+.sidenav-content {
+  height: 100vh;
+  min-width: 250px;
+  max-width: 100vw
+}
+
+.my-side-content {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.side-content {
+  height: 100%;
 }
 
 
