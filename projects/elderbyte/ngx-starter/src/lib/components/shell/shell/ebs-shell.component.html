@@ -25,12 +25,12 @@
 
   <!-- Right Side Detial -->
   <mat-sidenav fxLayout="column"
-               class="side-content" position="end" [fixedInViewport]="true"
+               position="end" [fixedInViewport]="true"
                mode="over"
                [opened]="sideContentOpen"
                (closedStart)="closeSideContent()"
                [disableClose]="false">
-    <div class="my-side-content">
+    <div class="sidenav-content">
       <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
     </div>
   </mat-sidenav>
