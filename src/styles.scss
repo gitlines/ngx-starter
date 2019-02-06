@@ -64,6 +64,11 @@ body {
                                   supported by Chrome and Opera */
 }
 
+.mat-drawer-inner-container {
+  display: block;
+  height: 100vh!important;
+  overflow: hidden!important;
+}
 
 .scrollable {
   overflow: auto;

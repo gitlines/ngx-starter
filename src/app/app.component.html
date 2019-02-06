@@ -1,61 +1,85 @@
-<ebs-shell>
+
+<mat-sidenav-container style="height:100%;">
 
 
-  <!-- Toolbar default for right column -->
-  <ng-template ebsToolbarColumn="right" [ebsToolbarDefault]="true">
-    <div fxLayout="row" fxLayoutAlign="end center">
-      <button mat-icon-button (click)="markAsFavorite($event)">
-        <mat-icon>favorite_border</mat-icon>
-      </button>
-      <ebs-language-switcher [slimMode]="true"></ebs-language-switcher>
+  <!--
+   mat-drawer-inner-container
+   -> kills custom scroll control
+   -->
+
+  <!-- Left Side Nav -->
+  <mat-sidenav mode="over"
+               [fixedInViewport]="true"
+               [opened]="leftSideContentOpen"
+               (closed)="closeLeftSideContent()">
+    <div class="sidenav-content">
+
+      <mat-toolbar>Header Sticky</mat-toolbar>
+
+      <div class="scrollable">
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+      </div>
+
+
+
+
     </div>
-  </ng-template>
+  </mat-sidenav>
 
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <ebs-toolbar></ebs-toolbar>
+    <div class="under-toolbar">
 
-  <!-- Left Side Content -->
-  <ng-template ebsShellSideLeft>
+      <div fxLayout="column" fxFill>
 
-    <div fxLayout="column" fxFill>
+        <button mat-button (click)="openNav()">Open Nav</button>
 
+      </div>
 
-
-      <!-- Header -->
-      <mat-panel  fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px"
-                  color="primary" class="light padding-10">
-
-        <h3 class="noselect mat-display-1">Demo</h3>
-        <mat-icon class="noselect title-icon title-icon-hide">bookmark_border</mat-icon>
-      </mat-panel>
-
-      <!-- App Navigation links -->
-      <ebs-nav-list fxFlex>
-        <ebs-nav-link icon="list" title="Table M/D" routerLink="app/master-detail"></ebs-nav-link>
-        <ebs-nav-link icon="list" title="Eatables" routerLink="app/eatables"></ebs-nav-link>
-        <ebs-nav-link icon="person" title="Mixed" routerLink="app/mixed-demo"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="TB Title" routerLink="app/sub/toolbar-title-demo"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Override Title" routerLink="app/sub/override-title"></ebs-nav-link>
-
-        <mat-divider></mat-divider>
-        <h3 mat-subheader>Notes</h3>
-
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
-        <ebs-nav-link icon="business" title="Test Loooong" routerLink="app/loooong"></ebs-nav-link>
-      </ebs-nav-list>
     </div>
+  </mat-sidenav-content>
 
-  </ng-template>
+  <!-- Right Side Detial
+  <mat-sidenav fxLayout="column"
+               position="end" [fixedInViewport]="true"
+               mode="over"
+               [opened]="sideContentOpen"
+               (closedStart)="closeSideContent()"
+               [disableClose]="false">
+    <div class="my-side-content">
+      <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
+    </div>
+  </mat-sidenav>
+  -->
 
-</ebs-shell>
+</mat-sidenav-container>
