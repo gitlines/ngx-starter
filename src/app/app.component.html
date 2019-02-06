@@ -1,23 +1,10 @@
+
 <ebs-shell>
-
-
-  <!-- Toolbar default for right column -->
-  <ng-template ebsToolbarColumn="right" [ebsToolbarDefault]="true">
-    <div fxLayout="row" fxLayoutAlign="end center">
-      <button mat-icon-button (click)="markAsFavorite($event)">
-        <mat-icon>favorite_border</mat-icon>
-      </button>
-      <ebs-language-switcher [slimMode]="true"></ebs-language-switcher>
-    </div>
-  </ng-template>
-
 
   <!-- Left Side Content -->
   <ng-template ebsShellSideLeft>
 
     <div fxLayout="column" fxFill>
-
-
 
       <!-- Header -->
       <mat-panel  fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px"
@@ -28,7 +15,7 @@
       </mat-panel>
 
       <!-- App Navigation links -->
-      <ebs-nav-list fxFlex>
+      <ebs-nav-list fxFlex class="scrollable">
         <ebs-nav-link icon="list" title="Table M/D" routerLink="app/master-detail"></ebs-nav-link>
         <ebs-nav-link icon="list" title="Eatables" routerLink="app/eatables"></ebs-nav-link>
         <ebs-nav-link icon="person" title="Mixed" routerLink="app/mixed-demo"></ebs-nav-link>
@@ -39,6 +26,7 @@
         <h3 mat-subheader>Notes</h3>
 
         <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
+
         <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
         <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
         <ebs-nav-link icon="business" title="Test" routerLink="app/z"></ebs-nav-link>
@@ -59,3 +47,84 @@
   </ng-template>
 
 </ebs-shell>
+
+<!--
+<mat-sidenav-container style="height:100%;">
+
+
+  <mat-sidenav mode="over"
+               [fixedInViewport]="false"
+               [opened]="leftSideContentOpen"
+               (closed)="closeLeftSideContent()">
+    <div fxFill fxLayout="column">
+
+
+      <mat-toolbar>Header Sticky</mat-toolbar>
+
+      <div fxFlex class="scrollable">
+        <p>item first</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item test</p>
+        <p>item last</p>
+      </div>
+
+
+
+
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ebs-toolbar></ebs-toolbar>
+    <div class="under-toolbar">
+
+      <div fxLayout="column" fxFill>
+
+        <button mat-button (click)="openNav()">Open Nav</button>
+
+      </div>
+
+    </div>
+  </mat-sidenav-content>
+
+  <mat-sidenav fxLayout="column"
+               position="end" [fixedInViewport]="true"
+               mode="over"
+               [opened]="sideContentOpen"
+               (closedStart)="closeSideContent()"
+               [disableClose]="false">
+    <div class="my-side-content">
+      <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
+    </div>
+  </mat-sidenav>
+
+
+</mat-sidenav-container>
+
+-->

@@ -4,6 +4,7 @@ import {DemoPanelSideComponent} from './demo-panel-side/demo-panel-side.componen
 import {EatableCategoryListComponent} from './eatables/categories/category-list/eatable-category-list.component';
 import {EatableCategoryDetailComponent} from './eatables/categories/category-detail/eatable-category-detail.component';
 import {TableMasterDetailComponent} from './table-master-detail/table-master-detail.component';
+import {DemoSimpleSideComponent} from './demo-simple-side/demo-simple-side.component';
 
 
 export const appRoutes: Routes = [
@@ -76,7 +77,12 @@ export const appRoutes: Routes = [
   },
 
   // OUTLET SIDE
+  {
+    path: 'simple',
+    outlet: 'side',
+    component: DemoSimpleSideComponent,
 
+  },
   {
     path: 'mixed-demo',
     outlet: 'side',

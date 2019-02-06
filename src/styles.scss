@@ -64,12 +64,10 @@ body {
                                   supported by Chrome and Opera */
 }
 
-
 .scrollable {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
-
 
 /** https://bugzilla.mozilla.org/show_bug.cgi?id=1043520 **/
 .firefox-scroll-fix {

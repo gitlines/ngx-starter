@@ -1,16 +1,17 @@
 
 <div fxLayout="column" fxFill>
-  <mat-toolbar color="primary">
+
+  <mat-toolbar color="primary" fxFlex="none">
     <button mat-icon-button (click)="close($event)">
       <mat-icon> close </mat-icon>
     </button>
+    <span>Side Detail</span>
     <span fxFlex></span>
   </mat-toolbar>
 
 
-  <div fxLayout="column" fxFlex>
+  <mat-tab-group fxFlex class="firefox-scroll-fix">
 
-    <mat-tab-group fxFill>
       <mat-tab label="Directives">
 
         <a mat-button (click)="navigate()">Router Link</a>
@@ -39,7 +40,7 @@
         <h2>File Upload</h2>
 
         <ebs-file-upload
-          [multiple]="true"
+                [multiple]="true"
         ></ebs-file-upload>
 
       </mat-tab>
@@ -48,49 +49,48 @@
 
       </mat-tab>
 
-      <mat-tab label="Scroll">
+      <mat-tab label="Scroll" class="firefox-scroll-fix">
 
+        <div fxFill fxLayout="row">
 
-        <div fxFill fxLayout="column">
-
-          <div class="scrollable">
-            <div style="width: 250px;height: 250px;background-color: darkorange">
-              A
-            </div>
-
-            <div style="width: 250px;height: 250px;background-color: darkcyan">
-              A
-            </div>
-
-            <div style="width: 250px;height: 250px;background-color: darkorange">
-              A
-            </div>
-
-            <div style="width: 250px;height: 250px;background-color: darkcyan">
-              A
-            </div>
-            <div style="width: 250px;height: 250px;background-color: darkorange">
-              A
-            </div>
-
-            <div style="width: 250px;height: 250px;background-color: darkcyan">
-              A
-            </div>
+          <div fxLayout="column" fxFlex="50" style="background-color: plum">
+            <p>Static</p>
           </div>
 
+          <div fxLayout="column" fxFlex="50">
+
+            <div class="scrollable">
+              <div style="width: 250px;height: 250px;background-color: darkorange">
+                A
+              </div>
+
+              <div style="width: 250px;height: 250px;background-color: darkcyan">
+                A
+              </div>
+
+              <div style="width: 250px;height: 250px;background-color: darkorange">
+                A
+              </div>
+
+              <div style="width: 250px;height: 250px;background-color: darkcyan">
+                A
+              </div>
+              <div style="width: 250px;height: 250px;background-color: darkorange">
+                A
+              </div>
+
+              <div style="width: 250px;height: 250px;background-color: darkcyan">
+                A
+              </div>
+            </div>
+
+          </div>
 
         </div>
-
-
-
 
       </mat-tab>
 
     </mat-tab-group>
-
-
-
-  </div>
 
 
 </div>
