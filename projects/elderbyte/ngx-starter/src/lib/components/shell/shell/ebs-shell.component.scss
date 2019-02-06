@@ -16,6 +16,10 @@ $toolbar-height-mobile-landscape: 48px !default;
 $mat-xsmall: 'max-width: 599px';
 $mat-small: 'max-width: 959px';
 
+/******************************
+Sidenav settings to ensure scroll capabilities
+*******************************/
+
 mat-sidenav {
   margin: 0;
   height: 100%;
@@ -30,7 +34,7 @@ mat-sidenav-container {
 }
 
 /******************************
-Main Content
+Main Content (mat-sidenav-content)
 *******************************/
 
 .under-toolbar {

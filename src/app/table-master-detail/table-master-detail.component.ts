@@ -30,6 +30,7 @@ export class TableMasterDetailComponent implements OnInit {
 
   public openDetail(food: Food): void {
     this.router.navigate([{outlets: {'side': ['foods', food.name]}}]);
+    // this.router.navigate([{outlets: {'side': ['simple']}}]);
   }
 
 }
