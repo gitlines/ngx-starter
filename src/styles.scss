@@ -64,17 +64,10 @@ body {
                                   supported by Chrome and Opera */
 }
 
-.mat-drawer-inner-container {
-  display: block;
-  height: 100vh!important;
-  overflow: hidden!important;
-}
-
 .scrollable {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
-
 
 /** https://bugzilla.mozilla.org/show_bug.cgi?id=1043520 **/
 .firefox-scroll-fix {

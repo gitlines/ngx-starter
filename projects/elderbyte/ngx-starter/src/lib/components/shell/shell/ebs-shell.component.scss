@@ -16,13 +16,6 @@ $toolbar-height-mobile-landscape: 48px !default;
 $mat-xsmall: 'max-width: 599px';
 $mat-small: 'max-width: 959px';
 
-.app-root {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
 mat-sidenav {
   margin: 0;
   height: 100%;
@@ -34,19 +27,6 @@ mat-sidenav-container {
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-
-
-.sidenav-content {
-  height: 100vh;
-  min-width: 250px;
-  max-width: 100vw
-}
-
-.my-side-content {
-  position: relative;
-  overflow: hidden;
-  height: 100%;
 }
 
 /******************************

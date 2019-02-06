@@ -1,18 +1,13 @@
 
 <mat-sidenav-container style="height:100%;">
 
-
-  <!--
-   mat-drawer-inner-container
-   -> kills custom scroll control
-   -->
-
   <!-- Left Side Nav -->
-  <mat-sidenav mode="over"
+  <mat-sidenav position="start"
+               mode="over"
                [fixedInViewport]="true"
                [opened]="leftSideContentOpen"
                (closed)="closeLeftSideContent()">
-    <div class="sidenav-content">
+    <div fxFill fxLayout="column">
       <ng-container *ngTemplateOutlet="sideContentLeft || fallbackSideContentLeft;"></ng-container>
     </div>
   </mat-sidenav>
@@ -28,13 +23,13 @@
   </mat-sidenav-content>
 
   <!-- Right Side Detial -->
-  <mat-sidenav fxLayout="column"
-               position="end" [fixedInViewport]="true"
-               mode="over"
+  <mat-sidenav mode="over"
+               position="end"
+               [fixedInViewport]="true"
                [opened]="sideContentOpen"
                (closedStart)="closeSideContent()"
                [disableClose]="false">
-    <div class="my-side-content">
+    <div fxFill fxLayout="column">
       <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
     </div>
   </mat-sidenav>
