@@ -1,6 +1,13 @@
 @import "lib/components/mat-panel/mat-panel-theme";
 
 
+// Fix forced scroll container
+.mat-drawer-inner-container {
+  display: block;
+  height: 100vh!important;
+  overflow: hidden!important;
+}
+
 // ElderByte Theme
 
 $ebs-elder-blue: (

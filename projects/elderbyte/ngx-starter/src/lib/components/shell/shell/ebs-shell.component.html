@@ -1,6 +1,12 @@
 
 <mat-sidenav-container style="height:100%;">
 
+
+  <!--
+   mat-drawer-inner-container
+   -> kills custom scroll control
+   -->
+
   <!-- Left Side Nav -->
   <mat-sidenav mode="over"
                [fixedInViewport]="true"
@@ -13,14 +19,12 @@
 
   <!-- Main Content -->
   <mat-sidenav-content>
-
     <ebs-toolbar></ebs-toolbar>
 
     <div class="under-toolbar">
       <router-outlet></router-outlet>
       <ebs-toast></ebs-toast>
     </div>
-
   </mat-sidenav-content>
 
   <!-- Right Side Detial -->
@@ -30,7 +34,7 @@
                [opened]="sideContentOpen"
                (closedStart)="closeSideContent()"
                [disableClose]="false">
-    <div class="sidenav-content">
+    <div class="my-side-content">
       <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
     </div>
   </mat-sidenav>
