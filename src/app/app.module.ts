@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {
@@ -15,16 +15,18 @@ import {
   EbsSideContentModule,
   EbsLabelsModule,
   EbsMatPanelModule,
-  EbsToastModule
+  EbsToastModule,
+  EbsDatesModule,
+  EbsLocalesDeChModule
 } from '@elderbyte/ngx-starter';
 import {
-    MatButtonModule,
-    MatCommonModule,
-    MatDialogModule,
-    MatIconModule, MatListModule,
-    MatSidenavModule, MatSortModule, MatTableModule,
-    MatTabsModule,
-    MatToolbarModule
+  MatButtonModule,
+  MatCommonModule,
+  MatDialogModule,
+  MatIconModule, MatListModule,
+  MatSidenavModule, MatSortModule, MatTableModule,
+  MatTabsModule,
+  MatToolbarModule
 } from '@angular/material';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -103,6 +105,9 @@ LoggerFactory.getDefaultConfiguration()
     EbsMatPanelModule,
     EbsLabelsModule,
     EbsToolbarModule,
+
+    EbsLocalesDeChModule,
+    EbsDatesModule,
 
     TranslateModule.forRoot({
       loader: {

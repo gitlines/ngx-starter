@@ -1,0 +1,26 @@
+
+
+<form #frm="ngForm" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+
+  <button mat-icon-button (click)="previousDay()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+
+  <mat-form-field>
+    <input matInput name="date" style="cursor: pointer" readonly
+           [value]="date"
+           [matDatepicker]="picker"
+           (click)="onDatepickerInputClick($event)"
+           (dateChange)="onDatepickerInputChange($event)">
+    <mat-datepicker [touchUi]="true" #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-icon-button (click)="nextDay()">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+
+  <button mat-icon-button (click)="today()" matTooltip="Today">
+    <mat-icon>event</mat-icon>
+  </button>
+
+</form>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {IFileUploadClient, FileUploadClient, EbsCommonDialogService, SuggestionProvider} from '@elderbyte/ngx-starter';
 import {of} from 'rxjs';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
   selector: 'starter-demo-demo-panel',
@@ -10,8 +11,9 @@ import {of} from 'rxjs';
 })
 export class DemoPanelComponent implements OnInit {
 
+  private readonly logger = LoggerFactory.getLogger('DemoPanelComponent');
 
-
+  public date: Date = new Date;
 
   public dateTimeSummerUs = '2018-07-05T08:15:30-05:00';
   public dateTimeSummerZurich = '2018-07-05T08:15:30+02:00';
@@ -54,6 +56,12 @@ export class DemoPanelComponent implements OnInit {
           autoFocus: false
         }
     }).subscribe();
+  }
+
+
+  public dateChange(date: Date): void {
+    //this.logger.info(date);
+    this.date = date;
   }
 
 }
