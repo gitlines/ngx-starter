@@ -22,7 +22,7 @@ import {
 import {
   MatButtonModule,
   MatCommonModule,
-  MatDialogModule,
+  MatDialogModule, MatDividerModule,
   MatIconModule, MatListModule,
   MatSidenavModule, MatSortModule, MatTableModule,
   MatTabsModule,
@@ -85,6 +85,7 @@ LoggerFactory.getDefaultConfiguration()
     MatDialogModule,
     MatListModule,
     MatButtonModule,
+    MatDividerModule,
 
     MatTableModule,
     MatSortModule,

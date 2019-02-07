@@ -19,23 +19,58 @@
 
   <mat-tab-group fxFill class="firefox-scroll-fix">
 
+
+    <mat-tab label="Typography">
+
+
+      <div fxLayout="row" class="padding-10" fxLayoutGap="10px">
+
+        <div fxLayout="column">
+          <h1 class="mat-display-4">display-4</h1>
+          <h1 class="mat-display-3">display-3</h1>
+          <h1 class="mat-display-2">display-2</h1>
+          <h1 class="mat-display-1">display-1</h1>
+        </div>
+
+        <mat-divider vertical="true"></mat-divider>
+
+        <div fxLayout="column">
+          <h1 class="mat-headline">headline</h1>
+          <h2 class="mat-title">mat-title</h2>
+          <h3 class="mat-subheading-2">display-2</h3>
+          <h4 class="mat-subheading-1">display-1</h4>
+
+          <p class="mat-body">body-1</p>
+          <p class="mat-body-strong">body-strong</p>
+          <p class="mat-small">small</p>
+        </div>
+
+      </div>
+
+
+    </mat-tab>
+
     <mat-tab label="Directives">
 
-      <h2>weight</h2>
-      <p>{{123 | weight}}</p>
+      <div fxlayout="column" class="padding-10">
 
-      <h2>date</h2>
+        <h2>weight</h2>
+        <p>{{123 | weight}}</p>
 
-      <ul>
-        <li><h3>Summer (2018.07.05 08:15)</h3></li>
-        <li>US {{dateTimeSummerUs | date:'yyyy.MM.dd hh:mm'}}</li>
-        <li>Zurich {{dateTimeSummerZurich | date:'yyyy.MM.dd hh:mm'}}</li>
-        <li>UTC {{dateTimeSummerUtc | date:'yyyy.MM.dd hh:mm'}}</li>
-        <li><h3>Winter (2018.12.05 08:15)</h3></li>
-        <li>US {{dateTimeWinterUs | date:'yyyy.MM.dd hh:mm'}}</li>
-        <li>Zurich {{dateTimeWinterZurich | date:'yyyy.MM.dd hh:mm'}}</li>
-        <li>UTC {{dateTimeWinterUtc | date:'yyyy.MM.dd hh:mm'}}</li>
-      </ul>
+        <h2>date</h2>
+
+        <ul>
+          <li><h3>Summer (2018.07.05 08:15)</h3></li>
+          <li>US {{dateTimeSummerUs | date:'yyyy.MM.dd hh:mm'}}</li>
+          <li>Zurich {{dateTimeSummerZurich | date:'yyyy.MM.dd hh:mm'}}</li>
+          <li>UTC {{dateTimeSummerUtc | date:'yyyy.MM.dd hh:mm'}}</li>
+          <li><h3>Winter (2018.12.05 08:15)</h3></li>
+          <li>US {{dateTimeWinterUs | date:'yyyy.MM.dd hh:mm'}}</li>
+          <li>Zurich {{dateTimeWinterZurich | date:'yyyy.MM.dd hh:mm'}}</li>
+          <li>UTC {{dateTimeWinterUtc | date:'yyyy.MM.dd hh:mm'}}</li>
+        </ul>
+      </div>
+
 
 
     </mat-tab>

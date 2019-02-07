@@ -7,7 +7,7 @@
                [fixedInViewport]="true"
                [opened]="leftSideContentOpen"
                (closed)="closeLeftSideContent()">
-    <div fxFill fxLayout="column">
+    <div fxFill fxLayout="column" class="mat-typography">
       <ng-container *ngTemplateOutlet="sideContentLeft || fallbackSideContentLeft;"></ng-container>
     </div>
   </mat-sidenav>
@@ -16,7 +16,7 @@
   <mat-sidenav-content>
     <ebs-toolbar></ebs-toolbar>
 
-    <div class="under-toolbar">
+    <div class="under-toolbar mat-typography">
       <router-outlet></router-outlet>
       <ebs-toast></ebs-toast>
     </div>
@@ -29,7 +29,7 @@
                [opened]="sideContentOpen"
                (closedStart)="closeSideContent()"
                [disableClose]="false">
-    <div fxFill fxLayout="column">
+    <div fxFill fxLayout="column" class="mat-typography">
       <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
     </div>
   </mat-sidenav>
@@ -43,5 +43,5 @@
 </ng-template>
 
 <ng-template #fallbackSideContentRight>
-  <router-outlet name="side" class="router-flex"></router-outlet>
+  <router-outlet name="side" class="router-flex mat-typography"></router-outlet>
 </ng-template>
