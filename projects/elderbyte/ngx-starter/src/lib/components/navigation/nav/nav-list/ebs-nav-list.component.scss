@@ -13,3 +13,7 @@
 .ebs-nav-list-full {
   min-width: 350px;
 }
+
+.ebs-nav-list-full:focus {
+  outline: none;
+}

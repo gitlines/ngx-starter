@@ -2,24 +2,22 @@
    class="nav-link"
    fxLayout="row" fxLayoutAlign="start center"
    tabIndex="0"
-
    [routerLink]="routerLink"
    routerLinkActive="nav-link-active"
    #rla="routerLinkActive"
-
    [color]="rla.isActive ? 'primary' : ''"
 >
 
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+  <div fxLayout="row" fxLayoutAlign="start center">
 
-    <mat-icon *ngIf="!svgIcon" mat-list-icon
+    <mat-icon *ngIf="!svgIcon" class="nav-icon"
               [class.nav-icon-inactive]="!rla.isActive"
               [fontIcon]="fontIcon"
               [fontSet]="fontSet">
       {{icon}}
     </mat-icon>
 
-    <mat-icon *ngIf="svgIcon" mat-list-icon
+    <mat-icon *ngIf="svgIcon" class="nav-icon"
               [svgIcon]="svgIcon"
     ></mat-icon>
 
