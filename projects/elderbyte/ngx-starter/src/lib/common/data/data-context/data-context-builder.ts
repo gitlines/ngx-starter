@@ -10,12 +10,13 @@ import {ContinuableListing} from '../continuable-listing';
 import {DataContextContinuableToken} from './data-context-continuable-token';
 import {EMPTY, Observable, of} from 'rxjs';
 import {MatPaginator, MatSort} from '@angular/material';
-import {DataContextActivePageLocal} from './data-context-active-page-local';
 import {TokenChunkRequest} from '../token-chunk-request';
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from './data-context';
 import {RestClient, RestClientContinuable, RestClientList, RestClientPaged} from '../rest/rest-client';
 import {MatTableDataContextBindingBuilder} from './mat-table-data-context-binding';
 import {RestClientDataContextBinding} from './rest-client-data-context-binding';
+import {LocalDataPageFetcher} from './local/local-data-page-fetcher';
+import {LocalDataListFetcher} from './local/local-data-list-fetcher';
 
 /**
  * Provides the ability to build a IDataContext<T>.
@@ -191,50 +192,52 @@ export class DataContextBuilder<T> {
    *                                                                         *
    **************************************************************************/
 
+  /**
+   * @deprecated Switch to buildLocal()
+   */
+  public buildStatic(items: T[]): IDataContext<T> {
+    return this.buildLocal(items);
+  }
+
+  public buildLocal(items: T[]): IDataContext<T> {
+    const localDataListFetcher = LocalDataListFetcher.from(items);
+    return this.build(
+      (s, f) => localDataListFetcher.findAll(f, s)
+    );
+  }
 
   public buildLocalActivePaged(
     data: T[],
   ): IDataContextActivePage<T> {
-
-    return this.wrap(new DataContextActivePageLocal<T>(
-      data,
-      this._pageSize,
-      this._indexFn,
-      this._localSort,
-      this._localApply,
-    ));
-  }
-
-  public buildStatic(items: T[]): IDataContext<T> {
-    return this.wrap(
-      new DataContextSimple<T>( (a, b) => of(items))
+    const localPageFetcher = LocalDataPageFetcher.from(data);
+    return this.buildActivePaged(
+      (p, f) => localPageFetcher.findAllPaged(p, f)
     );
   }
 
+  /***************************************************************************
+   *                                                                         *
+   * Empty Data Builder                                                      *
+   *                                                                         *
+   **************************************************************************/
+
+
   public buildEmpty(): IDataContext<T> {
-    return this.wrap(
-      new DataContextSimple<T>( (a, b) => EMPTY)
+    return this.build(
+      (a, b) => EMPTY
     );
   }
 
   public buildEmptyContinuable(): IDataContextContinuable<T> {
-    return this.wrap(new DataContextContinuablePaged<T>(
-      (a, b) => EMPTY,
-      this._pageSize,
-      this._indexFn,
-      this._localSort,
-      this._localApply
-    ));
+    return this.buildPaged(
+      (a, b) => EMPTY
+    );
   }
 
   public buildEmptyActivePaged(): IDataContextActivePage<T> {
-    return this.wrap(new DataContextActivePage<T>(
-      (a, b) => EMPTY,
-      this._pageSize,
-      this._indexFn,
-      this._localSort,
-      this._localApply,
-    ));
+    return this.buildActivePaged(
+      (a, b) => EMPTY
+    );
   }
 
   /***************************************************************************

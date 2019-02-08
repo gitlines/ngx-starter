@@ -182,7 +182,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public set data(data: Array<any> | IDataContext<any>) {
     if (data instanceof Array) {
       this.dataContext = DataContextBuilder.start()
-        .buildStatic(data);
+        .buildLocal(data);
       this.dataContext.start();
     } else {
       this.dataContext = data;
