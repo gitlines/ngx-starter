@@ -121,7 +121,7 @@ export class ReactiveEventSource<T = any> {
    */
   private observableEventSource(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): Observable<MessageEvent> {
 
-    return Observable.create((observer: Observer<any>) => {
+    return new Observable((observer: Observer<any>) => {
 
       try {
         const eventSource = new EventSource(eventSourceUrl, eventSourceInitDict);

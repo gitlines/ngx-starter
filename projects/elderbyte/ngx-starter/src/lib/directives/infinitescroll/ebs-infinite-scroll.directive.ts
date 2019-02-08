@@ -95,7 +95,7 @@ export class EbsInfiniteScrollDirective implements OnInit, OnDestroy {
     this.unregister();
 
     const scrollContainer = document.getElementById(containerId);
-    this.register(scrollContainer)
+    this.register(scrollContainer);
 
     if (!scrollContainer) {
       this.logger.warn('Could not find scroll-container by id: ' + containerId);
