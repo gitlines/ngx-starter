@@ -3,7 +3,14 @@
 
   <!-- TODO: Table toolbar injection here -->
 
-  <div fxLayout="column" class="scrollable">
+  <div fxLayout="column" class="scrollable"
+
+       infiniteScroll
+       [eventThrottle]="150"
+       [offsetFactor]="2"
+       [ignoreScrollEvent]="!(isContinuable && !data.loadingIndicator && dataContinuable?.hasMoreData)"
+       (closeToEnd)="dataContinuable.loadMore()"
+  >
     <table
       mat-table
       class="responsiveTable"

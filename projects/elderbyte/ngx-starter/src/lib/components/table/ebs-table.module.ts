@@ -16,6 +16,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 import {EbsFormSupportDirectivesModule} from '../../directives/forms/ebs-form-support-directives.module';
 import {CdkTableModule} from '@angular/cdk/table';
+import {EbsInfiniteScrollModule} from '../../directives/infinitescroll/ebs-infinite-scroll.module';
 
 export {EbsTableComponent} from './ebs-table/ebs-table.component';
 
@@ -44,6 +45,8 @@ export {EbsTableComponent} from './ebs-table/ebs-table.component';
 
     // translations
     TranslateModule,
+
+    EbsInfiniteScrollModule
   ],
   declarations: [EbsTableComponent],
   exports: [EbsTableComponent]
