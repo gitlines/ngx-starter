@@ -38,7 +38,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
   protected constructor(
     private _indexFn?: ((item: T) => any),
-    private _localSort?: ((a: T, b: T) => number),
     private _localApply?: ((data: T[]) => T[])
   ) {
     super();
@@ -205,11 +204,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     if (this._localApply) {
       rows = this._localApply(rows);
-    }
-
-    if (this._localSort) {
-      this.baselog.debug(`Apply local sort to ${rows.length} rows ...`);
-      rows.sort(this._localSort);
     }
 
     if (!alreadyIndexed) {

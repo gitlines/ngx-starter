@@ -145,7 +145,6 @@ export class DataContextBuilder<T> {
     return this.wrap(new DataContextSimple<T>(
       listFetcher,
       this._indexFn,
-      this._localSort,
       this._localApply,
     ));
   }
@@ -158,7 +157,6 @@ export class DataContextBuilder<T> {
       pageLoader,
       this._pageSize,
       this._indexFn,
-      this._localSort,
       this._localApply,
     ));
   }
@@ -170,7 +168,6 @@ export class DataContextBuilder<T> {
       nextChunkLoader,
       this._pageSize,
       this._indexFn,
-      this._localSort,
       this._localApply,
     ));
   }
@@ -181,7 +178,6 @@ export class DataContextBuilder<T> {
       pageLoader,
       this._pageSize,
       this._indexFn,
-      this._localSort,
       this._localApply,
     ));
   }

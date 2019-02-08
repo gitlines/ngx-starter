@@ -43,11 +43,10 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     private pageLoader: (pageable: Pageable, filters: Filter[]) => Observable<Page<T>>,
     pageSize: number,
     indexFn?: ((item: T) => any),
-    localSort?: ((a: T, b: T) => number),
     localApply?: ((data: T[]) => T[])
   ) {
 
-    super(indexFn, localSort, localApply);
+    super(indexFn, localApply);
 
     this._page = {
       pageSize: pageSize,
