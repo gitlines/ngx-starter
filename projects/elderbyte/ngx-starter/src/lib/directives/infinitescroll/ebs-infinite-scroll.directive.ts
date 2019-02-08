@@ -41,7 +41,9 @@ export class EbsInfiniteScrollDirective implements OnInit, OnDestroy {
 
   constructor(
     private ngZone: NgZone,
-    el: ElementRef) {
+    private hostRef: ElementRef) {
+
+    this.register(hostRef.nativeElement);
   }
 
   /***************************************************************************
@@ -93,10 +95,9 @@ export class EbsInfiniteScrollDirective implements OnInit, OnDestroy {
     this.unregister();
 
     const scrollContainer = document.getElementById(containerId);
-    if (scrollContainer) {
-      this.logger.debug('Found scroll container: ', scrollContainer);
-      this.setup(scrollContainer);
-    } else {
+    this.register(scrollContainer)
+
+    if (!scrollContainer) {
       this.logger.warn('Could not find scroll-container by id: ' + containerId);
     }
   }
@@ -113,13 +114,20 @@ export class EbsInfiniteScrollDirective implements OnInit, OnDestroy {
     }
   }
 
-  private setup(scrollContainer: HTMLElement): void {
+  private register(scrollContainer: HTMLElement): void {
+
+    this.unregister();
     this._scrollContainer = scrollContainer;
 
-    this.ngZone.runOutsideAngular(() => {
-      // Attach the scroll event listener outside of Angular change detection zone
-      this._scrollContainer.addEventListener('scroll', this.scroll, this.scrollEventListenerOptions);
-    });
+    if (this._scrollContainer) {
+
+      this.logger.debug('Registered on scroll container: ', this._scrollContainer);
+
+      this.ngZone.runOutsideAngular(() => {
+        // Attach the scroll event listener outside of Angular change detection zone
+        this._scrollContainer.addEventListener('scroll', this.scroll, this.scrollEventListenerOptions);
+      });
+    }
   }
 
   private isCloseToEnd(el: HTMLElement): boolean {
