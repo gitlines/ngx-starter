@@ -110,8 +110,7 @@
 
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="50px">
 
-          <ebs-date-switcher
-                  (dateChange)="dateChange($event)">
+          <ebs-date-switcher [(date)]="date">
           </ebs-date-switcher>
 
           <p>Chosen date: {{date | date}}</p>

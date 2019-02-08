@@ -13,7 +13,7 @@ export class DemoPanelComponent implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('DemoPanelComponent');
 
-  public date: Date = new Date;
+  public date: Date = new Date();
 
   public dateTimeSummerUs = '2018-07-05T08:15:30-05:00';
   public dateTimeSummerZurich = '2018-07-05T08:15:30+02:00';
@@ -56,12 +56,6 @@ export class DemoPanelComponent implements OnInit {
           autoFocus: false
         }
     }).subscribe();
-  }
-
-
-  public dateChange(date: Date): void {
-    //this.logger.info(date);
-    this.date = date;
   }
 
 }

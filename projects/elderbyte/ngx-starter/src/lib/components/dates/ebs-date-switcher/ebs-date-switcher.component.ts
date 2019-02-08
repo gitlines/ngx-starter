@@ -17,13 +17,18 @@ export class EbsDateSwitcherComponent implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('EbsDateSwitcherComponent');
 
-  public date = new Date();
+  private _date: Date;
 
   @Input()
-  public datePickerEnabled = true;
+  public get date(): Date {
+    return this._date;
+  }
 
   @Output()
   public dateChange: EventEmitter<Date> = new EventEmitter<Date>();
+
+  @Input()
+  public datePickerEnabled = true;
 
   @ViewChild(MatDatepicker)
   public picker: MatDatepicker<Date>;
@@ -46,6 +51,17 @@ export class EbsDateSwitcherComponent implements OnInit {
 
   /***************************************************************************
    *                                                                         *
+   * Properties                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public set date(date: Date) {
+    this._date = date;
+    this.dateChange.emit(date);
+  }
+
+  /***************************************************************************
+   *                                                                         *
    * Public API                                                              *
    *                                                                         *
    **************************************************************************/
@@ -54,26 +70,21 @@ export class EbsDateSwitcherComponent implements OnInit {
     const yesterday = new Date();
     yesterday.setDate(this.date.getDate() - 1);
     this.date = yesterday;
-    this.onDateChange(yesterday);
   }
 
   public nextDay(): void {
     const tomorrow = new Date();
     tomorrow.setDate(this.date.getDate() + 1);
     this.date = tomorrow;
-    this.onDateChange(tomorrow);
   }
 
   public today(): void {
-    const today = new Date();
-    this.date = today;
-    this.onDateChange(today);
-
+    this.date = new Date();
   }
 
   public onDatepickerInputChange(event: MatDatepickerInputEvent<Date>): void {
     this.logger.debug('Datepicker Input has changed: ' + event.value);
-    this.onDateChange(event.value);
+    this.date = event.value;
   }
 
   public onDatepickerInputClick(event: Event): void {
@@ -87,10 +98,5 @@ export class EbsDateSwitcherComponent implements OnInit {
    * Private Methods                                                         *
    *                                                                         *
    **************************************************************************/
-
-  private onDateChange(date: Date) {
-    this.logger.debug('Internal date changed to: ' + date);
-    this.dateChange.emit(date);
-  }
 
 }
