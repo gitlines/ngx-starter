@@ -21,6 +21,7 @@ import {Observable, Subject, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {CdkColumnDef, CdkRowDef, CdkTable} from '@angular/cdk/table';
+import {DataContextBuilder} from '../../../common/data/data-context/data-context-builder';
 
 @Component({
   selector: 'ebs-table',
@@ -76,7 +77,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public pageSizeOptions = [5, 10, 15, 20, 30];
 
   /** Underlying data context. */
-  private _data: IDataContext<any>;
+  private _dataContext: IDataContext<any>;
 
   /** Underlying selection model. */
   public readonly selectionModel: SelectionModel<any> =
@@ -131,9 +132,9 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     if (this.sort) {
       this.sort.disableClear = true;
 
-      if (this.data) {
-        this.sort.active = this.data.sort.prop;
-        switch (this.data.sort.dir) {
+      if (this.dataContext) {
+        this.sort.active = this.dataContext.sort.prop;
+        switch (this.dataContext.sort.dir) {
           case 'asc':
             this.sort.direction = 'asc';
             break;
@@ -178,32 +179,42 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   }
 
   @Input()
-  public set data(data: IDataContext<any>) {
-    this._data = data;
+  public set data(data: Array<any> | IDataContext<any>) {
+    if (data instanceof Array) {
+      this.dataContext = DataContextBuilder.start()
+        .buildStatic(data);
+      this.dataContext.start();
+    } else {
+      this.dataContext = data;
+    }
+  }
+
+  public set dataContext(data: IDataContext<any>) {
+    this._dataContext = data;
     this.updateTableBinding();
   }
 
-  public get data(): IDataContext<any> {
-    return this._data;
+  public get dataContext(): IDataContext<any> {
+    return this._dataContext;
   }
 
   public get dataActivePaged(): IDataContextActivePage<any> {
-    return this._data as IDataContextActivePage<any>;
+    return this._dataContext as IDataContextActivePage<any>;
   }
 
   public get dataContinuable(): IDataContextContinuable<any> {
-    return this._data as IDataContextContinuable<any>;
+    return this._dataContext as IDataContextContinuable<any>;
   }
 
   public get isContinuable(): boolean {
-    if (!this._data) { return false; }
-    return 'hasMoreData' in this._data;
+    if (!this._dataContext) { return false; }
+    return 'hasMoreData' in this._dataContext;
   }
 
   public get isActivePaged(): boolean {
-    if (!this._data) { return false; }
-    return 'pageIndex' in this._data
-        && 'pageSize' in this._data;
+    if (!this._dataContext) { return false; }
+    return 'pageIndex' in this._dataContext
+        && 'pageSize' in this._dataContext;
   }
 
   @Input()
@@ -281,7 +292,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   /** Whether the number of selected elements matches the total number of rows. */
   public get isAllSelected(): boolean {
     const numSelected = this.selectionModel.selected.length;
-    const numRows = this.data.rows.length;
+    const numRows = this.dataContext.rows.length;
     return numSelected >= numRows;
   }
 
@@ -289,7 +300,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public masterToggle(): void {
     this.isAllSelected ?
       this.selectionModel.clear() :
-      this.data.rows.forEach(row => this.selectionModel.select(row));
+      this.dataContext.rows.forEach(row => this.selectionModel.select(row));
   }
 
   /***************************************************************************
@@ -303,8 +314,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   }
 
   protected applyFilterContext(context: FilterContext): void {
-    if (this.data) {
-      this.data.filterContext = context;
+    if (this.dataContext) {
+      this.dataContext.filterContext = context;
     }
   }
 
@@ -359,11 +370,11 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
       this._matTableBinding = null;
     }
 
-    if (this.data) {
+    if (this.dataContext) {
       this._matTableBinding = MatTableDataContextBindingBuilder.start()
         .withPaginator(this.paginator)
         .withSort(this.sort)
-        .bind(this.data);
+        .bind(this.dataContext);
     }
   }
 
