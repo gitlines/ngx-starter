@@ -61,7 +61,7 @@ export class EbsSideContentService {
      **************************************************************************/
 
     /**
-     * Checks if the side content is currently open
+     * Checks if the side content is currently isOpen
      */
     public get sideContentOpen(): boolean {
         return this._sideContentOpen;
@@ -72,7 +72,7 @@ export class EbsSideContentService {
     }
 
     /**
-     * Checks if the navigation is open
+     * Checks if the navigation is isOpen
      */
     public get navigationOpen(): boolean {
         return this._navigationOpen;

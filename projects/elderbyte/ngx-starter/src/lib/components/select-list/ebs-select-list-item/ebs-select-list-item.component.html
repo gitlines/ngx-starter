@@ -1,0 +1,26 @@
+<a mat-button
+   class="select-item mat-button-fill"
+   fxLayout="row" fxLayoutAlign="start center"
+   tabIndex="0"
+   [class.select-item-active]="isActive"
+   [class.select-item-inactive]="!isActive"
+   [color]="isActive ? 'primary' : ''"
+   (click)="activate($event)"
+>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlex
+       class="noselect">
+    <ng-content></ng-content>
+    <span fxFlex></span>
+    <mat-icon *ngIf="hasChildren">{{isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
+  </div>
+
+</a>
+
+<!-- Nested Items projection -->
+<div fxLayout="column"
+     class="nested-items-container"
+     [@openClose]="isOpen ? 'open' : 'closed'">
+  <ng-content  select="ebs-select-list-item"></ng-content>
+</div>
+

@@ -1,0 +1,48 @@
+<div fxLayout="row" fxFill class="mat-typography">
+
+  <div fxLayout="column" fxFlex="35">
+
+    <ebs-select-list fxFlex [(value)]="currentValue">
+
+
+      <ebs-select-list-item value="first">
+        <mat-icon>turned_in_not</mat-icon>
+        <span>First</span>
+      </ebs-select-list-item>
+
+
+      <ebs-select-list-item value="master">
+        <mat-icon>turned_in_not</mat-icon>
+        <span>I have children</span>
+
+        <ebs-select-list-item value="a">
+          <mat-icon>turned_in_not</mat-icon>
+          <span>I am Child a</span>
+        </ebs-select-list-item>
+
+        <ebs-select-list-item value="b">
+          <mat-icon>turned_in_not</mat-icon>
+          <span>I am Child b</span>
+        </ebs-select-list-item>
+
+      </ebs-select-list-item>
+
+      <ebs-select-list-item *ngFor="let item of items" [value]="item">
+        <mat-icon>turned_in_not</mat-icon>
+        <span>{{item}}</span>
+      </ebs-select-list-item>
+
+    </ebs-select-list>
+
+  </div>
+
+  <mat-divider vertical="true"></mat-divider>
+
+  <div fxLayout="column" fxFlex="75" class="padding-10">
+    <h3>Current Value: {{currentValue}}</h3>
+  </div>
+
+
+</div>
+
+

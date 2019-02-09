@@ -45,6 +45,8 @@ import { EatableCategoryListComponent } from './eatables/categories/category-lis
 import { EatableCategoryDetailComponent } from './eatables/categories/category-detail/eatable-category-detail.component';
 import { TableMasterDetailComponent } from './table-master-detail/table-master-detail.component';
 import { DemoSimpleSideComponent } from './demo-simple-side/demo-simple-side.component';
+import {EbsSelectListModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/select-list/ebs-select-list.module';
+import { SelectListDemoComponent } from './components/select-list-demo/select-list-demo.component';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Trace);
@@ -59,7 +61,8 @@ LoggerFactory.getDefaultConfiguration()
     EatableCategoryListComponent,
     EatableCategoryDetailComponent,
     TableMasterDetailComponent,
-    DemoSimpleSideComponent
+    DemoSimpleSideComponent,
+    SelectListDemoComponent
   ],
   imports: [
 
@@ -109,6 +112,7 @@ LoggerFactory.getDefaultConfiguration()
 
     EbsLocalesDeChModule,
     EbsDatesModule,
+    EbsSelectListModule,
 
     TranslateModule.forRoot({
       loader: {

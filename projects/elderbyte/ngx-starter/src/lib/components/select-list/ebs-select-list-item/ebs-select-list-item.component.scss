@@ -1,0 +1,39 @@
+@import '~@angular/material/theming';
+
+
+
+@mixin ebs-select-list-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .select-item-active {
+    background-color: mat-color($primary, default, 0.10);
+    border-left: 5px solid mat-color($primary)!important;
+  }
+}
+
+.select-item-inactive {
+
+}
+
+.select-item {
+  padding-left: 16px;
+  padding-right: 16px;
+  min-height: 56px;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 400;
+  // border-left: 5px solid transparent;
+}
+
+ebs-select-list-item a.select-item-inactive mat-icon {
+  color: #757575;
+}
+
+.nested-items-container {
+  overflow: hidden;
+  padding-left: 20px;
+}

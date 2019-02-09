@@ -1,19 +1,29 @@
 @import "lib/components/mat-panel/mat-panel-theme";
 @import "lib/components/navigation/nav/nav-link/ebs-nav-link.component";
+@import "lib/components/select-list/ebs-select-list-item/ebs-select-list-item.component";
 
 
 // Globally disable automatic scrolling of Material Drawer Container
-
 .mat-drawer-inner-container {
   overflow: hidden!important;
 }
 
 // Trick to ensure flex functionality within router-outlet
-
 router-outlet.router-flex + * {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+}
+
+/**
+ * The mat-button-fill class will lead a mat button
+ * to take up all the space, which gives you more freedom where
+ * to place items inside.
+ */
+.mat-button-fill .mat-button-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 // ElderByte Theme
@@ -90,4 +100,6 @@ $ebs-elder-gold: (
 @mixin starter-theme($theme) {
   @include mat-panel-theme($theme);
   @include ebs-nav-theme($theme);
+  @include ebs-select-list-theme($theme);
 }
+
