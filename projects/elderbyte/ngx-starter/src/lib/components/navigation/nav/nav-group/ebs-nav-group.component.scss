@@ -1,0 +1,38 @@
+@import '~@angular/material/theming';
+
+
+
+@mixin ebs-nav-group-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .group-item-active {
+    background-color: mat-color($primary, default, 0.10);
+    border-left: 5px solid mat-color($primary)!important;
+  }
+}
+
+.group-item-inactive {
+
+}
+
+.group-item {
+  padding-left: 16px;
+  padding-right: 16px;
+  min-height: 56px;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+ebs-nav-group a.group-item-inactive mat-icon {
+  color: #757575;
+}
+
+.nested-items-container {
+  overflow: hidden;
+  padding-left: 20px;
+}

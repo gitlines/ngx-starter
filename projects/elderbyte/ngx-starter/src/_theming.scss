@@ -1,5 +1,6 @@
 @import "lib/components/mat-panel/mat-panel-theme";
 @import "lib/components/navigation/nav/nav-link/ebs-nav-link.component";
+@import "lib/components/navigation/nav/nav-group/ebs-nav-group.component";
 @import "lib/components/select-list/ebs-select-list-item/ebs-select-list-item.component";
 
 
@@ -100,6 +101,7 @@ $ebs-elder-gold: (
 @mixin starter-theme($theme) {
   @include mat-panel-theme($theme);
   @include ebs-nav-theme($theme);
+  @include ebs-nav-group-theme($theme);
   @include ebs-select-list-theme($theme);
 }
 
