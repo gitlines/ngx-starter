@@ -5,7 +5,7 @@
    [class.select-item-active]="isActive"
    [class.select-item-inactive]="!isActive"
    [color]="isActive ? 'primary' : ''"
-   (click)="activate($event)"
+   (click)="itemClick($event)"
 >
 
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlex
