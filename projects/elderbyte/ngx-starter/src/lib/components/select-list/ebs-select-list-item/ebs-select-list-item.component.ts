@@ -95,9 +95,9 @@ export class EbsSelectListItemComponent implements OnInit {
 
     if (this.hasChildren) {
       this.toggle();
+    } else {
+      this.selectListComponent.value = this.value;
     }
-
-    this.selectListComponent.value = this.value;
   }
 
   public toggle(): void {
