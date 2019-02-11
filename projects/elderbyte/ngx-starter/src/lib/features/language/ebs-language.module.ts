@@ -16,39 +16,65 @@ export * from './language-switcher/ebs-language-switcher.component';
 export * from './ebs-language-interceptor.service';
 
 
+export class EbsLanguageConfig {
+
+  interceptor?: {
+
+    /**
+     * Globally disable request interceptor
+     * (By default enabled)
+     */
+    disable?: boolean;
+
+    /**
+     * Configure a query param to use for the request interceptor
+     * (By default 'locale')
+     */
+    queryParam?: string;
+  };
+
+}
+
 /**
  * Provides language related functionality like
  * language-switcher, language service etc.
  */
 @NgModule({
-    imports: [
-        CommonModule,
-        TranslateModule,
-        SimpleWebStorageModule,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    SimpleWebStorageModule,
 
-        MatSelectModule,
-        MatIconModule, MatButtonModule,
-        MatMenuModule,
-        FlexLayoutModule,
+    MatSelectModule,
+    MatIconModule, MatButtonModule,
+    MatMenuModule,
+    FlexLayoutModule,
 
-        FormsModule
-    ],
-    exports: [
-        EbsLanguageSwitcherComponent,
-    ],
-    declarations: [
-        EbsLanguageSwitcherComponent
-    ]
+    FormsModule
+  ],
+  exports: [
+    EbsLanguageSwitcherComponent,
+  ],
+  declarations: [
+    EbsLanguageSwitcherComponent
+  ]
 })
 export class EbsLanguageModule {
 
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: EbsLanguageModule,
-            providers: [
-                EbsLanguageService,
-                { provide: HTTP_INTERCEPTORS, useClass: EbsLanguageInterceptor, multi: true }
-            ]
-        };
-    }
+  static forRoot(config?: EbsLanguageConfig): ModuleWithProviders {
+    return {
+      ngModule: EbsLanguageModule,
+      providers: [
+        {
+          provide: EbsLanguageConfig,
+          useValue: config,
+        },
+
+        EbsLanguageService,
+
+        { provide: HTTP_INTERCEPTORS, useClass: EbsLanguageInterceptor, multi: true }
+
+      ]
+    };
+  }
 }

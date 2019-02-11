@@ -3,6 +3,7 @@ import {Injectable, Injector} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest} from '@angular/common/http';
 import {TranslateService} from '@ngx-translate/core';
 import {Observable} from 'rxjs';
+import {EbsLanguageConfig} from './ebs-language.module';
 
 /**
  * This interceptor injects the current locale
@@ -18,6 +19,7 @@ export class EbsLanguageInterceptor implements HttpInterceptor {
    **************************************************************************/
 
   private _translate: TranslateService;
+  private readonly _queryParam: string;
 
   /***************************************************************************
    *                                                                         *
@@ -26,7 +28,12 @@ export class EbsLanguageInterceptor implements HttpInterceptor {
    **************************************************************************/
 
   constructor(
-    private inj: Injector) {
+    private inj: Injector,
+    private config: EbsLanguageConfig) {
+
+    this._queryParam = config.interceptor.queryParam
+                            ? config.interceptor.queryParam
+                            : 'locale';
   }
 
   /***************************************************************************
@@ -37,12 +44,16 @@ export class EbsLanguageInterceptor implements HttpInterceptor {
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    if (this.config.interceptor && this.config.interceptor.disable) {
+      return;
+    }
+
     if (this.translate.currentLang) {
 
       // Keeps the original request params. as a new HttpParams
       let newParams = new HttpParams({fromString: req.params.toString()});
 
-      newParams = newParams.set('locale', this.translate.currentLang);
+      newParams = newParams.set(this._queryParam, this.translate.currentLang);
 
       // Clone the request with params instead of setParams
       // Workaround for https://github.com/angular/angular/issues/18812
