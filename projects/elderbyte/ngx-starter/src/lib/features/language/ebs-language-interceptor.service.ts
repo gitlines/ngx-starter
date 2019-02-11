@@ -44,11 +44,9 @@ export class EbsLanguageInterceptor implements HttpInterceptor {
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (this.config.interceptor && this.config.interceptor.disable) {
-      return;
-    }
+    const skipInterceptor = (this.config.interceptor && this.config.interceptor.disable);
 
-    if (this.translate.currentLang) {
+    if (!skipInterceptor && this.translate.currentLang) {
 
       // Keeps the original request params. as a new HttpParams
       let newParams = new HttpParams({fromString: req.params.toString()});
