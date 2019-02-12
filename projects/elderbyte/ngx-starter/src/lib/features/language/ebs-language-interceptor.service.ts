@@ -31,7 +31,7 @@ export class EbsLanguageInterceptor implements HttpInterceptor {
     private inj: Injector,
     private config: EbsLanguageConfig) {
 
-    this._queryParam = config.interceptor.queryParam
+    this._queryParam = config && config.interceptor && config.interceptor.queryParam
                             ? config.interceptor.queryParam
                             : 'locale';
   }
