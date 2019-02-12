@@ -12,10 +12,16 @@
 
   <mat-tab-group fxFlex class="scroll-fix">
 
-      <mat-tab label="Directives">
+      <mat-tab label="Default Scroll">
 
         <a mat-button (click)="navigate()">Router Link</a>
         <p>{{123 | weight}}</p>
+
+        <p>Test</p>
+
+        <h1 class="mat-display-1">Welcome</h1>
+
+        <p>dont scroll</p>
 
       </mat-tab>
 
@@ -29,19 +35,22 @@
 
       </mat-tab>
 
-      <mat-tab label="Features">
+      <mat-tab label="Features" class="scroll-fix">
 
-        <h2>Language Switcher</h2>
+        <div fxLayout="column" fxFill>
+          <h2>Language Switcher</h2>
 
-        <ebs-language-switcher></ebs-language-switcher>
-        <h3>Translated: {{'greeting'| translate}}</h3>
+          <ebs-language-switcher></ebs-language-switcher>
+          <h3>Translated: {{'greeting'| translate}}</h3>
 
 
-        <h2>File Upload</h2>
+          <h2>File Upload</h2>
 
-        <ebs-file-upload
-                [multiple]="true"
-        ></ebs-file-upload>
+          <ebs-file-upload
+            [multiple]="true"
+          ></ebs-file-upload>
+        </div>
+
 
       </mat-tab>
 
@@ -54,6 +63,37 @@
         <div fxFill fxLayout="row" >
 
           <div fxLayout="column" fxFlex="50" style="background-color: plum">
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
+            <p>Static</p>
             <p>Static</p>
           </div>
 

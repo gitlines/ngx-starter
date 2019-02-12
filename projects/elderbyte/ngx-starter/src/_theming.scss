@@ -3,18 +3,46 @@
 @import "lib/components/navigation/nav/nav-group/ebs-nav-group.component";
 @import "lib/components/select-list/ebs-select-list-item/ebs-select-list-item.component";
 
+/***************************************************************************
+ *                                                                         *
+ * Angular Material Fixes                                                  *
+ *                                                                         *
+ **************************************************************************/
 
 // Globally disable automatic scrolling of Material Drawer Container
 .mat-drawer-inner-container {
   overflow: hidden!important;
 }
 
+// Globally disable automatic scrolling of Material Tabs
+.mat-tab-body-content {
+  overflow: hidden!important;
+  height: 100%!important;
+}
+.mat-tab-body-wrapper {
+  flex: 1 1 100%!important;
+  height: 100%!important;
+}
+
+/***************************************************************************
+ *                                                                         *
+ * Angular Fixes                                                           *
+ *                                                                         *
+ **************************************************************************/
+
 // Trick to ensure flex functionality within router-outlet
 router-outlet.router-flex + * {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  height: 100%; // Required for Safari
 }
+
+/***************************************************************************
+ *                                                                         *
+ * Angular Material Extensions (Optional)                                  *
+ *                                                                         *
+ **************************************************************************/
 
 /**
  * The mat-button-fill class will lead a mat button
@@ -26,6 +54,13 @@ router-outlet.router-flex + * {
   width: 100%;
   height: 100%;
 }
+
+/***************************************************************************
+ *                                                                         *
+ * Material Color Palettes                                                 *
+ *                                                                         *
+ **************************************************************************/
+
 
 // ElderByte Theme
 
