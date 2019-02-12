@@ -44,7 +44,7 @@ export class EbsLanguageInterceptor implements HttpInterceptor {
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const skipInterceptor = (this.config.interceptor && this.config.interceptor.disable);
+    const skipInterceptor = (this.config && this.config.interceptor && this.config.interceptor.disable);
 
     if (!skipInterceptor && this.translate.currentLang) {
 
