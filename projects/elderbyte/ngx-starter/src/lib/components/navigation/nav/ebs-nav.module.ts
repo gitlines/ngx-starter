@@ -14,11 +14,18 @@ export {EbsNavLinkComponent} from './nav-link/ebs-nav-link.component';
 export {EbsNavGroupComponent} from './nav-group/ebs-nav-group.component';
 
 @NgModule({
-  declarations: [EbsNavListComponent, EbsNavLinkComponent, EbsNavGroupComponent],
-  exports: [EbsNavListComponent, EbsNavLinkComponent, EbsNavGroupComponent],
+  declarations: [
+    EbsNavListComponent,
+    EbsNavLinkComponent,
+    EbsNavGroupComponent
+  ],
+  exports: [
+    EbsNavListComponent,
+    EbsNavLinkComponent,
+    EbsNavGroupComponent
+  ],
   imports: [
     CommonModule, RouterModule,
-
     MatIconModule, MatButtonModule,
     A11yModule,
 
