@@ -21,7 +21,7 @@ export {EbsToolbarColumnDirective} from './ebs-toolbar-column.directive';
 export {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
 
 export {EbsToolbarTitleComponent} from './ebs-toolbar-title/ebs-toolbar-title.component';
-export {EbsToolbarTitleService} from './ebs-toolbar-title/ebs-toolbar-title.service';
+export {EbsToolbarTitleService, ToolbarHeader} from './ebs-toolbar-title/ebs-toolbar-title.service';
 
 @NgModule({
     imports: [
