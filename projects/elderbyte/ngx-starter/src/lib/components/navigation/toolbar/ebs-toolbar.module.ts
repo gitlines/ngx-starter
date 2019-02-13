@@ -20,6 +20,9 @@ export {EbsToolbarService} from './ebs-toolbar.service';
 export {EbsToolbarColumnDirective} from './ebs-toolbar-column.directive';
 export {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
 
+export {EbsToolbarTitleComponent} from './ebs-toolbar-title/ebs-toolbar-title.component';
+export {EbsToolbarTitleService} from './ebs-toolbar-title/ebs-toolbar-title.service';
+
 @NgModule({
     imports: [
         // common
@@ -37,7 +40,15 @@ export {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
         // translations
         TranslateModule, EbsLanguageModule
     ],
-    declarations: [EbsToolbarComponent, EbsToolbarColumnDirective, EbsToolbarTitleComponent],
-    exports: [EbsToolbarComponent, EbsToolbarColumnDirective, EbsToolbarTitleComponent]
+    declarations: [
+      EbsToolbarComponent,
+      EbsToolbarColumnDirective,
+      EbsToolbarTitleComponent
+    ],
+    exports: [
+      EbsToolbarComponent,
+      EbsToolbarColumnDirective,
+      EbsToolbarTitleComponent
+    ]
 })
 export class EbsToolbarModule {}
