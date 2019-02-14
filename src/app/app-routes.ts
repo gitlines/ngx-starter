@@ -18,6 +18,27 @@ export const appRoutes: Routes = [
     path: 'app',
     children: [
 
+      {
+        path: 'links',
+        children: [
+          {
+            path: 'a',
+            component: DemoPanelComponent,
+          },
+          {
+            path: 'b',
+            component: DemoPanelComponent,
+          },
+          {
+            path: 'c',
+            component: DemoPanelComponent,
+          },
+          {
+            path: 'd',
+            component: DemoPanelComponent,
+          }
+        ]
+      },
 
 
       {

@@ -9,18 +9,25 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  .group-item-active {
-    background-color: mat-color($primary, default, 0.10);
+  .nav-group-active {
     border-left: 5px solid mat-color($primary)!important;
+  }
+
+  .nav-group-button-active {
+    //background-color: mat-color($primary, default, 0.10);
+    padding-left: 11px!important; // -5 to counter border-left
   }
 }
 
-.group-item-inactive {
-
+.nav-group-button-inactive {
+  padding-left: 16px;
 }
 
-.group-item {
-  padding-left: 16px;
+.nav-group {
+  min-height: 56px;
+}
+
+.nav-group-button {
   padding-right: 16px;
   min-height: 56px;
   border-radius: 0;
@@ -28,11 +35,11 @@
   font-weight: 400;
 }
 
-ebs-nav-group a.group-item-inactive mat-icon {
+ebs-nav-group a.nav-group-button-inactive mat-icon {
   color: #757575;
 }
 
 .nested-items-container {
   overflow: hidden;
-  padding-left: 20px;
+  padding-left: 15px;
 }
