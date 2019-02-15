@@ -35,7 +35,6 @@ export * from './question-dialog/ebs-question-dialog.component';
 })
 export class EbsCommonDialogModule {
 
-
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: EbsCommonDialogModule,
