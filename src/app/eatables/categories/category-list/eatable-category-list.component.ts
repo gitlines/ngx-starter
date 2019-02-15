@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EatableCategoryListComponent implements OnInit {
 
-  private categories = ['fruits', 'sweets', 'meat'];
+  public categories = ['fruits', 'sweets', 'meat'];
 
   constructor() { }
 
