@@ -19,16 +19,17 @@ export class EbsDateSwitcherComponent implements OnInit {
 
   private _date: Date;
 
-  @Input()
-  public get date(): Date {
-    return this._date;
-  }
-
-  @Output()
-  public dateChange: EventEmitter<Date> = new EventEmitter<Date>();
-
+  /** If true, date picker functionality is enabled. */
   @Input()
   public datePickerEnabled = true;
+
+  /** If true, touch optimized mode of date picker is enabled. */
+  @Input()
+  public datePickerTouchUi = false;
+
+  /** Emits date upon internal date change. */
+  @Output()
+  public dateChange: EventEmitter<Date> = new EventEmitter<Date>();
 
   @ViewChild(MatDatepicker)
   public picker: MatDatepicker<Date>;
@@ -55,6 +56,11 @@ export class EbsDateSwitcherComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
+  @Input()
+  public get date(): Date {
+    return this._date;
+  }
+
   public set date(date: Date) {
     this._date = date;
     this.dateChange.emit(date);
@@ -67,13 +73,13 @@ export class EbsDateSwitcherComponent implements OnInit {
    **************************************************************************/
 
   public previousDay(): void {
-    const yesterday = new Date();
+    const yesterday = new Date(this.date.getTime());
     yesterday.setDate(this.date.getDate() - 1);
     this.date = yesterday;
   }
 
   public nextDay(): void {
-    const tomorrow = new Date();
+    const tomorrow = new Date(this.date.getTime());
     tomorrow.setDate(this.date.getDate() + 1);
     this.date = tomorrow;
   }

@@ -12,7 +12,7 @@
            [matDatepicker]="picker"
            (click)="onDatepickerInputClick($event)"
            (dateChange)="onDatepickerInputChange($event)">
-    <mat-datepicker [touchUi]="true" #picker></mat-datepicker>
+    <mat-datepicker [touchUi]="datePickerTouchUi" #picker></mat-datepicker>
   </mat-form-field>
 
   <button mat-icon-button (click)="nextDay()">
