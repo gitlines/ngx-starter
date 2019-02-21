@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {EbsShellComponent, EbsShellSideLeftDirective, EbsShellSideRightDirective} from './shell/ebs-shell.component';
+import {
+  EbsShellCenterDirective,
+  EbsShellComponent,
+  EbsShellSideLeftDirective,
+  EbsShellSideRightDirective
+} from './shell/ebs-shell.component';
 import {MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateModule} from '@ngx-translate/core';
@@ -30,7 +35,7 @@ export {EbsShellComponent} from './shell/ebs-shell.component';
     FlexLayoutModule, TranslateModule
 
   ],
-  declarations: [EbsShellComponent, EbsShellSideLeftDirective, EbsShellSideRightDirective],
-  exports: [EbsShellComponent, EbsShellSideLeftDirective, EbsShellSideRightDirective]
+  declarations: [EbsShellComponent, EbsShellSideLeftDirective, EbsShellSideRightDirective, EbsShellCenterDirective],
+  exports: [EbsShellComponent, EbsShellSideLeftDirective, EbsShellSideRightDirective, EbsShellCenterDirective]
 })
 export class EbsShellModule { }

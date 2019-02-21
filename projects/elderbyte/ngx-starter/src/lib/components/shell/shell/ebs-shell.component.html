@@ -1,5 +1,5 @@
 
-<mat-sidenav-container style="height:100%;">
+<mat-sidenav-container style="height:100%; width: 100%">
 
   <!-- Left Side Nav -->
   <mat-sidenav position="start"
@@ -14,11 +14,8 @@
 
   <!-- Main Content -->
   <mat-sidenav-content>
-    <ebs-toolbar></ebs-toolbar>
-
-    <div class="under-toolbar">
-      <router-outlet></router-outlet>
-      <ebs-toast></ebs-toast>
+    <div fxLayout="column" fxFill>
+      <ng-container *ngTemplateOutlet="centerContent || fallbackCenterContent;"></ng-container>
     </div>
   </mat-sidenav-content>
 
@@ -44,4 +41,12 @@
 
 <ng-template #fallbackSideContentRight>
   <router-outlet name="side" class="router-flex"></router-outlet>
+</ng-template>
+
+<ng-template #fallbackCenterContent>
+  <div fxLayout="column" fxFill>
+    <ebs-toolbar></ebs-toolbar>
+    <router-outlet class="router-flex"></router-outlet>
+  </div>
+  <ebs-toast></ebs-toast>
 </ng-template>

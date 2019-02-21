@@ -16,6 +16,13 @@ export class EbsShellSideRightDirective {
     public viewContainer: ViewContainerRef) { }
 }
 
+@Directive({selector: '[ebsShellCenter]'})
+export class EbsShellCenterDirective {
+  constructor(
+    public templateRef: TemplateRef<any>,
+    public viewContainer: ViewContainerRef) { }
+}
+
 @Component({
   selector: 'ebs-shell',
   templateUrl: './ebs-shell.component.html',
@@ -34,6 +41,9 @@ export class EbsShellComponent implements OnInit {
 
   @ContentChild(EbsShellSideRightDirective, {read: TemplateRef})
   public sideContentRight: TemplateRef<any>;
+
+  @ContentChild(EbsShellSideRightDirective, {read: TemplateRef})
+  public centerContent: TemplateRef<any>;
 
   /***************************************************************************
    *                                                                         *
