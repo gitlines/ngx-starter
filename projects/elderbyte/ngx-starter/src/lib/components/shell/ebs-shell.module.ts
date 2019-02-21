@@ -6,7 +6,7 @@ import {
   EbsShellSideLeftDirective,
   EbsShellSideRightDirective
 } from './shell/ebs-shell.component';
-import {MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateModule} from '@ngx-translate/core';
 import {EbsToolbarModule} from '../navigation/toolbar/ebs-toolbar.module';
@@ -26,6 +26,7 @@ export {EbsShellComponent} from './shell/ebs-shell.component';
     MatToolbarModule,
     MatIconModule,
     MatListModule,
+    MatButtonModule,
 
 
     EbsToolbarModule,

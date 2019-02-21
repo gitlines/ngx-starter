@@ -1,6 +1,5 @@
-import {Component, Input, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {EbsSideContentService} from '../../../../features/side-content/ebs-side-content.service';
 import {EbsToolbarService} from '../ebs-toolbar.service';
 import {EbsToolbarColumnPosition} from '../ebs-toolbar-column-position';
 
@@ -19,10 +18,6 @@ export class EbsToolbarComponent implements OnInit {
 
     private readonly logger = LoggerFactory.getLogger('EbsToolbarComponent');
 
-    /** Controls if the SideNav toggle should be displayed. Default: true */
-    @Input()
-    public sideNavToggleEnabled = true;
-
     /** The color of the Toolbar */
     @Input()
     public color: string;
@@ -34,8 +29,7 @@ export class EbsToolbarComponent implements OnInit {
      **************************************************************************/
 
     constructor(
-        private toolbarService: EbsToolbarService,
-        private sideContentService: EbsSideContentService
+        private toolbarService: EbsToolbarService
     ) {}
 
     /***************************************************************************
@@ -68,16 +62,6 @@ export class EbsToolbarComponent implements OnInit {
         return this.toolbarService.columns.has(EbsToolbarColumnPosition.RIGHT) ?
             this.toolbarService.columns.get(EbsToolbarColumnPosition.RIGHT) :
             this.toolbarService.columnDefaults.get(EbsToolbarColumnPosition.RIGHT);
-    }
-
-    /***************************************************************************
-     *                                                                         *
-     * Public API                                                              *
-     *                                                                         *
-     **************************************************************************/
-
-    public toggleSideNav(): void {
-        this.sideContentService.toggleSidenav();
     }
 
 }

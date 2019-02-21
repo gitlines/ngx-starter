@@ -1,4 +1,4 @@
-import {Component, ContentChild, Directive, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Component, ContentChild, Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {EbsSideContentService} from '../../../features/side-content/ebs-side-content.service';
 
 
@@ -35,6 +35,10 @@ export class EbsShellComponent implements OnInit {
    * Fields                                                                  *
    *                                                                         *
    **************************************************************************/
+
+  /** Controls if the SideNav toggle should be displayed. Default: true */
+  @Input()
+  public sideNavToggleEnabled = true;
 
   @ContentChild(EbsShellSideLeftDirective, {read: TemplateRef})
   public sideContentLeft: TemplateRef<any>;
@@ -77,6 +81,10 @@ export class EbsShellComponent implements OnInit {
 
   public closeLeftSideContent() {
     this.sideContentService.closeSideNav();
+  }
+
+  public toggleSideNav(): void {
+    this.sideContentService.toggleSidenav();
   }
 
   // ---

@@ -2,15 +2,7 @@
 
 <div fxLayout="row">
 
-  <mat-toolbar *ngIf="sideNavToggleEnabled" fxFlex="0"
-               fxLayout="row" fxLayoutAlign="center center"
-               color="accent">
-
-    <button mat-icon-button (click)="toggleSideNav()">
-      <mat-icon>menu</mat-icon>
-    </button>
-
-  </mat-toolbar>
+  <ng-content></ng-content>
 
   <mat-toolbar fxLayout="row" fxLayoutAlign="start center"
                [color]="color ? color : 'primary'">

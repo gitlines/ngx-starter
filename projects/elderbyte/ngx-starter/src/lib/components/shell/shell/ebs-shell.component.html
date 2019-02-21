@@ -45,7 +45,19 @@
 
 <ng-template #fallbackCenterContent>
   <div fxLayout="column" fxFill>
-    <ebs-toolbar></ebs-toolbar>
+
+    <!-- Center Toolbar -->
+    <ebs-toolbar>
+      <mat-toolbar *ngIf="sideNavToggleEnabled" fxFlex="0"
+                   fxLayout="row" fxLayoutAlign="center center"
+                   color="accent">
+        <button mat-icon-button (click)="toggleSideNav()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </mat-toolbar>
+    </ebs-toolbar>
+
+    <!-- Primary Router Outlet -->
     <router-outlet class="router-flex"></router-outlet>
   </div>
   <ebs-toast></ebs-toast>
