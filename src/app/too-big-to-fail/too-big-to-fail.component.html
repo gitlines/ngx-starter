@@ -1,0 +1,16 @@
+<div fxLayout="column" fxFill class="padding-10">
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <mat-card *ngFor="let i of 10|ebsRepeat" style="min-width: 250px">
+      some of us {{i}}
+    </mat-card>
+  </div>
+
+
+  <div fxLayout="column" class="padding-10" fxLayoutGap="10px">
+    <mat-card *ngFor="let i of 10|ebsRepeat">
+      some of us {{i}}
+    </mat-card>
+  </div>
+
+</div>

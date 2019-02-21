@@ -6,6 +6,7 @@ import {EatableCategoryDetailComponent} from './eatables/categories/category-det
 import {TableMasterDetailComponent} from './table-master-detail/table-master-detail.component';
 import {DemoSimpleSideComponent} from './demo-simple-side/demo-simple-side.component';
 import {CardsDemoComponent} from './cards-demo/cards-demo.component';
+import {TooBigToFailComponent} from './too-big-to-fail/too-big-to-fail.component';
 
 
 export const appRoutes: Routes = [
@@ -41,6 +42,13 @@ export const appRoutes: Routes = [
         ]
       },
 
+      {
+        path: 'too-big',
+        component: TooBigToFailComponent,
+        data: {
+          title: 'Too big to fail'
+        }
+      },
 
       {
         path: 'mixed-demo',

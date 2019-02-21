@@ -22,7 +22,7 @@ import {
   EbsFormSupportDirectivesModule
 } from '@elderbyte/ngx-starter';
 import {
-  MatButtonModule, MatChipsModule,
+  MatButtonModule, MatCardModule, MatChipsModule,
   MatCommonModule,
   MatDialogModule, MatDividerModule,
   MatIconModule, MatListModule, MatMenuModule,
@@ -50,6 +50,7 @@ import { DemoSimpleSideComponent } from './demo-simple-side/demo-simple-side.com
 import { SelectListDemoComponent } from './components/select-list-demo/select-list-demo.component';
 import { CardOrganizerDemoComponent } from './cards-demo/card-organizer-demo/card-organizer-demo.component';
 import { CardStackSorterComponent } from './cards-demo/card-stack-sorter/card-stack-sorter.component';
+import { TooBigToFailComponent } from './too-big-to-fail/too-big-to-fail.component';
 
 
 LoggerFactory.getDefaultConfiguration()
@@ -69,7 +70,8 @@ LoggerFactory.getDefaultConfiguration()
 
     CardsDemoComponent,
     CardOrganizerDemoComponent,
-    CardStackSorterComponent
+    CardStackSorterComponent,
+    TooBigToFailComponent
   ],
   imports: [
 
@@ -96,7 +98,7 @@ LoggerFactory.getDefaultConfiguration()
     MatListModule,
     MatButtonModule,
     MatDividerModule,
-    MatChipsModule,
+    MatChipsModule, MatCardModule,
 
     MatTableModule,
     MatSortModule,
