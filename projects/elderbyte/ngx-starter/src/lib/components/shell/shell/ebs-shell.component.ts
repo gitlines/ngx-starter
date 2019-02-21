@@ -42,7 +42,7 @@ export class EbsShellComponent implements OnInit {
   @ContentChild(EbsShellSideRightDirective, {read: TemplateRef})
   public sideContentRight: TemplateRef<any>;
 
-  @ContentChild(EbsShellSideRightDirective, {read: TemplateRef})
+  @ContentChild(EbsShellCenterDirective, {read: TemplateRef})
   public centerContent: TemplateRef<any>;
 
   /***************************************************************************
