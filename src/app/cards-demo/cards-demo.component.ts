@@ -95,6 +95,8 @@ export class CardsDemoComponent implements OnInit {
 
   public myCardDropped(event: CardDropEvent<string>): void {
 
+    this.logger.info('Card Dropped', event);
+
     if (!event.copy) {
       event.fromStack.removeCard(event.card);
     }

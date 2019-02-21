@@ -2,10 +2,35 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 export class CardDropEvent<T, D = any> {
   constructor (
+    /**
+     * fromStack The stack where the card originated from
+     */
     public readonly fromStack: CardStack<T, D>,
+
+    /**
+     * toStack The stack where the card is dropped to
+     */
     public readonly toStack: CardStack<T, D>,
+    /**
+     * card The card domain model
+     */
     public readonly card: T,
-    public readonly copy: boolean
+    /**
+     * copy Should the item being moved (copy = false) or duplicated (copy=true).
+     */
+    public readonly copy: boolean,
+    /**
+     *  fromIndex Index of the item when it was picked up fromStack.
+     */
+    public readonly fromIndex: number,
+    /**
+     * toIndex Current index of the item in toStack.
+     */
+    public readonly toIndex: number,
+    /**
+     * isPointerOverContainer Whether the user's pointer was over the container when the item was dropped.
+     */
+    public readonly isPointerOverContainer: boolean
   ) { }
 }
 

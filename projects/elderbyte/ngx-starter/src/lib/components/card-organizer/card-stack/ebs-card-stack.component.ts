@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CardDropEvent, CardStack} from '../card-stack';
 import {Observable} from 'rxjs/internal/Observable';
 import {first} from 'rxjs/operators';
@@ -93,7 +93,10 @@ export class EbsCardStackComponent implements OnInit {
       event.previousContainer.data,
       event.container.data,
       event.item.data,
-      this.copyOnDrag
+      this.copyOnDrag,
+      event.previousIndex,
+      event.currentIndex,
+      event.isPointerOverContainer
     );
 
     this.cardDropped.next(cardDrop);
