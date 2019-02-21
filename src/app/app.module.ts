@@ -48,6 +48,7 @@ import { EatableCategoryDetailComponent } from './eatables/categories/category-d
 import { TableMasterDetailComponent } from './table-master-detail/table-master-detail.component';
 import { DemoSimpleSideComponent } from './demo-simple-side/demo-simple-side.component';
 import { SelectListDemoComponent } from './components/select-list-demo/select-list-demo.component';
+import { CardOrganizerDemoComponent } from './cards-demo/card-organizer-demo/card-organizer-demo.component';
 
 
 LoggerFactory.getDefaultConfiguration()
@@ -64,7 +65,8 @@ LoggerFactory.getDefaultConfiguration()
     EatableCategoryDetailComponent,
     TableMasterDetailComponent,
     DemoSimpleSideComponent,
-    SelectListDemoComponent
+    SelectListDemoComponent,
+    CardOrganizerDemoComponent
   ],
   imports: [
 

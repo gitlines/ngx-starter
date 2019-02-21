@@ -1,0 +1,17 @@
+<ebs-card-organizer fxFill
+                    [autoMoveCards]="true"
+                    [organizerModel]="cardData"
+                    [removeConfirmation]="confirmDeletion"
+                    (cardClick)="cardClicked($event)"
+                    (requestNewCard)="createNewCard($event)"
+                    (cardDropped)="myCardDropped($event)"
+                    [canEnterPredicate]="canEnter"
+
+>
+
+  <div *ebsStackCard="let card" fxLayout="row" fxLayoutGap="16px">
+    <mat-icon color="accent">face</mat-icon>
+    <span class="mat-body-1">{{card}}</span>
+  </div>
+
+</ebs-card-organizer>

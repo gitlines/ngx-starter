@@ -3,9 +3,10 @@
 <div fxLayout="column" class="card-stack hoverme" fxFlex>
 
   <!-- Header -->
-  <header fxLayout="row" fxFlex="none" fxLayoutAlign="start center" class="padding-10" style="height: 62px">
+  <header fxLayout="row" fxFlex="none" fxLayoutAlign="start center" fxLayoutGap="10px" class="padding-10" style="height: 62px">
 
-    <h3 class="mat-body-2 noselect">{{stack?.title | translate}} <small class="mat-caption noselect">({{(stack?.cards | async)?.length}})</small></h3>
+    <h3 class="mat-body-2 noselect">{{stack?.title | translate}}</h3>
+    <small class="mat-caption noselect">({{(stack?.cards | async)?.length}})</small>
 
     <span fxFlex></span>
 
@@ -17,10 +18,7 @@
   <mat-divider></mat-divider>
 
   <!-- card list -->
-  <div fxFlex fxLayout="column" class="card-container"
-
-
-  >
+  <div fxFlex fxLayout="column" class="card-container">
 
     <div fxLayout="column"  fxLayoutGap="10px" class="scrollable padding-10 card-list"
          [id]="stack.id"

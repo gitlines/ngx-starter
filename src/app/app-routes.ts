@@ -5,6 +5,7 @@ import {EatableCategoryListComponent} from './eatables/categories/category-list/
 import {EatableCategoryDetailComponent} from './eatables/categories/category-detail/eatable-category-detail.component';
 import {TableMasterDetailComponent} from './table-master-detail/table-master-detail.component';
 import {DemoSimpleSideComponent} from './demo-simple-side/demo-simple-side.component';
+import {CardsDemoComponent} from './cards-demo/cards-demo.component';
 
 
 export const appRoutes: Routes = [
@@ -54,6 +55,14 @@ export const appRoutes: Routes = [
         component: TableMasterDetailComponent,
         data: {
           title: 'Table - Local Master Detail'
+        }
+      },
+
+      {
+        path: 'cards-demo',
+        component: CardsDemoComponent,
+        data: {
+          title: 'Cards Demo'
         }
       },
 
