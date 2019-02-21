@@ -1,4 +1,5 @@
 import { Observable, BehaviorSubject } from 'rxjs';
+import {moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 export class CardDropEvent<T, D = any> {
   constructor (
@@ -191,13 +192,25 @@ export class CardStack<T, D = any> {
     this._cards.next(newCards);
   }
 
-  public addCard(card: T): void {
-    const cards = [...this.cardsSnapshot, card];
+  public addCard(card: T, desiredIndex?: number): void {
+    const cards = this.cardsSnapshot;
+    if (desiredIndex === undefined || desiredIndex === null) {
+      cards.push(card);
+    } else {
+      const dummy = [card];
+      transferArrayItem(dummy, cards, 0, desiredIndex);
+    }
     this.replaceCards(cards);
   }
 
   public removeCard(card: T): void {
     this.replaceCards(this.cardsSnapshot.filter(c => c !== card));
+  }
+
+  public moveCard(fromIndex: number, toIndex: number): void {
+    const snapshot = this.cardsSnapshot;
+    moveItemInArray(snapshot, fromIndex, toIndex);
+    this.replaceCards(snapshot);
   }
 
   /***************************************************************************

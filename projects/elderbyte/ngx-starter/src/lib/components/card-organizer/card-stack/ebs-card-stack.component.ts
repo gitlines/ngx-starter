@@ -44,6 +44,15 @@ export class EbsCardStackComponent implements OnInit {
   @Input()
   public connectedTo: string[] = [];
 
+  /**
+   * If enabled, the card stack will
+   * automatically handle card drag & drops
+   * and move card from one stack to another and move
+   * them inside a stack.
+   */
+  @Input()
+  public autoMoveCards = false;
+
   // Templates
 
   @Input()
@@ -98,6 +107,10 @@ export class EbsCardStackComponent implements OnInit {
       event.currentIndex,
       event.isPointerOverContainer
     );
+
+    if (this.autoMoveCards) {
+      this.handleCardDrop(cardDrop); // TODO Make configurable or disable when custom sort is enabled?
+    }
 
     this.cardDropped.next(cardDrop);
   }
@@ -156,6 +169,33 @@ export class EbsCardStackComponent implements OnInit {
   private removeCard(card: any): void {
     this.stack.removeCard(card);
     this.requestRemoveCard.next(card);
+  }
+
+  /**
+   * React to drag and drop events -
+   * will move cards between stacks and sort them if possible.
+   * @param cardDrop
+   */
+  private handleCardDrop(cardDrop: CardDropEvent<any, any>): void {
+    if (cardDrop.fromStack === cardDrop.toStack
+      && cardDrop.toStack === this.stack) {
+
+      // Drag & Drop inside the same stack -> sort
+
+      if (!this.stack.sort) {
+        // Only allow manual sort when the user did not provide
+        // a general sort function
+        this.stack.moveCard(cardDrop.fromIndex, cardDrop.toIndex);
+      }
+    } else {
+
+      // Dropped Card from another stack
+
+      if (!cardDrop.copy) {
+        cardDrop.fromStack.removeCard(cardDrop.card);
+      }
+      cardDrop.toStack.addCard(cardDrop.card, cardDrop.toIndex);
+    }
   }
 
 }

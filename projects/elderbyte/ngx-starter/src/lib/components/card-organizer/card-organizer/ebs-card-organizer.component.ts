@@ -44,6 +44,15 @@ export class EbsCardOrganizerComponent implements OnInit {
   @Input()
   public copyOnDrag: boolean;
 
+  /**
+   * If enabled, the card organizer will
+   * automatically handle card drag & drops
+   * and move card from one stack to another and move
+   * them inside a stack.
+   */
+  @Input()
+  public autoMoveCards = false;
+
   @Input()
   public canEnterPredicate: (card: any, stack: CardStack<any, any>) => boolean;
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CardOrganizerData, CardStack, EbsCommonDialogService, CardDropEvent } from '@elderbyte/ngx-starter';
+import { CardOrganizerData, CardStack, EbsCommonDialogService, CardDropEvent, EbsToastService } from '@elderbyte/ngx-starter';
 import { Observable } from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
@@ -38,7 +38,8 @@ export class CardsDemoComponent implements OnInit {
    **************************************************************************/
 
   constructor(
-      private dialogService: EbsCommonDialogService
+      private dialogService: EbsCommonDialogService,
+      private toastService: EbsToastService
   ) { }
 
   /***************************************************************************
@@ -55,11 +56,10 @@ export class CardsDemoComponent implements OnInit {
           CardStack.newStack(Status.ToDo, 'ToDo'),
           CardStack.newStack(Status.Doing, 'Doing'),
           CardStack.newStack(Status.Done, 'Done'),
-        ],
-      (a, b) => a > b ? 1 : -1
+        ]// (a, b) => a > b ? 1 : -1
     );
 
-    this.cardData.replaceStackCards( Status.Backlog,[
+    this.cardData.replaceStackCards( Status.Backlog, [
           '1',
           '2',
           '3',
@@ -97,11 +97,9 @@ export class CardsDemoComponent implements OnInit {
 
     this.logger.info('Card Dropped', event);
 
-    if (!event.copy) {
-      event.fromStack.removeCard(event.card);
-    }
-
-    event.toStack.addCard(event.card);
+    this.toastService.pushInfo(
+      'Card moved from ' + event.fromStack.data + ' (' + event.fromIndex +
+      ') to stack ' + event.toStack.data + ' (' + event.toIndex + ')!');
   }
 
   public createNewCard(event: CardStack<string>): void {

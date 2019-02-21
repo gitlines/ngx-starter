@@ -1,6 +1,7 @@
 <div fxLayout="column" fxFill>
 
   <ebs-card-organizer fxFlex
+                      [autoMoveCards]="true"
                       [organizerModel]="cardData"
                       [removeConfirmation]="confirmDeletion"
                       (cardClick)="cardClicked($event)"
