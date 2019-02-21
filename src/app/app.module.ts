@@ -18,13 +18,14 @@ import {
   EbsToastModule,
   EbsDatesModule,
   EbsLocalesDeChModule,
-  EbsSelectListModule
+  EbsSelectListModule,
+  EbsFormSupportDirectivesModule
 } from '@elderbyte/ngx-starter';
 import {
   MatButtonModule,
   MatCommonModule,
   MatDialogModule, MatDividerModule,
-  MatIconModule, MatListModule,
+  MatIconModule, MatListModule, MatMenuModule,
   MatSidenavModule, MatSortModule, MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -80,7 +81,7 @@ LoggerFactory.getDefaultConfiguration()
     FlexLayoutModule,
 
     // Material
-    MatSidenavModule,
+    MatSidenavModule, MatMenuModule,
     MatCommonModule,
     MatToolbarModule,
     MatButtonModule,
@@ -110,6 +111,7 @@ LoggerFactory.getDefaultConfiguration()
     EbsMatPanelModule,
     EbsLabelsModule,
     EbsToolbarModule,
+    EbsFormSupportDirectivesModule,
 
     EbsLocalesDeChModule.forRoot(),
     EbsDatesModule,

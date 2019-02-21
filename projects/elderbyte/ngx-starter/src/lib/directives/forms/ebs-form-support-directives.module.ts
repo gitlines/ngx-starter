@@ -7,11 +7,13 @@ import {EbsTouchedDirective} from './ebs-touched.directive';
 import {EbsFilterInputDirective} from './ebs-filter-input.directive';
 import {MatFormFieldModule} from '@angular/material';
 import {EbsPlugParentFormDirective} from './ebs-plug-parent-form.directive';
+import { EbsStopEventPropagationDirective } from './ebs-stop-event-propagation.directive';
 
 export {EbsDelayedFocusDirective} from './ebs-delayed-focus.directive';
 export {EbsTouchedDirective} from './ebs-touched.directive';
 export {EbsFilterInputDirective} from './ebs-filter-input.directive';
 export {EbsPlugParentFormDirective} from './ebs-plug-parent-form.directive';
+export {EbsStopEventPropagationDirective} from './ebs-stop-event-propagation.directive';
 
 @NgModule({
     declarations: [
@@ -19,14 +21,16 @@ export {EbsPlugParentFormDirective} from './ebs-plug-parent-form.directive';
       EbsDelayedFocusDirective,
       EbsTouchedDirective,
       EbsFilterInputDirective,
-      EbsPlugParentFormDirective
+      EbsPlugParentFormDirective,
+      EbsStopEventPropagationDirective
     ],
     exports : [
 
       EbsDelayedFocusDirective,
       EbsTouchedDirective,
       EbsFilterInputDirective,
-      EbsPlugParentFormDirective
+      EbsPlugParentFormDirective,
+      EbsStopEventPropagationDirective
     ],
     imports : [ CommonModule, MatFormFieldModule ]
 })

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Food, FoodStore} from '../model/food';
 import {Router} from '@angular/router';
+import {EbsToastService} from '@elderbyte/ngx-starter';
 
 @Component({
   selector: 'starter-demo-table-master-detail',
@@ -16,7 +17,8 @@ export class TableMasterDetailComponent implements OnInit {
   public data: Food[];
 
   constructor(
-    private router: Router
+    private router: Router,
+    private toastService: EbsToastService
   ) { }
 
   public ngOnInit(): void {
@@ -30,6 +32,10 @@ export class TableMasterDetailComponent implements OnInit {
     } else {
       this.router.navigate([{outlets: {'side': ['foods', food.name]}}]);
     }
+  }
+
+  public deleteRow(food: Food): void {
+    this.toastService.pushInfo('Dont delete ' + food.name + '! :-P');
   }
 
 }
