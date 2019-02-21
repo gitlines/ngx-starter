@@ -3,6 +3,13 @@ import {CardStack} from '../../../../projects/elderbyte/ngx-starter/src/lib/comp
 import {Subscription} from 'rxjs';
 
 
+export class SampleCard {
+  constructor(
+    public title: string,
+    public value: number
+  ) { }
+}
+
 @Component({
   selector: 'starter-demo-card-stack-sorter',
   templateUrl: './card-stack-sorter.component.html',
@@ -18,7 +25,7 @@ export class CardStackSorterComponent implements OnInit, OnDestroy {
 
   private _sub: Subscription;
 
-  public stack: CardStack<string>;
+  public stack: CardStack<SampleCard>;
   public currentOrder: string;
 
   /***************************************************************************
@@ -37,11 +44,11 @@ export class CardStackSorterComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.stack = CardStack.newStackSimple([
-      'one',
-      'two',
-      'three',
-      'four',
-      'five',
+      new SampleCard('one', 1),
+      new SampleCard('two', 2),
+      new SampleCard('three', 3),
+      new SampleCard('four', 4),
+      new SampleCard('five', 5),
     ]);
 
     this._sub = this.stack.cards.subscribe(
@@ -61,10 +68,8 @@ export class CardStackSorterComponent implements OnInit, OnDestroy {
    *                                                                         *
    **************************************************************************/
 
-  private updateCurrentOrder(cards: string[]): void {
-    this.currentOrder = cards.join('-');
+  private updateCurrentOrder(cards: SampleCard[]): void {
+    this.currentOrder = cards.map(c => c.title).join('-');
   }
-
-
 
 }
