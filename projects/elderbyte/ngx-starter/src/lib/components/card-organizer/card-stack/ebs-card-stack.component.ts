@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {CardDropEvent, CardStack} from '../card-stack';
 import {Observable} from 'rxjs/internal/Observable';
 import {first} from 'rxjs/operators';
 import {CdkDrag, CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDropList} from '@angular/cdk/drag-drop';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {EbsStackCardDirective} from '../card-organizer/ebs-card-organizer.component';
 
 @Component({
   selector: 'ebs-card-stack',
@@ -68,7 +69,8 @@ export class EbsCardStackComponent implements OnInit {
   // Templates
 
   @Input()
-  public cardTemplate: any;
+  @ContentChild(EbsStackCardDirective, {read: TemplateRef})
+  public cardTemplate: TemplateRef<any>;
 
   @Input()
   public canCollapse = false;
