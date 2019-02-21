@@ -22,7 +22,7 @@ import {
   EbsFormSupportDirectivesModule
 } from '@elderbyte/ngx-starter';
 import {
-  MatButtonModule,
+  MatButtonModule, MatChipsModule,
   MatCommonModule,
   MatDialogModule, MatDividerModule,
   MatIconModule, MatListModule, MatMenuModule,
@@ -96,6 +96,7 @@ LoggerFactory.getDefaultConfiguration()
     MatListModule,
     MatButtonModule,
     MatDividerModule,
+    MatChipsModule,
 
     MatTableModule,
     MatSortModule,

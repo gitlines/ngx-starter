@@ -13,7 +13,8 @@
 // DEFAULT Theme
 $elder-app-primary: mat-palette($ebs-elder-blue); // default, lighter, and darker
 $elder-app-accent:  mat-palette($ebs-elder-gold);
-$elder-app-theme:   mat-light-theme($elder-app-primary, $elder-app-accent);
+$elder-app-warn:  mat-palette($mat-red, 900);
+$elder-app-theme:   mat-light-theme($elder-app-primary, $elder-app-accent, $elder-app-warn);
 
 // Set 'elder-app' as default theme
 @include angular-material-theme($elder-app-theme);
