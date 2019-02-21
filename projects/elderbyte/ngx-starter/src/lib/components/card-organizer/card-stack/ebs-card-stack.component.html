@@ -3,10 +3,12 @@
 <div fxLayout="column" class="card-stack hoverme" fxFlex>
 
   <!-- Header -->
-  <header fxLayout="row" fxFlex="none" fxLayoutAlign="start center" fxLayoutGap="10px" class="padding-10" style="height: 62px">
+  <header *ngIf="headerEnabled"
+          fxLayout="row" fxFlex="none" fxLayoutAlign="start center" fxLayoutGap="10px"
+          class="stack-header padding-10">
 
-    <h3 class="mat-body-2 noselect">{{stack?.title | translate}}</h3>
-    <small class="mat-caption noselect">({{(stack?.cards | async)?.length}})</small>
+    <h3 class="mat-body-2 noselect">{{headerTitle | translate}}</h3>
+    <small class="mat-caption noselect">({{(cards | async)?.length}})</small>
 
     <span fxFlex></span>
 
@@ -15,13 +17,14 @@
     </button>
 
   </header>
-  <mat-divider></mat-divider>
+  <mat-divider *ngIf="headerEnabled"></mat-divider>
+
 
   <!-- card list -->
   <div fxFlex fxLayout="column" class="card-container">
 
     <div fxLayout="column"  fxLayoutGap="10px" class="scrollable padding-10 card-list"
-         [id]="stack.id"
+         [id]="stackId"
          cdkDropList
          [cdkDropListData]="stack"
          [cdkDropListConnectedTo]="connectedTo"
@@ -33,7 +36,7 @@
     >
 
       <!-- card -->
-      <mat-card *ngFor="let card of stack?.cards | async" class="card"
+      <mat-card *ngFor="let card of cards | async" class="card"
                 cdkDrag [cdkDragData]="card"
                 (click)="onCardSelected($event, card)">
         <mat-card-header>
@@ -43,7 +46,7 @@
 
             <ng-container *ngTemplateOutlet="cardTemplate || simpleCardTemplate; context: {$implicit: card}"></ng-container>
 
-            <button mat-icon-button class="hide" (click)="onRequestRemoveCard($event, card)">
+            <button *ngIf="canRemove" mat-icon-button class="hide" (click)="onRequestRemoveCard($event, card)">
               <mat-icon>close</mat-icon>
             </button>
           </div>

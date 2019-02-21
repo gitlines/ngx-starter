@@ -16,5 +16,8 @@ export enum Status {
 })
 export class CardsDemoComponent implements OnInit {
 
+  public ngOnInit(): void {
+
+  }
 
 }

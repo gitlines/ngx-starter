@@ -49,6 +49,7 @@ import { TableMasterDetailComponent } from './table-master-detail/table-master-d
 import { DemoSimpleSideComponent } from './demo-simple-side/demo-simple-side.component';
 import { SelectListDemoComponent } from './components/select-list-demo/select-list-demo.component';
 import { CardOrganizerDemoComponent } from './cards-demo/card-organizer-demo/card-organizer-demo.component';
+import { CardStackSorterComponent } from './cards-demo/card-stack-sorter/card-stack-sorter.component';
 
 
 LoggerFactory.getDefaultConfiguration()
@@ -59,14 +60,16 @@ LoggerFactory.getDefaultConfiguration()
     AppComponent,
     DemoPanelComponent,
     DemoPanelSideComponent,
-    CardsDemoComponent,
     TableDemoComponent,
     EatableCategoryListComponent,
     EatableCategoryDetailComponent,
     TableMasterDetailComponent,
     DemoSimpleSideComponent,
     SelectListDemoComponent,
-    CardOrganizerDemoComponent
+
+    CardsDemoComponent,
+    CardOrganizerDemoComponent,
+    CardStackSorterComponent
   ],
   imports: [
 

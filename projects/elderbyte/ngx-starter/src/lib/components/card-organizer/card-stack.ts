@@ -66,6 +66,15 @@ export class CardStack<T, D = any> {
    *                                                                         *
    **************************************************************************/
 
+  public static newStackSimple<T>(initialCards?: T[]): CardStack<T>  {
+    return new CardStack(
+      'id-' + Math.floor((Math.random() * 6) + 1),
+      '',
+      null,
+      initialCards
+    );
+  }
+
   public static newStack<T>(id: string, title: string, initialCards?: T[]): CardStack<T>  {
     return new CardStack(id, title, null, initialCards);
   }

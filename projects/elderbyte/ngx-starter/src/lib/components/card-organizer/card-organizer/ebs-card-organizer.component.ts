@@ -38,6 +38,10 @@ export class EbsCardOrganizerComponent implements OnInit {
   @Input()
   public organizerModel: CardOrganizerData<any, any>;
 
+
+  @Input()
+  public canRemove = true;
+
   @Input()
   public removeConfirmation: (card: any) => Observable<boolean>;
 
@@ -52,6 +56,9 @@ export class EbsCardOrganizerComponent implements OnInit {
    */
   @Input()
   public autoMoveCards = false;
+
+  @Input()
+  public headerEnabled = true;
 
   @Input()
   public canEnterPredicate: (card: any, stack: CardStack<any, any>) => boolean;

@@ -3,7 +3,14 @@
 
     <ebs-card-stack fxFlex
                     *ngFor="let stack of organizerModel.stacks | async"
+
                     [stack]="stack"
+
+                    [stackId]="stack.id"
+                    [headerEnabled]="headerEnabled"
+                    [headerTitle]="stack.title"
+                    [canRemove]="canRemove"
+
                     [cardTemplate]="stackCardTemplate"
                     [removeConfirmation]="removeConfirmation"
                     [autoMoveCards]="autoMoveCards"

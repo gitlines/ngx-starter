@@ -24,6 +24,18 @@ export class EbsCardStackComponent implements OnInit {
   public stack: CardStack<any, any>;
 
   @Input()
+  public stackId: string;
+
+  @Input()
+  public headerEnabled = true;
+
+  @Input()
+  public headerTitle: string;
+
+  @Input()
+  public canRemove: boolean;
+
+  @Input()
   public removeConfirmation: (card: any) => Observable<boolean>;
 
   @Output('requestNewCard')
@@ -70,7 +82,9 @@ export class EbsCardStackComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  constructor() { }
+  constructor() {
+    this.stackId = 'id-' + Math.floor((Math.random() * 6) + 1);
+  }
 
   /***************************************************************************
    *                                                                         *
@@ -80,6 +94,20 @@ export class EbsCardStackComponent implements OnInit {
 
   public ngOnInit(): void  {
 
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Properties                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public get cards(): Observable<any[]> {
+    if (this.stack) {
+      return this.stack.cards;
+    } else {
+      return null;
+    }
   }
 
   /***************************************************************************
