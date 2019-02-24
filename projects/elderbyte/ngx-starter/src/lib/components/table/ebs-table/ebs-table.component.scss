@@ -1,3 +1,4 @@
+@import '~@angular/material/theming';
 
 @mixin ebs-table-theme($theme) {
   $primary: map-get($theme, primary);
@@ -7,12 +8,12 @@
   $foreground: map-get($theme, foreground);
 
   .clickable:hover {
-    background-color: mat-color($primary, default, 0.10);
+    background-color: mat-color($background, hover);
     cursor: pointer;
   }
 }
 
-table {
+.embedded-table {
   width: 100%;
 }
 

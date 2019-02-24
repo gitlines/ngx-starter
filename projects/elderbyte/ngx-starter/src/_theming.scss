@@ -3,6 +3,7 @@
 @import "lib/components/navigation/nav/nav-group/ebs-nav-group.component";
 @import "lib/components/select-list/ebs-select-list-item/ebs-select-list-item.component";
 @import "lib/components/table/ebs-table/ebs-table.component";
+@import "lib/components/card-organizer/card-stack/ebs-card-stack.component";
 
 /***************************************************************************
  *                                                                         *
@@ -167,5 +168,6 @@ $ebs-elder-gold: (
   @include ebs-nav-group-theme($theme);
   @include ebs-select-list-theme($theme);
   @include ebs-table-theme($theme);
+  @include ebs-card-stack-theme($theme);
 }
 
