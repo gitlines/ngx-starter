@@ -25,7 +25,7 @@ import {
   MatButtonModule, MatCardModule, MatChipsModule,
   MatCommonModule,
   MatDialogModule, MatDividerModule,
-  MatIconModule, MatListModule, MatMenuModule,
+  MatIconModule, MatListModule, MatMenuModule, MatProgressBarModule,
   MatSidenavModule, MatSortModule, MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -98,6 +98,7 @@ LoggerFactory.getDefaultConfiguration()
     MatListModule,
     MatButtonModule,
     MatDividerModule,
+    MatProgressBarModule,
     MatChipsModule, MatCardModule,
 
     MatTableModule,
