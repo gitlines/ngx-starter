@@ -1,4 +1,17 @@
 
+@mixin ebs-table-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .clickable:hover {
+    background-color: mat-color($primary, default, 0.10);
+    cursor: pointer;
+  }
+}
+
 table {
   width: 100%;
 }
@@ -8,11 +21,6 @@ Clickable row
 *******************************/
 
 .clickable {
-  cursor: pointer;
-}
-
-.clickable:hover {
-  background-color: #EEEEEE!important;
   cursor: pointer;
 }
 
