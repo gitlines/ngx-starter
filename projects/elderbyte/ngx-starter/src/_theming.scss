@@ -2,6 +2,7 @@
 @import "lib/components/navigation/nav/nav-link/ebs-nav-link.component";
 @import "lib/components/navigation/nav/nav-group/ebs-nav-group.component";
 @import "lib/components/select-list/ebs-select-list-item/ebs-select-list-item.component";
+@import "lib/components/table/ebs-table/ebs-table.component";
 
 /***************************************************************************
  *                                                                         *
@@ -94,20 +95,20 @@ $mat-light-theme-foreground: (
 // ElderByte Theme
 
 $ebs-elder-blue: (
-  50: #eceff1,
-  100: #0051b4,
-  200: #004592,
-  300: #003b79,
-  400: #38507f,
-  500: #002852, // Official Main Color tone
-  600: #001a47,
-  700: #001a39,
-  800: #00152b,
-  900: #000029,
-  A100: #eceff1,
-  A200: #38507f,
-  A400: #002852,
-  A700: #000029,
+  50: #DFE3E8,
+  100: #B3BCC8,
+  200: #8593A7,
+  300: #546883,
+  400: #2F4869,
+  500: #0B284F, // Official Main Color tone: #002852 (#0B284F)
+  600: #0A2448,
+  700: #092040,
+  800: #081C38,
+  900: #061529,
+  A100: #809ec5,
+  A200: #5179bf,
+  A400: #004390,
+  A700: #00006b,
   contrast: (
     50: $dark-primary-text,
     100: $dark-primary-text,
@@ -126,23 +127,21 @@ $ebs-elder-blue: (
   )
 );
 
-
-
 $ebs-elder-gold: (
-  50: #fff8e1,
-  100: #eed292,
-  200: #f6d797,
-  300: #efd08f,
-  400: #c9ad6e,
-  500: #BB9F61, // Official ElderByte Accent tone
-  600: #ad955e,
-  700: #97804e,
-  800: #806940,
-  900: #897135,
-  A100: #fff8e1,
+  50: #F6F3EC,
+  100: #E8E1D1,
+  200: #DACFB4,
+  300: #CCBC96,
+  400: #C1AD80,
+  500: #B69F6A, // Official ElderByte Accent tone
+  600: #A69160,
+  700: #948156,
+  800: #81714B,
+  900: #5F5337,
+  A100: #e1d1a9,
   A200: #efd08f,
-  A400: #BB9F61,
-  A700: #897135,
+  A400: #dbbe7a,
+  A700: #af9144,
   contrast: (
     50: $dark-primary-text,
     100: $dark-primary-text,
@@ -167,5 +166,6 @@ $ebs-elder-gold: (
   @include ebs-nav-theme($theme);
   @include ebs-nav-group-theme($theme);
   @include ebs-select-list-theme($theme);
+  @include ebs-table-theme($theme);
 }
 
