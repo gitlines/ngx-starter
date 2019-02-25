@@ -10,25 +10,39 @@
 
 
 // Light Elder Theme
-/**/
+/*
 $elder-app-primary: mat-palette($ebs-elder-blue); // default, lighter, and darker
 $elder-app-accent:  mat-palette($ebs-elder-gold);
 $elder-app-warn:  mat-palette($mat-red, 900);
 $elder-app-theme:   mat-light-theme($elder-app-primary, $elder-app-accent, $elder-app-warn);
-
+*/
 
 /*
 // DARK Elder THEME
-
+*/
 $elder-app-primary: mat-palette($ebs-elder-gold); // default, lighter, and darker
 $elder-app-accent:  mat-palette($ebs-elder-blue, A100);
 $elder-app-warn:    mat-palette($mat-red, 900);
 $elder-app-theme:   mat-dark-theme($elder-app-primary, $elder-app-accent, $elder-app-warn);
-*/
+
 
 // Set 'elder-app' as default theme
 @include angular-material-theme($elder-app-theme);
 @include starter-theme($elder-app-theme);
+
+// convenience variables
+$primary: map-get($elder-app-primary, "default");
+$primary-light: map-get($elder-app-primary, "lighter");
+$primary-dark: map-get($elder-app-primary, "darker");
+
+$background: map-get($elder-app-theme, background);
+$foreground: map-get($elder-app-theme, foreground);
+
+$accent: map-get($elder-app-accent, "default");
+
+.color-primary {
+  color: $primary;
+}
 
 
 html, body {
@@ -99,3 +113,26 @@ body {
 starter-demo-root {
   overflow: hidden;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: mat-color($background, background);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $primary;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $primary-light;
+}
+
+
