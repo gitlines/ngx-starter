@@ -47,10 +47,12 @@
   <div fxLayout="column" fxFill>
 
     <!-- Center Toolbar -->
-    <ebs-toolbar>
+    <ebs-toolbar [color]="color">
+
+      <!-- Toolbar Prefix: Sidenav Toggle -->
       <mat-toolbar *ngIf="sideNavToggleEnabled" fxFlex="0"
                    fxLayout="row" fxLayoutAlign="center center"
-                   color="accent">
+                   [color]="menuColor">
         <button mat-icon-button (click)="toggleSideNav()">
           <mat-icon>menu</mat-icon>
         </button>

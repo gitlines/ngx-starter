@@ -40,6 +40,12 @@ export class EbsShellComponent implements OnInit {
   @Input()
   public sideNavToggleEnabled = true;
 
+  @Input()
+  public color = 'primary';
+
+  @Input()
+  public menuColor = 'accent';
+
   @ContentChild(EbsShellSideLeftDirective, {read: TemplateRef})
   public sideContentLeft: TemplateRef<any>;
 
@@ -48,6 +54,8 @@ export class EbsShellComponent implements OnInit {
 
   @ContentChild(EbsShellCenterDirective, {read: TemplateRef})
   public centerContent: TemplateRef<any>;
+
+
 
   /***************************************************************************
    *                                                                         *
