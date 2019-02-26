@@ -81,6 +81,18 @@
 
     </mat-tab>
 
+    <mat-tab label="Pipes">
+
+      <div fxLayout="column" class="padding-10">
+
+        <h2>ElderSafeUrl</h2>
+        <a mat-button [href]="'foo:someUrl' | elderSafeUrl">Href Button with special Protocol 'foo'</a>
+
+      </div>
+
+    </mat-tab>
+
+
     <mat-tab label="Components">
 
       <div fxLayout="column" class="padding-10">

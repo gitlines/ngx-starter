@@ -6,6 +6,7 @@ import {TimeAgoPipe} from './time-ago.pipe';
 import {WeightPipe} from './weight.pipe';
 import {TimeDurationPipe} from './time-duration.pipe';
 import {RepeatPipe} from './repeat.pipe';
+import {ElderSafeUrlPipe} from './ebs-safe-url.pipe';
 
 export {BytesPipe} from './bytes.pipe';
 export {TimeAgoPipe} from './time-ago.pipe';
@@ -15,10 +16,10 @@ export {RepeatPipe} from './repeat.pipe';
 
 @NgModule({
     declarations: [
-        BytesPipe, TimeAgoPipe, TimeDurationPipe, WeightPipe, RepeatPipe
+        BytesPipe, TimeAgoPipe, TimeDurationPipe, WeightPipe, RepeatPipe, ElderSafeUrlPipe
     ],
     exports : [
-        BytesPipe, TimeAgoPipe, TimeDurationPipe, WeightPipe, RepeatPipe
+        BytesPipe, TimeAgoPipe, TimeDurationPipe, WeightPipe, RepeatPipe, ElderSafeUrlPipe
     ],
     imports : [ CommonModule ]
 })

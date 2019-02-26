@@ -17,7 +17,7 @@ export class EbsDateSwitcherComponent implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('EbsDateSwitcherComponent');
 
-  private _date: Date;
+  private _date: Date = new Date();
 
   /** If true, date picker functionality is enabled. */
   @Input()
