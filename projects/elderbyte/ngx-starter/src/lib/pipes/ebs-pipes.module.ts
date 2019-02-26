@@ -13,6 +13,7 @@ export {TimeAgoPipe} from './time-ago.pipe';
 export {WeightPipe} from './weight.pipe';
 export {TimeDurationPipe} from './time-duration.pipe';
 export {RepeatPipe} from './repeat.pipe';
+export {ElderSafeUrlPipe} from './ebs-safe-url.pipe';
 
 @NgModule({
     declarations: [
