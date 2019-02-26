@@ -29,6 +29,7 @@ $elder-app-theme:   mat-dark-theme($elder-app-primary, $elder-app-accent, $elder
 // Set 'elder-app' as default theme
 @include angular-material-theme($elder-app-theme);
 @include starter-theme($elder-app-theme);
+@include starter-scrollbar-theme($elder-app-theme);
 
 // convenience variables
 $primary: map-get($elder-app-primary, "default");
@@ -114,25 +115,5 @@ starter-demo-root {
   overflow: hidden;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: mat-color($background, background);
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: $primary;
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $primary-light;
-}
 
 

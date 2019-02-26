@@ -171,3 +171,40 @@ $ebs-elder-gold: (
   @include ebs-card-stack-theme($theme);
 }
 
+/***************************************************************************
+ *                                                                         *
+ * Scrollbar                                                               *
+ *                                                                         *
+ **************************************************************************/
+
+@mixin starter-scrollbar-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: mat-color($background, background);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: mat-color($primary);
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: mat-color($primary, 300);
+  }
+
+}
+
