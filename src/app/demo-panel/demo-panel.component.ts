@@ -15,6 +15,18 @@ export class DemoPanelComponent implements OnInit {
 
   public date: Date = new Date();
 
+
+  public durationMs = 350;
+  public durationNano = 450;
+  public durationMicro = 888;
+
+  public durationSeconds = 30;
+  public durationSecondsMinutes = 35 + (60 * 5);
+  public durationSecondsHours = 3 * (60 * 60);
+  public durationSecondsDays = 4 * 26 * (60 * 60);
+  public durationSecondsMonths = 7 * 20 * 4 * 26 * (60 * 60);
+  public durationSecondsYears = 3 * 12 * 20 * 4 * 26 * (60 * 60);
+
   public dateTimeSummerUs = '2018-07-05T08:15:30-05:00';
   public dateTimeSummerZurich = '2018-07-05T08:15:30+02:00';
   public dateTimeSummerUtc = '2018-07-05T08:15:30Z';

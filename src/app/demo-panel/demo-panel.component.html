@@ -60,6 +60,23 @@
 
       <div fxlayout="column" class="padding-10">
 
+        <h2>duration</h2>
+
+        <ul>
+          <li>Nano {{durationNano | caTimeDuration:'ns'}}</li>
+          <li>Micro {{durationMicro | caTimeDuration:'µs'}}</li>
+          <li>Milli {{durationMs | caTimeDuration:'ms'}}</li>
+
+          <li>Secs {{durationSeconds | caTimeDuration}}</li>
+          <li>Mins {{durationSecondsMinutes | caTimeDuration}}</li>
+          <li>Hours {{durationSecondsHours | caTimeDuration}}</li>
+
+          <li>Days {{durationSecondsDays | caTimeDuration}}</li>
+          <li>Months {{durationSecondsMonths | caTimeDuration}}</li>
+          <li>Years {{durationSecondsYears | caTimeDuration}}</li>
+        </ul>
+
+
         <h2>weight</h2>
         <p>{{123 | weight}}</p>
 
@@ -75,6 +92,7 @@
           <li>Zurich {{dateTimeWinterZurich | date:'yyyy.MM.dd hh:mm'}}</li>
           <li>UTC {{dateTimeWinterUtc | date:'yyyy.MM.dd hh:mm'}}</li>
         </ul>
+
       </div>
 
 
