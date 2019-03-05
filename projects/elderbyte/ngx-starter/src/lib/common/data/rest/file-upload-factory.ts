@@ -51,7 +51,12 @@ export class FileUploadFactory {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
 
-    return this.fromFormData(requestMethod, endpointUrl, formData);
+    return this.fromFormData(
+      requestMethod,
+      endpointUrl,
+      formData,
+      options
+    );
   }
 
   /**
@@ -71,8 +76,8 @@ export class FileUploadFactory {
       params?: HttpParams
     }): FileUpload {
 
-    // create a http-post request and pass the form
-    // tell it to report the upload progress
+    // Create a Http request and pass the form
+    // Tell it to report the upload progress
     const req = new HttpRequest(requestMethod, endpointUrl, formData, {
       reportProgress: true,
       headers: options ? options.headers : undefined,
@@ -83,7 +88,8 @@ export class FileUploadFactory {
   }
 
   /**
-   * Creates a new progress tracking upload job.
+   * Creates a new progress tracking upload job from a low level
+   * http request.
    *
    * @param request The upload http request
    */
