@@ -1,5 +1,22 @@
-import {Component, ContentChild, Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ContentChild,
+  Directive,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {EbsSideContentService} from '../../../features/side-content/ebs-side-content.service';
+import {MatSidenav} from '@angular/material';
+import {RouteOutletDrawerService} from '../drawers/route-outlet-drawer.service';
+import {RouterOutlet} from '@angular/router';
+import {DrawerOutletBinding} from '../drawers/drawer-outlet-binding';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
 @Directive({selector: '[ebsShellSideLeft]'})
@@ -28,13 +45,15 @@ export class EbsShellCenterDirective {
   templateUrl: './ebs-shell.component.html',
   styleUrls: ['./ebs-shell.component.scss']
 })
-export class EbsShellComponent implements OnInit {
+export class EbsShellComponent implements OnInit, OnDestroy {
 
   /***************************************************************************
    *                                                                         *
    * Fields                                                                  *
    *                                                                         *
    **************************************************************************/
+
+  private readonly logger = LoggerFactory.getLogger('EbsShellComponent');
 
   /** Controls if the SideNav toggle should be displayed. Default: true */
   @Input()
@@ -55,7 +74,12 @@ export class EbsShellComponent implements OnInit {
   @ContentChild(EbsShellCenterDirective, {read: TemplateRef})
   public centerContent: TemplateRef<any>;
 
+  @ViewChild('rightSideDetail')
+  public rightSideDrawer: MatSidenav;
 
+  public rightSideOutletName = 'side';
+
+  private rightSideBinding: DrawerOutletBinding;
 
   /***************************************************************************
    *                                                                         *
@@ -65,6 +89,7 @@ export class EbsShellComponent implements OnInit {
 
   constructor(
     private sideContentService: EbsSideContentService,
+    private outletDrawerService: RouteOutletDrawerService
   ) { }
 
   /***************************************************************************
@@ -74,7 +99,11 @@ export class EbsShellComponent implements OnInit {
    **************************************************************************/
 
   public ngOnInit(): void {
+    this.outletDrawerService.registerOutletDrawer(this.rightSideOutletName, this.rightSideDrawer);
+  }
 
+  public ngOnDestroy(): void {
+    this.rightSideBinding.unbind();
   }
 
   /***************************************************************************
@@ -95,23 +124,9 @@ export class EbsShellComponent implements OnInit {
     this.sideContentService.toggleSidenav();
   }
 
-  // ---
 
-  public get sideContentOpen(): boolean {
-    return this.sideContentService.sideContentOpen;
-  }
 
-  public get disableClose(): boolean {
-    return false;
-    // return this.sideContentService.clickOutsideToClose;
-  }
 
-  public closeSideNav() {
-    this.sideContentService.closeSideNav();
-  }
 
-  public closeSideContent() {
-    this.sideContentService.closeSideContent();
-  }
 
 }

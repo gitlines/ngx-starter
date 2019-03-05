@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Food, FoodStore} from '../model/food';
 import {Router} from '@angular/router';
-import {EbsToastService} from '@elderbyte/ngx-starter';
+import {EbsToastService, RouterOutletService} from '@elderbyte/ngx-starter';
 
 @Component({
   selector: 'starter-demo-table-master-detail',
@@ -18,7 +18,8 @@ export class TableMasterDetailComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private toastService: EbsToastService
+    private toastService: EbsToastService,
+    private outletService: RouterOutletService
   ) { }
 
   public ngOnInit(): void {
@@ -28,9 +29,11 @@ export class TableMasterDetailComponent implements OnInit {
 
   public openDetail(food: Food): void {
     if (food.name === 'Apple') {
-      this.router.navigate([{outlets: {'side': ['simple']}}]);
+      // this.router.navigate([{outlets: {'side': ['simple']}}]);
+      this.outletService.activate('side', ['simple']);
     } else {
-      this.router.navigate([{outlets: {'side': ['foods', food.name]}}]);
+      // this.router.navigate([{outlets: {'side': ['foods', food.name]}}]);
+      this.outletService.activate('side', ['foods', food.name]);
     }
   }
 

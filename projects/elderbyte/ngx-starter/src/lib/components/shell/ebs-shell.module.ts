@@ -16,6 +16,10 @@ import {EbsToastModule} from '../../features/toasts/ebs-toast.module';
 
 export {EbsShellComponent} from './shell/ebs-shell.component';
 
+export {DrawerOutletBinding} from './drawers/drawer-outlet-binding';
+export {RouteOutletDrawerService} from './drawers/route-outlet-drawer.service';
+export {RouterOutletService} from './drawers/router-outlet.service';
+
 @NgModule({
   imports: [
     CommonModule,

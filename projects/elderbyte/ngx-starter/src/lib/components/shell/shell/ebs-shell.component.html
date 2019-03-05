@@ -20,11 +20,9 @@
   </mat-sidenav-content>
 
   <!-- Right Side Detial -->
-  <mat-sidenav mode="over"
+  <mat-sidenav mode="over" #rightSideDetail
                position="end"
                [fixedInViewport]="true"
-               [opened]="sideContentOpen"
-               (closedStart)="closeSideContent()"
                [disableClose]="false">
     <div fxFill fxLayout="column">
       <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>

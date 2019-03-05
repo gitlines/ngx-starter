@@ -7,4 +7,5 @@ export * from './selection/public_api';
 export * from './http/public_api';
 
 export * from './objects';
+export * from './sets';
 export * from './suggestion-provider';

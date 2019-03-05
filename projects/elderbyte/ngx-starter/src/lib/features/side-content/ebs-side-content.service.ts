@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router, RouterStateSnapshot} from '@angular/router';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {filter, map} from 'rxjs/operators';
+import {RouterOutletService} from '../../components/shell/drawers/router-outlet.service';
 
 /**
  * This service manages the side content.
@@ -23,9 +24,9 @@ export class EbsSideContentService {
     private readonly logger = LoggerFactory.getLogger('EbsSideContentService');
 
     private _navigationOpen = false;
-    private _sideContentOpen = false;
-    private _detailContentOutlet = 'side';
     private _clickOutsideToClose = true;
+
+    private detailContentOutlet = 'side';
 
     /***************************************************************************
      *                                                                         *
@@ -35,6 +36,7 @@ export class EbsSideContentService {
 
     constructor(
         private router: Router,
+        private routerOutletService: RouterOutletService,
     ) {
 
         this.router.events.pipe(
@@ -42,14 +44,6 @@ export class EbsSideContentService {
                 map(event => event as NavigationEnd)
             )
             .subscribe(event => {
-
-                if (this.isOutletActive(this.detailContentOutlet)) {
-                    this.logger.trace(`"${this.detailContentOutlet}" outlet is active -> showing side content!`);
-                    this.showSideContentInternal();
-                } else {
-                    this.logger.trace(`"${this.detailContentOutlet}" outlet is NOT active -> HIDING side content!`);
-                    this.closeSideContentInternal();
-                }
                 this.closeSideNav();
             });
     }
@@ -61,17 +55,6 @@ export class EbsSideContentService {
      **************************************************************************/
 
     /**
-     * Checks if the side content is currently isOpen
-     */
-    public get sideContentOpen(): boolean {
-        return this._sideContentOpen;
-    }
-
-    public set sideContentOpen(value: boolean) {
-        this._sideContentOpen = value;
-    }
-
-    /**
      * Checks if the navigation is isOpen
      */
     public get navigationOpen(): boolean {
@@ -80,21 +63,6 @@ export class EbsSideContentService {
 
     public set navigationOpen(value: boolean) {
         this._navigationOpen = value;
-    }
-
-    /**
-     * Gets the name of the detail outlet.
-     * Default is 'side'
-     */
-    public get detailContentOutlet(): string {
-        return this._detailContentOutlet;
-    }
-
-    /**
-     * Sets the name of the detail outlet.
-     */
-    public set detailContentOutlet(value: string) {
-        this._detailContentOutlet = value;
     }
 
     /**
@@ -134,14 +102,7 @@ export class EbsSideContentService {
      * Closes the side detail content
      */
     public closeSideContent(): Promise<boolean> {
-
-        const command: any = {};
-        command['outlets'] = {};
-        command['outlets'][this.detailContentOutlet] = null;
-
-        return this.router.navigate([
-            command
-            ]);
+      return this.routerOutletService.deactivate(this.detailContentOutlet);
     }
 
     /**
@@ -163,41 +124,5 @@ export class EbsSideContentService {
             extras
         );
     }
-
-    /***************************************************************************
-     *                                                                         *
-     * Private methods                                                         *
-     *                                                                         *
-     **************************************************************************/
-
-    private closeSideContentInternal(): void {
-        this.logger.trace('Hiding Side Content');
-        this.sideContentOpen = false;
-    }
-
-    private showSideContentInternal() {
-        this.logger.trace('Showing Side Content');
-        this.sideContentOpen = true;
-    }
-
-    private isOutletActive(outlet: string): boolean {
-        const rs: RouterStateSnapshot =  this.router.routerState.snapshot;
-        const snap: ActivatedRouteSnapshot = rs.root;
-        return this.isOutletActiveRecursive(snap, outlet);
-    }
-
-    private isOutletActiveRecursive(root: ActivatedRouteSnapshot, outlet: string): boolean {
-        if (root.outlet === outlet) {
-            return true;
-        }
-        for (const c of root.children) {
-            if (this.isOutletActiveRecursive(c, outlet)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
 
 }
