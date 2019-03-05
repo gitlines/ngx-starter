@@ -75,7 +75,7 @@ export class EbsSelectListItemComponent implements OnInit {
   }
 
   public get isActive(): boolean {
-    return this.selectListComponent.value === this.value;
+    return this.selectListComponent.isActive(this.value);
   }
 
   @Output()
