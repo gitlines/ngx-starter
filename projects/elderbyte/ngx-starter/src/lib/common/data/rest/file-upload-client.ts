@@ -1,35 +1,16 @@
-import {HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
-import {from, Observable, of, ReplaySubject, Subject} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {from} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {mergeMap} from 'rxjs/operators';
+import {FileUpload} from './file-upload';
+import {FileUploadFactory} from './file-upload-factory';
 
 export interface IFileUploadClient {
   uploadFiles(files: Set<File>): Map<File, FileUpload>;
   uploadFile(file: File): FileUpload;
 }
 
-/**
- * Represents a file upload
- */
-export class FileUpload {
-  constructor(
-    /**
-     * The http request
-     */
-    public readonly httpRequest: Observable<HttpEvent<any>>,
 
-    /**
-     * The upload progress [0-100]
-     */
-    public readonly progress: Observable<number>,
-
-    /**
-     * If there was an error while uploading
-     */
-    public readonly error: Observable<HttpErrorResponse>
-
-  ) { }
-}
 
 export class FileUploadClient implements IFileUploadClient {
 
@@ -77,7 +58,15 @@ export class FileUploadClient implements IFileUploadClient {
  */
 export class FileUploader {
 
+  /***************************************************************************
+   *                                                                         *
+   * Fields                                                                  *
+   *                                                                         *
+   **************************************************************************/
+
   private logger = LoggerFactory.getLogger('FileUploader');
+
+  private readonly uploadFactory: FileUploadFactory;
 
   /***************************************************************************
    *                                                                         *
@@ -88,7 +77,9 @@ export class FileUploader {
   constructor(
     private http: HttpClient,
     protected readonly endpointUrl: string,
-  ) { }
+  ) {
+    this.uploadFactory = new FileUploadFactory(http);
+  }
 
   /***************************************************************************
    *                                                                         *
@@ -151,63 +142,15 @@ export class FileUploader {
    *                                                                         *
    **************************************************************************/
 
+  private createUploadJob(file: File, requestMethod: 'POST' | 'PUT' | 'PATCH'): FileUpload {
+    return this.uploadFactory.fromFile(requestMethod, this.endpointUrl, file);
+  }
+
   private uploadConcurrent(jobs: FileUpload[], maxConcurrency: number): void {
     from(jobs).pipe(
         mergeMap(j => j.httpRequest, maxConcurrency)
     ).subscribe(
       success => this.logger.trace('Upload successful!', success)
-    );
-  }
-
-
-  private createUploadJob(file: File, requestMethod: 'POST' | 'PUT' | 'PATCH'): FileUpload {
-
-    const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
-
-    // create a http-post request and pass the form
-    // tell it to report the upload progress
-    const req = new HttpRequest(requestMethod, this.endpointUrl, formData, {
-      reportProgress: true
-    });
-
-    // create a new progress-subject for every file
-    const progress = new Subject<number>();
-    const error = new ReplaySubject<any>(1);
-
-    // send the http-request and subscribe for progress-updates
-    const httpUpload = this.http.request(req).pipe(
-      tap(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-
-          // calculate the progress percentage
-          const percentDone = Math.round(100 * event.loaded / event.total);
-
-          // pass the percentage into the progress-stream
-          progress.next(percentDone);
-
-        } else if (event instanceof HttpResponse) {
-          // Close the progress-stream if we get an answer form the API
-          // The upload is complete
-          progress.complete();
-        }
-      }, err => {},
-        () => {
-        progress.complete();
-        error.complete();
-      }),
-      catchError(err => {
-        this.logger.warn('Upload failed', err);
-        progress.next(0);
-        error.next(err);
-        return of(err);
-      })
-    );
-
-    return new FileUpload(
-      httpUpload,
-      progress.asObservable(),
-      error.asObservable()
     );
   }
 
