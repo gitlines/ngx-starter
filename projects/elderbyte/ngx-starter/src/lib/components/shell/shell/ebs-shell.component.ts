@@ -79,8 +79,6 @@ export class EbsShellComponent implements OnInit, OnDestroy {
 
   public rightSideOutletName = 'side';
 
-  private rightSideBinding: DrawerOutletBinding;
-
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -99,11 +97,14 @@ export class EbsShellComponent implements OnInit, OnDestroy {
    **************************************************************************/
 
   public ngOnInit(): void {
-    this.outletDrawerService.registerOutletDrawer(this.rightSideOutletName, this.rightSideDrawer);
+    this.outletDrawerService.registerOutletDrawer(
+      this.rightSideOutletName,
+      this.rightSideDrawer
+    );
   }
 
   public ngOnDestroy(): void {
-    this.rightSideBinding.unbind();
+
   }
 
   /***************************************************************************
@@ -123,10 +124,5 @@ export class EbsShellComponent implements OnInit, OnDestroy {
   public toggleSideNav(): void {
     this.sideContentService.toggleSidenav();
   }
-
-
-
-
-
 
 }

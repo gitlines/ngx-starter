@@ -47,11 +47,14 @@ export class RouteOutletDrawerService {
     if (!routeOutlet) { throw new Error('routeOutlet must not be null!'); }
     if (!drawer) { throw new Error('drawer must not be null!'); }
 
-    this.outletDrawers.set(routeOutlet, drawer);
 
-    drawer.closedStart.subscribe(
+    const sub = drawer.closedStart.subscribe(
       () => { this.outletService.deactivate(routeOutlet); }
     );
+
+    // TODO Support un-subscribing / unregistering a outlet-drawer
+
+    this.outletDrawers.set(routeOutlet, drawer);
 
     this.ensureOutletsAreObserved();
   }
