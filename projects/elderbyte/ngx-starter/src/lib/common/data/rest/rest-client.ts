@@ -94,7 +94,7 @@ export class RestClient<T, TID> {
         return ((!!id) ? this.update(entity) : this.create(entity));
     }
 
-    public create(newEntity: T): Observable<T> {
+    public create<TC = T>(newEntity: TC): Observable<T> {
         return this.http.post<T>(this.restEndpoint, newEntity)
             .pipe(
                 tap(e => this.onLocalChanged(e))
