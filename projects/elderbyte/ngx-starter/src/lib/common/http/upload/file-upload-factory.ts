@@ -30,7 +30,6 @@ export class FileUploadFactory {
    *                                                                         *
    **************************************************************************/
 
-
   /**
    * Creates a new progress tracking upload job from the given File.
    *
@@ -48,8 +47,38 @@ export class FileUploadFactory {
       params?: HttpParams
     }): FileUpload {
 
+    // Create a Http request and pass the form
+    // Tell it to report the upload progress
+    const req = new HttpRequest(requestMethod, endpointUrl, file, {
+      reportProgress: true,
+      headers: options ? options.headers : undefined,
+      params: options ? options.params : undefined
+    });
+
+    return this.fromRequest(req);
+  }
+
+  /**
+   * Creates a new progress tracking upload job from the given File.
+   *
+   * @param requestMethod  The HTTP method (usually POST or PUT)
+   * @param endpointUrl The url to send the request to
+   * @param formFile The file to construct the Form Data form
+   * @param formName The file name of the Form Data
+   * @param options (Optional) Additional headers or query params
+   */
+  public fromFileFormData(
+    requestMethod: 'POST' | 'PUT' | 'PATCH',
+    endpointUrl: string,
+    formFile: File,
+    formName: string = 'file',
+    options?: {
+      headers?: HttpHeaders,
+      params?: HttpParams
+    }): FileUpload {
+
     const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append(formName, formFile, formFile.name);
 
     return this.fromFormData(
       requestMethod,
@@ -94,7 +123,7 @@ export class FileUploadFactory {
    * @param request The upload http request
    */
   public fromRequest(
-    request: HttpRequest<FormData>
+    request: HttpRequest<{}>
     ): FileUpload {
 
     // create a new progress-subject for every file

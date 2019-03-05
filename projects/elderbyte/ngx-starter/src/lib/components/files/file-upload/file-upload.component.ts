@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {forkJoin, Observable} from 'rxjs';
-import {FileUpload, IFileUploadClient} from '../../../common/data/rest/file-upload-client';
+import {IFileUploadClient} from '../../../common/http/upload/file-upload-client';
+import {FileUpload} from '../../../common/http/upload/file-upload';
 
 @Component({
   selector: 'ebs-file-upload',

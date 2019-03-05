@@ -143,7 +143,7 @@ export class FileUploader {
    **************************************************************************/
 
   private createUploadJob(file: File, requestMethod: 'POST' | 'PUT' | 'PATCH'): FileUpload {
-    return this.uploadFactory.fromFile(requestMethod, this.endpointUrl, file);
+    return this.uploadFactory.fromFileFormData(requestMethod, this.endpointUrl, file);
   }
 
   private uploadConcurrent(jobs: FileUpload[], maxConcurrency: number): void {
