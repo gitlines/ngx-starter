@@ -156,8 +156,8 @@ export class FileUploadFactory {
     );
 
     return new HttpDataTransfer(
-      httpUpload,
       progress.asObservable(),
+      httpUpload,
       error.asObservable()
     );
   }
