@@ -1,6 +1,6 @@
 
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router, RouterStateSnapshot} from '@angular/router';
+import {NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {filter, map} from 'rxjs/operators';
 import {RouterOutletService} from '../../components/shell/drawers/router-outlet.service';
@@ -112,17 +112,8 @@ export class EbsSideContentService {
      * @param extras
      */
     public navigateSideContent(args: string[], clickOutsideToClose: boolean, extras?: NavigationExtras): Promise<boolean> {
-
-        this.clickOutsideToClose = clickOutsideToClose;
-
-        const command: any = {};
-        command['outlets'] = {};
-        command['outlets'][this.detailContentOutlet] = args;
-
-        return this.router.navigate(
-            [command],
-            extras
-        );
+      this.clickOutsideToClose = clickOutsideToClose;
+      return this.routerOutletService.activate(this.detailContentOutlet, args, extras);
     }
 
 }
