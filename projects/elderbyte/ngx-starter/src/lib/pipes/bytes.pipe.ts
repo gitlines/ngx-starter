@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {BytesFormat} from '../common/format/bytes-format';
 
 /*
  * Convert bytes into largest possible unit.
@@ -11,27 +12,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  */
 @Pipe({name: 'bytes'})
 export class BytesPipe implements PipeTransform {
-
-    private units = [
-        'bytes',
-        'KB',
-        'MB',
-        'GB',
-        'TB',
-        'PB'
-    ];
-
     transform(bytes = 0, precision = 2): string {
-        if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) { return '?'; }
-
-        let unit = 0;
-
-        while (bytes >= 1024) {
-            bytes /= 1024;
-            unit++;
-        }
-
-        return bytes.toFixed(+precision) + ' ' + this.units[unit];
+        return BytesFormat.format(bytes, precision);
     }
-
 }

@@ -1,5 +1,5 @@
 
-export class BytesPerSecond {
+export class BytesPerSecondFormat {
 
   public static formatBytesPerSecond(bytesPerSecond: number): string {
 
