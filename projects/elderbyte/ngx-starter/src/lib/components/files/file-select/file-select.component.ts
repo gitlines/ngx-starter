@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'ebs-file-select',
@@ -12,8 +12,6 @@ export class EbsFileSelectComponent implements OnInit {
    * Fields                                                                  *
    *                                                                         *
    **************************************************************************/
-
-  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
 
   @Input()
   public multiple = false;
@@ -55,31 +53,8 @@ export class EbsFileSelectComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public selectFiles(event: any): void {
-    this.openFileSelectDialog();
-  }
-
-  public fileInputChanged(): void {
-    const fileList = this.fileInput.nativeElement.files;
-
-    const files = new Set<File>();
-
-    for (const key in fileList) {
-      if (!isNaN(parseInt(key, 0))) {
-        files.add(fileList[key]);
-      }
-    }
+  public fileInputChanged(files: Set<File>): void {
     this.filesChange.next(files);
-  }
-
-  /***************************************************************************
-   *                                                                         *
-   * Private methods                                                         *
-   *                                                                         *
-   **************************************************************************/
-
-  private openFileSelectDialog(): void {
-    this.fileInput.nativeElement.click();
   }
 
 }

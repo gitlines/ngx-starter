@@ -1,12 +1,9 @@
 
 
-<input type="file"
-       hidden #fileInput
-       [multiple]="multiple"
-       [accept]="accept"
-       (change)="fileInputChanged()"
-/>
-
-<button mat-icon-button (click)="selectFiles($event)">
+<button mat-icon-button
+        [elderFileSelect]="accept"
+        [elderFileSelectMultiple]="multiple"
+        (elderFileSelectChange)="fileInputChanged($event)"
+>
   <mat-icon [color]="color">{{icon}}</mat-icon>
 </button>

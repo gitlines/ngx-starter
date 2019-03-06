@@ -168,12 +168,20 @@
         <h3>Translated: {{'greeting'| translate}}</h3>
 
 
+
+        <h2>File Upload Directive</h2>
+
+        <button mat-button
+                elderFileSelect
+        >Select File</button>
+
         <h2>File Upload</h2>
 
         <ebs-file-upload
           [multiple]="true"
           [uploadClient]="uploadClient"
         ></ebs-file-upload>
+
 
       </div>
 
