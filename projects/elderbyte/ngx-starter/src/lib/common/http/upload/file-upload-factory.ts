@@ -1,11 +1,11 @@
-import {FileUpload} from './file-upload';
-import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpDataTransfer} from '../transfer/http-data-transfer';
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpProgressEvent, HttpRequest, HttpResponse} from '@angular/common/http';
 import {of, ReplaySubject, Subject} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 
 /**
- * Responsible for building FileUpload jobs.
+ * Responsible for building HttpDataTransfer jobs.
  */
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class FileUploadFactory {
     options?: {
       headers?: HttpHeaders,
       params?: HttpParams
-    }): FileUpload {
+    }): HttpDataTransfer {
 
     // Create a Http request and pass the form
     // Tell it to report the upload progress
@@ -75,7 +75,7 @@ export class FileUploadFactory {
     options?: {
       headers?: HttpHeaders,
       params?: HttpParams
-    }): FileUpload {
+    }): HttpDataTransfer {
 
     const formData: FormData = new FormData();
     formData.append(formName, formFile, formFile.name);
@@ -103,7 +103,7 @@ export class FileUploadFactory {
     options?: {
       headers?: HttpHeaders,
       params?: HttpParams
-    }): FileUpload {
+    }): HttpDataTransfer {
 
     // Create a Http request and pass the form
     // Tell it to report the upload progress
@@ -124,10 +124,10 @@ export class FileUploadFactory {
    */
   public fromRequest(
     request: HttpRequest<{}>
-    ): FileUpload {
+    ): HttpDataTransfer {
 
     // create a new progress-subject for every file
-    const progress = new ReplaySubject<number>(1);
+    const progress = new ReplaySubject<HttpProgressEvent>(1);
     const error = new ReplaySubject<any>(1);
 
     // send the http-request and subscribe for progress-updates
@@ -135,11 +135,8 @@ export class FileUploadFactory {
       tap(event => {
           if (event.type === HttpEventType.UploadProgress) {
 
-            // calculate the progress percentage
-            const percentDone = Math.round(100 * event.loaded / event.total);
-
             // pass the percentage into the progress-stream
-            progress.next(percentDone);
+            progress.next(event);
 
           } else if (event instanceof HttpResponse) {
             // Close the progress-stream if we get an answer form the API
@@ -152,13 +149,13 @@ export class FileUploadFactory {
           error.complete();
         }),
       catchError(err => {
-        progress.next(0);
         error.next(err);
+        progress.complete();
         return of(err);
       })
     );
 
-    return new FileUpload(
+    return new HttpDataTransfer(
       httpUpload,
       progress.asObservable(),
       error.asObservable()
