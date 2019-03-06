@@ -127,7 +127,7 @@ export class FileUploadFactory {
     ): FileUpload {
 
     // create a new progress-subject for every file
-    const progress = new Subject<number>();
+    const progress = new ReplaySubject<number>(1);
     const error = new ReplaySubject<any>(1);
 
     // send the http-request and subscribe for progress-updates
