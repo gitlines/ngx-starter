@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpErrorResponse, HttpEvent, HttpProgressEvent} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {TransferStatus} from './transfer-status';
@@ -19,7 +19,7 @@ export class HttpDataTransfer {
 
 
   private readonly _status = new BehaviorSubject<TransferStatus>(TransferStatus.Pending);
-  private readonly _progressEvent = new ReplaySubject<TransferProgressEvent>(0);
+  private readonly _progressEvent = new Subject<TransferProgressEvent>();
 
   private _errorSnapshot: HttpErrorResponse;
   private _progressSnapshot: TransferProgressEvent;
