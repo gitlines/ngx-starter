@@ -19,11 +19,8 @@ export class FileSelectDirective implements OnInit, OnDestroy {
   @Output()
   public readonly elderFileSelectChange = new EventEmitter<Set<File>>();
 
-  @Input()
-  public elderFileSelectMultiple = false;
-
-  @Input()
-  public elderFileSelect: string;
+  private _multiple: boolean;
+  private _accept: string;
 
   /***************************************************************************
    *                                                                         *
@@ -46,8 +43,28 @@ export class FileSelectDirective implements OnInit, OnDestroy {
     this.createFileSelect();
   }
 
-  public ngOnDestroy(): void {
+  public ngOnDestroy(): void { }
 
+  /***************************************************************************
+   *                                                                         *
+   * Properties                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  @Input()
+  public set elderFileSelect(value: string) {
+    this._accept = value;
+    if (this._fileInput) {
+      this.renderer.setProperty(this._fileInput, 'accept', value);
+    }
+  }
+
+  @Input()
+  public set elderFileSelectMultiple(value: boolean) {
+    this._multiple = value;
+    if (this._fileInput) {
+      this.renderer.setProperty(this._fileInput, 'multiple', value);
+    }
   }
 
   /***************************************************************************
@@ -81,12 +98,17 @@ export class FileSelectDirective implements OnInit, OnDestroy {
    */
   private createFileSelect(): void {
 
-    const input = this.renderer.createElement('input');
-    this.renderer.setAttribute(input, 'hidden', 'true');
-    this.renderer.setAttribute(input, 'type', 'file');
-    this.renderer.appendChild(this.el.nativeElement, input);
+    this._fileInput = this.renderer.createElement('input');
+    this.renderer.setAttribute(this._fileInput, 'hidden', 'true');
+    this.renderer.setAttribute(this._fileInput, 'type', 'file');
+    this.renderer.appendChild(this.el.nativeElement, this._fileInput);
 
-    this._fileInput = input;
+    if (this._accept) {
+      this.renderer.setProperty(this._fileInput, 'accept', this._accept);
+    }
+    if (this._multiple) {
+      this.renderer.setProperty(this._fileInput, 'multiple', this._multiple);
+    }
 
     this.renderer.listen(
       this._fileInput,
