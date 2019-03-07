@@ -78,6 +78,16 @@ export class FileSelectDirective implements OnInit, OnDestroy {
     this.openFileSelectDialog();
   }
 
+  @HostListener('drop', ['$event'])
+  public onDrop(evt: DragEvent): void {
+
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    const files = evt.dataTransfer.files;
+    this.emitFileList(files);
+  }
+
   public openFileSelectDialog(): void {
     this._fileInput.click();
   }
@@ -119,7 +129,18 @@ export class FileSelectDirective implements OnInit, OnDestroy {
 
   private fileInputChanged(event: any): void {
     const fileList = this._fileInput.files;
+    this.emitFileList(fileList);
+  }
 
+  private emitFileList(fileList: FileList): void {
+    if (fileList.length > 0) {
+      this.elderFileSelectChange.next(
+        this.toSet(fileList)
+      );
+    }
+  }
+
+  private toSet(fileList: FileList): Set<File> {
     const files = new Set<File>();
 
     for (const key in fileList) {
@@ -127,7 +148,7 @@ export class FileSelectDirective implements OnInit, OnDestroy {
         files.add(fileList[key]);
       }
     }
-    this.elderFileSelectChange.next(files);
+    return files;
   }
 
 }
