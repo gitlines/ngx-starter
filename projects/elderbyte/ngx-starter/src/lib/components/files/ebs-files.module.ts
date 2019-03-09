@@ -6,10 +6,12 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {EbsPipesModule} from '../../pipes/ebs-pipes.module';
 import { EbsFileUploadComponent } from './file-upload/file-upload.component';
 import { FileSelectDirective } from './file-select.directive';
+import {FileDropZoneDirective} from './file-drop-zone.directive';
 
 export {EbsFileSelectComponent} from './file-select/file-select.component';
 export {EbsFileUploadComponent} from './file-upload/file-upload.component';
 export {FileSelectDirective} from './file-select.directive';
+export {FileDropZoneDirective} from './file-drop-zone.directive';
 
 @NgModule({
   imports: [
@@ -26,12 +28,14 @@ export {FileSelectDirective} from './file-select.directive';
   declarations: [
     EbsFileSelectComponent,
     EbsFileUploadComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    FileDropZoneDirective
   ],
   exports: [
     EbsFileSelectComponent,
     EbsFileUploadComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    FileDropZoneDirective
   ]
 })
 export class EbsFilesModule { }

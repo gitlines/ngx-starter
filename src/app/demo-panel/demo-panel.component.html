@@ -162,6 +162,7 @@
     <mat-tab label="Features">
 
       <div fxLayout="column" class="padding-10">
+
         <h2>Language Switcher</h2>
 
         <ebs-language-switcher></ebs-language-switcher>
@@ -169,18 +170,42 @@
 
 
 
-        <h2>File Upload Directive</h2>
+        <div fxLayout="row" fxLayoutGap="16px">
 
-        <button mat-button
-                elderFileSelect=".jpg, .png"
-        >Select File</button>
+          <div fxLayout="column">
+            <h2>File Upload Directive</h2>
 
-        <h2>File Upload</h2>
+            <button mat-raised-button
+                    elderFileSelect=".jpg, .png"
+            >Select File</button>
+          </div>
 
-        <ebs-file-upload
-          [multiple]="true"
-          [uploadClient]="uploadClient"
-        ></ebs-file-upload>
+          <div fxLayout="column">
+            <h2>File Upload</h2>
+
+            <ebs-file-upload
+              [multiple]="true"
+              [uploadClient]="uploadClient"
+            ></ebs-file-upload>
+          </div>
+
+          <div fxLayout="column">
+            <h2>File DropZone</h2>
+
+            <div
+              fxLayout="column" fxLayoutAlign="center center"
+              elderFileDropZone
+              elderFileSelect=".jpg, .png"
+              class="drop-zone"
+            >
+
+              Drop Files Here (or click)
+
+            </div>
+          </div>
+        </div>
+
+
 
 
       </div>

@@ -1,7 +1,12 @@
-/**
- * Fix for mat-tab not using full height.
- * See https://github.com/angular/material2/issues/4591
- */
-::ng-deep .mat-tab-body-wrapper {
-  height: 100%
+
+
+.drop-zone {
+  width: 250px;
+  height: 200px;
+  background-color: lightblue;
+  cursor: pointer
+}
+
+.drop-zone.is-dragover {
+  background-color: palegoldenrod;
 }

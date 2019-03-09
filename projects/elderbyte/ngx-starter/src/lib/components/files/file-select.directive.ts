@@ -78,16 +78,6 @@ export class FileSelectDirective implements OnInit, OnDestroy {
     this.openFileSelectDialog();
   }
 
-  @HostListener('drop', ['$event'])
-  public onDrop(evt: DragEvent): void {
-
-    evt.preventDefault();
-    evt.stopPropagation();
-
-    const files = evt.dataTransfer.files;
-    this.emitFileList(files);
-  }
-
   public openFileSelectDialog(): void {
     this._fileInput.click();
   }
