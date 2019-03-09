@@ -1,11 +1,11 @@
-
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 
 @Component({
   selector: 'ebs-expand-toggle-button',
-  templateUrl: './ebs-expand-toggle-button.component.html'
+  templateUrl: './ebs-expand-toggle-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsExpandToggleButtonComponent implements OnInit {
 
@@ -15,7 +15,6 @@ export class EbsExpandToggleButtonComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  private _expanded: boolean;
   private readonly _expandedChange = new BehaviorSubject<boolean>(false);
 
   /***************************************************************************
@@ -32,29 +31,18 @@ export class EbsExpandToggleButtonComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-
-  /**
-   * @deprecated Please switch to standard 'expandedChange' output event
-   */
-  @Output('changed')
-  public get expandedChangeDeprecated(): Observable<boolean> {
-    return this._expandedChange.asObservable();
-  }
-
-
   @Output()
   public get expandedChange(): Observable<boolean> {
     return this._expandedChange.asObservable();
   }
 
-  public get expanded(): boolean {
-    return this._expanded;
-  }
-
   @Input()
   public set expanded(value: boolean) {
-    this._expanded = value;
     this._expandedChange.next(value);
+  }
+
+  public get expanded(): boolean {
+    return this._expandedChange.getValue();
   }
 
   /***************************************************************************

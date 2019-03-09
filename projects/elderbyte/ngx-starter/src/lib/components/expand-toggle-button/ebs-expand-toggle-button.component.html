@@ -6,8 +6,7 @@
     <span fxFlex></span>
 
     <div fxLayoutAlign="center center">
-      <mat-icon *ngIf="!expanded">keyboard_arrow_down</mat-icon>
-      <mat-icon *ngIf="expanded">keyboard_arrow_up</mat-icon>
+      <mat-icon>{{(expandedChange | async) ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
     </div>
 
   </div>
