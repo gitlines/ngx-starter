@@ -1,7 +1,12 @@
-import {Component, ContentChildren, OnInit, Output, QueryList} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ContentChildren, OnInit, Output, QueryList} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {EbsNavLinkComponent} from '../nav-link/ebs-nav-link.component';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+
+
+interface EbsNavGroupState {
+  isOpen: boolean;
+}
 
 @Component({
   selector: 'ebs-nav-group',
@@ -24,7 +29,8 @@ import {Observable, Subject} from 'rxjs';
         animate('200ms')
       ]),
     ])
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsNavGroupComponent implements OnInit {
 
@@ -38,7 +44,7 @@ export class EbsNavGroupComponent implements OnInit {
   @ContentChildren(EbsNavLinkComponent)
   public children: QueryList<EbsNavLinkComponent>;
 
-  public isOpen = false;
+  public readonly state$ = new BehaviorSubject<EbsNavGroupState>({ isOpen: false });
 
   private readonly _itemClickSubject = new Subject<any>();
 
@@ -65,10 +71,6 @@ export class EbsNavGroupComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public get hasChildren(): boolean {
-    return this.children && this.children.length > 1;
-  }
-
   @Output()
   public get click(): Observable<any> {
     return this._itemClickSubject.asObservable();
@@ -86,6 +88,7 @@ export class EbsNavGroupComponent implements OnInit {
   }
 
   public toggle(): void {
-    this.isOpen = !this.isOpen;
+    const myState = this.state$.getValue();
+    this.state$.next({ isOpen: !myState.isOpen });
   }
 }

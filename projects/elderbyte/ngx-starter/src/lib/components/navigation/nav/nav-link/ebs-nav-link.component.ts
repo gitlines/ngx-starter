@@ -1,9 +1,10 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'ebs-nav-link',
   templateUrl: './ebs-nav-link.component.html',
-  styleUrls: ['./ebs-nav-link.component.scss']
+  styleUrls: ['./ebs-nav-link.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush Fix RouterLinkActive binding first :(
 })
 export class EbsNavLinkComponent implements OnInit {
 
