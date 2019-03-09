@@ -16,8 +16,6 @@ export class HttpDataTransfer {
    *                                                                         *
    **************************************************************************/
 
-
-
   private readonly _status = new BehaviorSubject<TransferStatus>(TransferStatus.Pending);
   private readonly _progressEvent = new Subject<TransferProgressEvent>();
 
