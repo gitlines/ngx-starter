@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
 import {CanColor, ThemePalette, mixinColor} from '@angular/material';
 import {Constructor} from '@angular/material/core/typings/common-behaviors/constructor';
 
@@ -16,7 +16,8 @@ export const _MatPanelMixinBase: Constructor<CanColor> & typeof MatPanelComponen
   styleUrls: ['./ebs-mat-panel.component.scss'],
   host: {
     'class': 'mat-panel',
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsMatPanelComponent extends _MatPanelMixinBase implements OnInit, CanColor {
 
