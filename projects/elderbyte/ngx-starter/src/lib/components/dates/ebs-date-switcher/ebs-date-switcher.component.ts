@@ -56,11 +56,11 @@ export class EbsDateSwitcherComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  @Input()
   public get date(): Date {
     return this._date;
   }
 
+  @Input()
   public set date(date: Date) {
     this._date = date;
     this.dateChange.emit(date);
