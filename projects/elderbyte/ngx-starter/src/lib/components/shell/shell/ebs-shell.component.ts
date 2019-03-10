@@ -1,6 +1,4 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   ContentChild,
   Directive,
@@ -14,8 +12,6 @@ import {
 import {EbsSideContentService} from '../../../features/side-content/ebs-side-content.service';
 import {MatSidenav} from '@angular/material';
 import {RouteOutletDrawerService} from '../drawers/route-outlet-drawer.service';
-import {RouterOutlet} from '@angular/router';
-import {DrawerOutletBinding} from '../drawers/drawer-outlet-binding';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
