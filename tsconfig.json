@@ -19,6 +19,9 @@
       "dom"
     ],
     "paths": {
+      "@angular/*": [
+        "node_modules/@angular/*"
+      ],
       "@elderbyte/ngx-starter": [
         "dist/elderbyte/ngx-starter"
       ],
