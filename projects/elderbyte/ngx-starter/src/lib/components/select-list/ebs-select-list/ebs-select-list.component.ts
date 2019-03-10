@@ -1,11 +1,12 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {skip} from 'rxjs/operators';
 
 @Component({
   selector: 'ebs-select-list',
   templateUrl: './ebs-select-list.component.html',
-  styleUrls: ['./ebs-select-list.component.scss']
+  styleUrls: ['./ebs-select-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsSelectListComponent implements OnInit {
 

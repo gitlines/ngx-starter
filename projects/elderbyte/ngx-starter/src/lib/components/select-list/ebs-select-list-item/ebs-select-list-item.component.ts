@@ -1,7 +1,12 @@
-import {Component, ContentChildren, Input, OnInit, Output, QueryList} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, ContentChildren, Input, OnInit, Output, QueryList} from '@angular/core';
 import {EbsSelectListComponent} from '../ebs-select-list/ebs-select-list.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
+interface EbsSelectListItemState { // Necessary for 'ngIf as'
+  isActive: boolean;
+}
 
 @Component({
   selector: 'ebs-select-list-item',
@@ -26,7 +31,7 @@ import {Observable, Subject} from 'rxjs';
     ])
   ]
 })
-export class EbsSelectListItemComponent implements OnInit {
+export class EbsSelectListItemComponent implements OnInit, AfterContentInit {
 
   /***************************************************************************
    *                                                                         *
@@ -40,9 +45,13 @@ export class EbsSelectListItemComponent implements OnInit {
   @ContentChildren(EbsSelectListItemComponent)
   public children: QueryList<EbsSelectListItemComponent>;
 
-  public isOpen = false;
+  public readonly isOpen$ = new BehaviorSubject<boolean>(false);
+
+  public hasChildren$: Observable<boolean>;
 
   private readonly _itemClickSubject = new Subject<any>();
+
+  public state$: Observable<EbsSelectListItemState>;
 
   /***************************************************************************
    *                                                                         *
@@ -60,8 +69,19 @@ export class EbsSelectListItemComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public ngOnInit(): void {
 
+  public ngOnInit(): void {
+    this.state$ = this.selectListComponent.valueChange.pipe(
+      map(value => this.currentState()),
+      startWith(this.currentState())
+    );
+  }
+
+  public ngAfterContentInit(): void {
+    this.hasChildren$ = this.children.changes.pipe(
+      map(() => this.checkHasChildren()),
+      startWith(this.checkHasChildren())
+    );
   }
 
   /***************************************************************************
@@ -69,14 +89,6 @@ export class EbsSelectListItemComponent implements OnInit {
    * Properties                                                              *
    *                                                                         *
    **************************************************************************/
-
-  public get hasChildren(): boolean {
-    return this.children && this.children.length > 1;
-  }
-
-  public get isActive(): boolean {
-    return this.selectListComponent.isActive(this.value);
-  }
 
   @Output()
   public get click(): Observable<any> {
@@ -93,7 +105,7 @@ export class EbsSelectListItemComponent implements OnInit {
 
     this._itemClickSubject.next(this.value);
 
-    if (this.hasChildren) {
+    if (this.checkHasChildren()) {
       this.toggle();
     } else {
       this.selectListComponent.value = this.value;
@@ -101,6 +113,23 @@ export class EbsSelectListItemComponent implements OnInit {
   }
 
   public toggle(): void {
-    this.isOpen = !this.isOpen;
+    this.isOpen$.next(!this.isOpen$.getValue());
   }
+
+  /***************************************************************************
+   *                                                                         *
+   * Private methods                                                         *
+   *                                                                         *
+   **************************************************************************/
+
+  private currentState(): EbsSelectListItemState {
+    return {
+      isActive: this.selectListComponent.isActive(this.value)
+    };
+  }
+
+  private checkHasChildren(): boolean {
+    return this.children && this.children.length > 1;
+  }
+
 }
