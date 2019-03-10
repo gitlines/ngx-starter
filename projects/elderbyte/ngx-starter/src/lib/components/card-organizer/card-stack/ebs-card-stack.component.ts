@@ -1,4 +1,4 @@
-import {Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {CardDropEvent, CardStack} from '../card-stack';
 import {Observable} from 'rxjs/internal/Observable';
 import {first} from 'rxjs/operators';
@@ -9,7 +9,8 @@ import {EbsStackCardDirective} from '../card-organizer/ebs-card-organizer.compon
 @Component({
   selector: 'ebs-card-stack',
   templateUrl: './ebs-card-stack.component.html',
-  styleUrls: ['./ebs-card-stack.component.scss']
+  styleUrls: ['./ebs-card-stack.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsCardStackComponent implements OnInit {
 
@@ -21,8 +22,10 @@ export class EbsCardStackComponent implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('EbsCardStackComponent');
 
-  @Input()
-  public stack: CardStack<any, any>;
+
+  private _stack: CardStack<any, any>;
+
+  public cards$: Observable<any[]>;
 
   @Input()
   public stackId: string;
@@ -104,11 +107,18 @@ export class EbsCardStackComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public get cards(): Observable<any[]> {
-    if (this.stack) {
-      return this.stack.cards;
+  public get stack(): CardStack<any, any> {
+    return this._stack;
+  }
+
+  @Input()
+  public set stack(value: CardStack<any, any>) {
+    this._stack = value;
+
+    if (this._stack) {
+      this.cards$ = this._stack.cards;
     } else {
-      return null;
+      this.cards$ = null;
     }
   }
 
@@ -162,7 +172,7 @@ export class EbsCardStackComponent implements OnInit {
 
 
   public onRequestNewCard(event: MouseEvent): void {
-    this.requestNewCard.next(this.stack);
+    this.requestNewCard.next(this._stack);
   }
 
   public onRequestRemoveCard(event: MouseEvent, card: any): void {
@@ -197,7 +207,7 @@ export class EbsCardStackComponent implements OnInit {
    **************************************************************************/
 
   private removeCard(card: any): void {
-    this.stack.removeCard(card);
+    this._stack.removeCard(card);
     this.requestRemoveCard.next(card);
   }
 
@@ -208,14 +218,14 @@ export class EbsCardStackComponent implements OnInit {
    */
   private handleCardDrop(cardDrop: CardDropEvent<any, any>): void {
     if (cardDrop.fromStack === cardDrop.toStack
-      && cardDrop.toStack === this.stack) {
+      && cardDrop.toStack === this._stack) {
 
       // Drag & Drop inside the same stack -> sort
 
-      if (!this.stack.sort) {
+      if (!this._stack.sort) {
         // Only allow manual sort when the user did not provide
         // a general sort function
-        this.stack.moveCard(cardDrop.fromIndex, cardDrop.toIndex);
+        this._stack.moveCard(cardDrop.fromIndex, cardDrop.toIndex);
       }
     } else {
 

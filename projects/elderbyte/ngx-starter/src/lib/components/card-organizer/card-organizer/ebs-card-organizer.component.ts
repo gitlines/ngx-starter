@@ -1,15 +1,19 @@
 import {
-  Component, ContentChild,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
   Directive,
-  EventEmitter, HostListener,
+  EventEmitter,
+  HostListener,
   Input,
   OnInit,
-  Output, TemplateRef,
+  Output,
+  TemplateRef,
   ViewContainerRef
 } from '@angular/core';
-import { CardOrganizerData } from '../card-organizer-data';
+import {CardOrganizerData} from '../card-organizer-data';
 import {CardDropEvent, CardStack} from '../card-stack';
-import { LoggerFactory } from '@elderbyte/ts-logger';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Observable} from 'rxjs/internal/Observable';
 
 @Directive({selector: '[ebsStackCard]'})
@@ -23,7 +27,8 @@ export class EbsStackCardDirective {
 @Component({
   selector: 'ebs-card-organizer',
   templateUrl: './ebs-card-organizer.component.html',
-  styleUrls: ['./ebs-card-organizer.component.scss']
+  styleUrls: ['./ebs-card-organizer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsCardOrganizerComponent implements OnInit {
 
@@ -35,9 +40,9 @@ export class EbsCardOrganizerComponent implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('EbsCardOrganizerComponent');
 
-  @Input()
-  public organizerModel: CardOrganizerData<any, any>;
+  private _organizerModel: CardOrganizerData<any, any>;
 
+  public stacks$: Observable<CardStack<any, any>[]>;
 
   @Input()
   public canRemove = true;
@@ -111,6 +116,20 @@ export class EbsCardOrganizerComponent implements OnInit {
    * Properties                                                              *
    *                                                                         *
    **************************************************************************/
+
+  public get organizerModel(): CardOrganizerData<any, any> {
+    return this._organizerModel;
+  }
+
+  @Input()
+  public set organizerModel(value: CardOrganizerData<any, any>) {
+    this._organizerModel = value;
+    if (this._organizerModel) {
+      this.stacks$ = this._organizerModel.stacks;
+    } else {
+      this.stacks$ = null;
+    }
+  }
 
   /***************************************************************************
    *                                                                         *

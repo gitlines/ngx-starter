@@ -2,7 +2,7 @@
 <div fxLayout="row" fxLayoutGap="20px" class="padding-10 card-organizer" fxFill>
 
     <ebs-card-stack fxFlex
-                    *ngFor="let stack of organizerModel.stacks | async"
+                    *ngFor="let stack of stacks$ | async"
 
                     [stack]="stack"
 

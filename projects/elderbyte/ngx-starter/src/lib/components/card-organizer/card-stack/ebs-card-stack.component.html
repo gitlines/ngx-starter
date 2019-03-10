@@ -8,7 +8,7 @@
           class="stack-header padding-10">
 
     <h3 class="mat-body-2 noselect">{{headerTitle | translate}}</h3>
-    <small class="mat-caption noselect">({{(cards | async)?.length}})</small>
+    <small class="mat-caption noselect">({{(cards$ | async)?.length}})</small>
 
     <span fxFlex></span>
 
@@ -36,7 +36,7 @@
     >
 
       <!-- card -->
-      <mat-card *ngFor="let card of cards | async" class="card"
+      <mat-card *ngFor="let card of cards$ | async" class="card"
                 cdkDrag [cdkDragData]="card"
                 (click)="onCardSelected($event, card)">
         <mat-card-header>
