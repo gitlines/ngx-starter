@@ -3,7 +3,7 @@ import {Filter} from '../filter';
 import {DataContextBase} from './data-context-base';
 import {Sort} from '../sort';
 import {Observable, Subject} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {first} from 'rxjs/operators';
 
 
 export class DataContextSimple<T> extends DataContextBase<T> {
@@ -50,7 +50,7 @@ export class DataContextSimple<T> extends DataContextBase<T> {
         this.setLoadingIndicator(true);
         if (this.listFetcher) {
             this.listFetcher(this.sorts, this.filters)
-                .pipe(take(1))
+                .pipe(first())
                 .subscribe(
                     list => {
                         this.onSuccess();
@@ -71,6 +71,6 @@ export class DataContextSimple<T> extends DataContextBase<T> {
             subject.error(new Error('data-context: Skipping data context load - no list fetcher present!'));
         }
 
-        return subject.pipe(take(1));
+        return subject.pipe(first());
     }
 }

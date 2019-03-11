@@ -38,10 +38,13 @@
       <!-- project child content here -->
       <ng-content></ng-content>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsInner; sticky: true"></tr>
-      <tr mat-row class="clickable" *matRowDef="let entity; columns: displayedColumnsInner;"
-          (click)="$event ? onItemClick(entity) : null">
-      </tr>
+
+      <ng-container *ngIf="(displayedColumnsInner$ | async) as displayedColumnsInner">
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsInner; sticky: true"></tr>
+        <tr mat-row class="clickable" *matRowDef="let entity; columns: displayedColumnsInner;"
+            (click)="$event ? onItemClick(entity) : null">
+        </tr>
+      </ng-container>
     </table>
   </div>
 

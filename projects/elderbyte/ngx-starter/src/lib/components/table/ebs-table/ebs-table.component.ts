@@ -17,7 +17,7 @@ import {
 import {MatColumnDef, MatPaginator, MatRowDef, MatSort, MatTable} from '@angular/material';
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from '../../../common/data/data-context/data-context';
 import {SelectionModel} from '../../../common/selection/selection-model';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {CdkColumnDef, CdkRowDef, CdkTable} from '@angular/cdk/table';
@@ -50,16 +50,18 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   private _currentColumnDefs: CdkColumnDef[] = [];
   private _currentRowDefs: CdkRowDef<any>[] = [];
 
+  private _paginator: MatPaginator;
+
+  /** Underlying data context. */
+  private _dataContext: IDataContext<any>;
 
   /// Table
 
-  public displayedColumnsInner: string[] = [];
+  public readonly displayedColumnsInner$ = new BehaviorSubject<string[]>([]);
 
   @ViewChild(MatTable)
   public table: CdkTable<any>;
 
-
-  private _paginator: MatPaginator;
 
   @ContentChild(MatSort)
   protected sort: MatSort;
@@ -76,8 +78,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   @Input()
   public pageSizeOptions = [5, 10, 15, 20, 30];
 
-  /** Underlying data context. */
-  private _dataContext: IDataContext<any>;
+
 
   /** Underlying selection model. */
   public readonly selectionModel: SelectionModel<any> =
@@ -399,6 +400,6 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
     this.logger.debug('updateColumnsBase: cause ' + cause + ' updated!', columns);
 
-    this.displayedColumnsInner = columns;
+    this.displayedColumnsInner$.next(columns);
   }
 }

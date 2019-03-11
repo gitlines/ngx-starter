@@ -24,7 +24,7 @@ export class DataContextStatus {
      **************************************************************************/
 
     constructor(
-        private _error: any
+        private readonly _error: any
     ) {}
 
     /***************************************************************************

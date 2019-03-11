@@ -4,8 +4,7 @@ import {Filter} from '../filter';
 import {Page, Pageable} from '../page';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextContinuableBase} from './data-context-continuable-base';
-import {take} from 'rxjs/operators';
-import {Sort} from '../sort';
+import {first, take} from 'rxjs/operators';
 
 /**
  * Extends a simple flat list data-context with infinite-scroll pagination support.
@@ -137,7 +136,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
             });
         }
 
-        return subject.pipe(take(1));
+        return subject.pipe(first());
     }
 
     /**

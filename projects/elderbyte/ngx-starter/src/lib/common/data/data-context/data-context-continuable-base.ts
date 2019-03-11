@@ -30,7 +30,6 @@ export abstract class DataContextContinuableBase<T> extends DataContextBase<T> i
    *                                                                         *
    **************************************************************************/
 
-
   protected constructor(
     chunkSize: number,
     indexFn?: ((item: T) => any),
