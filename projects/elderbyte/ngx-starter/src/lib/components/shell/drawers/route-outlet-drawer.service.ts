@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {MatDrawer} from '@angular/material';
 import {RouterOutletService} from './router-outlet.service';
-import {Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Injectable({
@@ -17,8 +17,9 @@ export class RouteOutletDrawerService {
 
   private readonly logger = LoggerFactory.getLogger('RouteOutletDrawerService');
 
-  private outletChangeSubscription: Subscription;
-  private readonly outletDrawers = new Map<string, MatDrawer>();
+  private _outletChangeSubscription: Subscription;
+  private readonly _outletDrawers = new Map<string, MatDrawer>();
+  private readonly _drawerVisibility = new Subject<MatDrawer>();
 
   /***************************************************************************
    *                                                                         *
@@ -29,6 +30,16 @@ export class RouteOutletDrawerService {
   constructor(
     private outletService: RouterOutletService
   ) { }
+
+  /***************************************************************************
+   *                                                                         *
+   * Properties                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public get drawerVisibilityChange(): Observable<MatDrawer> {
+    return this._drawerVisibility.asObservable();
+  }
 
   /***************************************************************************
    *                                                                         *
@@ -54,13 +65,13 @@ export class RouteOutletDrawerService {
 
     // TODO Support un-subscribing / unregistering a outlet-drawer
 
-    this.outletDrawers.set(routeOutlet, drawer);
+    this._outletDrawers.set(routeOutlet, drawer);
 
     this.ensureOutletsAreObserved();
   }
 
   public findDrawer(routeOutlet: string): MatDrawer {
-    return this.outletDrawers.get(routeOutlet);
+    return this._outletDrawers.get(routeOutlet);
   }
 
   public openOutletDrawer(routeOutlet: string): void {
@@ -84,15 +95,19 @@ export class RouteOutletDrawerService {
    **************************************************************************/
 
   private openDrawer(drawer: MatDrawer): Promise<any> {
-    return drawer.open('program');
+    const toggleResult = drawer.open('program');
+    this._drawerVisibility.next(drawer);
+    return toggleResult;
   }
 
   private closeDrawer(drawer: MatDrawer): Promise<any> {
-    return drawer.close();
+    const toggleResult = drawer.close();
+    this._drawerVisibility.next(drawer);
+    return toggleResult;
   }
 
   private updateDrawers(activeOutlets: Set<string>): void {
-    this.outletDrawers.forEach((drawer, outlet) => {
+    this._outletDrawers.forEach((drawer, outlet) => {
       if (activeOutlets.has(outlet)) {
         this.openDrawer(drawer);
       } else {
@@ -102,8 +117,8 @@ export class RouteOutletDrawerService {
   }
 
   private ensureOutletsAreObserved(): void {
-    if (!this.outletChangeSubscription) {
-      this.outletChangeSubscription = this.outletService.activeOutlets.subscribe(
+    if (!this._outletChangeSubscription) {
+      this._outletChangeSubscription = this.outletService.activeOutlets.subscribe(
         activeOutlets => {
           this.updateDrawers(activeOutlets);
         }
@@ -113,9 +128,9 @@ export class RouteOutletDrawerService {
   }
 
   private unsubscribeOutlets(): void {
-    if (this.outletChangeSubscription) {
-      this.outletChangeSubscription.unsubscribe();
-      this.outletChangeSubscription = null;
+    if (this._outletChangeSubscription) {
+      this._outletChangeSubscription.unsubscribe();
+      this._outletChangeSubscription = null;
     }
   }
 

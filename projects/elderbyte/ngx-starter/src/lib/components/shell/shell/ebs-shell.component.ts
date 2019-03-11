@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
   Directive,
@@ -14,7 +14,7 @@ import {EbsSideContentService} from '../../../features/side-content/ebs-side-con
 import {MatSidenav} from '@angular/material';
 import {RouteOutletDrawerService} from '../drawers/route-outlet-drawer.service';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {Observable} from 'rxjs';
+import {ObjectUnsubscribedError, Observable, Subscription} from 'rxjs';
 
 
 @Directive({selector: '[ebsShellSideLeft]'})
@@ -80,6 +80,8 @@ export class EbsShellComponent implements OnInit, OnDestroy {
 
   public leftSideContentOpen$: Observable<boolean>;
 
+  private _sub: Subscription;
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -88,7 +90,8 @@ export class EbsShellComponent implements OnInit, OnDestroy {
 
   constructor(
     private sideContentService: EbsSideContentService,
-    private outletDrawerService: RouteOutletDrawerService
+    private outletDrawerService: RouteOutletDrawerService,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   /***************************************************************************
@@ -101,6 +104,10 @@ export class EbsShellComponent implements OnInit, OnDestroy {
     this.outletDrawerService.registerOutletDrawer(
       this.rightSideOutletName,
       this.rightSideDrawer
+    );
+
+    this._sub = this.outletDrawerService.drawerVisibilityChange.subscribe(
+      drawer =>  this.changeDetectorRef.markForCheck()
     );
 
     this.leftSideContentOpen$ =  this.sideContentService.navigationOpenChange;
