@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   Directive,
@@ -13,6 +14,7 @@ import {EbsSideContentService} from '../../../features/side-content/ebs-side-con
 import {MatSidenav} from '@angular/material';
 import {RouteOutletDrawerService} from '../drawers/route-outlet-drawer.service';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {Observable} from 'rxjs';
 
 
 @Directive({selector: '[ebsShellSideLeft]'})
@@ -39,7 +41,8 @@ export class EbsShellCenterDirective {
 @Component({
   selector: 'ebs-shell',
   templateUrl: './ebs-shell.component.html',
-  styleUrls: ['./ebs-shell.component.scss']
+  styleUrls: ['./ebs-shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsShellComponent implements OnInit, OnDestroy {
 
@@ -75,6 +78,8 @@ export class EbsShellComponent implements OnInit, OnDestroy {
 
   public rightSideOutletName = 'side';
 
+  public leftSideContentOpen$: Observable<boolean>;
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -97,6 +102,8 @@ export class EbsShellComponent implements OnInit, OnDestroy {
       this.rightSideOutletName,
       this.rightSideDrawer
     );
+
+    this.leftSideContentOpen$ =  this.sideContentService.navigationOpenChange;
   }
 
   public ngOnDestroy(): void {
@@ -108,10 +115,6 @@ export class EbsShellComponent implements OnInit, OnDestroy {
    * Public API                                                              *
    *                                                                         *
    **************************************************************************/
-
-  public get leftSideContentOpen(): boolean {
-    return this.sideContentService.navigationOpen;
-  }
 
   public closeLeftSideContent() {
     this.sideContentService.closeSideNav();

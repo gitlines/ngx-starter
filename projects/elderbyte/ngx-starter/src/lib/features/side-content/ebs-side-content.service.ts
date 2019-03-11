@@ -4,6 +4,7 @@ import {NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {filter, map} from 'rxjs/operators';
 import {RouterOutletService} from '../../components/shell/drawers/router-outlet.service';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 /**
  * This service manages the side content.
@@ -23,7 +24,7 @@ export class EbsSideContentService {
 
     private readonly logger = LoggerFactory.getLogger('EbsSideContentService');
 
-    private _navigationOpen = false;
+    private _navigationOpen = new BehaviorSubject<boolean>(false);
     private _clickOutsideToClose = true;
 
     private detailContentOutlet = 'side';
@@ -58,11 +59,15 @@ export class EbsSideContentService {
      * Checks if the navigation is isOpen
      */
     public get navigationOpen(): boolean {
-        return this._navigationOpen;
+        return this._navigationOpen.getValue();
     }
 
     public set navigationOpen(value: boolean) {
-        this._navigationOpen = value;
+        this._navigationOpen.next(value);
+    }
+
+    public get navigationOpenChange(): Observable<boolean> {
+      return this._navigationOpen.asObservable();
     }
 
     /**

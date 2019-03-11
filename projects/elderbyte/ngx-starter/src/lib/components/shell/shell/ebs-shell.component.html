@@ -5,7 +5,7 @@
   <mat-sidenav position="start"
                mode="over"
                [fixedInViewport]="true"
-               [opened]="leftSideContentOpen"
+               [opened]="leftSideContentOpen$ | async"
                (closed)="closeLeftSideContent()">
     <div fxFill fxLayout="column">
       <ng-container *ngTemplateOutlet="sideContentLeft || fallbackSideContentLeft;"></ng-container>
