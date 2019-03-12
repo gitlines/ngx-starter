@@ -12,86 +12,102 @@ import {PageRequest} from '../page';
  */
 export interface IDataContext<T> {
 
-    /***************************************************************************
-     *                                                                         *
-     * Properties                                                              *
-     *                                                                         *
-     **************************************************************************/
+  /***************************************************************************
+   *                                                                         *
+   * Properties                                                              *
+   *                                                                         *
+   **************************************************************************/
 
-    /**
-     * Gets the current rows in the data-context
-     */
-    readonly rows: T[];
+  /**
+   * Observable which emits the current data over time.
+   */
+  readonly data: Observable<T[]>;
 
-    /**
-     * Indicates if the context holds no data
-     */
-    readonly isEmpty: boolean;
+  /**
+   * Gets the current data in the data-context
+   */
+  readonly dataSnapshot: T[];
 
-    /**
-     * Indicates that data is currently loading
-     */
-    readonly loadingIndicator: boolean;
+  /**
+   * Indicates if the context currently holds no data
+   */
+  readonly isEmpty: boolean;
 
-    /**
-     * The total count of all elements
-     */
-    readonly total: number | undefined;
+  /**
+   * Indicates if data is loading over time
+   */
+  readonly loading: Observable<boolean>;
 
-    /**
-     * Observable which emits when the data-context rows change
-     */
-    readonly rowsChanged: Observable<T[]>;
+  /**
+   * Gets the current loading status
+   */
+  readonly loadingSnapshot: boolean;
 
-    /**
-     * Observable which emits when the status changes (i.e. error)
-     */
-    readonly statusChanged: Observable<DataContextStatus>;
-    readonly statusSnapshot: DataContextStatus;
+  /**
+   * The total count of all elements over time
+   * (I.e. the expected count when the data contex is completed)
+   */
+  readonly total: Observable<number | undefined>;
 
-    /**
-     * Gets the current sorts
-     */
-    sorts: Sort[];
+  /**
+   * The current total count of all elements
+   */
+  readonly totalSnapshot: number | undefined;
 
-    /**
-     * Gets the current single sort
-     */
-    sort: Sort;
+  /**
+   * Observable which emits when the status changes (i.e. error)
+   */
+  readonly status: Observable<DataContextStatus>;
 
-    /**
-     * Gets the current filters
-     */
-    readonly filters: Filter[];
+  /**
+   * Gets the current status
+   */
+  readonly statusSnapshot: DataContextStatus;
 
-    /**
-     * Gets the current filter context. Changes in this context are reflected by the data-context.
-     */
-    filterContext: FilterContext;
+  /**
+   * Gets the current sorts
+   */
+  sorts: Sort[];
 
-    /***************************************************************************
-     *                                                                         *
-     * API                                                                     *
-     *                                                                         *
-     **************************************************************************/
+  /**
+   * Gets the current single sort
+   */
+  sort: Sort;
 
-    /**
-     * Starts populating data context by loading first
-     * batch of data.
-     */
-    start(sorts?: Sort[], filters?: Filter[]): Observable<any>;
+  /**
+   * Gets the current filters
+   */
+  readonly filters: Filter[];
 
-    /**
-     * Reloads the current active data.
-     */
-    reload(): Observable<any>;
+  /**
+   * Gets the current filter context. Changes in this context are reflected by the data-context.
+   */
+  filterContext: FilterContext;
 
-    /**
-     * Closes the data-context and cleans up resources
-     */
-    close(): void;
+  /***************************************************************************
+   *                                                                         *
+   * API                                                                     *
+   *                                                                         *
+   **************************************************************************/
 
-    findByIndex(key: any): T | undefined;
+  /**
+   * Starts populating data context by loading first
+   * batch of data.
+   */
+  start(sorts?: Sort[], filters?: Filter[]): Observable<any>;
+
+  /**
+   * Requests a reload.
+   */
+  reload(): void;
+
+  /**
+   * Closes the data-context and cleans up resources
+   */
+  close(): void;
+
+  findByIndex(key: any): T | undefined;
+
 }
 
 /**
@@ -100,31 +116,32 @@ export interface IDataContext<T> {
  */
 export interface IDataContextContinuable<T> extends IDataContext<T> {
 
-    /**
-     * Returns true if this datacontext can load more data
-     */
-    readonly hasMoreData: boolean;
+  /**
+   * Returns true if this datacontext can load more data
+   */
+  readonly hasMoreData: boolean;
 
-    /**
-     * Loads more data if any available.
-     * E.g. next page.
-     *
-     */
-    loadMore(): Observable<any>;
+  /**
+   * Loads more data if any available.
+   * E.g. next page.
+   *
+   */
+  loadMore(): Observable<any>;
 
-    /**
-     * Loads all available data. In case of
-     * paged context loads page by page until finished.
-     */
-    loadAll(sorts?: Sort[], filters?: Filter[]): void;
+  /**
+   * Loads all available data. In case of
+   * paged context loads page by page until finished.
+   */
+  loadAll(sorts?: Sort[], filters?: Filter[]): void;
+
 }
 
 export interface IDataContextActivePage<T> extends IDataContext<T> {
 
-    pageIndex: number;
+  pageIndex: number;
 
-    pageSize: number;
+  pageSize: number;
 
-    page: PageRequest;
+  page: PageRequest;
 
 }

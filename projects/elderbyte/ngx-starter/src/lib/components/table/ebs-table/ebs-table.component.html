@@ -8,7 +8,7 @@
        infiniteScroll
        [eventThrottle]="150"
        [offsetFactor]="2"
-       [ignoreScrollEvent]="!(isContinuable && !dataContext.loadingIndicator && dataContinuable?.hasMoreData)"
+       [ignoreScrollEvent]="!(isContinuable && !dataContext.loadingSnapshot && dataContinuable?.hasMoreData)"
        (closeToEnd)="dataContinuable.loadMore()"
   >
     <table
@@ -63,7 +63,7 @@
   </div>
 
   <mat-progress-bar fxFlex="none"
-                    [mode]="dataContext?.loadingIndicator ? 'indeterminate' : 'determinate'"
+                    [mode]="dataContext?.loadingSnapshot ? 'indeterminate' : 'determinate'"
                     [color]="(dataContext && dataContext.statusSnapshot.hasError) ? 'warn' : 'primary'">
   </mat-progress-bar>
 
@@ -71,7 +71,7 @@
   <!-- Optional Paginator Toolbar -->
   <mat-paginator #paginator *ngIf="isActivePaged"
                  fxFlex="none"
-                 [length]="dataContext?.total"
+                 [length]="dataContext?.totalSnapshot"
                  [pageIndex]="dataActivePaged?.pageIndex"
                  [pageSize]="dataActivePaged?.pageSize"
                  [pageSizeOptions]="pageSizeOptions">
@@ -80,9 +80,9 @@
   <!-- Optional Continuation Toolbar -->
   <div *ngIf="isContinuable" class="table-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" style="padding-right: 10px" fxFlex="none">
 
-    <span class="mat-caption noselect" style="color: gray">{{dataContext?.rows.length}} of {{dataContext?.total ? dataContext?.total : '∞'}}</span>
+    <span class="mat-caption noselect" style="color: gray">{{dataContext?.dataSnapshot.length}} of {{dataContext?.totalSnapshot ? dataContext?.totalSnapshot : '∞'}}</span>
 
-    <button mat-mini-fab color="accent" [disabled]="dataContext?.loadingIndicator || !dataContinuable.hasMoreData" (click)="dataContinuable.loadMore()">
+    <button mat-mini-fab color="accent" [disabled]="dataContext?.loadingSnapshot || !dataContinuable.hasMoreData" (click)="dataContinuable.loadMore()">
       <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
   </div>

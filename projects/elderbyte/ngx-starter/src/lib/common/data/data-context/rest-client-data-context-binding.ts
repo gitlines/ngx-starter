@@ -15,7 +15,7 @@ export class RestClientDataContextBinding implements Unsubscribable {
   ) {
     this.subscribe();
 
-    this._dataContext.rowsChanged.subscribe(
+    this._dataContext.data.subscribe(
       changed => {},
       err => {},
       () => this.unsubscribe()

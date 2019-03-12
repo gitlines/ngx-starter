@@ -54,7 +54,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
         if (this.hasMoreData) {
             this.logger.info('Loading more...' + this._latestPage);
 
-            if (this.loadingIndicator) { return EMPTY; }
+            if (this.loadingSnapshot) { return EMPTY; }
             const nextPage = this._latestPage + 1;
             return this.fetchPage(nextPage, this.chunkSize);
         } else {
@@ -64,8 +64,8 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
     }
 
     public get hasMoreData(): boolean {
-        if (this.total) {
-            return this.total > this.rows.length;
+        if (this.totalSnapshot) {
+            return this.totalSnapshot > this.dataSnapshot.length;
         }
         return false;
     }
@@ -81,7 +81,12 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
     }
 
     protected reloadInternal(): Observable<any> {
-        return this.fetchPage(0, this.chunkSize, true);
+
+      // Since continuable data-contexts are appending data,
+      // we need to clear it for a reload.
+      this.clearAll(true);
+
+      return this.fetchPage(0, this.chunkSize, true);
     }
 
     protected clearAll(silent = false): void {
@@ -102,7 +107,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
             subject.next();
         } else {
 
-            this.setLoadingIndicator(true);
+            this.setLoading(true);
 
             this.logger.debug(`Loading page ${pageIndex} using pageable:`, pageRequest);
 
@@ -121,16 +126,16 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
                     this._latestPage = page.number; // TODO This might cause that pages are skipped
                 }
 
-                this.setLoadingIndicator(false);
+                this.setLoading(false);
 
                 subject.next();
                 this.onSuccess();
 
             }, err => {
                 this.onError(err);
-                this.setRows([]);
+                this.setData([]);
                 this.setTotal(0);
-                this.setLoadingIndicator(false);
+                this.setLoading(false);
                 this.logger.error('Failed to query data', err);
                 subject.error(err);
             });
@@ -147,13 +152,13 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
             this.setTotal(page.totalElements);
             const start = page.number * page.size;
 
-            const newRows = clear ? [] : [...this.rows];
+            const newData = clear ? [] : [...this.dataSnapshot];
             for (let i = 0; i < page.content.length; i++) {
                 const item = page.content[i];
-                newRows[i + start] = item;
+                newData[i + start] = item;
                 this.indexItem(item);
             }
-            this.setRows(newRows, true);
+            this.setData(newData, true);
         } catch (err) {
             this.onError(err);
             this.logger.error('Failed to populate data with page', page, err);

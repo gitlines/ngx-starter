@@ -47,7 +47,7 @@ export class DataContextSimple<T> extends DataContextBase<T> {
 
         const subject = new Subject();
 
-        this.setLoadingIndicator(true);
+        this.setLoading(true);
         if (this.listFetcher) {
             this.listFetcher(this.sorts, this.filters)
                 .pipe(first())
@@ -55,8 +55,8 @@ export class DataContextSimple<T> extends DataContextBase<T> {
                     list => {
                         this.onSuccess();
                         this.setTotal(list.length);
-                        this.setRows(list);
-                        this.setLoadingIndicator(false);
+                        this.setData(list);
+                        this.setLoading(false);
                         this.log.debug('data-context: Got list data: ' + list.length);
 
                         subject.next();

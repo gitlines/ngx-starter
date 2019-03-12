@@ -143,7 +143,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
     const subject = new Subject<any>();
 
-    this.setLoadingIndicator(true);
+    this.setLoading(true);
     const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sorts);
 
 
@@ -151,19 +151,19 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
       .pipe(first())
       .subscribe(
         success => {
-          this.setLoadingIndicator(false);
+          this.setLoading(false);
           this.setTotal(success.totalElements);
-          this.setRows(success.content);
+          this.setData(success.content);
           subject.next(success);
           this.onSuccess();
         }, err => {
-          this.setLoadingIndicator(false);
-          this.setRows([]);
+          this.setLoading(false);
+          this.setData([]);
           this.actlogger.error('Failed to query data', err);
           subject.error(err);
           this.onError(err);
         }, () => {
-          this.setLoadingIndicator(false);
+          this.setLoading(false);
         });
 
     return subject.pipe(first());

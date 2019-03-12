@@ -290,10 +290,10 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     }
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
+  /** Whether the number of selected elements matches the totalSnapshot number of rows. */
   public get isAllSelected(): boolean {
     const numSelected = this.selectionModel.selected.length;
-    const numRows = this.dataContext.rows.length;
+    const numRows = this.dataContext.dataSnapshot.length;
     return numSelected >= numRows;
   }
 
@@ -301,7 +301,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public masterToggle(): void {
     this.isAllSelected ?
       this.selectionModel.clear() :
-      this.dataContext.rows.forEach(row => this.selectionModel.select(row));
+      this.dataContext.dataSnapshot.forEach(row => this.selectionModel.select(row));
   }
 
   /***************************************************************************

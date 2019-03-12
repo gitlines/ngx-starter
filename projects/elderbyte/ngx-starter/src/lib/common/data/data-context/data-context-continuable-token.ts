@@ -50,7 +50,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
     public loadMore(): Observable<any> {
 
-        if (this.loadingIndicator) {
+        if (this.loadingSnapshot) {
             this.logger.debug('Skipping load-more since already loading a chunk!');
             return EMPTY;
         }
@@ -79,7 +79,12 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
     }
 
     protected reloadInternal(): Observable<any> {
-        return this.fetchNextChunk(undefined);
+
+      // Since continuable data-contexts are appending data,
+      // we need to clear it for a reload.
+      this.clearAll(true);
+
+      return this.fetchNextChunk(undefined);
     }
 
     private fetchNextChunk(nextToken?: string): Observable<ContinuableListing<T>> {
@@ -94,7 +99,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
             subject.complete();
         } else {
 
-          this.setLoadingIndicator(true);
+          this.setLoading(true);
 
           this._chunkCache.add(nextToken);
 
@@ -106,14 +111,14 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
                       this._hasMoreData = chunk.hasMore;
                       this.chunkSize = chunk.chunkSize;
                       this.populateChunkData(chunk);
-                      this.setLoadingIndicator(false);
+                      this.setLoading(false);
                       subject.next(chunk);
                       this.onSuccess();
                   }, err => {
                       this.onError(err);
                       this.logger.error('Failed to query data', err);
-                      this.setLoadingIndicator(false);
-                      this.setRows([]);
+                      this.setLoading(false);
+                      this.setData([]);
                       this.setTotal(0);
                       subject.error(err);
                   }
@@ -132,9 +137,9 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
                 if (chunk.continuationToken) {
                     // We had previous chunks so append to current data.
-                    this.appendRows(chunk.content);
+                    this.appendData(chunk.content);
                 } else {
-                    this.setRows(chunk.content);
+                    this.setData(chunk.content);
                 }
 
             } catch (err) {
