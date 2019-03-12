@@ -68,7 +68,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
       skipUntil(this.started$),
       debounceTime(50),
       takeUntil(this.unsubscribe$)
-    ).subscribe(() => this.reloadNow());
+    ).subscribe(() => this.reloadNow()); // Maybe skipMap the real requests for auto abort
   }
 
   /***************************************************************************
@@ -198,7 +198,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    **************************************************************************/
 
   protected reloadNow(): Observable<any> {
-    return this.reloadInternal();
+    return this.reloadInternal(); // TODO This should actually return the real (http) request
   }
 
   /**

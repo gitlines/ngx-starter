@@ -79,6 +79,16 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
   @Input()
   public pageSizeOptions = [5, 10, 15, 20, 30];
 
+  /**
+   * Define if ebs-table should clean up the
+   * data-context resources for you.
+   *
+   * In more advanced scenarios where you plan to reuse the same data-context
+   * set this to false and release the resources yourself. (dataContext.close)
+   */
+  @Input()
+  public cleanUp = true;
+
   public canLoadMore$: Observable<boolean>;
   public total$: Observable<string>;
   public allSelected$: Observable<boolean>;
@@ -148,6 +158,11 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
     if (this._matTableBinding) {
       this._matTableBinding.unsubscribe();
       this._matTableBinding = null;
+    }
+
+    if (this.cleanUp) {
+      this.logger.debug('Releasing DataContext resources to prevent memory leak. [cleanUp]="true"');
+      this.dataContext.close();
     }
   }
 
