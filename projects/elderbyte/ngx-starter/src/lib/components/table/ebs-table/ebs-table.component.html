@@ -23,14 +23,14 @@
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox *ngIf="selectionModel.isMultipleSelection"
                         (change)="$event ? masterToggle() : null"
-                        [checked]="selectionModel.hasValue && isAllSelected"
-                        [indeterminate]="selectionModel.hasValue && !isAllSelected">
+                        [checked]="allSelected$ | async"
+                        [indeterminate]="someSelected$ | async">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let entity">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? selectionModel.toggle(entity) : null"
-                        [checked]="selectionModel.isSelected(entity)">
+                        [checked]="selectionModel.observeSelection(entity) | async">
           </mat-checkbox>
         </td>
       </ng-container>

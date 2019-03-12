@@ -1,4 +1,5 @@
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {map, skip, startWith} from 'rxjs/operators';
 
 
 /**
@@ -16,8 +17,8 @@ export class SelectionModel<T> {
    **************************************************************************/
 
   private _multiple: boolean;
-  private readonly _selection = new Map<any, T>();
-  private readonly _selectionSubject = new Subject<T[]>();
+  private readonly _selectionMap = new Map<any, T>();
+  private readonly _selection = new BehaviorSubject<T[]>([]);
   private readonly _keyGetter: ((item: T) => any);
 
   /***************************************************************************
@@ -51,19 +52,18 @@ export class SelectionModel<T> {
    *                                                                         *
    **************************************************************************/
 
-  /**
-   * @deprecated Please use the new 'changed' property
-   */
-  public get onChange(): Observable<T[]> {
-    return this.changed;
-  }
-
   public get changed(): Observable<T[]> {
-    return this._selectionSubject.asObservable();
+    return this.selection.pipe(
+        skip(1) // Skip the initial value
+    );
   }
 
-  public get selected(): T[] {
-    return Array.from(this._selection.values());
+  public get selection(): Observable<T[]> {
+    return this._selection.asObservable();
+  }
+
+  public get selectionSnapshot(): T[] {
+    return this._selection.getValue();
   }
 
   /***************************************************************************
@@ -77,9 +77,8 @@ export class SelectionModel<T> {
   }
 
   public replaceSelection(newSelection: T[]): void {
-    this._selection.clear();
-    this.selectInternal(newSelection);
-    this.selectionChanged();
+    this._selectionMap.clear();
+    this.select(...newSelection);
   }
 
   public select(...values: T[]): void {
@@ -94,7 +93,7 @@ export class SelectionModel<T> {
 
     values.forEach(value => {
       const key = this._keyGetter(value);
-      if (this._selection.delete(key)) {
+      if (this._selectionMap.delete(key)) {
         anyChange = true;
       }
     });
@@ -114,27 +113,35 @@ export class SelectionModel<T> {
 
   public isSelected(value: T): boolean {
     const key = this._keyGetter(value);
-    return this._selection.has(key);
+    return this._selectionMap.has(key);
+  }
+
+
+  public observeSelection(value: T): Observable<boolean> {
+    const key = this._keyGetter(value);
+    return this._selection.pipe(
+      map(selected => this._selectionMap.has(key)),
+    );
   }
 
   public get count(): number {
-    return this._selection.size;
+    return this._selectionMap.size;
   }
 
   public get isEmpty(): boolean {
-    return this._selection.size === 0;
+    return this._selectionMap.size === 0;
   }
 
   public get hasValue(): boolean {
-    return this._selection.size > 0;
+    return this._selectionMap.size > 0;
   }
 
   public get hasSingleValue(): boolean {
-    return this._selection.size === 1;
+    return this._selectionMap.size === 1;
   }
 
   public get hasMultipleValues(): boolean {
-    return this._selection.size > 1;
+    return this._selectionMap.size > 1;
   }
 
   public get isMultipleSelection(): boolean {
@@ -147,7 +154,7 @@ export class SelectionModel<T> {
       this._multiple = multiple;
 
       if (!this._multiple) {
-        const selected = this.selected;
+        const selected = this.selectionSnapshot;
         if (selected.length > 1) {
           this.select(selected[0]);
         }
@@ -163,7 +170,9 @@ export class SelectionModel<T> {
    **************************************************************************/
 
   private selectionChanged(): void {
-    this._selectionSubject.next(this.selected);
+    this._selection.next(
+      Array.from(this._selectionMap.values())
+    );
   }
 
   private selectInternal(values: T[]): boolean {
@@ -172,13 +181,13 @@ export class SelectionModel<T> {
       if (this._multiple) {
         // Multi selection
         values.forEach(value => {
-          this._selection.set(this._keyGetter(value), value);
+          this._selectionMap.set(this._keyGetter(value), value);
         });
       } else {
         // Single selection
-        this._selection.clear();
+        this._selectionMap.clear();
         const single = values[0]; // Maybe last is better?
-        this._selection.set(this._keyGetter(single), single);
+        this._selectionMap.set(this._keyGetter(single), single);
       }
       return true;
     }

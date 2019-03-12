@@ -79,6 +79,9 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public canLoadMore$: Observable<boolean>;
   public total$: Observable<string>;
+  public allSelected$: Observable<boolean>;
+  public someSelected$: Observable<boolean>;
+
 
   /** Underlying selection model. */
   public readonly selectionModel: SelectionModel<any> =
@@ -181,6 +184,14 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
       map(total => total ? total + ''  : '∞')
     );
 
+    this.allSelected$ = combineLatest(this.selectionModel.selection, this.dataContext.data).pipe(
+      map(([selection, currentData]) => selection.length >= currentData.length)
+    );
+
+    this.someSelected$ = combineLatest(this.selectionModel.selection, this.dataContext.data).pipe(
+      map(([selection, currentData]) => selection.length > 0 && selection.length < currentData.length)
+    );
+
     if (this.isContinuable) {
       this.canLoadMore$ = combineLatest(data.loading, this.dataContinuable.hasMoreData).pipe(
         map(([loading, hasMoreData]) => !loading && hasMoreData)
@@ -204,13 +215,12 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public get isContinuable(): boolean {
     if (!this._dataContext) { return false; }
-    return 'hasMoreDataSnapshot' in this._dataContext;
+    return 'hasMoreData' in this._dataContext;
   }
 
   public get isActivePaged(): boolean {
     if (!this._dataContext) { return false; }
-    return 'index' in this._dataContext
-        && 'size' in this._dataContext;
+    return 'page' in this._dataContext;
   }
 
   @Input()
@@ -276,17 +286,17 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   /** Whether the number of selected elements matches the totalSnapshot number of rows. */
-  public get isAllSelected(): boolean {
-    const numSelected = this.selectionModel.selected.length;
+  public get isAllSelectedSnapshot(): boolean {
+    const numSelected = this.selectionModel.selectionSnapshot.length;
     const numRows = this.dataContext.snapshot.data.length;
     return numSelected >= numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle(): void {
-    this.isAllSelected ?
+    this.isAllSelectedSnapshot ?
       this.selectionModel.clear() :
-      this.dataContext.snapshot.data.forEach(row => this.selectionModel.select(row));
+      this.selectionModel.select(...this.dataContext.snapshot.data);
   }
 
   /***************************************************************************
