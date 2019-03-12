@@ -6,7 +6,7 @@ import {DataContextStatus} from './data-context-status';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {FilterContext} from '../filter-context';
 import {DataContextSnapshot, IDataContext} from './data-context';
-import {debounceTime, skip, skipUntil, skipWhile, takeUntil} from 'rxjs/operators';
+import {debounceTime, skipUntil, takeUntil} from 'rxjs/operators';
 import {SortContext} from '../sort-context';
 
 
