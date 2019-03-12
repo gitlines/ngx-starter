@@ -10,6 +10,7 @@ import {
     MatSlideToggle,
 } from '@angular/material';
 import {FilterContext} from '../../common/data/filter-context';
+import {Filter} from '../../common/data/filter';
 
 @Directive({
     selector: '[filterInput]'
@@ -205,9 +206,9 @@ export class EbsFilterInputDirective implements OnInit, OnDestroy, AfterViewInit
         this.logger.info('Setting filter: ' + this.filterKey + ' => ' + newValue);
 
         if (newValue === undefined || newValue === null) {
-            this.filterContext.setFilter(this.filterKey, null);
+            this.filterContext.removeFilter(this.filterKey);
         } else {
-            this.filterContext.setFilter(this.filterKey, newValue + '');
+            this.filterContext.updateFilter(new Filter(this.filterKey, newValue + ''));
         }
     }
 }

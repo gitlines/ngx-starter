@@ -18,7 +18,7 @@ import {MatColumnDef, MatPaginator, MatRowDef, MatSort, MatTable} from '@angular
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from '../../../common/data/data-context/data-context';
 import {SelectionModel} from '../../../common/selection/selection-model';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {CdkColumnDef, CdkRowDef, CdkTable} from '@angular/cdk/table';
 import {DataContextBuilder} from '../../../common/data/data-context/data-context-builder';
@@ -28,7 +28,7 @@ import {DataContextBuilder} from '../../../common/data/data-context/data-context
   templateUrl: './ebs-table.component.html',
   styleUrls: ['./ebs-table.component.scss']
 })
-export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterContentInit {
+export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
 
   /***************************************************************************
    *                                                                         *
@@ -38,11 +38,10 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
   private readonly logger = LoggerFactory.getLogger('EbsTableComponent');
 
+  private readonly unsubscribe$ = new Subject();
+
   private readonly _itemClickSubject = new Subject();
 
-  private _subs: Subscription[];
-
-  private _filterContext: FilterContext;
   private _displayedColumns: string[] = null;
   private _selectionVisible = false;
   private _matTableBinding: MatTableDataContextBinding;
@@ -50,7 +49,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   private _currentColumnDefs: CdkColumnDef[] = [];
   private _currentRowDefs: CdkRowDef<any>[] = [];
 
-  private _paginator: MatPaginator;
+  private _matPaginator: MatPaginator;
 
   /** Underlying data context. */
   private _dataContext: IDataContext<any>;
@@ -60,11 +59,11 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
   public readonly displayedColumnsInner$ = new BehaviorSubject<string[]>([]);
 
   @ViewChild(MatTable)
-  public table: CdkTable<any>;
+  public matTable: CdkTable<any>;
 
 
   @ContentChild(MatSort)
-  protected sort: MatSort;
+  protected matSort: MatSort;
 
   @ContentChildren(MatColumnDef)
   public columnDefs: QueryList<CdkColumnDef>;
@@ -104,58 +103,41 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
   public ngAfterContentInit(): void {
 
-    // Register the normal column defs to the table
+    // Register the normal column defs to the matTable
     this.updateColumnDefs(this.columnDefs.toArray());
 
-    // Register any custom row definitions to the table
+    // Register any custom row definitions to the matTable
     this.updateRowDefs(this.rowDefs.toArray());
 
-    this._subs = [
-      this.columnDefs.changes.subscribe(
-        (columnDefs: QueryList<MatColumnDef>) => {
-          this.updateColumnDefs(columnDefs.toArray());
-          this.updateColumnsBase('columnDefs');
-        }
-      ),
+    this.columnDefs.changes.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(
+      (columnDefs: QueryList<MatColumnDef>) => {
+        this.updateColumnDefs(columnDefs.toArray());
+        this.updateColumnsBase('columnDefs');
+      }
+    );
 
-      this.rowDefs.changes.subscribe(
-        (rowDefs: QueryList<CdkRowDef<any>>) => {
-          this.updateRowDefs(rowDefs.toArray());
-          this.updateColumnsBase('rowDefs');
-        }
-      )
-    ];
+    this.rowDefs.changes.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(
+      (rowDefs: QueryList<CdkRowDef<any>>) => {
+        this.updateRowDefs(rowDefs.toArray());
+        this.updateColumnsBase('rowDefs');
+      }
+    );
+
+    if (this.matSort) {
+      this.matSort.disableClear = true; // ?
+    }
 
     this.updateColumnsBase('ngAfterContentInit');
   }
 
-  public ngDoCheck(): void {
-    if (this.sort) {
-      this.sort.disableClear = true;
-
-      if (this.dataContext) {
-        this.sort.active = this.dataContext.sort.prop;
-        switch (this.dataContext.sort.dir) {
-          case 'asc':
-            this.sort.direction = 'asc';
-            break;
-          case 'desc':
-            this.sort.direction = 'desc';
-            break;
-          default:
-            this.sort.direction = '';
-            break;
-        }
-      } else {
-        this.sort.active = null;
-        this.sort.direction = '';
-      }
-    }
-  }
-
   public ngOnDestroy(): void {
 
-    this._subs.forEach(sub => sub.unsubscribe());
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
 
     if (this._matTableBinding) {
       this._matTableBinding.unsubscribe();
@@ -170,13 +152,13 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
    **************************************************************************/
 
   @ViewChild(MatPaginator)
-  public set paginator(paginator: MatPaginator) {
-    this._paginator = paginator;
+  public set matPaginator(paginator: MatPaginator) {
+    this._matPaginator = paginator;
     this.updateTableBinding();
   }
 
-  public get paginator(): MatPaginator {
-    return this._paginator;
+  public get matPaginator(): MatPaginator {
+    return this._matPaginator;
   }
 
   @Input()
@@ -226,16 +208,6 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
   public get displayedColumns(): string[] {
     return this._displayedColumns;
-  }
-
-  @Input()
-  public set filterContext(context: FilterContext) {
-    this._filterContext = context;
-    this.applyFilterContext(context);
-  }
-
-  public get filterContext(): FilterContext {
-    return this._filterContext;
   }
 
   /** Indicates if selection column is shown. */
@@ -314,12 +286,6 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     return entity[this.idField];
   }
 
-  protected applyFilterContext(context: FilterContext): void {
-    if (this.dataContext) {
-      this.dataContext.filterContext = context;
-    }
-  }
-
   public onItemClick(entity: any): void {
     this.selectionModel.toggle(entity);
     this._itemClickSubject.next(entity);
@@ -337,12 +303,12 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     // remove columns not desired
     this._currentColumnDefs
       .filter(currentColumnDef => columnDefs.indexOf(currentColumnDef) === -1)
-      .forEach(columnToRemove => this.table.removeColumnDef(columnToRemove));
+      .forEach(columnToRemove => this.matTable.removeColumnDef(columnToRemove));
 
     // add missing columns
     columnDefs
       .filter(desired => this._currentColumnDefs.indexOf(desired) === -1)
-      .forEach(columnToAdd => this.table.addColumnDef(columnToAdd));
+      .forEach(columnToAdd => this.matTable.addColumnDef(columnToAdd));
 
     // remember new state
     this._currentColumnDefs = columnDefs;
@@ -353,12 +319,12 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
     // remove columns not desired
     this._currentRowDefs
       .filter(currentRowDef => rowDefs.indexOf(currentRowDef) === -1)
-      .forEach(rowToRemove => this.table.removeRowDef(rowToRemove));
+      .forEach(rowToRemove => this.matTable.removeRowDef(rowToRemove));
 
     // add missing columns
     rowDefs
       .filter(desired => this._currentRowDefs.indexOf(desired) === -1)
-      .forEach(rowToAdd => this.table.addRowDef(rowToAdd));
+      .forEach(rowToAdd => this.matTable.addRowDef(rowToAdd));
 
     // remember new state
     this._currentRowDefs = rowDefs;
@@ -373,8 +339,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, DoCheck, AfterConte
 
     if (this.dataContext) {
       this._matTableBinding = MatTableDataContextBindingBuilder.start()
-        .withPaginator(this.paginator)
-        .withSort(this.sort)
+        .withPaginator(this.matPaginator)
+        .withSort(this.matSort)
         .bind(this.dataContext);
     }
   }

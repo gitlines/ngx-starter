@@ -49,7 +49,7 @@ export class DataContextSimple<T> extends DataContextBase<T> {
 
         this.setLoading(true);
         if (this.listFetcher) {
-            this.listFetcher(this.sorts, this.filters)
+            this.listFetcher(this.sort.sortsSnapshot, this.filter.filtersSnapshot)
                 .pipe(first())
                 .subscribe(
                     list => {

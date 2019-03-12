@@ -103,7 +103,7 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
 
           this._chunkCache.add(nextToken);
 
-          this.nextChunkLoader(new TokenChunkRequest(nextToken, this.filters, this.sorts))
+          this.nextChunkLoader(new TokenChunkRequest(nextToken, this.filter.filtersSnapshot, this.sort.sortsSnapshot))
               .pipe(first())
               .subscribe(
                   chunk => {

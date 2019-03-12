@@ -49,7 +49,7 @@ export class LocalDataListFetcher<T> {
 
   private filterData(data: T[], filters: Filter[]): T[] {
     if (filters && filters.length > 0) {
-      // TODO Support customizable filters
+      // TODO Support customizable filtersSnapshot
       // data.filter(item => )
       return data;
     } else {

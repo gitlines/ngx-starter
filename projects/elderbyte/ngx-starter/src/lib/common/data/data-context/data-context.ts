@@ -4,6 +4,7 @@ import {Sort} from '../sort';
 import {Filter} from '../filter';
 import {FilterContext} from '../filter-context';
 import {PageRequest} from '../page';
+import {SortContext} from '../sort-context';
 
 
 /**
@@ -65,24 +66,14 @@ export interface IDataContext<T> {
   readonly statusSnapshot: DataContextStatus;
 
   /**
-   * Gets the current sorts
+   * Gets the sort context. Changes in this context are reflected by the data-context.
    */
-  sorts: Sort[];
+  readonly sort: SortContext;
 
   /**
-   * Gets the current single sort
+   * Gets the filter context. Changes in this context are reflected by the data-context.
    */
-  sort: Sort;
-
-  /**
-   * Gets the current filters
-   */
-  readonly filters: Filter[];
-
-  /**
-   * Gets the current filter context. Changes in this context are reflected by the data-context.
-   */
-  filterContext: FilterContext;
+  readonly filter: FilterContext;
 
   /***************************************************************************
    *                                                                         *

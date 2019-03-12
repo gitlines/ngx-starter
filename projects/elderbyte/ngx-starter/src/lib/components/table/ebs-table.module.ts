@@ -37,7 +37,7 @@ export {EbsTableComponent} from './ebs-table/ebs-table.component';
     MatButtonModule, MatIconModule, MatBadgeModule,
     MatProgressBarModule,
 
-    // data table
+    // data matTable
     CdkTableModule, MatTableModule, MatPaginatorModule, MatSortModule,
 
     // popups & modals

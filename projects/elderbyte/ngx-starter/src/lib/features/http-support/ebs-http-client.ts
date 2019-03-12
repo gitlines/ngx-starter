@@ -44,7 +44,7 @@ export class EbsHttpClient {
      * Gets the requested data page as Page<T>
      * @param url The resource url
      * @param pageable The page request
-     * @param filters The filters request
+     * @param filters The filtersSnapshot request
      * @param params Additional parameters
      */
     public getPaged<T>(url: string, pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {

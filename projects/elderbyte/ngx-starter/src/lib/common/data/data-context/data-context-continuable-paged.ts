@@ -99,7 +99,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
 
         const subject = new Subject();
 
-        const pageRequest = new Pageable(pageIndex, pageSize, this.sorts);
+        const pageRequest = new Pageable(pageIndex, pageSize, this.sort.sortsSnapshot);
 
         if (this._pageCache.has(pageIndex)) {
             // Page already loaded - skipping request!
@@ -111,7 +111,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
 
             this.logger.debug(`Loading page ${pageIndex} using pageable:`, pageRequest);
 
-            const pageObs = this.pageLoader(pageRequest, this.filters);
+            const pageObs = this.pageLoader(pageRequest, this.filter.filtersSnapshot);
 
             this._pageCache.set(pageIndex, pageObs);
 

@@ -267,7 +267,7 @@ export class RestClientPaged<T, TID> extends RestClient<T, TID> {
    * Gets the requested data page as Page<T>
    * @param url The resource url
    * @param pageable The page request
-   * @param filters The filters request
+   * @param filters The filtersSnapshot request
    * @param params Additional parameters
    */
   private getPaged(url: string, pageable: Pageable, filters?: Filter[], params?: HttpParams): Observable<Page<T>> {

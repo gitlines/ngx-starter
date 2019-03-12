@@ -33,7 +33,7 @@ import { CustomDateAdapter } from './date-adapters/custom-date-adapter';
     // popups & modals
     MatTooltipModule,
 
-    // data table
+    // data matTable
 
     // translations
     TranslateModule

@@ -184,7 +184,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
   }
 
   /**
-   * Occurs when the filters property has changed.
+   * Occurs when the filtersSnapshot property has changed.
    */
   protected onFiltersChanged(): void {
     this.pageIndex = 0;

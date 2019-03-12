@@ -3,10 +3,11 @@ import {Filter} from '../filter';
 import {Sort} from '../sort';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {DataContextStatus} from './data-context-status';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {FilterContext} from '../filter-context';
 import {IDataContext} from './data-context';
 import {debounceTime, takeUntil} from 'rxjs/operators';
+import {SortContext} from '../sort-context';
 
 
 export abstract class DataContextBase<T> extends DataSource<T> implements IDataContext<T> {
@@ -19,9 +20,8 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
   private readonly baselog: Logger = LoggerFactory.getLogger('DataContextBase');
 
-  private _sorts: Sort[] = [];
-  private _filterContext: FilterContext;
-  private _filterContextSub: Subscription;
+  private readonly _filter = new FilterContext();
+  private readonly _sort = new SortContext();
 
   private readonly _data = new BehaviorSubject<T[]>([]);
   private readonly _loading = new BehaviorSubject<boolean>(false);
@@ -45,7 +45,14 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     private _localApply?: ((data: T[]) => T[])
   ) {
     super();
-    this.filterContext = new FilterContext();
+
+    this._filter.filters.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(
+      () => this.onFiltersChanged()
+    );
+
+    // TODO On sorts changed
 
     this._reloadQueue.pipe(
       debounceTime(50),
@@ -81,53 +88,12 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     return this._total.getValue();
   }
 
-  public get sorts(): Sort[] {
-    return this._sorts;
+  public get sort(): SortContext {
+    return this._sort;
   }
 
-  public set sorts(newSorts: Sort[]) {
-    this.setSorts(newSorts);
-  }
-
-  public set sort(sort: Sort) {
-    if (
-      this.sorts.length === 1
-      && sort && this.sorts[0]
-      && this.sorts[0].equals(sort)) {
-      return;
-    }
-    this.setSorts(sort ? [sort] : []);
-  }
-
-  public get sort(): Sort {
-    if (this.sorts.length > 0) {
-      return this.sorts[0];
-    } else {
-      return Sort.NONE;
-    }
-  }
-
-  public get filters(): Filter[] {
-    return this._filterContext.filters;
-  }
-
-  public get filterContext(): FilterContext {
-    return this._filterContext;
-  }
-
-  public set filterContext(context: FilterContext) {
-
-    if (this._filterContextSub) { this._filterContextSub.unsubscribe(); }
-
-    this._filterContext = context;
-
-    if (context) {
-      this._filterContextSub = this._filterContext.filtersChanged.pipe(
-        takeUntil(this.unsubscribe$)
-      ).subscribe(
-        () => this.onFiltersChanged()
-      );
-    }
+  public get filter(): FilterContext {
+    return this._filter;
   }
 
   public get loading(): Observable<boolean> {
@@ -155,13 +121,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     return this._status.getValue();
   }
 
-  /**
-   * @deprecated
-
-  public get rows(): T[] {
-    return this.dataSnapshot;
-  }*/
-
   public get isEmpty(): boolean {
     return this.dataSnapshot.length === 0;
   }
@@ -176,8 +135,11 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
     this.baselog.debug('Starting fresh dataContext ...');
 
-    this.setSorts(sorts, true);
-    this._filterContext.replaceFiltersWith(filters, true);
+    this._sort.replaceSorts(sorts);
+    this._filter.replaceFilters(filters); // TODO request no longer skipped here.
+
+    // TODO maybe just subscribe here to loading queue, skip first ...
+
     return this.reloadNow();
   }
 
@@ -211,13 +173,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
   protected reloadNow(): Observable<any> {
     return this.reloadInternal();
-  }
-
-  protected setSorts(sorts?: Sort[], skipEvent = false): void {
-    this._sorts = sorts ? sorts.slice(0) : []; // clone
-    if (!skipEvent) {
-      this.onSortsChanged();
-    }
   }
 
   /**
@@ -264,7 +219,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
   /**
    * Clears the current data-context cached data.
-   * State such as current sorting and filters are kept.
+   * State such as current sorting and filtersSnapshot are kept.
    */
   protected clearAll(silent = false): void {
     this.setLoading(false);
@@ -322,7 +277,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
   }
 
   /**
-   * Occurs when the filters property has changed.
+   * Occurs when the filtersSnapshot property has changed.
    */
   protected onFiltersChanged(): void {
     this.reload();

@@ -1,8 +1,7 @@
-import {Filter} from './filter';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {Objects} from '../objects';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Sort, SortDirection} from './sort';
 
-export class FilterContext {
+export class SortContext {
 
   /***************************************************************************
    *                                                                         *
@@ -10,7 +9,7 @@ export class FilterContext {
    *                                                                         *
    **************************************************************************/
 
-  private readonly _filters = new BehaviorSubject<Filter[]>([]);
+  private readonly _sorts = new BehaviorSubject<Sort[]>([]);
 
   /***************************************************************************
    *                                                                         *
@@ -18,22 +17,22 @@ export class FilterContext {
    *                                                                         *
    **************************************************************************/
 
-  public get filters(): Observable<Filter[]> {
-    return this._filters.asObservable();
+  public get sorts(): Observable<Sort[]> {
+    return this._sorts.asObservable();
   }
 
-  public get filtersSnapshot(): Filter[] {
-    return this._filters.getValue();
+  public get sortsSnapshot(): Sort[] {
+    return this._sorts.getValue();
   }
 
-  public findFilterValue(key: string): string | undefined {
-    const f = this.findFilter(key);
-    return f ? f.value : undefined;
+  public findSortDirection(prop: string): SortDirection | undefined {
+    const f = this.findSort(prop);
+    return f ? f.dir : undefined;
   }
 
-  public findFilter(key: string): Filter | undefined {
-    return this.filtersSnapshot
-      .filter(f => f.key === key)
+  public findSort(prop: string): Sort | undefined {
+    return this.sortsSnapshot
+      .filter(f => f.prop === prop)
       .find(first => true);
   }
 
@@ -43,53 +42,43 @@ export class FilterContext {
    *                                                                         *
    **************************************************************************/
 
-  public removeFilter(key: string): void {
-    const current = this.filtersSnapshot;
-    const newFilters = current.filter(f => f.key !== key);
-    if (current.length !== newFilters.length) {
-      this.replaceFilters(newFilters);
-    }
-  }
-
   /**
-   * This method updatees / adds the given filter, leaving
+   * This method updatees / adds the given sort, leaving
    * existing ones untouched.
-   * @param updatedFilter
+   * @param updatedSort
    */
-  public updateFilter(updatedFilter?: Filter): void {
-    if (updatedFilter) {
-      this.updateFilters([updatedFilter]);
+  public updateSort(updatedSort?: Sort): void {
+    if (updatedSort) {
+      this.updateSorts([updatedSort]);
     }
   }
 
   /**
    * This method updates / adds the given filters, leaving
    * existing ones untouched.
-   * @param updatedFilters
+   * @param updatedSorts
    */
-  public updateFilters(updatedFilters?: Filter[]): void {
-    if (updatedFilters && updatedFilters.length > 0) {
-      const filterMap = new Map<string, Filter>();
-      this.filtersSnapshot.forEach(f => filterMap.set(f.key, f));
-      updatedFilters.forEach(f => filterMap.set(f.key, f));
-      this.replaceFilters(
-        Array.from(
-          updatedFilters.values()
-        )
+  public updateSorts(updatedSorts?: Sort[]): void {
+    if (updatedSorts && updatedSorts.length > 0) {
+      const sortMap = new Map<string, Sort>();
+      this.sortsSnapshot.forEach(s => sortMap.set(s.prop, s));
+      updatedSorts.forEach(s => sortMap.set(s.prop, s));
+      this.replaceSorts(
+        Array.from(updatedSorts.values())
       );
     }
   }
 
   /**
    * Replace all existing filters with the given new ones.
-   * @param newFilters
+   * @param newSorts
    */
-  public replaceFilters(newFilters?: Filter[]) {
-    this._filters.next(newFilters || []);
+  public replaceSorts(newSorts?: Sort[]) {
+    this._sorts.next(newSorts || []);
   }
 
   public clear(): void {
-    this.replaceFilters([]);
+    this.replaceSorts([]);
   }
 
   /***************************************************************************
