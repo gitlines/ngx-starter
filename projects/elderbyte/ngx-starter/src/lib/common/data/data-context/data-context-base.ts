@@ -3,10 +3,10 @@ import {Filter} from '../filter';
 import {Sort} from '../sort';
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {DataContextStatus} from './data-context-status';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, of, Subject} from 'rxjs';
 import {FilterContext} from '../filter-context';
 import {DataContextSnapshot, IDataContext} from './data-context';
-import {debounceTime, skipUntil, takeUntil} from 'rxjs/operators';
+import {catchError, debounceTime, skipUntil, takeUntil} from 'rxjs/operators';
 import {SortContext} from '../sort-context';
 
 
@@ -61,14 +61,16 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
       sorts => this.onSortsChanged(sorts)
     );
 
-
-    // TODO On sorts changed
-
     this._reloadQueue.pipe(
       skipUntil(this.started$),
       debounceTime(50),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(() => this.reloadNow()); // Maybe skipMap the real requests for auto abort
+      takeUntil(this.unsubscribe$),
+      catchError(err => {  // Dont die on errors
+        this.baselog.error('Reload queue detected error, bad!', err);
+        return EMPTY;
+      })
+    ).subscribe(() => this.reloadNow());
+    // Maybe skipMap the real requests for auto abort pending (except for continuation / paged)
   }
 
   /***************************************************************************
@@ -334,6 +336,8 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    * Subclasses must implement this method and
    * reload the currently held data.
    * If possible, the current view state should be kept.
+   *
+   * @returns The reload job.
    */
   protected abstract reloadInternal(): Observable<any>;
 
