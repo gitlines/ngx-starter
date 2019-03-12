@@ -5,6 +5,7 @@ import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {first} from 'rxjs/operators';
 import {IDataContextActivePage} from './data-context';
+import {Sort} from '../sort';
 
 
 
@@ -165,17 +166,17 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
   /**
    * Occurs when the sorts property has changed.
    */
-  protected onSortsChanged(): void {
+  protected onSortsChanged(sorts: Sort[]): void {
     this.setActiveIndex(0);
-    super.onSortsChanged();
+    super.onSortsChanged(sorts);
   }
 
   /**
    * Occurs when the filtersSnapshot property has changed.
    */
-  protected onFiltersChanged(): void {
+  protected onFiltersChanged(filters: Filter[]): void {
     this.setActiveIndex(0);
-    super.onFiltersChanged();
+    super.onFiltersChanged(filters);
   }
 }
 

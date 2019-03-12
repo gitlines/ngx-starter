@@ -6,7 +6,7 @@ import {DataContextStatus} from './data-context-status';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {FilterContext} from '../filter-context';
 import {DataContextSnapshot, IDataContext} from './data-context';
-import {debounceTime, takeUntil} from 'rxjs/operators';
+import {debounceTime, skip, skipUntil, skipWhile, takeUntil} from 'rxjs/operators';
 import {SortContext} from '../sort-context';
 
 
@@ -31,6 +31,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
   private readonly _primaryIndex = new Map<any, T>();
 
   protected readonly unsubscribe$ = new Subject<any>();
+  protected readonly started$ = new Subject();
 
   private readonly _reloadQueue = new Subject<any>();
 
@@ -47,14 +48,24 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     super();
 
     this._filter.filters.pipe(
+      skipUntil(this.started$),
       takeUntil(this.unsubscribe$)
     ).subscribe(
-      () => this.onFiltersChanged()
+      filters => this.onFiltersChanged(filters)
     );
+
+    this._sort.sorts.pipe(
+      skipUntil(this.started$),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(
+      sorts => this.onSortsChanged(sorts)
+    );
+
 
     // TODO On sorts changed
 
     this._reloadQueue.pipe(
+      skipUntil(this.started$),
       debounceTime(50),
       takeUntil(this.unsubscribe$)
     ).subscribe(() => this.reloadNow());
@@ -146,9 +157,9 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     this.baselog.debug('Starting fresh dataContext ...');
 
     this._sort.replaceSorts(sorts);
-    this._filter.replaceFilters(filters); // TODO request no longer skipped here.
+    this._filter.replaceFilters(filters);
 
-    // TODO maybe just subscribe here to loading queue, skip first ...
+    this.started$.next();
 
     return this.reloadNow();
   }
@@ -167,12 +178,17 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    */
   public close(): void {
 
+    this.started$.complete();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
 
     this._data.complete();
+    this._loading.complete();
+    this._total.complete();
+    this._status.complete();
+
     this.clearAll();
-    this.baselog.debug('DataContext has been closed!');
+    this.baselog.debug('DataContext has been closed and resources cleaned up!');
   }
 
   /***************************************************************************
@@ -280,16 +296,16 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    **************************************************************************/
 
   /**
-   * Occurs when the sorts property has changed.
+   * Occurs when the sort has changed.
    */
-  protected onSortsChanged(): void {
+  protected onSortsChanged(sorts: Sort[]): void {
     this.reload();
   }
 
   /**
-   * Occurs when the filtersSnapshot property has changed.
+   * Occurs when the filter has changed.
    */
-  protected onFiltersChanged(): void {
+  protected onFiltersChanged(filters: Filter[]): void {
     this.reload();
   }
 
