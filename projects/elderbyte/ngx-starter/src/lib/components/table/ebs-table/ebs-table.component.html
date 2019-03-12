@@ -68,11 +68,11 @@
   </mat-progress-bar>
 
   <!-- Optional Paginator Toolbar -->
-  <mat-paginator #matPaginator *ngIf="isActivePaged"
+  <mat-paginator #matPaginator *ngIf="isActivePaged && (dataActivePaged.page | async) as page"
                  fxFlex="none"
                  [length]="dataContext?.total | async"
-                 [pageIndex]="dataActivePaged?.pageIndex"
-                 [pageSize]="dataActivePaged?.pageSize"
+                 [pageIndex]="page?.index"
+                 [pageSize]="page?.size"
                  [pageSizeOptions]="pageSizeOptions">
   </mat-paginator>
 

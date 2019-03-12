@@ -41,9 +41,19 @@ export class Page<T> {
     }
 }
 
-export interface PageRequest {
-    pageIndex: number;
-    pageSize: number;
+export class PageRequest {
+  constructor(
+
+    /**
+     * index Page number (zero based index)
+     */
+    public readonly index: number,
+
+    /**
+     * size The page size
+     */
+    public readonly size: number
+  ) { }
 }
 
 export class Pageable {

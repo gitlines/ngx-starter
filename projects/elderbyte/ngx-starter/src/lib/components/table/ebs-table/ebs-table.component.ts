@@ -209,8 +209,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public get isActivePaged(): boolean {
     if (!this._dataContext) { return false; }
-    return 'pageIndex' in this._dataContext
-        && 'pageSize' in this._dataContext;
+    return 'index' in this._dataContext
+        && 'size' in this._dataContext;
   }
 
   @Input()

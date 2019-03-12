@@ -4,6 +4,7 @@ import {Subject, Unsubscribable} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {map, takeUntil} from 'rxjs/operators';
 import {Sort, SortDirection} from '../sort';
+import {PageRequest} from '../page';
 
 
 export class MatTableDataContextBindingBuilder {
@@ -147,9 +148,10 @@ export class MatTableDataContextBinding implements Unsubscribable {
 
       if (pagedDataContext.page !== undefined) {
         this._matPaginator.page.pipe(
+          map((event: PageEvent) => new PageRequest(event.pageIndex, event.pageSize)),
           takeUntil(this.unsubscribe$)
-        ).subscribe((pageRequest: PageEvent) => {
-          pagedDataContext.page = pageRequest;
+        ).subscribe(request => {
+          pagedDataContext.setActivePage(request);
         });
       } else {
         this.logger.warn('Can not bind the given paginator to the given data-context,' +

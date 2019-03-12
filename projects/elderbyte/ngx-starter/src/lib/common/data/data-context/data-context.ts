@@ -134,10 +134,18 @@ export interface IDataContextContinuable<T> extends IDataContext<T> {
 
 export interface IDataContextActivePage<T> extends IDataContext<T> {
 
-  pageIndex: number;
+  /**
+   * Gets the active page over time
+   */
+  readonly page: Observable<PageRequest>;
 
-  pageSize: number;
+  /**
+   * Gets the current active page
+   */
+  readonly pageSnapshot: PageRequest;
 
-  page: PageRequest;
-
+  /**
+   * Sets the active page
+   */
+  setActivePage(page: PageRequest): void;
 }

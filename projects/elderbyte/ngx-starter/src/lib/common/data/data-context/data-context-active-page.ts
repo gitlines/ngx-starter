@@ -2,7 +2,7 @@ import {DataContextBase} from './data-context-base';
 import {Page, Pageable, PageRequest} from '../page';
 import {Filter} from '../filter';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {first} from 'rxjs/operators';
 import {IDataContextActivePage} from './data-context';
 
@@ -18,7 +18,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
   private readonly actlogger: Logger = LoggerFactory.getLogger('DataContextActivePage');
 
-  private _page: PageRequest;
+  private readonly _page: BehaviorSubject<PageRequest>;
 
   /**
    * Subscription to the event when the active page has changed.
@@ -45,13 +45,8 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     indexFn?: ((item: T) => any),
     localApply?: ((data: T[]) => T[])
   ) {
-
     super(indexFn, localApply);
-
-    this._page = {
-      pageSize: pageSize,
-      pageIndex: 0
-    };
+    this._page = new BehaviorSubject<PageRequest>(new PageRequest(0, pageSize));
   }
 
   /***************************************************************************
@@ -60,53 +55,12 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
    *                                                                         *
    **************************************************************************/
 
-  public get pageIndex(): number {
-    return this._page.pageIndex;
+  public get page(): Observable<PageRequest> {
+    return this._page.asObservable();
   }
 
-  public set pageIndex(index: number) {
-    this.page = {
-      pageSize: this.pageSize,
-      pageIndex: index
-    };
-  }
-
-  public get pageSize(): number {
-    return this._page.pageSize;
-  }
-
-  public set pageSize(size: number) {
-    this.page = {
-      pageSize: size,
-      pageIndex: this.pageIndex
-    };
-  }
-
-  /**
-   * Sets the current page index / size.
-   */
-  public set page(request: PageRequest) {
-
-    this.actlogger.trace('Setting page to ', request);
-
-    if (!request) { throw new Error('Setting page PageRequest must not be null!'); }
-
-    let hasChange = false;
-
-    if (this._page.pageIndex !== request.pageIndex) {
-      hasChange = true;
-    } else if (this._page.pageSize !== request.pageSize) {
-      hasChange = true;
-    }
-
-    if (hasChange) {
-      this._page = request;
-      this.reload();
-    }
-  }
-
-  public get page(): PageRequest {
-    return this._page;
+  public get pageSnapshot(): PageRequest {
+    return this._page.getValue();
   }
 
   /***************************************************************************
@@ -115,6 +69,38 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
    *                                                                         *
    **************************************************************************/
 
+  /**
+   * Set the current page index and reload.
+   * @param pageIndex
+   */
+  public setActiveIndex(pageIndex: number) {
+    this.setActivePage(new PageRequest(pageIndex, this.pageSnapshot.size));
+  }
+
+  /**
+   * Sets the current page index / size and reload.
+   */
+  public setActivePage(request: PageRequest) {
+
+    this.actlogger.trace('Setting page to ', request);
+
+    if (!request) { throw new Error('Setting page PageRequest must not be null!'); }
+
+    let hasChange = false;
+
+    const page = this.pageSnapshot;
+
+    if (page.index !== request.index) {
+      hasChange = true;
+    } else if (page.size !== request.size) {
+      hasChange = true;
+    }
+
+    if (hasChange) {
+      this._page.next(request);
+      this.reload();
+    }
+  }
 
   public close(): void {
     super.close();
@@ -131,7 +117,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
 
   protected clearAll(): void {
     super.clearAll();
-    this.pageIndex = 0;
+    this.setActiveIndex(0);
   }
 
   protected reloadInternal(): Observable<any> {
@@ -144,7 +130,8 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     const subject = new Subject<any>();
 
     this.setLoading(true);
-    const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sort.sortsSnapshot);
+    const page = this.pageSnapshot;
+    const pageRequest = new Pageable(page.index, page.size, this.sort.sortsSnapshot);
 
 
     this._activePageLoad = this.pageLoader(pageRequest, this.filter.filtersSnapshot)
@@ -179,7 +166,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
    * Occurs when the sorts property has changed.
    */
   protected onSortsChanged(): void {
-    this.pageIndex = 0;
+    this.setActiveIndex(0);
     super.onSortsChanged();
   }
 
@@ -187,7 +174,7 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
    * Occurs when the filtersSnapshot property has changed.
    */
   protected onFiltersChanged(): void {
-    this.pageIndex = 0;
+    this.setActiveIndex(0);
     super.onFiltersChanged();
   }
 }
