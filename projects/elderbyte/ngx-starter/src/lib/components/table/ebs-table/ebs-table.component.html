@@ -8,7 +8,7 @@
        infiniteScroll
        [eventThrottle]="150"
        [offsetFactor]="2"
-       [ignoreScrollEvent]="!(isContinuable && !dataContext.loadingSnapshot && dataContinuable?.hasMoreData)"
+       [ignoreScrollEvent]="!isContinuable || !(canLoadMore$ | async)"
        (closeToEnd)="dataContinuable.loadMore()"
   >
     <table
@@ -50,11 +50,11 @@
 
   <div fxLayout="column" fxFlex fxLayoutAlign="center center">
 
-    <span class="hint mat-body-1" *ngIf="dataContext?.isEmpty && !dataContext?.statusSnapshot.hasError">
+    <span class="hint mat-body-1" *ngIf="(dataContext?.data | async)?.length === 0 && !(dataContext?.status | async)?.hasError">
       {{'No data available' | translate}}
     </span>
 
-    <div *ngIf="dataContext?.statusSnapshot.hasError"
+    <div *ngIf="(dataContext?.status | async)?.hasError"
          fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
       <mat-icon color="warn">warning</mat-icon>
       <span class="hint mat-body-1">{{'Error while loading data' | translate}}</span>
@@ -63,26 +63,29 @@
   </div>
 
   <mat-progress-bar fxFlex="none"
-                    [mode]="dataContext?.loadingSnapshot ? 'indeterminate' : 'determinate'"
-                    [color]="(dataContext && dataContext.statusSnapshot.hasError) ? 'warn' : 'primary'">
+                    [mode]="(dataContext?.loading | async) ? 'indeterminate' : 'determinate'"
+                    [color]="((dataContext?.status | async)?.hasError) ? 'warn' : 'primary'">
   </mat-progress-bar>
 
-
   <!-- Optional Paginator Toolbar -->
-  <mat-paginator #paginator *ngIf="isActivePaged"
+  <mat-paginator #matPaginator *ngIf="isActivePaged"
                  fxFlex="none"
-                 [length]="dataContext?.totalSnapshot"
+                 [length]="dataContext?.total | async"
                  [pageIndex]="dataActivePaged?.pageIndex"
                  [pageSize]="dataActivePaged?.pageSize"
                  [pageSizeOptions]="pageSizeOptions">
   </mat-paginator>
 
   <!-- Optional Continuation Toolbar -->
-  <div *ngIf="isContinuable" class="table-footer" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" style="padding-right: 10px" fxFlex="none">
+  <div *ngIf="isContinuable" class="table-footer"
+       fxLayout="row" fxFlex="none" fxLayoutAlign="end center" fxLayoutGap="10px"
+       style="padding-right: 10px" >
 
-    <span class="mat-caption noselect" style="color: gray">{{dataContext?.dataSnapshot.length}} of {{dataContext?.totalSnapshot ? dataContext?.totalSnapshot : '∞'}}</span>
+    <span class="mat-caption noselect" style="color: gray">
+      {{(dataContext?.data | async)?.length}} of {{total$ | async}}
+    </span>
 
-    <button mat-mini-fab color="accent" [disabled]="dataContext?.loadingSnapshot || !dataContinuable.hasMoreData" (click)="dataContinuable.loadMore()">
+    <button mat-mini-fab color="accent" [disabled]="!(canLoadMore$ | async)" (click)="dataContinuable.loadMore()">
       <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
   </div>

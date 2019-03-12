@@ -5,7 +5,7 @@ import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {DataContextStatus} from './data-context-status';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {FilterContext} from '../filter-context';
-import {IDataContext} from './data-context';
+import {DataContextSnapshot, IDataContext} from './data-context';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {SortContext} from '../sort-context';
 
@@ -30,7 +30,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
 
   private readonly _primaryIndex = new Map<any, T>();
 
-  private readonly unsubscribe$ = new Subject<any>();
+  protected readonly unsubscribe$ = new Subject<any>();
 
   private readonly _reloadQueue = new Subject<any>();
 
@@ -80,6 +80,17 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    *                                                                         *
    **************************************************************************/
 
+  public get snapshot(): DataContextSnapshot<T> {
+    return new DataContextSnapshot(
+      this.dataSnapshot,
+      this.isEmpty,
+      this.loadingSnapshot,
+      this.totalSnapshot,
+      this.statusSnapshot
+    );
+  }
+
+
   public get total(): Observable<number | undefined> {
     return this._total.asObservable();
   }
@@ -103,7 +114,6 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
   public get loadingSnapshot(): boolean {
     return this._loading.getValue();
   }
-
 
   public get data(): Observable<T[]> {
     return this._data.asObservable();

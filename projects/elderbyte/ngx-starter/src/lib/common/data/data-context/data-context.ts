@@ -7,6 +7,16 @@ import {PageRequest} from '../page';
 import {SortContext} from '../sort-context';
 
 
+export class DataContextSnapshot<T> {
+  constructor(
+    public readonly data: T[],
+    public readonly isEmpty: boolean,
+    public readonly isLoading: boolean,
+    public readonly total: number | undefined,
+    public readonly status: DataContextStatus
+  ) { }
+}
+
 /**
  * Manages a set of data (rows) which are to be displayed in a UI Component.
  *
@@ -20,14 +30,14 @@ export interface IDataContext<T> {
    **************************************************************************/
 
   /**
+   * Gets a snapshot of the current state in this data-context
+   */
+  readonly snapshot: DataContextSnapshot<T>;
+
+  /**
    * Observable which emits the current data over time.
    */
   readonly data: Observable<T[]>;
-
-  /**
-   * Gets the current data in the data-context
-   */
-  readonly dataSnapshot: T[];
 
   /**
    * Indicates if the context currently holds no data
@@ -40,30 +50,15 @@ export interface IDataContext<T> {
   readonly loading: Observable<boolean>;
 
   /**
-   * Gets the current loading status
-   */
-  readonly loadingSnapshot: boolean;
-
-  /**
    * The total count of all elements over time
    * (I.e. the expected count when the data contex is completed)
    */
   readonly total: Observable<number | undefined>;
 
   /**
-   * The current total count of all elements
-   */
-  readonly totalSnapshot: number | undefined;
-
-  /**
    * Observable which emits when the status changes (i.e. error)
    */
   readonly status: Observable<DataContextStatus>;
-
-  /**
-   * Gets the current status
-   */
-  readonly statusSnapshot: DataContextStatus;
 
   /**
    * Gets the sort context. Changes in this context are reflected by the data-context.
@@ -97,6 +92,11 @@ export interface IDataContext<T> {
    */
   close(): void;
 
+  /**
+   * Returns the item by the given index key.
+   * Requires that index functionality is enabled.
+   * @param key
+   */
   findByIndex(key: any): T | undefined;
 
 }
@@ -108,9 +108,14 @@ export interface IDataContext<T> {
 export interface IDataContextContinuable<T> extends IDataContext<T> {
 
   /**
-   * Returns true if this datacontext can load more data
+   * Returns true if this data-context can load more data
    */
-  readonly hasMoreData: boolean;
+  readonly hasMoreDataSnapshot: boolean;
+
+  /**
+   * Returns true if this data-context can load more data over time
+   */
+  readonly hasMoreData: Observable<boolean>;
 
   /**
    * Loads more data if any available.

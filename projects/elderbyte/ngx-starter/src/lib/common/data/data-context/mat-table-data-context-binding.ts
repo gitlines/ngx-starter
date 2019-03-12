@@ -173,26 +173,10 @@ export class MatTableDataContextBinding implements Unsubscribable {
   }
 
   private toMatDirection(direction: SortDirection): MatSortDirection {
-    switch (direction) {
-      case SortDirection.Asc:
-        return 'asc';
-      case SortDirection.Desc:
-        return 'desc';
-      default:
-        return '';
-    }
+    return direction;
   }
 
   private fromMatDirection(matSortDirection: MatSortDirection): SortDirection {
-    switch (matSortDirection) {
-      case '':
-        return SortDirection.Unspecified;
-      case 'asc':
-        return SortDirection.Asc;
-      case 'desc':
-        return SortDirection.Desc;
-      default:
-        throw new Error('Unexpected mat.SortDirection: ' + matSortDirection);
-    }
+    return matSortDirection;
   }
 }

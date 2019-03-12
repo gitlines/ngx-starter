@@ -23,7 +23,6 @@ export abstract class DataContextContinuableBase<T> extends DataContextBase<T> i
 
   private _chunkSize: number;
 
-
   /***************************************************************************
    *                                                                         *
    * Constructors                                                            *
@@ -94,5 +93,6 @@ export abstract class DataContextContinuableBase<T> extends DataContextBase<T> i
   }
 
   public abstract loadMore(): Observable<any>;
-  public abstract get hasMoreData(): boolean;
+  public abstract get hasMoreDataSnapshot(): boolean;
+  public abstract get hasMoreData(): Observable<boolean>;
 }

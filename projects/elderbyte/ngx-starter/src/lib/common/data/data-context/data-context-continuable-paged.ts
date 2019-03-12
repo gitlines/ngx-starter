@@ -1,10 +1,10 @@
 
-import {EMPTY, Observable, Subject} from 'rxjs';
+import {combineLatest, EMPTY, Observable, Subject} from 'rxjs';
 import {Filter} from '../filter';
 import {Page, Pageable} from '../page';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextContinuableBase} from './data-context-continuable-base';
-import {first, take} from 'rxjs/operators';
+import {first, map, take, takeUntil} from 'rxjs/operators';
 
 /**
  * Extends a simple flat list data-context with infinite-scroll pagination support.
@@ -23,12 +23,13 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
     private _pageCache: Map<number, Observable<Page<T>>> = new Map();
     private _latestPage = 0;
 
+    private readonly _hasMoreData: Observable<boolean>;
+
     /***************************************************************************
      *                                                                         *
      * Constructors                                                            *
      *                                                                         *
      **************************************************************************/
-
 
     constructor(
         private pageLoader: (pageable: Pageable, filters: Filter[]) => Observable<Page<T>>,
@@ -37,6 +38,11 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
         localApply?: ((data: T[]) => T[]),
     ) {
         super(pageSize, indexFn, localApply);
+
+        this._hasMoreData = combineLatest(this.total, this.data).pipe(
+          map(([total, data]) => this.checkHasMoreData(total, data)),
+          takeUntil(this.unsubscribe$)
+        );
     }
 
     /***************************************************************************
@@ -51,7 +57,7 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
      *
      */
     public loadMore(): Observable<any> {
-        if (this.hasMoreData) {
+        if (this.hasMoreDataSnapshot) {
             this.logger.info('Loading more...' + this._latestPage);
 
             if (this.loadingSnapshot) { return EMPTY; }
@@ -63,11 +69,12 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
         }
     }
 
-    public get hasMoreData(): boolean {
-        if (this.totalSnapshot) {
-            return this.totalSnapshot > this.dataSnapshot.length;
-        }
-        return false;
+    public get hasMoreData(): Observable<boolean> {
+      return this._hasMoreData;
+    }
+
+    public get hasMoreDataSnapshot(): boolean {
+        return this.checkHasMoreData(this.totalSnapshot, this.dataSnapshot);
     }
 
     /***************************************************************************
@@ -75,6 +82,13 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
      * Private Methods                                                         *
      *                                                                         *
      **************************************************************************/
+
+    private checkHasMoreData(total: number | undefined, data: T[]): boolean {
+      if (total) {
+        return total > data.length;
+      }
+      return false;
+    }
 
     protected onChunkSizeChanged(newSize: number): void {
         this.reload();

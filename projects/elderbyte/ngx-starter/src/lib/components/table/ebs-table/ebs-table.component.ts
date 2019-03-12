@@ -17,7 +17,7 @@ import {
 import {MatColumnDef, MatPaginator, MatRowDef, MatSort, MatTable} from '@angular/material';
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from '../../../common/data/data-context/data-context';
 import {SelectionModel} from '../../../common/selection/selection-model';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, Subject, Subscription} from 'rxjs';
 import {map, takeUntil} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {CdkColumnDef, CdkRowDef, CdkTable} from '@angular/cdk/table';
@@ -77,7 +77,8 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
   @Input()
   public pageSizeOptions = [5, 10, 15, 20, 30];
 
-
+  public canLoadMore$: Observable<boolean>;
+  public total$: Observable<string>;
 
   /** Underlying selection model. */
   public readonly selectionModel: SelectionModel<any> =
@@ -165,7 +166,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
   public set data(data: Array<any> | IDataContext<any>) {
     if (data instanceof Array) {
       this.dataContext = DataContextBuilder.start()
-        .buildLocal(data);
+        .buildLocal(data); // Memory leak
       this.dataContext.start();
     } else {
       this.dataContext = data;
@@ -175,6 +176,18 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
   public set dataContext(data: IDataContext<any>) {
     this._dataContext = data;
     this.updateTableBinding();
+
+    this.total$ = this._dataContext.total.pipe(
+      map(total => total ? total + ''  : '∞')
+    );
+
+    if (this.isContinuable) {
+      this.canLoadMore$ = combineLatest(data.loading, this.dataContinuable.hasMoreData).pipe(
+        map(([loading, hasMoreData]) => !loading && hasMoreData)
+      );
+    } else {
+      this.canLoadMore$ = of(false);
+    }
   }
 
   public get dataContext(): IDataContext<any> {
@@ -191,7 +204,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public get isContinuable(): boolean {
     if (!this._dataContext) { return false; }
-    return 'hasMoreData' in this._dataContext;
+    return 'hasMoreDataSnapshot' in this._dataContext;
   }
 
   public get isActivePaged(): boolean {
@@ -265,7 +278,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
   /** Whether the number of selected elements matches the totalSnapshot number of rows. */
   public get isAllSelected(): boolean {
     const numSelected = this.selectionModel.selected.length;
-    const numRows = this.dataContext.dataSnapshot.length;
+    const numRows = this.dataContext.snapshot.data.length;
     return numSelected >= numRows;
   }
 
@@ -273,7 +286,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
   public masterToggle(): void {
     this.isAllSelected ?
       this.selectionModel.clear() :
-      this.dataContext.dataSnapshot.forEach(row => this.selectionModel.select(row));
+      this.dataContext.snapshot.data.forEach(row => this.selectionModel.select(row));
   }
 
   /***************************************************************************

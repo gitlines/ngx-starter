@@ -144,10 +144,10 @@ export class DataContextActivePage<T> extends DataContextBase<T> implements IDat
     const subject = new Subject<any>();
 
     this.setLoading(true);
-    const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sorts);
+    const pageRequest = new Pageable(this.pageIndex, this.pageSize, this.sort.sortsSnapshot);
 
 
-    this._activePageLoad = this.pageLoader(pageRequest, this.filters)
+    this._activePageLoad = this.pageLoader(pageRequest, this.filter.filtersSnapshot)
       .pipe(first())
       .subscribe(
         success => {

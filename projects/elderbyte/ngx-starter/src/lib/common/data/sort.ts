@@ -1,13 +1,9 @@
 
-export enum SortDirection {
-  Unspecified = '',
-  Asc = 'asc',
-  Desc = 'desc'
-}
+export declare type SortDirection = 'asc' | 'desc' | '';
 
 export class Sort {
 
-    public static NONE = new Sort(undefined, SortDirection.Unspecified);
+    public static NONE = new Sort(undefined, '');
 
     constructor (
         public readonly prop: string | undefined,
