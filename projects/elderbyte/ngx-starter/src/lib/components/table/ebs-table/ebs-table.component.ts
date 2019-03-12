@@ -1,15 +1,16 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
-  ContentChildren, Input,
+  ContentChildren,
+  Input,
   OnDestroy,
-  QueryList,
   OnInit,
   Output,
-  ViewChild, DoCheck
+  QueryList,
+  ViewChild
 } from '@angular/core';
-import {FilterContext} from '../../../common/data/filter-context';
 import {
   MatTableDataContextBinding,
   MatTableDataContextBindingBuilder
@@ -17,7 +18,7 @@ import {
 import {MatColumnDef, MatPaginator, MatRowDef, MatSort, MatTable} from '@angular/material';
 import {IDataContext, IDataContextActivePage, IDataContextContinuable} from '../../../common/data/data-context/data-context';
 import {SelectionModel} from '../../../common/selection/selection-model';
-import {BehaviorSubject, combineLatest, Observable, of, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, Subject} from 'rxjs';
 import {map, takeUntil} from 'rxjs/operators';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {CdkColumnDef, CdkRowDef, CdkTable} from '@angular/cdk/table';
@@ -26,7 +27,8 @@ import {DataContextBuilder} from '../../../common/data/data-context/data-context
 @Component({
   selector: 'ebs-table',
   templateUrl: './ebs-table.component.html',
-  styleUrls: ['./ebs-table.component.scss']
+  styleUrls: ['./ebs-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
 
