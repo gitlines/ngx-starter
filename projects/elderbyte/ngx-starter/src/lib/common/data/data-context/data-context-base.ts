@@ -6,7 +6,7 @@ import {DataContextStatus} from './data-context-status';
 import {BehaviorSubject, EMPTY, Observable, of, Subject} from 'rxjs';
 import {FilterContext} from '../filter-context';
 import {DataContextSnapshot, IDataContext} from './data-context';
-import {catchError, debounceTime, skipUntil, takeUntil} from 'rxjs/operators';
+import {catchError, debounceTime, filter, skipUntil, skipWhile, takeUntil} from 'rxjs/operators';
 import {SortContext} from '../sort-context';
 
 
@@ -31,7 +31,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
   private readonly _primaryIndex = new Map<any, T>();
 
   protected readonly unsubscribe$ = new Subject<any>();
-  protected readonly started$ = new Subject();
+  protected started = false;
 
   private readonly _reloadQueue = new Subject<any>();
 
@@ -48,21 +48,21 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
     super();
 
     this._filter.filters.pipe(
-      skipUntil(this.started$),
+      filter(() => this.started),
       takeUntil(this.unsubscribe$)
     ).subscribe(
       filters => this.onFiltersChanged(filters)
     );
 
     this._sort.sorts.pipe(
-      skipUntil(this.started$),
+      filter(() => this.started),
       takeUntil(this.unsubscribe$)
     ).subscribe(
       sorts => this.onSortsChanged(sorts)
     );
 
     this._reloadQueue.pipe(
-      skipUntil(this.started$),
+      filter(() => this.started),
       debounceTime(50),
       takeUntil(this.unsubscribe$),
       catchError(err => {  // Dont die on errors
@@ -154,14 +154,17 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    *                                                                         *
    **************************************************************************/
 
+
   public start(sorts?: Sort[], filters?: Filter[]): Observable<any> {
 
     this.baselog.debug('Starting fresh dataContext ...');
 
+    this.started = false;
+
     this._sort.replaceSorts(sorts);
     this._filter.replaceFilters(filters);
 
-    this.started$.next();
+    this.started = true;
 
     return this.reloadNow();
   }
@@ -180,7 +183,7 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    */
   public close(): void {
 
-    this.started$.complete();
+    this.started = false;
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
 
