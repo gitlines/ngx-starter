@@ -2,7 +2,7 @@
 export enum TransferStatus {
 
   /**
-   * This upload is prepared but has not yet started.
+   * This data transfer is prepared but has not yet started.
    */
   Pending = 'Pending',
 
@@ -12,12 +12,17 @@ export enum TransferStatus {
   Transferring = 'Transferring',
 
   /**
-   * This upload is completed
+   * This data transfer is completed
    */
   Completed = 'Completed',
 
   /**
-   * This upload failed.
+   * This data transfer failed.
    */
-  Failed = 'Failed'
+  Failed = 'Failed',
+
+  /**
+   * This data transfer was aborted.
+   */
+  Aborted = 'Aborted'
 }

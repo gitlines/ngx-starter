@@ -1,6 +1,6 @@
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {HttpErrorResponse, HttpEvent, HttpProgressEvent} from '@angular/common/http';
-import {map, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {HttpErrorResponse, HttpEvent, HttpEventType, HttpProgressEvent, HttpResponse} from '@angular/common/http';
+import {catchError, map, takeUntil, tap} from 'rxjs/operators';
 import {TransferStatus} from './transfer-status';
 import {TransferProgressEvent} from './transfer-progress-event';
 
@@ -20,9 +20,10 @@ export class HttpDataTransfer {
   private readonly _progressEvent = new Subject<TransferProgressEvent>();
   private readonly _httpRequest: Observable<HttpEvent<any>>;
 
+  private readonly _error = new BehaviorSubject<HttpErrorResponse>(null);
+
   private readonly abort$ = new Subject();
 
-  private _errorSnapshot: HttpErrorResponse;
   private _progressSnapshot: TransferProgressEvent;
 
   private _startTimeMs: number;
@@ -32,6 +33,21 @@ export class HttpDataTransfer {
   private _prevTimeMs: number;
   private _oldBytes = 0;
 
+
+  /***************************************************************************
+   *                                                                         *
+   * Static Builder                                                          *
+   *                                                                         *
+   **************************************************************************/
+
+  /**
+   * Creates a new HttpDataTransfer from a HttpClient HttpRequest.
+   * @param httpRequest
+   */
+  public static fromRequest(httpRequest: Observable<HttpEvent<any>>): HttpDataTransfer {
+    return new HttpDataTransfer(httpRequest);
+  }
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -40,42 +56,12 @@ export class HttpDataTransfer {
 
   /**
    * Creates a new HttpDataTransfer
-   *
-   * @param httpProgress
-   * @param httpRequest The http request. (Subscribe to the observable to start the upload.)
-   * @param error If there was an error while uploading
+   * @param httpRequest The http request.
    */
-  constructor(
-    private readonly httpProgress: Observable<HttpProgressEvent>,
+  private constructor(
     httpRequest: Observable<HttpEvent<any>>,
-    public readonly error: Observable<HttpErrorResponse>
   ) {
-
     this._httpRequest = httpRequest;
-
-    this.error.subscribe(err => {
-      this._errorSnapshot = err;
-      this._status.next(TransferStatus.Failed);
-    });
-
-    this.httpProgress.subscribe(
-      httpEvent => {
-        const transferEvent = this.transferEvent(httpEvent);
-        this._progressEvent.next(transferEvent);
-        this._progressSnapshot = transferEvent;
-        if (this.statusSnapshot === TransferStatus.Pending) {
-          this._status.next(TransferStatus.Transferring);
-        }
-      },
-      err => {},
-      () => {
-        if (this.statusSnapshot === TransferStatus.Transferring) {
-          this._status.next(TransferStatus.Completed);
-          this._endTimeMs = new Date().getTime();
-        }
-        this._progressEvent.complete();
-      }
-    );
   }
 
   /***************************************************************************
@@ -89,7 +75,35 @@ export class HttpDataTransfer {
    */
   public start(): Observable<HttpEvent<any>> {
     return this._httpRequest.pipe(
-      takeUntil(this.abort$)
+      takeUntil(this.abort$),
+      tap(event => {
+          if (event.type === HttpEventType.UploadProgress || event.type === HttpEventType.DownloadProgress) {
+
+            const transferEvent = this.transferEvent(event);
+            this._progressEvent.next(transferEvent);
+            this._progressSnapshot = transferEvent;
+            if (this.statusSnapshot === TransferStatus.Pending) {
+              this._status.next(TransferStatus.Transferring);
+            }
+          } else if (event instanceof HttpResponse) {
+            // Close the progress-stream if we get an answer form the API
+            // The upload is complete
+          }
+        }, err => {
+          this._error.next(err);
+          this._status.next(TransferStatus.Failed);
+        },
+        () => {
+          if (this.statusSnapshot === TransferStatus.Transferring) {
+            this._status.next(TransferStatus.Completed);
+            this._endTimeMs = new Date().getTime();
+          }
+          this._progressEvent.complete();
+          this._error.complete();
+        }),
+      catchError(err => {
+        return of(err);
+      })
     );
   }
 
@@ -135,7 +149,7 @@ export class HttpDataTransfer {
    * (Null if not failed)
    */
   public get errorSnapshot(): HttpErrorResponse | null {
-    return this._errorSnapshot;
+    return this._error.getValue();
   }
 
   /**

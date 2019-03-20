@@ -126,39 +126,8 @@ export class FileUploadFactory {
     request: HttpRequest<{}>
     ): HttpDataTransfer {
 
-    // create a new progress-subject for every file
-    const progress = new ReplaySubject<HttpProgressEvent>(1);
-    const error = new ReplaySubject<any>(1);
-
-    // send the http-request and subscribe for progress-updates
-    const httpUpload = this.http.request(request).pipe(
-      tap(event => {
-          if (event.type === HttpEventType.UploadProgress) {
-
-            // pass the percentage into the progress-stream
-            progress.next(event);
-
-          } else if (event instanceof HttpResponse) {
-            // Close the progress-stream if we get an answer form the API
-            // The upload is complete
-            progress.complete();
-          }
-        }, err => {},
-        () => {
-          progress.complete();
-          error.complete();
-        }),
-      catchError(err => {
-        error.next(err);
-        progress.complete();
-        return of(err);
-      })
-    );
-
-    return new HttpDataTransfer(
-      progress.asObservable(),
-      httpUpload,
-      error.asObservable()
+    return HttpDataTransfer.fromRequest(
+      this.http.request(request)
     );
   }
 
