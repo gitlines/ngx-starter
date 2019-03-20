@@ -128,6 +128,8 @@ export class FileUploadFactory {
    * http request.
    *
    * @param request The upload http request
+   * @param name The data transfer name
+   * @param size The data transfer  size
    */
   public fromRequest(
     request: HttpRequest<{}>,
@@ -136,7 +138,9 @@ export class FileUploadFactory {
     ): HttpDataTransfer {
 
     return HttpDataTransfer.fromRequest(
-      this.http.request(request)
+      this.http.request(request),
+      name,
+      size
     );
   }
 
