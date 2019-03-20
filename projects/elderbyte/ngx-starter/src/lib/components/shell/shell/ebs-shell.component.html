@@ -5,6 +5,7 @@
   <mat-sidenav position="start"
                mode="over"
                [fixedInViewport]="true"
+               [autoFocus]="leftSideAutoFocus"
                [opened]="leftSideContentOpen$ | async"
                (closed)="closeLeftSideContent()">
     <div fxFill fxLayout="column">
@@ -19,10 +20,11 @@
     </div>
   </mat-sidenav-content>
 
-  <!-- Right Side Detial -->
+  <!-- Right Side Detail -->
   <mat-sidenav mode="over" #rightSideDetail
                position="end"
                [fixedInViewport]="true"
+               [autoFocus]="rightSideAutoFocus"
                [disableClose]="false">
     <div fxFill fxLayout="column">
       <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>

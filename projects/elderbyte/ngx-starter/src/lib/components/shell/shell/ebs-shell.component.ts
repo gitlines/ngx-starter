@@ -64,6 +64,12 @@ export class EbsShellComponent implements OnInit, OnDestroy {
   @Input()
   public menuColor = 'accent';
 
+  @Input()
+  public leftSideAutoFocus = false;
+
+  @Input()
+  public rightSideAutoFocus = false;
+
   @ContentChild(EbsShellSideLeftDirective, {read: TemplateRef})
   public sideContentLeft: TemplateRef<any>;
 
