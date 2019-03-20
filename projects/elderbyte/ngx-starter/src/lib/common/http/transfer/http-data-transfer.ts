@@ -119,6 +119,9 @@ export class HttpDataTransfer {
    */
   public abort(): void {
     this.abort$.next();
+    this.emitState(
+      DataTransferState.aborted(this.stateSnapshot.progress)
+    );
   }
 
   /***************************************************************************
