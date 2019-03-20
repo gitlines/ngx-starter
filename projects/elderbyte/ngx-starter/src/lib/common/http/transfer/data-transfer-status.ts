@@ -1,5 +1,5 @@
 
-export enum TransferStatus {
+export enum DataTransferStatus {
 
   /**
    * This data transfer is prepared but has not yet started.

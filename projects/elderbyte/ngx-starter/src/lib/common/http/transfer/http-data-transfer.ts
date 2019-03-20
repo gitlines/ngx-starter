@@ -1,8 +1,9 @@
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {HttpErrorResponse, HttpEvent, HttpEventType, HttpProgressEvent, HttpResponse} from '@angular/common/http';
-import {catchError, map, takeUntil, tap} from 'rxjs/operators';
-import {TransferStatus} from './transfer-status';
-import {TransferProgressEvent} from './transfer-progress-event';
+import {HttpEvent, HttpEventType, HttpProgressEvent, HttpResponse} from '@angular/common/http';
+import {catchError, takeUntil, tap} from 'rxjs/operators';
+import {DataTransferProgress} from './data-transfer-progress';
+import {DataTransferState} from './data-transfer-state';
+
 
 
 /**
@@ -16,19 +17,13 @@ export class HttpDataTransfer {
    *                                                                         *
    **************************************************************************/
 
-  private readonly _status = new BehaviorSubject<TransferStatus>(TransferStatus.Pending);
-  private readonly _progressEvent = new Subject<TransferProgressEvent>();
+  private readonly _state: BehaviorSubject<DataTransferState>;
+
   private readonly _httpRequest: Observable<HttpEvent<any>>;
-
-  private readonly _error = new BehaviorSubject<HttpErrorResponse>(null);
-
   private readonly abort$ = new Subject();
-
-  private _progressSnapshot: TransferProgressEvent;
 
   private _startTimeMs: number;
   private _endTimeMs: number;
-
   private _currTimeMs: number;
   private _prevTimeMs: number;
   private _oldBytes = 0;
@@ -57,11 +52,14 @@ export class HttpDataTransfer {
   /**
    * Creates a new HttpDataTransfer
    * @param httpRequest The http request.
+   * @param totalBytes The total bytes of the transfer. (If not set, will be auto discovered if possible)
    */
   private constructor(
     httpRequest: Observable<HttpEvent<any>>,
+    totalBytes?: number
   ) {
     this._httpRequest = httpRequest;
+    this._state = new BehaviorSubject(DataTransferState.pending(totalBytes));
   }
 
   /***************************************************************************
@@ -78,28 +76,26 @@ export class HttpDataTransfer {
       takeUntil(this.abort$),
       tap(event => {
           if (event.type === HttpEventType.UploadProgress || event.type === HttpEventType.DownloadProgress) {
-
-            const transferEvent = this.transferEvent(event);
-            this._progressEvent.next(transferEvent);
-            this._progressSnapshot = transferEvent;
-            if (this.statusSnapshot === TransferStatus.Pending) {
-              this._status.next(TransferStatus.Transferring);
-            }
+            const progress = this.transferProgress(event);
+            this.emitState(
+              DataTransferState.transfering(progress)
+            );
           } else if (event instanceof HttpResponse) {
             // Close the progress-stream if we get an answer form the API
             // The upload is complete
           }
         }, err => {
-          this._error.next(err);
-          this._status.next(TransferStatus.Failed);
+          this.emitState(
+            DataTransferState.failed(err, this.stateSnapshot.progress)
+          );
         },
         () => {
-          if (this.statusSnapshot === TransferStatus.Transferring) {
-            this._status.next(TransferStatus.Completed);
-            this._endTimeMs = new Date().getTime();
+          this._endTimeMs = new Date().getTime();
+          if (this.stateSnapshot.isTransfering) {
+            this.emitState(
+              DataTransferState.completed(this.stateSnapshot.progress)
+            );
           }
-          this._progressEvent.complete();
-          this._error.complete();
         }),
       catchError(err => {
         return of(err);
@@ -120,44 +116,19 @@ export class HttpDataTransfer {
    *                                                                         *
    **************************************************************************/
 
-  public get progressEvent(): Observable<TransferProgressEvent> {
-    return this._progressEvent.asObservable();
-  }
-
-  public get progress(): Observable<number> {
-    return this.progressEvent.pipe(
-      map(event => event.percentDone)
-    );
+  /**
+   * Get the state of this data transfer over time.
+   * Unsubscribe after use.
+   */
+  public get state$(): Observable<DataTransferState> {
+    return this._state.asObservable();
   }
 
   /**
-   * The upload status over time
+   * Get a snapshot of the current state of this data transfer
    */
-  public get status(): Observable<TransferStatus> {
-    return this._status.asObservable();
-  }
-
-  /**
-   * The current upload status
-   */
-  public get statusSnapshot(): TransferStatus {
-    return this._status.value;
-  }
-
-  /**
-   * The current error value
-   * (Null if not failed)
-   */
-  public get errorSnapshot(): HttpErrorResponse | null {
-    return this._error.getValue();
-  }
-
-  /**
-   * The current progress value.
-   * (Null if not yet started)
-   */
-  public get progressSnapshot(): TransferProgressEvent | null {
-    return this._progressSnapshot;
+  public get stateSnapshot(): DataTransferState {
+    return this._state.getValue();
   }
 
   /***************************************************************************
@@ -166,7 +137,11 @@ export class HttpDataTransfer {
    *                                                                         *
    **************************************************************************/
 
-  private transferEvent(event: HttpProgressEvent): TransferProgressEvent {
+  private emitState(newState: DataTransferState): void {
+    this._state.next(newState);
+  }
+
+  private transferProgress(event: HttpProgressEvent): DataTransferProgress {
 
     this._currTimeMs = new Date().getTime();
 
@@ -198,7 +173,7 @@ export class HttpDataTransfer {
     // Calc progress if possible
     const percentDone = event.total ? Math.round(100 * event.loaded / event.total) : undefined;
 
-    return new TransferProgressEvent(
+    return new DataTransferProgress(
       event.loaded,
       bytesPerSec,
       avgBytesPerSec,

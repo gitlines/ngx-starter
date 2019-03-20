@@ -9,10 +9,10 @@
       <h4 mat-line>{{file.name}}</h4>
       <p mat-line> {{file.size | bytes}}  - {{file.lastModified | timeAgo}}</p>
 
-      <mat-progress-bar *ngIf="uploadProgress"
-                        [color]="((statusOf(file).error | async) ? 'warn' : '')"
+      <mat-progress-bar *ngIf="(transferOf(file)?.state$ | async) as state"
+                        [color]="(state.hasFailed ? 'warn' : '')"
                         mode="determinate"
-                        [value]="statusOf(file).progress | async">
+                        [value]="state.progress.percentDone">
       </mat-progress-bar>
 
     </mat-list-item>

@@ -60,7 +60,7 @@ export class EbsFileUploadComponent implements OnInit {
     this.totalProgress = this.uploadAllFiles(this.files);
   }
 
-  public statusOf(file: File): HttpDataTransfer {
+  public transferOf(file: File): HttpDataTransfer {
     if (this.uploadProgress) {
       return this.uploadProgress.get(file);
     }
