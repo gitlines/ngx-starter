@@ -1,6 +1,6 @@
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpErrorResponse, HttpEvent, HttpProgressEvent} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {TransferStatus} from './transfer-status';
 import {TransferProgressEvent} from './transfer-progress-event';
 
@@ -18,6 +18,9 @@ export class HttpDataTransfer {
 
   private readonly _status = new BehaviorSubject<TransferStatus>(TransferStatus.Pending);
   private readonly _progressEvent = new Subject<TransferProgressEvent>();
+  private readonly _httpRequest: Observable<HttpEvent<any>>;
+
+  private readonly abort$ = new Subject();
 
   private _errorSnapshot: HttpErrorResponse;
   private _progressSnapshot: TransferProgressEvent;
@@ -44,9 +47,11 @@ export class HttpDataTransfer {
    */
   constructor(
     private readonly httpProgress: Observable<HttpProgressEvent>,
-    public readonly httpRequest: Observable<HttpEvent<any>>,
+    httpRequest: Observable<HttpEvent<any>>,
     public readonly error: Observable<HttpErrorResponse>
   ) {
+
+    this._httpRequest = httpRequest;
 
     this.error.subscribe(err => {
       this._errorSnapshot = err;
@@ -71,6 +76,28 @@ export class HttpDataTransfer {
         this._progressEvent.complete();
       }
     );
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  /**
+   * Starts the data transfer
+   */
+  public start(): Observable<HttpEvent<any>> {
+    return this._httpRequest.pipe(
+      takeUntil(this.abort$)
+    );
+  }
+
+  /**
+   * Aborts the data transfer
+   */
+  public abort(): void {
+    this.abort$.next();
   }
 
   /***************************************************************************

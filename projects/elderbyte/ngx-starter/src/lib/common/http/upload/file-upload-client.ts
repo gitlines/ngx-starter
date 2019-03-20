@@ -156,9 +156,9 @@ export class FileUploader {
     return this.uploadFactory.fromFileFormData(requestMethod, this.endpointUrl, file);
   }
 
-  private uploadConcurrent(jobs: HttpDataTransfer[], maxConcurrency: number): void {
-    from(jobs).pipe(
-        mergeMap(j => j.httpRequest, maxConcurrency)
+  private uploadConcurrent(transfers: HttpDataTransfer[], maxConcurrency: number): void {
+    from(transfers).pipe(
+        mergeMap(transfer => transfer.start(), maxConcurrency)
     ).subscribe(
       success => this.logger.trace('Upload successful!', success)
     );
