@@ -1,0 +1,46 @@
+
+
+<div *ngIf="($state | async) as state"
+  fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlex class="padding-10 transfer"
+>
+
+  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="10">
+    <mat-icon class="noselect">
+      {{state.isCompleted ? 'check' : 'attachment'}}
+    </mat-icon>
+
+    <!--
+    <mat-icon
+      *ngIf="!(statusOf(file)?.error | async) && (statusOf(file)?.progress | async) === 100"
+      class="green-icon"
+    >check</mat-icon>
+    -->
+
+  </div>
+
+
+  <div fxLayout="column" fxFlex="80" style="overflow: hidden">
+
+    <span class="mat-body-2 noselect title">{{transfer.name}}</span>
+
+    <mat-progress-bar
+      [matTooltip]="state.error?.message"
+      [color]="(state.error ? 'warn' : '')"
+      mode="determinate"
+      [value]="state.progress.percentDone"
+    ></mat-progress-bar>
+
+    <span class="mat-caption noselect">{{($detail | async)}}</span>
+
+  </div>
+
+
+  <div fxLayout="column" fxLayoutAlign="center center" fxFlex="10">
+    <button mat-icon-button (click)="transfer.abort()" [disabled]="state.isDone">
+      <mat-icon>
+        close
+      </mat-icon>
+    </button>
+  </div>
+
+</div>

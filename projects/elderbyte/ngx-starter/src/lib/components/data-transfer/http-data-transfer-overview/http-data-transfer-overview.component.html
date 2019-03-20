@@ -1,0 +1,23 @@
+<div fxLayout="column" fxFill>
+
+  <div fxLayout="column" fxFlex *ngIf="transfers$ | async as transfers">
+    <div class="scroll-list">
+      <div fxLayout="column">
+        <elder-data-transfer fxFlex="none"
+                           *ngFor="let transfer of transfers"
+                           [transfer]="transfer">
+        </elder-data-transfer>
+      </div>
+    </div>
+
+    <div *ngIf="transfers.length == 0" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+      <span class="mat-body-2 noselect" style="color: gray">No data transfers.</span>
+    </div>
+
+  </div>
+
+
+  <mat-toolbar fxFlex="none" class="mat-elevation-z5">
+    <elder-data-transfer-aggregate fxFlex [hiddenWhenInactive]="false"></elder-data-transfer-aggregate>
+  </mat-toolbar>
+</div>

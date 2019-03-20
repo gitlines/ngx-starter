@@ -12,3 +12,4 @@ export * from './shell/ebs-shell.module';
 export * from './dates/public_api';
 export * from './locales/ebs-locales-de-ch.module';
 export * from './select-list/ebs-select-list.module';
+export * from './data-transfer/elder-data-transfer.module';

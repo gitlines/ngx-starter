@@ -1,0 +1,14 @@
+<button mat-icon-button (click)="showPanel($event)">
+  <mat-icon
+    *ngIf="activeUploads$ | async as activeJobs"
+    [matBadge]="activeJobs.length"
+    [matBadgeHidden]="activeJobs.length === 0"
+    matBadgeColor="accent">
+    cloud_upload
+  </mat-icon>
+</button>
+
+<ng-template #panel>
+  <elder-data-transfer-overview class="panel">
+  </elder-data-transfer-overview>
+</ng-template>

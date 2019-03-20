@@ -1,0 +1,27 @@
+<ng-container *ngIf="(aggregate$ | async) as aggregate">
+
+  <div *ngIf="!hiddenWhenInactive || aggregate.inTransfer > 0" fxLayout="column" fxFlex>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <span>{{aggregate.bps}}</span>
+    </div>
+
+    <mat-progress-bar
+      [color]="'accent'"
+      mode="determinate"
+      [value]="aggregate.percentDone"
+
+    ></mat-progress-bar>
+
+    <div fxLayout="row">
+
+      <!--
+      <span class="mat-caption">{{aggregate.doneBytesAgg | bytes:1}}</span>
+      -->
+      <span class="mat-caption">{{aggregate.percentDone}}%</span>
+
+      <span fxFlex></span>
+      <span class="mat-caption">TOTAL {{aggregate.totalBytesAgg | bytes:1}}</span>
+    </div>
+  </div>
+</ng-container>
+
