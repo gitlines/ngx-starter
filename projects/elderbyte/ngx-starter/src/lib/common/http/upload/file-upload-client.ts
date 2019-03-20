@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {from, of} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, mergeMap, tap} from 'rxjs/operators';
 import {HttpDataTransfer} from '../transfer/http-data-transfer';
 import {FileUploadFactory} from './file-upload-factory';
 
@@ -160,13 +160,12 @@ export class FileUploader {
     from(transfers).pipe(
         mergeMap(
           transfer => transfer.start().pipe(
-            catchError(err => of(err)) // Catch all errors so we dont destroy our transfer queue
+            catchError(err => of(err)), // Catch all errors so we dont destroy our transfer queue
+            tap(null, null, () => this.logger.trace('Transfer successful!', transfer))
           ),
           maxConcurrency
         )
-    ).subscribe(
-      success => this.logger.trace('Upload successful!', success)
-    );
+    ).subscribe();
   }
 
 }
