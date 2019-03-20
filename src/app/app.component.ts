@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {EbsToastService} from '@elderbyte/ngx-starter';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
 @Component({
@@ -10,6 +11,8 @@ import {EbsToastService} from '@elderbyte/ngx-starter';
 })
 export class AppComponent {
 
+  private readonly logger = LoggerFactory.getLogger('AppComponent');
+
   public title = 'starter-demo';
 
   constructor(
@@ -18,6 +21,10 @@ export class AppComponent {
   ) {
     translateService.addLangs(['en', 'de']);
     translateService.defaultLang = 'en';
+  }
+
+  public logClick(): void {
+    this.logger.info('Nav Button was clicked!');
   }
 
 }

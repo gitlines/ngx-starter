@@ -1,4 +1,6 @@
-<a mat-button
+
+<!-- Router Link -->
+<a mat-button *ngIf="(routerLink$ | async) as routerLink"
    class="nav-link"
    fxLayout="row" fxLayoutAlign="start center"
    tabIndex="0"
@@ -8,10 +10,44 @@
    [color]="rla.isActive ? 'primary' : ''"
 >
 
+  <ng-container [ngTemplateOutlet]="rla.isActive ? activeLinkContent : inactiveLinkContent">
+  </ng-container>
+
+</a>
+
+<!-- Href Link -->
+<a mat-button *ngIf="(href$ | async) as href"
+   class="nav-link"
+   fxLayout="row" fxLayoutAlign="start center"
+   tabIndex="0"
+   [href]="href"
+   [target]="target$ | async"
+>
+
+  <ng-container [ngTemplateOutlet]="inactiveLinkContent">
+  </ng-container>
+
+</a>
+
+<!-- Simple Button -->
+<a mat-button *ngIf="(fallbackToButton$ | async)"
+   class="nav-link"
+   fxLayout="row" fxLayoutAlign="start center"
+   tabIndex="0"
+>
+
+  <ng-container [ngTemplateOutlet]="inactiveLinkContent">
+  </ng-container>
+
+</a>
+
+
+<!-- Content for an active Nav Element -->
+<ng-template #activeLinkContent>
+
   <div fxLayout="row" fxLayoutAlign="start center">
 
     <mat-icon *ngIf="!svgIcon" class="nav-icon"
-              [class.nav-icon-inactive]="!rla.isActive"
               [fontIcon]="fontIcon"
               [fontSet]="fontSet">
       {{icon}}
@@ -21,12 +57,31 @@
               [svgIcon]="svgIcon"
     ></mat-icon>
 
-    <span class="noselect nav-text"
-          [class.nav-text-active]="rla.isActive"
-          [class.nav-text-inactive]="!rla.isActive"
-    >
+    <span class="noselect nav-text nav-text-active">
       {{ title | translate}}
     </span>
   </div>
 
-</a>
+</ng-template>
+
+<!-- Content for an inactive Nav Element -->
+<ng-template #inactiveLinkContent>
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+
+    <mat-icon *ngIf="!svgIcon" class="nav-icon nav-icon-inactive"
+              [fontIcon]="fontIcon"
+              [fontSet]="fontSet">
+      {{icon}}
+    </mat-icon>
+
+    <mat-icon *ngIf="svgIcon" class="nav-icon nav-icon-inactive"
+              [svgIcon]="svgIcon"
+    ></mat-icon>
+
+    <span class="noselect nav-text nav-text-inactive">
+      {{ title | translate}}
+    </span>
+  </div>
+
+</ng-template>
