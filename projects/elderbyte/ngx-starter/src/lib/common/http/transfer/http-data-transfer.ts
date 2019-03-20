@@ -22,6 +22,8 @@ export class HttpDataTransfer {
   private readonly _httpRequest: Observable<HttpEvent<any>>;
   private readonly abort$ = new Subject();
 
+  private readonly _name: string;
+
   private _startTimeMs: number;
   private _endTimeMs: number;
   private _currTimeMs: number;
@@ -38,9 +40,15 @@ export class HttpDataTransfer {
   /**
    * Creates a new HttpDataTransfer from a HttpClient HttpRequest.
    * @param httpRequest
+   * @param name Name of this transfer
+   * @param totalBytes The total expected bytes
    */
-  public static fromRequest(httpRequest: Observable<HttpEvent<any>>): HttpDataTransfer {
-    return new HttpDataTransfer(httpRequest);
+  public static fromRequest(
+    httpRequest: Observable<HttpEvent<any>>,
+    name?: string,
+    totalBytes?: number
+  ): HttpDataTransfer {
+    return new HttpDataTransfer(httpRequest, name, totalBytes);
   }
 
   /***************************************************************************
@@ -52,12 +60,15 @@ export class HttpDataTransfer {
   /**
    * Creates a new HttpDataTransfer
    * @param httpRequest The http request.
+   * @param name The name of this transfer (usually the file name)
    * @param totalBytes The total bytes of the transfer. (If not set, will be auto discovered if possible)
    */
   private constructor(
     httpRequest: Observable<HttpEvent<any>>,
+    name?: string,
     totalBytes?: number
   ) {
+    this._name = name;
     this._httpRequest = httpRequest;
     this._state = new BehaviorSubject(DataTransferState.pending(totalBytes));
   }
@@ -129,6 +140,10 @@ export class HttpDataTransfer {
    */
   public get stateSnapshot(): DataTransferState {
     return this._state.getValue();
+  }
+
+  public get name(): string {
+    return this._name;
   }
 
   /***************************************************************************

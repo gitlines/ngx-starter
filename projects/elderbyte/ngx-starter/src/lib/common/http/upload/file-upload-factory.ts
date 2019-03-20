@@ -55,7 +55,7 @@ export class FileUploadFactory {
       params: options ? options.params : undefined
     });
 
-    return this.fromRequest(req);
+    return this.fromRequest(req, file.name, file.size);
   }
 
   /**
@@ -84,7 +84,9 @@ export class FileUploadFactory {
       requestMethod,
       endpointUrl,
       formData,
-      options
+      options,
+      formFile.name,
+      formFile.size
     );
   }
 
@@ -95,6 +97,8 @@ export class FileUploadFactory {
    * @param endpointUrl The url to send the request to
    * @param formData The Form Data
    * @param options (Optional) Additional headers or query params
+   * @param name
+   * @param size
    */
   public fromFormData(
     requestMethod: 'POST' | 'PUT' | 'PATCH',
@@ -103,7 +107,10 @@ export class FileUploadFactory {
     options?: {
       headers?: HttpHeaders,
       params?: HttpParams
-    }): HttpDataTransfer {
+    },
+    name?: string,
+    size?: number
+  ): HttpDataTransfer {
 
     // Create a Http request and pass the form
     // Tell it to report the upload progress
@@ -113,7 +120,7 @@ export class FileUploadFactory {
       params: options ? options.params : undefined
     });
 
-    return this.fromRequest(req);
+    return this.fromRequest(req, name, size);
   }
 
   /**
@@ -123,7 +130,9 @@ export class FileUploadFactory {
    * @param request The upload http request
    */
   public fromRequest(
-    request: HttpRequest<{}>
+    request: HttpRequest<{}>,
+    name: string,
+    size: number
     ): HttpDataTransfer {
 
     return HttpDataTransfer.fromRequest(
