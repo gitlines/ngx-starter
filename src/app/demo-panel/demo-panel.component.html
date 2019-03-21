@@ -1,21 +1,26 @@
+<ng-template ebsToolbarColumn="center">
+  <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
+
+    <span fxFlex></span>
+
+    <elder-data-transfer-indicator></elder-data-transfer-indicator>
+
+    <span fxFlex></span>
+
+    <button mat-icon-button (click)="openYesNo($event)" [disabled]="true">
+      <mat-icon>feedback</mat-icon>
+    </button>
+
+    <a mat-icon-button [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">
+      <mat-icon>details</mat-icon>
+    </a>
+  </div>
+</ng-template>
+
+
+
 
 <div fxLayout="column" fxFill>
-
-  <ng-template ebsToolbarColumn="center">
-
-    <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
-
-      <button mat-icon-button (click)="openYesNo($event)" [disabled]="true">
-        <mat-icon>feedback</mat-icon>
-      </button>
-
-      <a mat-icon-button [routerLink]="['', {outlets: {side: ['mixed-demo']}}]">
-        <mat-icon>details</mat-icon>
-      </a>
-
-    </div>
-
-  </ng-template>
 
   <mat-tab-group fxFill class="scroll-fix">
 
