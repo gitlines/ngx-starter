@@ -1,7 +1,5 @@
-import {HttpDataTransfer} from '../transfer/http-data-transfer';
-import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpProgressEvent, HttpRequest, HttpResponse} from '@angular/common/http';
-import {of, ReplaySubject, Subject} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
+import {HttpDataTransfer} from './http-data-transfer';
+import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 /**
@@ -10,7 +8,7 @@ import {Injectable} from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class FileUploadFactory {
+export class DataTransferFactory {
 
   /***************************************************************************
    *                                                                         *
@@ -38,7 +36,7 @@ export class FileUploadFactory {
    * @param file The file to construct the Form Data form
    * @param options (Optional) Additional headers or query params
    */
-  public fromFile(
+  public uploadFile(
     requestMethod: 'POST' | 'PUT' | 'PATCH',
     endpointUrl: string,
     file: File,
@@ -67,7 +65,7 @@ export class FileUploadFactory {
    * @param formName The file name of the Form Data
    * @param options (Optional) Additional headers or query params
    */
-  public fromFileFormData(
+  public uploadFileFormData(
     requestMethod: 'POST' | 'PUT' | 'PATCH',
     endpointUrl: string,
     formFile: File,
@@ -80,7 +78,7 @@ export class FileUploadFactory {
     const formData: FormData = new FormData();
     formData.append(formName, formFile, formFile.name);
 
-    return this.fromFormData(
+    return this.uploadFormData(
       requestMethod,
       endpointUrl,
       formData,
@@ -100,7 +98,7 @@ export class FileUploadFactory {
    * @param name
    * @param size
    */
-  public fromFormData(
+  public uploadFormData(
     requestMethod: 'POST' | 'PUT' | 'PATCH',
     endpointUrl: string,
     formData: FormData,

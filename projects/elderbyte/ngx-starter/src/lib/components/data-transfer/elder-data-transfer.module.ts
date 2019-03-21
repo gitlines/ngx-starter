@@ -1,6 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatBadgeModule, MatButtonModule, MatIconModule, MatProgressBarModule, MatToolbarModule, MatTooltipModule} from '@angular/material';
+import {
+  MatBadgeModule,
+  MatButtonModule,
+  MatIconModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatToolbarModule,
+  MatTooltipModule
+} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateModule} from '@ngx-translate/core';
 import {HttpDataTransferComponent} from './http-data-transfer/http-data-transfer.component';
@@ -23,6 +31,7 @@ export {HttpDataTransferIndicatorComponent} from './http-data-transfer-indicator
     MatIconModule, MatProgressBarModule,
     MatTooltipModule, MatToolbarModule,
     MatButtonModule, MatBadgeModule,
+    MatProgressSpinnerModule,
 
     FlexLayoutModule, TranslateModule,
 

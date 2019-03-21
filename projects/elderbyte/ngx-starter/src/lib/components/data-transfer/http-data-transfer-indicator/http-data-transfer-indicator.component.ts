@@ -7,6 +7,7 @@ import {Platform} from '@angular/cdk/platform';
 import {DOCUMENT} from '@angular/common';
 import {ElderDataTransferService} from '../elder-data-transfer.service';
 import {DataTransferState} from '../../../common/http/transfer/data-transfer-state';
+import {DataTransferProgressAggregate} from '../../../common/http/transfer/data-transfer-progress-aggregate';
 
 @Component({
   selector: 'elder-data-transfer-indicator',
@@ -22,8 +23,7 @@ export class HttpDataTransferIndicatorComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public activeUploads$: Observable<DataTransferState[]>;
-
+  public aggregate$: Observable<DataTransferProgressAggregate>;
 
   private overlayRef: OverlayRef;
 
@@ -54,12 +54,15 @@ export class HttpDataTransferIndicatorComponent implements OnInit {
 
   public ngOnInit(): void {
 
+    this.aggregate$ = this.transferService.transferAggregate;
+
+    /*
     this.activeUploads$ = this.transferService.transfers.pipe(
       map(transfers => transfers.map(t => t.state$)),
       flatMap(states => combineLatest(states)),
       map(states => states.filter(s => !s.isDone)),
       startWith([])
-    );
+    );*/
 
     this.overlayRef = this.overlay.create({
 

@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {IFileUploadClient, FileUploadClient, EbsCommonDialogService, SuggestionProvider} from '@elderbyte/ngx-starter';
 import {of} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {ElderDataTransferService} from '../../../projects/elderbyte/ngx-starter/src/lib/components/data-transfer/elder-data-transfer.service';
 
 @Component({
   selector: 'starter-demo-demo-panel',
@@ -50,9 +51,15 @@ export class DemoPanelComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private dialogService: EbsCommonDialogService
+    private dialogService: EbsCommonDialogService,
+    private transferManager: ElderDataTransferService
   ) {
-    this.uploadClient = new FileUploadClient(http, '/woot', 'POST');
+    this.uploadClient = new FileUploadClient(
+      http,
+      transferManager,
+      '/woot',
+      'POST'
+    );
   }
 
   ngOnInit() {

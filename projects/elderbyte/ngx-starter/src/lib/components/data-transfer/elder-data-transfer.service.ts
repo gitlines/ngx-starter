@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable, of, Subject} from 'rxjs';
+import {catchError, flatMap, map, mergeMap, startWith, tap} from 'rxjs/operators';
 import {HttpDataTransfer} from '../../common/http/transfer/http-data-transfer';
+import {DataTransferProgressAggregate} from '../../common/http/transfer/data-transfer-progress-aggregate';
 
 
 @Injectable({
@@ -61,6 +62,13 @@ export class ElderDataTransferService {
     return this._completed.asObservable();
   }
 
+  public get transferAggregate(): Observable<DataTransferProgressAggregate> {
+    return this.transfers.pipe(
+      flatMap(transfers => this.aggregateProgress(transfers)),
+      startWith(DataTransferProgressAggregate.Empty),
+    );
+  }
+
   /***************************************************************************
    *                                                                         *
    * Public API                                                              *
@@ -95,6 +103,17 @@ export class ElderDataTransferService {
   private addToQueue(newTransfers: HttpDataTransfer[]): void {
     newTransfers.forEach(
       t => this._uploadQueue.next(t)
+    );
+  }
+
+  private aggregateProgress(transfers: HttpDataTransfer[]): Observable<DataTransferProgressAggregate> {
+
+    const transfersInProgress = transfers
+      .filter(t => !t.stateSnapshot.isDone)
+      .map(t => t.state$);
+
+    return combineLatest(transfersInProgress).pipe(
+      map(latestTransferStates => DataTransferProgressAggregate.aggregate(latestTransferStates))
     );
   }
 
