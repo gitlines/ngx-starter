@@ -1,7 +1,7 @@
 <div fxLayout="column" class="padding-10" fxFill>
 
 
-  <ebs-table fxFlex
+  <elder-table fxFlex
              [selectionVisible]="true"
              [idField]="'name'"
              matSort
@@ -25,7 +25,7 @@
       <td mat-cell *matCellDef="let row">
 
         <!-- More Menu -->
-        <button mat-icon-button [matMenuTriggerFor]="menu" ebsStopEventPropagation>
+        <button mat-icon-button [matMenuTriggerFor]="menu" elderStopEventPropagation>
           <mat-icon>more_vert</mat-icon>
 
           <mat-menu #menu="matMenu">
@@ -40,7 +40,7 @@
     </ng-container>
 
 
-  </ebs-table>
+  </elder-table>
 
 
 
