@@ -1,7 +1,7 @@
 import {ElderConfirmDialogComponent, ConfirmDialogConfig} from './confirm-dialog/elder-confirm-dialog.component';
 import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
 import { Injectable } from '@angular/core';
-import {ElderQuestionDialogComponent, EbsQuestionDialogConfig} from './question-dialog/elder-question-dialog.component';
+import {ElderQuestionDialogComponent, QuestionDialogConfig} from './question-dialog/elder-question-dialog.component';
 import {TranslateService} from '@ngx-translate/core';
 import {Observable, of} from 'rxjs';
 import {flatMap, filter, map} from 'rxjs/operators';
@@ -110,7 +110,7 @@ export class ElderDialogService {
    *
    * @param config
    */
-  public showQuestion(config: EbsQuestionDialogConfig): Observable<string> {
+  public showQuestion(config: QuestionDialogConfig): Observable<string> {
 
     if (!config) { throw new Error('Argument must not be null: config'); }
 

@@ -1,7 +1,7 @@
 import {PipeTransform, Pipe} from '@angular/core';
 
-@Pipe({name: 'ebsRepeat'})
-export class RepeatPipe implements PipeTransform {
+@Pipe({name: 'elderRepeat'})
+export class ElderRepeatPipe implements PipeTransform {
   transform(value: number): any {
     const iterable = <Iterable<any>> {};
     iterable[Symbol.iterator] = function* () {

@@ -11,8 +11,8 @@
 
 // Light Elder Theme
 /*
-$elder-app-primary: mat-palette($ebs-elder-blue); // default, lighter, and darker
-$elder-app-accent:  mat-palette($ebs-elder-gold);
+$elder-app-primary: mat-palette($elder-blue); // default, lighter, and darker
+$elder-app-accent:  mat-palette($elder-gold);
 $elder-app-warn:  mat-palette($mat-red, 900);
 $elder-app-theme:   mat-light-theme($elder-app-primary, $elder-app-accent, $elder-app-warn);
 */
@@ -20,7 +20,7 @@ $elder-app-theme:   mat-light-theme($elder-app-primary, $elder-app-accent, $elde
 /*
 // DARK Elder THEME
 */
-$elder-app-primary: mat-palette($ebs-elder-gold); // default, lighter, and darker
+$elder-app-primary: mat-palette($elder-gold); // default, lighter, and darker
 $elder-app-accent:  mat-palette($elder-blue, A100);
 $elder-app-warn:    mat-palette($mat-red, 900);
 $elder-app-theme:   mat-dark-theme($elder-app-primary, $elder-app-accent, $elder-app-warn);

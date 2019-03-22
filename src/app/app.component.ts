@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {EbsToastService} from '@elderbyte/ngx-starter';
+import {ElderToastService} from '@elderbyte/ngx-starter';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
@@ -17,7 +17,7 @@ export class AppComponent {
 
   constructor(
     translateService: TranslateService,
-    private toastService: EbsToastService
+    private toastService: ElderToastService
   ) {
     translateService.addLangs(['en', 'de']);
     translateService.defaultLang = 'en';

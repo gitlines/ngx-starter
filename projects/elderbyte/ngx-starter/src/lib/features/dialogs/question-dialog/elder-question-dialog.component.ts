@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ElderDialogConfig} from '../elder-dialog-config';
 
-export class EbsQuestionDialogConfig extends ElderDialogConfig {
+export class QuestionDialogConfig extends ElderDialogConfig {
 
     /**
      * String appearing as question in the dialog.

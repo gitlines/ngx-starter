@@ -6,7 +6,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
   styleUrls: ['./file-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsFileSelectComponent implements OnInit {
+export class ElderFileSelectComponent implements OnInit {
 
   /***************************************************************************
    *                                                                         *

@@ -7,10 +7,10 @@
     [autoMoveCards]="true"
   >
 
-    <div *ebsStackCard="let card" fxLayout="row" fxLayoutGap="16px">
+    <div *elderStackCard="let card" fxLayout="row" fxLayoutGap="16px">
       <span class="mat-body-1">{{card.title}}</span>
       <mat-icon
-        *ngFor="let i of card.value | ebsRepeat"
+        *ngFor="let i of card.value | elderRepeat"
         color="accent">accessible_forward</mat-icon>
     </div>
 

@@ -1,4 +1,4 @@
-<ng-template ebsToolbarColumn="center">
+<ng-template elderToolbarColumn="center">
   <div fxLayout="row" fxLayoutAlign="end center" fxFlex>
 
     <span fxFlex></span>
@@ -123,9 +123,9 @@
         <h2>expand-toggle-button</h2>
 
         <mat-toolbar color="accent" style="width: 500px">
-          <ebs-expand-toggle-button [(expanded)]="expanded" fxFlex>
+          <elder-expand-toggle-button [(expanded)]="expanded" fxFlex>
             You can toggle me. State: {{expanded}}
-          </ebs-expand-toggle-button>
+          </elder-expand-toggle-button>
         </mat-toolbar>
 
 
@@ -135,24 +135,24 @@
           <p>hello im a panel</p>
         </mat-panel>
 
-        <h2>ebs-label-input</h2>
+        <h2>elder-label-input</h2>
 
-        <ebs-label-input
+        <elder-label-input
           name="labels"
           [(ngModel)]="myLabels"
           placeholder="Labels"
           [suggestionLoader]="labelSuggestions"
         >
-        </ebs-label-input>
+        </elder-label-input>
 
-        <!-- EBS Date Switcher-->
+        <!-- Elder Date Switcher-->
 
-        <h2>ebs-date-switcher</h2>
+        <h2>elder-date-switcher</h2>
 
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="50px">
 
-          <ebs-date-switcher [(date)]="date">
-          </ebs-date-switcher>
+          <elder-date-switcher [(date)]="date">
+          </elder-date-switcher>
 
           <p>Chosen date: {{date | date}}</p>
 
@@ -170,7 +170,7 @@
 
         <h2>Language Switcher</h2>
 
-        <ebs-language-switcher></ebs-language-switcher>
+        <elder-language-switcher></elder-language-switcher>
         <h3>Translated: {{'greeting'| translate}}</h3>
 
 
@@ -188,10 +188,10 @@
           <div fxLayout="column">
             <h2>File Upload</h2>
 
-            <ebs-file-upload
+            <elder-file-upload
               [multiple]="true"
               [uploadClient]="uploadClient"
-            ></ebs-file-upload>
+            ></elder-file-upload>
           </div>
 
           <div fxLayout="column">
@@ -217,7 +217,7 @@
 
     </mat-tab>
 
-    <mat-tab label="Ebs Table">
+    <mat-tab label="Elder Table">
       <starter-demo-table-demo></starter-demo-table-demo>
     </mat-tab>
 

@@ -1,4 +1,4 @@
-<ebs-card-organizer fxFill
+<elder-card-organizer fxFill
                     [autoMoveCards]="true"
                     [organizerModel]="cardData"
                     [removeConfirmation]="confirmDeletion"
@@ -9,9 +9,9 @@
 
 >
 
-  <div *ebsStackCard="let card" fxLayout="row" fxLayoutGap="16px">
+  <div *elderStackCard="let card" fxLayout="row" fxLayoutGap="16px">
     <mat-icon color="primary">face</mat-icon>
     <span class="mat-body-1">{{card}}</span>
   </div>
 
-</ebs-card-organizer>
+</elder-card-organizer>

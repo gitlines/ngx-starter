@@ -4,7 +4,7 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 @Directive({
   selector: '[elderFileSelect]'
 })
-export class FileSelectDirective implements OnInit, OnDestroy {
+export class ElderFileSelectDirective implements OnInit, OnDestroy {
 
   /***************************************************************************
    *                                                                         *
@@ -12,7 +12,7 @@ export class FileSelectDirective implements OnInit, OnDestroy {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('FileSelectDirective');
+  private readonly logger = LoggerFactory.getLogger('ElderFileSelectDirective');
 
   private _fileInput: HTMLInputElement;
 

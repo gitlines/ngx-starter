@@ -4,7 +4,7 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 @Directive({
   selector: '[elderFileDropZone]'
 })
-export class FileDropZoneDirective implements OnInit, OnDestroy {
+export class ElderFileDropZoneDirective implements OnInit, OnDestroy {
 
   /***************************************************************************
    *                                                                         *
@@ -12,7 +12,7 @@ export class FileDropZoneDirective implements OnInit, OnDestroy {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('FileDropZoneDirective');
+  private readonly logger = LoggerFactory.getLogger('ElderFileDropZoneDirective');
 
   @Output()
   public readonly elderFileDropZoneChange = new EventEmitter<Set<File>>();

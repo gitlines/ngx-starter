@@ -122,8 +122,3 @@ export class ElderShellService {
     }
 
 }
-
-/**
- * @deprecated Please use ElderShellService directly
- */
-export type EbsSideContentService = ElderShellService;

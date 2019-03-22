@@ -1,7 +1,7 @@
 
 <div fxLayout="row" fxLayoutGap="20px" class="padding-10 card-organizer" fxFill>
 
-    <ebs-card-stack fxFlex
+    <elder-card-stack fxFlex
                     *ngFor="let stack of stacks$ | async"
 
                     [stack]="stack"
@@ -23,6 +23,6 @@
                     [canEnterPredicate]="canEnterPredicate"
                     [copyOnDrag]="copyOnDrag"
     >
-    </ebs-card-stack>
+    </elder-card-stack>
 
 </div>

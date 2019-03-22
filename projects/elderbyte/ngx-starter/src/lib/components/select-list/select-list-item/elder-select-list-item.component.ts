@@ -4,7 +4,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
-interface EbsSelectListItemState { // Necessary for 'ngIf as'
+interface ElderSelectListItemState { // Necessary for 'ngIf as'
   isActive: boolean;
 }
 
@@ -51,7 +51,7 @@ export class ElderSelectListItemComponent implements OnInit, AfterContentInit {
 
   private readonly _itemClickSubject = new Subject<any>();
 
-  public state$: Observable<EbsSelectListItemState>;
+  public state$: Observable<ElderSelectListItemState>;
 
   /***************************************************************************
    *                                                                         *
@@ -122,7 +122,7 @@ export class ElderSelectListItemComponent implements OnInit, AfterContentInit {
    *                                                                         *
    **************************************************************************/
 
-  private currentState(): EbsSelectListItemState {
+  private currentState(): ElderSelectListItemState {
     return {
       isActive: this.selectListComponent.isActive(this.value)
     };

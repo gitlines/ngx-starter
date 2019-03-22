@@ -28,9 +28,9 @@
       <mat-tab label="Components">
 
         <mat-toolbar color="accent" style="width: 500px">
-          <ebs-expand-toggle-button [(expanded)]="expanded" fxFlex>
+          <elder-expand-toggle-button [(expanded)]="expanded" fxFlex>
             You can toggle me. State: {{expanded}}
-          </ebs-expand-toggle-button>
+          </elder-expand-toggle-button>
         </mat-toolbar>
 
       </mat-tab>
@@ -40,15 +40,15 @@
         <div fxLayout="column" fxFill>
           <h2>Language Switcher</h2>
 
-          <ebs-language-switcher></ebs-language-switcher>
+          <elder-language-switcher></elder-language-switcher>
           <h3>Translated: {{'greeting'| translate}}</h3>
 
 
           <h2>File Upload</h2>
 
-          <ebs-file-upload
+          <elder-file-upload
             [multiple]="true"
-          ></ebs-file-upload>
+          ></elder-file-upload>
         </div>
 
 

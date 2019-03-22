@@ -4,7 +4,7 @@ import {ElderNavLinkComponent} from '../nav-link/elder-nav-link.component';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 
-interface EbsNavGroupState {
+interface NavGroupState {
   isOpen: boolean;
 }
 
@@ -44,7 +44,7 @@ export class ElderNavGroupComponent implements OnInit {
   @ContentChildren(ElderNavLinkComponent)
   public children: QueryList<ElderNavLinkComponent>;
 
-  public readonly state$ = new BehaviorSubject<EbsNavGroupState>({ isOpen: false });
+  public readonly state$ = new BehaviorSubject<NavGroupState>({ isOpen: false });
 
   private readonly _itemClickSubject = new Subject<any>();
 

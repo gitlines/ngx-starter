@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EbsFileSelectComponent } from './file-select/file-select.component';
+import { ElderFileSelectComponent } from './file-select/file-select.component';
 import {MatButtonModule, MatIconModule, MatListModule, MatProgressBarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ElderPipesModule} from '../../pipes/elder-pipes.module';
-import { EbsFileUploadComponent } from './file-upload/file-upload.component';
-import { FileSelectDirective } from './file-select.directive';
-import {FileDropZoneDirective} from './file-drop-zone.directive';
+import { ElderFileUploadComponent } from './file-upload/file-upload.component';
+import { ElderFileSelectDirective } from './elder-file-select.directive';
+import {ElderFileDropZoneDirective} from './elder-file-drop-zone.directive';
 
-export {EbsFileSelectComponent} from './file-select/file-select.component';
-export {EbsFileUploadComponent} from './file-upload/file-upload.component';
-export {FileSelectDirective} from './file-select.directive';
-export {FileDropZoneDirective} from './file-drop-zone.directive';
+export {ElderFileSelectComponent} from './file-select/file-select.component';
+export {ElderFileUploadComponent} from './file-upload/file-upload.component';
+export {ElderFileSelectDirective} from './elder-file-select.directive';
+export {ElderFileDropZoneDirective} from './elder-file-drop-zone.directive';
 
 @NgModule({
   imports: [
@@ -26,16 +26,16 @@ export {FileDropZoneDirective} from './file-drop-zone.directive';
     ElderPipesModule
   ],
   declarations: [
-    EbsFileSelectComponent,
-    EbsFileUploadComponent,
-    FileSelectDirective,
-    FileDropZoneDirective
+    ElderFileSelectComponent,
+    ElderFileUploadComponent,
+    ElderFileSelectDirective,
+    ElderFileDropZoneDirective
   ],
   exports: [
-    EbsFileSelectComponent,
-    EbsFileUploadComponent,
-    FileSelectDirective,
-    FileDropZoneDirective
+    ElderFileSelectComponent,
+    ElderFileUploadComponent,
+    ElderFileSelectDirective,
+    ElderFileDropZoneDirective
   ]
 })
 export class ElderFileModule { }

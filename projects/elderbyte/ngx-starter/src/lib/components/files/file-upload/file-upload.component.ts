@@ -8,7 +8,7 @@ import {HttpDataTransfer} from '../../../common/http/transfer/http-data-transfer
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })
-export class EbsFileUploadComponent implements OnInit {
+export class ElderFileUploadComponent implements OnInit {
 
 
   /***************************************************************************
