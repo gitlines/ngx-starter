@@ -1,7 +1,7 @@
 import {TranslateLoader} from '@ngx-translate/core';
 import {Observable} from 'rxjs';
 
-export class EbsCompositeTranslationLoader implements TranslateLoader {
+export class ElderCompositeTranslationLoader implements TranslateLoader {
 
 
     constructor() {

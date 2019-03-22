@@ -1,7 +1,7 @@
 import {TranslateLoader} from '@ngx-translate/core';
 import {Observable, of} from 'rxjs';
 
-export class EbsStarterTranslationLoader implements TranslateLoader {
+export class ElderStarterTranslationLoader implements TranslateLoader {
 
     private translations = new Map<string, any>();
 
