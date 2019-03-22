@@ -3,23 +3,24 @@ import {NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {
-  EbsShellModule, EbsNavModule,
-  EbsPipesModule, EbsExpandToggleButtonModule,
-  EbsFilesModule,
-  EbsCardOrganizerModule,
-  EbsTableModule,
-  EbsToolbarModule,
-  EbsAccessDeniedModule,
-  EbsLanguageModule,
-  EbsCommonDialogModule,
-  EbsSideContentModule,
-  EbsLabelsModule,
-  EbsMatPanelModule,
-  EbsToastModule,
-  EbsDatesModule,
-  EbsLocalesDeChModule,
-  EbsSelectListModule,
-  EbsFormSupportDirectivesModule, ElderDataTransferModule
+  ElderShellModule,
+  ElderNavModule,
+  ElderPipesModule,
+  ElderExpandToggleButtonModule,
+  ElderFileModule,
+  ElderCardOrganizerModule,
+  ElderTableModule,
+  ElderToolbarModule,
+  ElderAccessDeniedModule,
+  ElderLanguageModule,
+  ElderDialogModule,
+  ElderLabelsModule,
+  ElderPanelModule,
+  ElderToastModule,
+  ElderDatesModule,
+  ElderLocalesDeChModule,
+  ElderSelectListModule,
+  ElderFormsModule, ElderDataTransferModule
 } from '@elderbyte/ngx-starter';
 import {
   MatBadgeModule,
@@ -108,26 +109,23 @@ LoggerFactory.getDefaultConfiguration()
     MatSortModule,
 
     // Library
-    EbsShellModule,
-    EbsNavModule,
-
-    EbsPipesModule,
-    EbsCommonDialogModule,
-    EbsToastModule,
-    EbsSideContentModule,
-    EbsExpandToggleButtonModule,
-    EbsAccessDeniedModule,
-    EbsFilesModule,
-    EbsCardOrganizerModule,
-    EbsTableModule,
-    EbsMatPanelModule,
-    EbsLabelsModule,
-    EbsToolbarModule,
-    EbsFormSupportDirectivesModule,
-
-    EbsLocalesDeChModule.forRoot(),
-    EbsDatesModule,
-    EbsSelectListModule,
+    ElderShellModule,
+    ElderNavModule,
+    ElderPipesModule,
+    ElderDialogModule,
+    ElderToastModule,
+    ElderExpandToggleButtonModule,
+    ElderAccessDeniedModule,
+    ElderFileModule,
+    ElderCardOrganizerModule,
+    ElderTableModule,
+    ElderPanelModule,
+    ElderLabelsModule,
+    ElderToolbarModule,
+    ElderFormsModule,
+    ElderLocalesDeChModule.forRoot(),
+    ElderDatesModule,
+    ElderSelectListModule,
     ElderDataTransferModule,
 
     TranslateModule.forRoot({
@@ -138,7 +136,7 @@ LoggerFactory.getDefaultConfiguration()
       }
     }),
 
-    EbsLanguageModule.forRoot()
+    ElderLanguageModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

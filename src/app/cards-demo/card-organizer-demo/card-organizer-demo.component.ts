@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import { CardOrganizerData, CardStack, EbsCommonDialogService, CardDropEvent, EbsToastService } from '@elderbyte/ngx-starter';
+import { CardOrganizerData, CardStack, CardDropEvent, ElderToastService, ElderDialogService } from '@elderbyte/ngx-starter';
 import {Observable} from 'rxjs';
 import {Status} from '../cards-demo.component';
 
@@ -31,8 +31,8 @@ export class CardOrganizerDemoComponent implements OnInit {
    **************************************************************************/
 
   constructor(
-    private dialogService: EbsCommonDialogService,
-    private toastService: EbsToastService
+    private dialogService: ElderDialogService,
+    private toastService: ElderToastService
   ) { }
 
   /***************************************************************************

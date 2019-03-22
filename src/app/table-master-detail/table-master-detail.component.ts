@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Food, FoodStore} from '../model/food';
 import {Router} from '@angular/router';
-import {EbsToastService, RouterOutletService} from '@elderbyte/ngx-starter';
+import {ElderToastService, ElderRouterOutletService} from '@elderbyte/ngx-starter';
 
 @Component({
   selector: 'starter-demo-table-master-detail',
@@ -18,8 +18,8 @@ export class TableMasterDetailComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private toastService: EbsToastService,
-    private outletService: RouterOutletService
+    private toastService: ElderToastService,
+    private outletService: ElderRouterOutletService
   ) { }
 
   public ngOnInit(): void {

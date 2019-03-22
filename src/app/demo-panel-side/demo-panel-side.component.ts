@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { EbsSideContentService } from '@elderbyte/ngx-starter';
+import { ElderShellService } from '@elderbyte/ngx-starter';
 import {Router} from '@angular/router';
 
 @Component({
@@ -13,18 +13,18 @@ export class DemoPanelSideComponent implements OnInit {
 
   constructor(
       private router: Router,
-      private sideContentService: EbsSideContentService
+      private shellService: ElderShellService
   ) { }
 
   ngOnInit() {
   }
 
   public close(event: Event): void {
-    this.sideContentService.closeSideContent();
+    this.shellService.closeSideContent();
   }
 
   public navigate(): void {
-    this.sideContentService.closeSideContent().then(
+    this.shellService.closeSideContent().then(
       () => this.router.navigate(['/app/mixed-demo'])
     );
 

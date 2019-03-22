@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IFileUploadClient, FileUploadClient, EbsCommonDialogService,
+import {IFileUploadClient, FileUploadClient, ElderDialogService,
   SuggestionProvider, ElderDataTransferService} from '@elderbyte/ngx-starter';
 import {of} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
@@ -51,7 +51,7 @@ export class DemoPanelComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private dialogService: EbsCommonDialogService,
+    private dialogService: ElderDialogService,
     private transferManager: ElderDataTransferService
   ) {
     this.uploadClient = new FileUploadClient(
