@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EbsFileSelectComponent } from './file-select/file-select.component';
 import {MatButtonModule, MatIconModule, MatListModule, MatProgressBarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {EbsPipesModule} from '../../pipes/ebs-pipes.module';
+import {ElderPipesModule} from '../../pipes/elder-pipes.module';
 import { EbsFileUploadComponent } from './file-upload/file-upload.component';
 import { FileSelectDirective } from './file-select.directive';
 import {FileDropZoneDirective} from './file-drop-zone.directive';
@@ -23,7 +23,7 @@ export {FileDropZoneDirective} from './file-drop-zone.directive';
 
     MatProgressBarModule,
 
-    EbsPipesModule
+    ElderPipesModule
   ],
   declarations: [
     EbsFileSelectComponent,

@@ -1,3 +1,3 @@
 
 
-export {EbsPipesModule} from './ebs-pipes.module';
+export {ElderPipesModule} from './elder-pipes.module';

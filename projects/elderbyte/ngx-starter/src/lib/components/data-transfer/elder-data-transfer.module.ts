@@ -15,7 +15,7 @@ import {HttpDataTransferComponent} from './http-data-transfer/http-data-transfer
 import {HttpDataTransferAggregateComponent} from './http-data-transfer-aggregate/http-data-transfer-aggregate.component';
 import {HttpDataTransferOverviewComponent} from './http-data-transfer-overview/http-data-transfer-overview.component';
 import {HttpDataTransferIndicatorComponent} from './http-data-transfer-indicator/http-data-transfer-indicator.component';
-import {EbsPipesModule} from '../../pipes/ebs-pipes.module';
+import {ElderPipesModule} from '../../pipes/elder-pipes.module';
 
 export {ElderDataTransferService} from './elder-data-transfer.service';
 export {HttpDataTransferComponent} from './http-data-transfer/http-data-transfer.component';
@@ -35,7 +35,7 @@ export {HttpDataTransferIndicatorComponent} from './http-data-transfer-indicator
 
     FlexLayoutModule, TranslateModule,
 
-    EbsPipesModule
+    ElderPipesModule
   ],
   declarations: [
     HttpDataTransferComponent,

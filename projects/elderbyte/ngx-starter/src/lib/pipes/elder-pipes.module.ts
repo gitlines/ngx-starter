@@ -24,4 +24,4 @@ export {ElderSafeUrlPipe} from './ebs-safe-url.pipe';
     ],
     imports : [ CommonModule ]
 })
-export class EbsPipesModule { }
+export class ElderPipesModule { }
