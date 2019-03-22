@@ -165,12 +165,12 @@ $elder-gold: (
 /**
  * @deprecated Please switch to elder-blue
  */
-$ebs-elder-blue = $elder-blue;
+$ebs-elder-blue: $elder-blue;
 
 /**
  * @deprecated Please switch to elder-gold
  */
-$ebs-elder-gold = $elder-gold;
+$ebs-elder-gold:  $elder-gold;
 
 // Create a theme.
 @mixin starter-theme($theme) {
