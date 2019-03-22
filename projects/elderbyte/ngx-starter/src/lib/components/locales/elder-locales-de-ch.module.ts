@@ -21,12 +21,12 @@ export function registerLocale() {
   declarations: [],
   exports: []
 })
-export class EbsLocalesDeChModule {
+export class ElderLocalesDeChModule {
 
   static forRoot(): ModuleWithProviders {
 
     return {
-      ngModule: EbsLocalesDeChModule,
+      ngModule: ElderLocalesDeChModule,
       providers: [
         {
           provide: APP_INITIALIZER,

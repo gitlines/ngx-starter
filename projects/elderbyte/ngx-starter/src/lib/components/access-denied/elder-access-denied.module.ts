@@ -1,18 +1,18 @@
 
 import {NgModule} from '@angular/core';
-import {EbsAccessDeniedComponent} from './ebs-access-denied.component';
+import {ElderAccessDeniedComponent} from './elder-access-denied.component';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule, MatIconModule} from '@angular/material';
 
-export { EbsAccessDeniedComponent } from './ebs-access-denied.component';
+export { ElderAccessDeniedComponent } from './elder-access-denied.component';
 
 @NgModule({
     declarations: [
-        EbsAccessDeniedComponent
+        ElderAccessDeniedComponent
     ],
     exports : [
-        EbsAccessDeniedComponent
+        ElderAccessDeniedComponent
     ],
     imports : [
         CommonModule,
@@ -22,4 +22,4 @@ export { EbsAccessDeniedComponent } from './ebs-access-denied.component';
         FlexLayoutModule
     ]
 })
-export class EbsAccessDeniedModule { }
+export class ElderAccessDeniedModule { }

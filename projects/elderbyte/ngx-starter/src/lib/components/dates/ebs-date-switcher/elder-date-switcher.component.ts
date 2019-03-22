@@ -3,11 +3,11 @@ import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
-  selector: 'ebs-date-switcher',
-  templateUrl: './ebs-date-switcher.component.html',
-  styleUrls: ['./ebs-date-switcher.component.scss']
+  selector: 'elder-date-switcher, ebs-date-switcher',
+  templateUrl: './elder-date-switcher.component.html',
+  styleUrls: ['./elder-date-switcher.component.scss']
 })
-export class EbsDateSwitcherComponent implements OnInit {
+export class ElderDateSwitcherComponent implements OnInit {
 
   /***************************************************************************
    *                                                                         *
@@ -15,7 +15,7 @@ export class EbsDateSwitcherComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsDateSwitcherComponent');
+  private readonly logger = LoggerFactory.getLogger('ElderDateSwitcherComponent');
 
   private _date: Date = new Date();
 

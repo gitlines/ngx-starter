@@ -4,7 +4,7 @@ import {IFileUploadClient} from '../../../common/http/upload/file-upload-client'
 import {HttpDataTransfer} from '../../../common/http/transfer/http-data-transfer';
 
 @Component({
-  selector: 'ebs-file-upload',
+  selector: 'elder-file-upload, ebs-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })

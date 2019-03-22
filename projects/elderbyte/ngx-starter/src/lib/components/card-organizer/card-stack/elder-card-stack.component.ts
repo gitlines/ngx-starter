@@ -4,15 +4,15 @@ import {Observable} from 'rxjs/internal/Observable';
 import {first} from 'rxjs/operators';
 import {CdkDrag, CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDropList} from '@angular/cdk/drag-drop';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {EbsStackCardDirective} from '../card-organizer/ebs-card-organizer.component';
+import {ElderStackCardDirective} from '../card-organizer/elder-card-organizer.component';
 
 @Component({
-  selector: 'ebs-card-stack',
-  templateUrl: './ebs-card-stack.component.html',
-  styleUrls: ['./ebs-card-stack.component.scss'],
+  selector: 'elder-card-stack, ebs-card-stack',
+  templateUrl: './elder-card-stack.component.html',
+  styleUrls: ['./elder-card-stack.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsCardStackComponent implements OnInit {
+export class ElderCardStackComponent implements OnInit {
 
   /***************************************************************************
    *                                                                         *
@@ -20,7 +20,7 @@ export class EbsCardStackComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsCardStackComponent');
+  private readonly logger = LoggerFactory.getLogger('ElderCardStackComponent');
 
 
   private _stack: CardStack<any, any>;
@@ -72,7 +72,7 @@ export class EbsCardStackComponent implements OnInit {
   // Templates
 
   @Input()
-  @ContentChild(EbsStackCardDirective, {read: TemplateRef})
+  @ContentChild(ElderStackCardDirective, {read: TemplateRef})
   public cardTemplate: TemplateRef<any>;
 
   @Input()

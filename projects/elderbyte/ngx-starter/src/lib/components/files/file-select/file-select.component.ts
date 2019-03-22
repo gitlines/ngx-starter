@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'ebs-file-select',
+  selector: 'elder-file-select, ebs-file-select',
   templateUrl: './file-select.component.html',
   styleUrls: ['./file-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

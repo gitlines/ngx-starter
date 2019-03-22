@@ -38,4 +38,4 @@ export {FileDropZoneDirective} from './file-drop-zone.directive';
     FileDropZoneDirective
   ]
 })
-export class EbsFilesModule { }
+export class ElderFileModule { }

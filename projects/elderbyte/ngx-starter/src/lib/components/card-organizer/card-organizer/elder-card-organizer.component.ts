@@ -16,8 +16,8 @@ import {CardDropEvent, CardStack} from '../card-stack';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Observable} from 'rxjs/internal/Observable';
 
-@Directive({selector: '[ebsStackCard]'})
-export class EbsStackCardDirective {
+@Directive({selector: '[elderStackCard], [ebsStackCard]'})
+export class ElderStackCardDirective {
   constructor(
     public templateRef: TemplateRef<any>,
     public viewContainer: ViewContainerRef) { }
@@ -25,12 +25,12 @@ export class EbsStackCardDirective {
 
 
 @Component({
-  selector: 'ebs-card-organizer',
-  templateUrl: './ebs-card-organizer.component.html',
-  styleUrls: ['./ebs-card-organizer.component.scss'],
+  selector: 'elder-card-organizer, ebs-card-organizer',
+  templateUrl: './elder-card-organizer.component.html',
+  styleUrls: ['./elder-card-organizer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsCardOrganizerComponent implements OnInit {
+export class ElderCardOrganizerComponent implements OnInit {
 
   /***************************************************************************
    *                                                                         *
@@ -38,7 +38,7 @@ export class EbsCardOrganizerComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsCardOrganizerComponent');
+  private readonly logger = LoggerFactory.getLogger('ElderCardOrganizerComponent');
 
   private _organizerModel: CardOrganizerData<any, any>;
 
@@ -80,7 +80,7 @@ export class EbsCardOrganizerComponent implements OnInit {
   @Output('cardDropped')
   public readonly cardDropped = new EventEmitter<CardDropEvent<any, any>>();
 
-  @ContentChild(EbsStackCardDirective, {read: TemplateRef})
+  @ContentChild(ElderStackCardDirective, {read: TemplateRef})
   public stackCardTemplate: TemplateRef<any>;
 
 

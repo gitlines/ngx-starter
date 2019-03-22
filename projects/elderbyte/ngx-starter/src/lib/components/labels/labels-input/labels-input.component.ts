@@ -9,12 +9,12 @@ import {FormFieldBaseComponent} from '../../../common/forms/form-field-base.comp
 import {buildFormIntegrationProviders} from '../../../common/forms/template-composite-control';
 
 @Component({
-  selector: 'ebs-label-input',
+  selector: 'elder-label-input, ebs-label-input',
   templateUrl: './labels-input.component.html',
   styleUrls: ['./labels-input.component.scss'],
-  providers: buildFormIntegrationProviders(EbsLabelInputComponent)
+  providers: buildFormIntegrationProviders(ElderLabelInputComponent)
 })
-export class EbsLabelInputComponent<T> extends FormFieldBaseComponent<T[]> implements OnInit {
+export class ElderLabelInputComponent<T> extends FormFieldBaseComponent<T[]> implements OnInit {
 
   /***************************************************************************
    *                                                                         *

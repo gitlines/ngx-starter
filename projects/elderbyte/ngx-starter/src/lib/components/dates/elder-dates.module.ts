@@ -8,7 +8,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule } from '@ngx-translate/core';
-import { EbsDateSwitcherComponent } from './ebs-date-switcher/ebs-date-switcher.component';
+import { ElderDateSwitcherComponent } from './ebs-date-switcher/elder-date-switcher.component';
 import { CustomDateAdapter } from './date-adapters/custom-date-adapter';
 
 @NgModule({
@@ -39,13 +39,13 @@ import { CustomDateAdapter } from './date-adapters/custom-date-adapter';
     TranslateModule
   ],
   declarations: [
-    EbsDateSwitcherComponent
+    ElderDateSwitcherComponent
   ],
   exports: [
-    EbsDateSwitcherComponent
+    ElderDateSwitcherComponent
   ],
   providers: [
     {provide: DateAdapter, useClass: CustomDateAdapter}
   ]
 })
-export class EbsDatesModule { }
+export class ElderDatesModule { }

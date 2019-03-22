@@ -2,19 +2,19 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCommonModule} from '@angular/material';
-import {EbsMatPanelComponent} from './ebs-mat-panel.component';
+import {ElderPanelComponent} from './elder-panel.component';
 
-export {EbsMatPanelComponent} from './ebs-mat-panel.component';
+export {ElderPanelComponent} from './elder-panel.component';
 
 @NgModule({
     declarations: [
-        EbsMatPanelComponent
+        ElderPanelComponent
     ],
     exports : [
-        EbsMatPanelComponent
+        ElderPanelComponent
     ],
     imports : [
         CommonModule, MatCommonModule
     ]
 })
-export class EbsMatPanelModule { }
+export class ElderPanelModule { }

@@ -2,7 +2,7 @@
 
 
 
-@mixin ebs-select-list-theme($theme) {
+@mixin elder-select-list-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
@@ -29,7 +29,7 @@
   // border-left: 5px solid transparent;
 }
 
-ebs-select-list-item a.select-item-inactive mat-icon {
+elder-select-list-item a.select-item-inactive mat-icon {
   color: #757575;
 }
 

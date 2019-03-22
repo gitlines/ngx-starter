@@ -3,11 +3,11 @@ import {BehaviorSubject, Observable} from 'rxjs';
 
 
 @Component({
-  selector: 'ebs-expand-toggle-button',
-  templateUrl: './ebs-expand-toggle-button.component.html',
+  selector: 'elder-expand-toggle-button, ebs-expand-toggle-button',
+  templateUrl: './elder-expand-toggle-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsExpandToggleButtonComponent implements OnInit {
+export class ElderExpandToggleButtonComponent implements OnInit {
 
   /***************************************************************************
    *                                                                         *

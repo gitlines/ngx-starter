@@ -5,40 +5,40 @@
     <ebs-select-list fxFlex [(value)]="currentValue">
 
 
-      <ebs-select-list-item value="first">
+      <elder-select-list-item value="first">
         <mat-icon>turned_in_not</mat-icon>
         <span>First</span>
-      </ebs-select-list-item>
+      </elder-select-list-item>
 
-      <ebs-select-list-item value="master">
+      <elder-select-list-item value="master">
         <mat-icon>turned_in_not</mat-icon>
         <span>I have children</span>
 
-        <ebs-select-list-item value="a">
+        <elder-select-list-item value="a">
           <mat-icon>turned_in_not</mat-icon>
           <span>I am Child a</span>
-        </ebs-select-list-item>
+        </elder-select-list-item>
 
-        <ebs-select-list-item value="b">
+        <elder-select-list-item value="b">
           <mat-icon>turned_in_not</mat-icon>
           <span>I am Child b</span>
-        </ebs-select-list-item>
+        </elder-select-list-item>
 
-      </ebs-select-list-item>
+      </elder-select-list-item>
 
-      <ebs-select-list-item value="custom">
+      <elder-select-list-item value="custom">
 
         <mat-icon>turned_in_not</mat-icon>
         <div>Customized</div>
         <span fxFlex></span>
         <mat-icon>check_box</mat-icon>
 
-      </ebs-select-list-item>
+      </elder-select-list-item>
 
-      <ebs-select-list-item *ngFor="let item of items" [value]="item">
+      <elder-select-list-item *ngFor="let item of items" [value]="item">
         <mat-icon>turned_in_not</mat-icon>
         <span>{{item}}</span>
-      </ebs-select-list-item>
+      </elder-select-list-item>
 
     </ebs-select-list>
 

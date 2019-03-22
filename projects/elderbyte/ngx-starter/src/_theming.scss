@@ -1,9 +1,9 @@
-@import "lib/components/mat-panel/mat-panel-theme";
+@import "lib/components/panels/elder-panel-theme";
 @import "lib/components/navigation/nav/nav-link/elder-nav-link.component";
 @import "lib/components/navigation/nav/nav-group/elder-nav-group.component";
 @import "lib/components/select-list/select-list-item/elder-select-list-item.component";
 @import "lib/components/table/elder-table/elder-table.component";
-@import "lib/components/card-organizer/card-stack/ebs-card-stack.component";
+@import "lib/components/card-organizer/card-stack/elder-card-stack.component";
 
 /***************************************************************************
  *                                                                         *
@@ -163,11 +163,11 @@ $ebs-elder-gold: (
 
 // Create a theme.
 @mixin starter-theme($theme) {
-  @include mat-panel-theme($theme);
-  @include ebs-nav-theme($theme);
-  @include ebs-nav-group-theme($theme);
-  @include ebs-select-list-theme($theme);
-  @include ebs-table-theme($theme);
+  @include elder-panel-theme($theme);
+  @include elder-nav-theme($theme);
+  @include elder-nav-group-theme($theme);
+  @include elder-select-list-theme($theme);
+  @include elder-table-theme($theme);
   @include ebs-card-stack-theme($theme);
 }
 

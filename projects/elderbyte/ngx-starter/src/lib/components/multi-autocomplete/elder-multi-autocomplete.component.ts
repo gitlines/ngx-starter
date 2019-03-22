@@ -8,11 +8,11 @@ import {ISuggestionProvider} from '../../common/suggestion-provider';
 
 
 @Component({
-    selector: 'multi-autocomplete',
-    templateUrl: './ebs-multi-autocomplete.component.html',
-    styleUrls: ['./ebs-multi-autocomplete.component.scss']
+    selector: 'elder-multi-autocomplete',
+    templateUrl: './elder-multi-autocomplete.component.html',
+    styleUrls: ['./elder-multi-autocomplete.component.scss']
 })
-export class EbsMultiAutocompleteComponent implements OnInit, OnDestroy {
+export class ElderMultiAutocompleteComponent implements OnInit, OnDestroy {
 
     /***************************************************************************
      *                                                                         *
@@ -20,7 +20,7 @@ export class EbsMultiAutocompleteComponent implements OnInit, OnDestroy {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('EbsMultiAutocompleteComponent');
+    private readonly logger = LoggerFactory.getLogger('ElderMultiAutocompleteComponent');
 
     private _sub: Subscription;
 
