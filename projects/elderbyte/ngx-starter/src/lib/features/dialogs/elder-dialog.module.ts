@@ -1,5 +1,5 @@
 import { ElderDialogService } from './elder-dialog.service';
-import {ModuleWithProviders, NgModule} from '@angular/core';
+import {Injectable, ModuleWithProviders, NgModule} from '@angular/core';
 
 import {ElderConfirmDialogComponent} from './confirm-dialog/elder-confirm-dialog.component';
 import {MatButtonModule, MatDialogModule, MatIconModule, MatToolbarModule, MatInputModule} from '@angular/material';
@@ -10,11 +10,20 @@ import {FormsModule} from '@angular/forms';
 import {ElderQuestionDialogComponent} from './question-dialog/elder-question-dialog.component';
 import {ElderDialogConfig} from './elder-dialog-config';
 
+
 export {ElderDialogService} from './elder-dialog.service';
 export {ElderDialogConfig} from './elder-dialog-config';
 
 export * from './confirm-dialog/elder-confirm-dialog.component';
 export * from './question-dialog/elder-question-dialog.component';
+
+/**
+ * @deprecated Please switch to ElderDialogService
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class EbsCommonDialogService extends ElderDialogService { }
 
 @NgModule({
     imports: [
