@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {filter, map} from 'rxjs/operators';
-import {ElderRouterOutletService} from '../../components/shell/drawers/elder-router-outlet.service';
+import {ElderRouterOutletService} from './drawers/elder-router-outlet.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 /**
@@ -13,7 +13,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class EbsSideContentService {
+export class ElderShellService {
 
 
     /***************************************************************************
@@ -22,7 +22,7 @@ export class EbsSideContentService {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('EbsSideContentService');
+    private readonly logger = LoggerFactory.getLogger('ElderShellService');
 
     private _navigationOpen = new BehaviorSubject<boolean>(false);
     private _clickOutsideToClose = true;
@@ -122,3 +122,8 @@ export class EbsSideContentService {
     }
 
 }
+
+/**
+ * @deprecated Please use ElderShellService directly
+ */
+export type EbsSideContentService = ElderShellService;

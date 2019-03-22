@@ -10,21 +10,19 @@ import {MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatTool
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateModule} from '@ngx-translate/core';
 import {EbsToolbarModule} from '../navigation/toolbar/ebs-toolbar.module';
-import {EbsSideContentModule} from '../../features/side-content/ebs-side-content.module';
 import {RouterModule} from '@angular/router';
 import {ElderToastModule} from '../../features/toasts/elder-toast.module';
+import {ShellNavigationToggleComponent} from './shell-navigation-toggle/shell-navigation-toggle.component';
 
-export {ElderShellComponent} from './shell/elder-shell.component';
-
+export * from './shell/elder-shell.component';
 export {DrawerOutletBinding} from './drawers/drawer-outlet-binding';
 export {ElderRouteOutletDrawerService} from './drawers/elder-route-outlet-drawer.service';
 export {ElderRouterOutletService} from './drawers/elder-router-outlet.service';
+export {ElderShellService} from './elder-shell.service';
 
 @NgModule({
   imports: [
-    CommonModule,
-
-    RouterModule,
+    CommonModule, RouterModule,
 
     MatSidenavModule,
     MatToolbarModule,
@@ -34,13 +32,24 @@ export {ElderRouterOutletService} from './drawers/elder-router-outlet.service';
 
 
     EbsToolbarModule,
-    EbsSideContentModule,
     ElderToastModule,
 
     FlexLayoutModule, TranslateModule
 
   ],
-  declarations: [ElderShellComponent, ElderShellSideLeftDirective, ElderShellSideRightDirective, ElderShellCenterDirective],
-  exports: [ElderShellComponent, ElderShellSideLeftDirective, ElderShellSideRightDirective, ElderShellCenterDirective]
+  declarations: [
+    ElderShellComponent,
+    ElderShellSideLeftDirective,
+    ElderShellSideRightDirective,
+    ElderShellCenterDirective,
+    ShellNavigationToggleComponent
+  ],
+  exports: [
+    ElderShellComponent,
+    ElderShellSideLeftDirective,
+    ElderShellSideRightDirective,
+    ElderShellCenterDirective,
+    ShellNavigationToggleComponent
+  ]
 })
 export class ElderShellModule { }

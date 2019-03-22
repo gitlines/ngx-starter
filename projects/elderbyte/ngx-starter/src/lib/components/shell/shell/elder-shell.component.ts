@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {EbsSideContentService} from '../../../features/side-content/ebs-side-content.service';
+import {ElderShellService} from '../elder-shell.service';
 import {MatSidenav} from '@angular/material';
 import {ElderRouteOutletDrawerService} from '../drawers/elder-route-outlet-drawer.service';
 import {LoggerFactory} from '@elderbyte/ts-logger';
@@ -95,7 +95,7 @@ export class ElderShellComponent implements OnInit, OnDestroy {
    **************************************************************************/
 
   constructor(
-    private sideContentService: EbsSideContentService,
+    private sideContentService: ElderShellService,
     private outletDrawerService: ElderRouteOutletDrawerService,
     private changeDetectorRef: ChangeDetectorRef
   ) { }

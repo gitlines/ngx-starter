@@ -1,15 +1,15 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {EbsSideContentService} from '../ebs-side-content.service';
+import {ElderShellService} from '../elder-shell.service';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
 @Component({
-    selector: 'ebs-side-content-toggle',
-    templateUrl: './ebs-side-content-toggle.component.html',
-    styleUrls: ['./ebs-side-content-toggle.component.scss']
+    selector: 'elder-shell-nav-toggle',
+    templateUrl: './shell-navigation-toggle.component.html',
+    styleUrls: ['./shell-navigation-toggle.component.scss']
 })
-export class EbsSideContentToggleComponent implements OnInit, OnDestroy {
+export class ShellNavigationToggleComponent implements OnInit, OnDestroy {
 
     /***************************************************************************
      *                                                                         *
@@ -17,7 +17,7 @@ export class EbsSideContentToggleComponent implements OnInit, OnDestroy {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('EbsSideContentToggleComponent');
+    private readonly logger = LoggerFactory.getLogger('ShellNavigationToggleComponent');
 
     private _icon = new BehaviorSubject<string>('menu');
     private sub: Subscription;
@@ -37,7 +37,7 @@ export class EbsSideContentToggleComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
-        private sideContentService: EbsSideContentService,
+        private sideContentService: ElderShellService,
     ) { }
 
     /***************************************************************************
