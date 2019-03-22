@@ -12,10 +12,11 @@ import {
 import {FilterContext} from '../../common/data/filter-context';
 import {Filter} from '../../common/data/filter';
 
+
 @Directive({
-  selector: '[filterInput]'
+  selector: '[elderFilterInput]'
 })
-export class EbsFilterInputDirective implements OnInit, OnDestroy, AfterViewInit {
+export class ElderFilterInputDirective implements OnInit, OnDestroy, AfterViewInit {
 
   /* *************************************************************************
    *                                                                         *
@@ -23,7 +24,7 @@ export class EbsFilterInputDirective implements OnInit, OnDestroy, AfterViewInit
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsFilterInputDirective');
+  private readonly logger = LoggerFactory.getLogger('ElderFilterInputDirective');
 
   private readonly inputValue = new Subject<any>();
   private _extractedName: string | null;

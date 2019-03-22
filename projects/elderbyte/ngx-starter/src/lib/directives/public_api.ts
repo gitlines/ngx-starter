@@ -1,3 +1,3 @@
 
-export * from './infinitescroll/ebs-infinite-scroll.module';
-export * from './forms/ebs-form-support-directives.module';
+export * from './infinitescroll/elder-infinite-scroll.module';
+export * from './forms/elder-forms.module';

@@ -4,8 +4,8 @@ import {Observable, ReplaySubject, Subject, Subscription} from 'rxjs';
 import {filter, throttleTime} from 'rxjs/operators';
 
 
-@Directive({ selector: '[infiniteScroll]' })
-export class EbsInfiniteScrollDirective implements OnInit, OnDestroy {
+@Directive({ selector: '[elderInfiniteScroll]' })
+export class ElderInfiniteScrollDirective implements OnInit, OnDestroy {
 
   /***************************************************************************
    *                                                                         *
@@ -13,7 +13,7 @@ export class EbsInfiniteScrollDirective implements OnInit, OnDestroy {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsInfiniteScrollDirective');
+  private readonly logger = LoggerFactory.getLogger('ElderInfiniteScrollDirective');
 
 
   @Input()

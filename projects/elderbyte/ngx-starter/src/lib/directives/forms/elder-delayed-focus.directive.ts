@@ -1,12 +1,12 @@
 import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
 
 @Directive({
-  selector: '[delayedFocus]'
+  selector: '[elderDelayedFocus]'
 })
-export class EbsDelayedFocusDirective implements AfterViewInit {
+export class ElderDelayedFocusDirective implements AfterViewInit {
 
   @Input()
-  public delayedFocus: number;
+  public elderDelayedFocus: number;
 
 
   constructor(private el: ElementRef) {
@@ -23,7 +23,7 @@ export class EbsDelayedFocusDirective implements AfterViewInit {
   public ngAfterViewInit(): void {
     setTimeout(() => {
       this.focusFirstInput();
-    }, this.delayedFocus || 500);
+    }, this.elderDelayedFocus || 500);
   }
 
   /***************************************************************************
@@ -35,10 +35,10 @@ export class EbsDelayedFocusDirective implements AfterViewInit {
 
   private focusFirstInput(): void {
     if (this.el) {
-      console.log('EbsDelayedFocusDirective - focusing element ...');
+      console.log('ElderDelayedFocusDirective - focusing element ...');
       this.el.nativeElement.focus();
     } else {
-      console.warn('EbsDelayedFocusDirective - No element found to focus!');
+      console.warn('ElderDelayedFocusDirective - No element found to focus!');
     }
   }
 }

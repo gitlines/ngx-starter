@@ -14,9 +14,9 @@ import {
 import {RouterModule} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
-import {EbsFormSupportDirectivesModule} from '../../directives/forms/ebs-form-support-directives.module';
+import {ElderFormsModule} from '../../directives/forms/elder-forms.module';
 import {CdkTableModule} from '@angular/cdk/table';
-import {EbsInfiniteScrollModule} from '../../directives/infinitescroll/ebs-infinite-scroll.module';
+import {ElderInfiniteScrollModule} from '../../directives/infinitescroll/elder-infinite-scroll.module';
 
 export {EbsTableComponent} from './ebs-table/ebs-table.component';
 
@@ -28,7 +28,7 @@ export {EbsTableComponent} from './ebs-table/ebs-table.component';
     FlexLayoutModule, MatDividerModule,
 
     // forms
-    FormsModule, EbsFormSupportDirectivesModule,
+    FormsModule, ElderFormsModule,
 
     // form controls
     MatCheckboxModule,
@@ -46,7 +46,7 @@ export {EbsTableComponent} from './ebs-table/ebs-table.component';
     // translations
     TranslateModule,
 
-    EbsInfiniteScrollModule
+    ElderInfiniteScrollModule
   ],
   declarations: [EbsTableComponent],
   exports: [EbsTableComponent]
