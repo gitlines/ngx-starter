@@ -203,12 +203,20 @@ export class EbsFilterInputDirective implements OnInit, OnDestroy, AfterViewInit
   }
 
   private inputValueChanged(newValue: any) {
-    this.logger.info('Setting filter: ' + this.filterKey + ' => ' + newValue);
 
-    if (newValue === undefined || newValue === null) {
-      this._filterContext.removeFilter(this.filterKey);
+    const changeDescription = 'Input-Filter ' + this.filterKey + ' := "' + newValue + '"';
+
+    if (this._filterContext) {
+
+      this.logger.info('Setting ' + changeDescription);
+
+      if (newValue === undefined || newValue === null) {
+        this._filterContext.removeFilter(this.filterKey);
+      } else {
+        this._filterContext.updateFilter(new Filter(this.filterKey, newValue + ''));
+      }
     } else {
-      this._filterContext.updateFilter(new Filter(this.filterKey, newValue + ''));
+      this.logger.debug('Ignoring filter change (no FilterContext set): ' + changeDescription);
     }
   }
 }
