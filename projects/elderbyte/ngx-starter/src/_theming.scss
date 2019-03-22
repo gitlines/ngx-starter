@@ -95,7 +95,7 @@ $mat-light-theme-foreground: (
 
 // ElderByte Theme
 
-$ebs-elder-blue: (
+$elder-blue: (
   50: #DFE3E8,
   100: #B3BCC8,
   200: #8593A7,
@@ -128,7 +128,8 @@ $ebs-elder-blue: (
   )
 );
 
-$ebs-elder-gold: (
+
+$elder-gold: (
   50: #F6F3EC,
   100: #E8E1D1,
   200: #DACFB4,
@@ -161,6 +162,16 @@ $ebs-elder-gold: (
   )
 );
 
+/**
+ * @deprecated Please switch to elder-blue
+ */
+$ebs-elder-blue = $elder-blue;
+
+/**
+ * @deprecated Please switch to elder-gold
+ */
+$ebs-elder-gold = $elder-gold;
+
 // Create a theme.
 @mixin starter-theme($theme) {
   @include elder-panel-theme($theme);
@@ -168,7 +179,7 @@ $ebs-elder-gold: (
   @include elder-nav-group-theme($theme);
   @include elder-select-list-theme($theme);
   @include elder-table-theme($theme);
-  @include ebs-card-stack-theme($theme);
+  @include elder-card-stack-theme($theme);
 }
 
 /***************************************************************************

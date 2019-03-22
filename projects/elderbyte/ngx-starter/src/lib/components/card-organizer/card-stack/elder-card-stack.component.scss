@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 
 
-@mixin ebs-card-stack-theme($theme) {
+@mixin elder-card-stack-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
