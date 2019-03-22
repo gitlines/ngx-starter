@@ -18,11 +18,11 @@ export class ElderToolbarColumnDirective implements OnInit, OnDestroy {
 
     /** Position at which column should be placed. */
     @Input()
-    public ebsToolbarColumn: ToolbarColumnPosition;
+    public elderToolbarColumn: ToolbarColumnPosition;
 
     /** If the column should be considered as default (fallback). */
     @Input()
-    public ebsToolbarDefault: boolean;
+    public elderToolbarDefault: boolean;
 
     /***************************************************************************
      *                                                                         *
@@ -43,11 +43,11 @@ export class ElderToolbarColumnDirective implements OnInit, OnDestroy {
      **************************************************************************/
 
     public ngOnInit(): void {
-        this.toolbarService.registerColumn(this.ebsToolbarColumn, this.templateRef, this.ebsToolbarDefault);
+        this.toolbarService.registerColumn(this.elderToolbarColumn, this.templateRef, this.elderToolbarDefault);
     }
 
     public ngOnDestroy(): void {
-        this.toolbarService.deregisterColumn(this.templateRef, this.ebsToolbarColumn);
+        this.toolbarService.deregisterColumn(this.templateRef, this.elderToolbarColumn);
     }
 
 }
