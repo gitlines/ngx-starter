@@ -7,11 +7,13 @@ import {HttpParamsBuilder} from '../../common/data/http-params-builder';
 import {Observable} from 'rxjs';
 
 
-
+/**
+ * @deprecated Please switch to the RestClient*s (RestClientList, RestClientPaged etc)
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class EbsHttpClient {
+export class ElderHttpClient {
 
     /***************************************************************************
      *                                                                         *
@@ -19,7 +21,7 @@ export class EbsHttpClient {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('EbsHttpClient');
+    private readonly logger = LoggerFactory.getLogger('ElderHttpClient');
 
     /***************************************************************************
      *                                                                         *
@@ -28,7 +30,7 @@ export class EbsHttpClient {
      **************************************************************************/
 
     /**
-     * Creates a new EbsHttpClient service
+     * Creates a new ElderHttpClient service
      */
     constructor(
         private http: HttpClient) {

@@ -12,7 +12,7 @@ import {
     MatToolbarModule
 } from '@angular/material';
 import {EbsToolbarComponent} from './ebs-toolbar/ebs-toolbar.component';
-import {EbsLanguageModule} from '../../../features/language/ebs-language.module';
+import {ElderLanguageModule} from '../../../features/language/elder-language.module';
 import { EbsToolbarColumnDirective } from './ebs-toolbar-column.directive';
 import {EbsToolbarTitleComponent} from './ebs-toolbar-title/ebs-toolbar-title.component';
 
@@ -38,7 +38,7 @@ export {EbsToolbarTitleService, ToolbarHeader} from './ebs-toolbar-title/ebs-too
         MatButtonModule, MatIconModule, MatBadgeModule,
 
         // translations
-        TranslateModule, EbsLanguageModule
+        TranslateModule, ElderLanguageModule
     ],
     declarations: [
       EbsToolbarComponent,

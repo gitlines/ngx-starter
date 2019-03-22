@@ -26,8 +26,13 @@ export class SearchQuery {
     ) { }
 }
 
-@Injectable()
-export class EbsGlobalSearchService {
+/**
+ * @deprecated This service is considered EOL
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class ElderGlobalSearchService {
 
     /***************************************************************************
      *                                                                         *

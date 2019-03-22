@@ -1,20 +1,22 @@
 import {
   Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
 } from '@angular/core';
-import {EbsGlobalSearchService, SearchQuery, SortOption} from './ebs-global-search.service';
+import {ElderGlobalSearchService, SearchQuery, SortOption} from './elder-global-search.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {Sort} from '../../common/data/sort';
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
 
-
+/**
+ * @deprecated This component is considered EOL
+ */
 @Component({
-  selector: 'ebs-global-search',
-  templateUrl: './ebs-global-search.component.html',
-  styleUrls: ['./ebs-global-search.component.scss']
+  selector: 'elder-global-search, ebs-global-search',
+  templateUrl: './elder-global-search.component.html',
+  styleUrls: ['./elder-global-search.component.scss']
 })
-export class EbsGlobalSearchComponent implements OnInit, OnDestroy {
+export class ElderGlobalSearchComponent implements OnInit, OnDestroy {
 
   private _searchCollapsed = true;
   private _txtSearch: ElementRef;
@@ -33,7 +35,7 @@ export class EbsGlobalSearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private globalSearch: EbsGlobalSearchService) {
+    private globalSearch: ElderGlobalSearchService) {
 
     this.globalSearchDisabled = !globalSearch.showGlobalSearch;
 

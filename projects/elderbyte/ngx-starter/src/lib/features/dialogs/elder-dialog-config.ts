@@ -1,7 +1,7 @@
 
 import {MatDialogConfig} from '@angular/material';
 
-export class EbsCommonDialogConfig {
+export class ElderDialogConfig {
 
     /**
      * String displayed as title of dialog.

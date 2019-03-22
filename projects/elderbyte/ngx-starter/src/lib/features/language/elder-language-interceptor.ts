@@ -3,14 +3,14 @@ import {Injectable, Injector} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest} from '@angular/common/http';
 import {TranslateService} from '@ngx-translate/core';
 import {Observable} from 'rxjs';
-import {EbsLanguageConfig} from './ebs-language.module';
+import {ElderLanguageConfig} from './elder-language.module';
 
 /**
  * This interceptor injects the current locale
  * so the backend know what the current desired locale is of a request.
  */
 @Injectable()
-export class EbsLanguageInterceptor implements HttpInterceptor {
+export class ElderLanguageInterceptor implements HttpInterceptor {
 
   /***************************************************************************
    *                                                                         *
@@ -29,7 +29,7 @@ export class EbsLanguageInterceptor implements HttpInterceptor {
 
   constructor(
     private inj: Injector,
-    private config: EbsLanguageConfig) {
+    private config: ElderLanguageConfig) {
 
     this._queryParam = config && config.interceptor && config.interceptor.queryParam
                             ? config.interceptor.queryParam

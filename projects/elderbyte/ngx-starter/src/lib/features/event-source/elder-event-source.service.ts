@@ -9,7 +9,7 @@ import {ReactiveEventSource} from './reactive-event-source';
 @Injectable({
   providedIn: 'root'
 })
-export class EventSourceService {
+export class ElderEventSourceService {
 
   /***************************************************************************
    *                                                                         *
@@ -17,7 +17,7 @@ export class EventSourceService {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EventSourceService');
+  private readonly logger = LoggerFactory.getLogger('ElderEventSourceService');
 
   /***************************************************************************
    *                                                                         *

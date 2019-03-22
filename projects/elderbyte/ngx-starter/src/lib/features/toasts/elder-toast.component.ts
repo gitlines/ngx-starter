@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {Subscription} from 'rxjs';
-import {EbsToastService} from './ebs-toast.service';
+import {ElderToastService} from './elder-toast.service';
 import {Toast} from './toast';
 
 @Component({
-  selector: 'ebs-toast',
+  selector: 'elder-toast',
   template: ''
 })
-export class EbsToastComponent implements OnInit {
+export class ElderToastComponent implements OnInit {
 
 
   private subscription: Subscription;
 
-  constructor(private toastService: EbsToastService,
+  constructor(private toastService: ElderToastService,
               public snackBar: MatSnackBar) {
   }
 

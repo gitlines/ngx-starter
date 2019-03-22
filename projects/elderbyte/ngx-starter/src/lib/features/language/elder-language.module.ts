@@ -1,22 +1,22 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {EbsLanguageSwitcherComponent} from './language-switcher/ebs-language-switcher.component';
-import {EbsLanguageService} from './ebs-language.service';
+import {ElderLanguageSwitcherComponent} from './language-switcher/elder-language-switcher.component';
+import {ElderLanguageService} from './elder-language.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatButtonModule, MatIconModule, MatMenuModule, MatSelectModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {SimpleWebStorageModule} from '@elderbyte/ngx-simple-webstorage';
-import {EbsLanguageInterceptor} from './ebs-language-interceptor.service';
+import {ElderLanguageInterceptor} from './elder-language-interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 
-export * from './ebs-language.service';
-export * from './language-switcher/ebs-language-switcher.component';
-export * from './ebs-language-interceptor.service';
+export * from './elder-language.service';
+export * from './language-switcher/elder-language-switcher.component';
+export * from './elder-language-interceptor';
 
 
-export class EbsLanguageConfig {
+export class ElderLanguageConfig {
 
   interceptor?: {
 
@@ -53,26 +53,26 @@ export class EbsLanguageConfig {
     FormsModule
   ],
   exports: [
-    EbsLanguageSwitcherComponent,
+    ElderLanguageSwitcherComponent,
   ],
   declarations: [
-    EbsLanguageSwitcherComponent
+    ElderLanguageSwitcherComponent
   ]
 })
-export class EbsLanguageModule {
+export class ElderLanguageModule {
 
-  static forRoot(config?: EbsLanguageConfig): ModuleWithProviders {
+  static forRoot(config?: ElderLanguageConfig): ModuleWithProviders {
     return {
-      ngModule: EbsLanguageModule,
+      ngModule: ElderLanguageModule,
       providers: [
         {
-          provide: EbsLanguageConfig,
+          provide: ElderLanguageConfig,
           useValue: config,
         },
 
-        EbsLanguageService,
+        ElderLanguageService,
 
-        { provide: HTTP_INTERCEPTORS, useClass: EbsLanguageInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ElderLanguageInterceptor, multi: true }
 
       ]
     };

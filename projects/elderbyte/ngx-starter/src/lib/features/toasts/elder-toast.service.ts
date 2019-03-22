@@ -12,7 +12,7 @@ export * from './toast-type';
 @Injectable({
   providedIn: 'root'
 })
-export class EbsToastService {
+export class ElderToastService {
 
   /***************************************************************************
    *                                                                         *
@@ -20,7 +20,7 @@ export class EbsToastService {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsToastService');
+  private readonly logger = LoggerFactory.getLogger('ElderToastService');
 
   private subjet = new Subject<Toast>();
 
@@ -101,11 +101,17 @@ export class EbsToastService {
 }
 
 /**
+ * @deprecated Please switch to ElderToastService
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class ToastService extends ElderToastService { }
+
+/**
  * @deprecated Please switch to EbsToastService
  */
 @Injectable({
   providedIn: 'root'
 })
-export class ToastService extends EbsToastService {
-
-}
+export class EbsToastService extends ElderToastService { }

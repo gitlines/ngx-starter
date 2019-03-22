@@ -4,7 +4,7 @@ import { WebLocalStorage } from '@elderbyte/ngx-simple-webstorage';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Injectable()
-export class EbsLanguageService {
+export class ElderLanguageService {
 
   /***************************************************************************
    *                                                                         *
@@ -12,7 +12,7 @@ export class EbsLanguageService {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsLanguageService');
+  private readonly logger = LoggerFactory.getLogger('ElderLanguageService');
 
   private LANGUAGE_STORAGE_KEY = 'language';
 

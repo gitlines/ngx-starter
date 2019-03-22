@@ -1,3 +1,3 @@
 export * from './reactive-event-source';
-export * from './event-source.service';
+export * from './elder-event-source.service';
 

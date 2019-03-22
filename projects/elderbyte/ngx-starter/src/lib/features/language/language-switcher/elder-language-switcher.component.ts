@@ -1,16 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EbsLanguageService} from '../ebs-language.service';
+import {ElderLanguageService} from '../elder-language.service';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Component({
-    selector: 'ebs-language-switcher',
-    templateUrl: './ebs-language-switcher.component.html',
-    styleUrls: ['./ebs-language-switcher.component.scss']
+    selector: 'elder-language-switcher, ebs-language-switcher',
+    templateUrl: './elder-language-switcher.component.html',
+    styleUrls: ['./elder-language-switcher.component.scss']
 })
-export class EbsLanguageSwitcherComponent implements OnInit {
+export class ElderLanguageSwitcherComponent implements OnInit {
 
 
-    private readonly logger = LoggerFactory.getLogger('EbsLanguageSwitcherComponent');
+    private readonly logger = LoggerFactory.getLogger('ElderLanguageSwitcherComponent');
 
     @Input()
     public slimMode: boolean;
@@ -22,7 +22,7 @@ export class EbsLanguageSwitcherComponent implements OnInit {
      **************************************************************************/
 
     constructor(
-        public language: EbsLanguageService) {
+        public language: ElderLanguageService) {
 
     }
 

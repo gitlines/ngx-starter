@@ -1,7 +1,7 @@
-import {EbsConfirmDialogComponent, ConfirmDialogConfig} from './confirm-dialog/ebs-confirm-dialog.component';
+import {ElderConfirmDialogComponent, ConfirmDialogConfig} from './confirm-dialog/elder-confirm-dialog.component';
 import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
 import { Injectable } from '@angular/core';
-import {EbsQuestionDialogComponent, EbsQuestionDialogConfig} from './question-dialog/ebs-question-dialog.component';
+import {ElderQuestionDialogComponent, EbsQuestionDialogConfig} from './question-dialog/elder-question-dialog.component';
 import {TranslateService} from '@ngx-translate/core';
 import {Observable, of} from 'rxjs';
 import {flatMap, filter, map} from 'rxjs/operators';
@@ -9,7 +9,7 @@ import {flatMap, filter, map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class EbsCommonDialogService {
+export class ElderDialogService {
 
 
   /***************************************************************************
@@ -74,9 +74,9 @@ export class EbsCommonDialogService {
         const title = messages.get('title');
         const message = messages.get('message');
 
-        let dialogRef: MatDialogRef<EbsConfirmDialogComponent>;
+        let dialogRef: MatDialogRef<ElderConfirmDialogComponent>;
 
-        dialogRef = this.dialog.open(EbsConfirmDialogComponent, config.config);
+        dialogRef = this.dialog.open(ElderConfirmDialogComponent, config.config);
         dialogRef.componentInstance.title = title;
         dialogRef.componentInstance.message = message;
         dialogRef.componentInstance.yesNo = config.yesNo;
@@ -130,7 +130,7 @@ export class EbsCommonDialogService {
           question: question
         };
 
-        const dialogRef = this.dialog.open(EbsQuestionDialogComponent, dlgConf);
+        const dialogRef = this.dialog.open(ElderQuestionDialogComponent, dlgConf);
 
         return dialogRef.afterClosed()
           .pipe(filter(response => !!response));

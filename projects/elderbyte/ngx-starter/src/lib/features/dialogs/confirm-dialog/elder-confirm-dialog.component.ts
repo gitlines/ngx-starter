@@ -1,8 +1,8 @@
 import {MatDialogRef} from '@angular/material';
 import { Component } from '@angular/core';
-import {EbsCommonDialogConfig} from '../ebs-common-dialog-config';
+import {ElderDialogConfig} from '../elder-dialog-config';
 
-export class ConfirmDialogConfig extends EbsCommonDialogConfig {
+export class ConfirmDialogConfig extends ElderDialogConfig {
 
     /**
      * String appearing as message in the dialog.
@@ -17,17 +17,17 @@ export class ConfirmDialogConfig extends EbsCommonDialogConfig {
 }
 
 @Component({
-    selector: 'confirm-dialog',
-    templateUrl: './ebs-confirm-dialog.component.html',
-    styleUrls: ['./ebs-confirm-dialog.component.scss']
+    selector: 'elder-confirm-dialog',
+    templateUrl: './elder-confirm-dialog.component.html',
+    styleUrls: ['./elder-confirm-dialog.component.scss']
 })
-export class EbsConfirmDialogComponent {
+export class ElderConfirmDialogComponent {
 
     public title: string;
     public message: string;
     public yesNo = false;
 
-    constructor(public dialogRef: MatDialogRef<EbsConfirmDialogComponent>) {
+    constructor(public dialogRef: MatDialogRef<ElderConfirmDialogComponent>) {
 
     }
 }

@@ -12,7 +12,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {EbsToolbarModule} from '../navigation/toolbar/ebs-toolbar.module';
 import {EbsSideContentModule} from '../../features/side-content/ebs-side-content.module';
 import {RouterModule} from '@angular/router';
-import {EbsToastModule} from '../../features/toasts/ebs-toast.module';
+import {ElderToastModule} from '../../features/toasts/elder-toast.module';
 
 export {EbsShellComponent} from './shell/ebs-shell.component';
 
@@ -35,7 +35,7 @@ export {RouterOutletService} from './drawers/router-outlet.service';
 
     EbsToolbarModule,
     EbsSideContentModule,
-    EbsToastModule,
+    ElderToastModule,
 
     FlexLayoutModule, TranslateModule
 

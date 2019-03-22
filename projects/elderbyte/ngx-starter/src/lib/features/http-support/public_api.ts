@@ -1,3 +1,3 @@
 
-export * from './ebs-http-client';
+export * from './elder-http-client.service';
 
