@@ -8,7 +8,7 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 @Injectable({
   providedIn: 'root'
 })
-export class RouterOutletService {
+export class ElderRouterOutletService {
 
   /***************************************************************************
    *                                                                         *
@@ -16,7 +16,7 @@ export class RouterOutletService {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('RouterOutletService');
+  private readonly logger = LoggerFactory.getLogger('ElderRouterOutletService');
 
   private _activeOutlets: BehaviorSubject<Set<string>> = null;
 

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  EbsShellCenterDirective,
-  EbsShellComponent,
-  EbsShellSideLeftDirective,
-  EbsShellSideRightDirective
-} from './shell/ebs-shell.component';
+  ElderShellCenterDirective,
+  ElderShellComponent,
+  ElderShellSideLeftDirective,
+  ElderShellSideRightDirective
+} from './shell/elder-shell.component';
 import {MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateModule} from '@ngx-translate/core';
@@ -14,11 +14,11 @@ import {EbsSideContentModule} from '../../features/side-content/ebs-side-content
 import {RouterModule} from '@angular/router';
 import {ElderToastModule} from '../../features/toasts/elder-toast.module';
 
-export {EbsShellComponent} from './shell/ebs-shell.component';
+export {ElderShellComponent} from './shell/elder-shell.component';
 
 export {DrawerOutletBinding} from './drawers/drawer-outlet-binding';
-export {RouteOutletDrawerService} from './drawers/route-outlet-drawer.service';
-export {RouterOutletService} from './drawers/router-outlet.service';
+export {ElderRouteOutletDrawerService} from './drawers/elder-route-outlet-drawer.service';
+export {ElderRouterOutletService} from './drawers/elder-router-outlet.service';
 
 @NgModule({
   imports: [
@@ -40,7 +40,7 @@ export {RouterOutletService} from './drawers/router-outlet.service';
     FlexLayoutModule, TranslateModule
 
   ],
-  declarations: [EbsShellComponent, EbsShellSideLeftDirective, EbsShellSideRightDirective, EbsShellCenterDirective],
-  exports: [EbsShellComponent, EbsShellSideLeftDirective, EbsShellSideRightDirective, EbsShellCenterDirective]
+  declarations: [ElderShellComponent, ElderShellSideLeftDirective, ElderShellSideRightDirective, ElderShellCenterDirective],
+  exports: [ElderShellComponent, ElderShellSideLeftDirective, ElderShellSideRightDirective, ElderShellCenterDirective]
 })
-export class EbsShellModule { }
+export class ElderShellModule { }

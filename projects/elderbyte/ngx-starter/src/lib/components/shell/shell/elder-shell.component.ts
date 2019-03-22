@@ -12,39 +12,39 @@ import {
 } from '@angular/core';
 import {EbsSideContentService} from '../../../features/side-content/ebs-side-content.service';
 import {MatSidenav} from '@angular/material';
-import {RouteOutletDrawerService} from '../drawers/route-outlet-drawer.service';
+import {ElderRouteOutletDrawerService} from '../drawers/elder-route-outlet-drawer.service';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {ObjectUnsubscribedError, Observable, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 
-@Directive({selector: '[ebsShellSideLeft]'})
-export class EbsShellSideLeftDirective {
+@Directive({selector: '[elderShellSideLeft], [ebsShellSideLeft]'})
+export class ElderShellSideLeftDirective {
   constructor(
     public templateRef: TemplateRef<any>,
     public viewContainer: ViewContainerRef) { }
 }
 
-@Directive({selector: '[ebsShellSideRight]'})
-export class EbsShellSideRightDirective {
+@Directive({selector: '[elderShellSideRight], [ebsShellSideRight]'})
+export class ElderShellSideRightDirective {
   constructor(
     public templateRef: TemplateRef<any>,
     public viewContainer: ViewContainerRef) { }
 }
 
-@Directive({selector: '[ebsShellCenter]'})
-export class EbsShellCenterDirective {
+@Directive({selector: '[elderShellCenter], [ebsShellCenter]'})
+export class ElderShellCenterDirective {
   constructor(
     public templateRef: TemplateRef<any>,
     public viewContainer: ViewContainerRef) { }
 }
 
 @Component({
-  selector: 'ebs-shell',
-  templateUrl: './ebs-shell.component.html',
-  styleUrls: ['./ebs-shell.component.scss'],
+  selector: 'elder-shell, ebs-shell', // ebs-* prefix is deprecated!
+  templateUrl: './elder-shell.component.html',
+  styleUrls: ['./elder-shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsShellComponent implements OnInit, OnDestroy {
+export class ElderShellComponent implements OnInit, OnDestroy {
 
   /***************************************************************************
    *                                                                         *
@@ -52,7 +52,7 @@ export class EbsShellComponent implements OnInit, OnDestroy {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsShellComponent');
+  private readonly logger = LoggerFactory.getLogger('ElderShellComponent');
 
   /** Controls if the SideNav toggle should be displayed. Default: true */
   @Input()
@@ -70,13 +70,13 @@ export class EbsShellComponent implements OnInit, OnDestroy {
   @Input()
   public rightSideAutoFocus = false;
 
-  @ContentChild(EbsShellSideLeftDirective, {read: TemplateRef})
+  @ContentChild(ElderShellSideLeftDirective, {read: TemplateRef})
   public sideContentLeft: TemplateRef<any>;
 
-  @ContentChild(EbsShellSideRightDirective, {read: TemplateRef})
+  @ContentChild(ElderShellSideRightDirective, {read: TemplateRef})
   public sideContentRight: TemplateRef<any>;
 
-  @ContentChild(EbsShellCenterDirective, {read: TemplateRef})
+  @ContentChild(ElderShellCenterDirective, {read: TemplateRef})
   public centerContent: TemplateRef<any>;
 
   @ViewChild('rightSideDetail')
@@ -96,7 +96,7 @@ export class EbsShellComponent implements OnInit, OnDestroy {
 
   constructor(
     private sideContentService: EbsSideContentService,
-    private outletDrawerService: RouteOutletDrawerService,
+    private outletDrawerService: ElderRouteOutletDrawerService,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 

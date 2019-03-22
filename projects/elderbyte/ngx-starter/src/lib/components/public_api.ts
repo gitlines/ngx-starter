@@ -8,7 +8,7 @@ export * from './files/ebs-files.module';
 export * from './card-organizer/ebs-card-organizer.module';
 export * from './table/ebs-table.module';
 export * from './navigation/public_api';
-export * from './shell/ebs-shell.module';
+export * from './shell/elder-shell.module';
 export * from './dates/public_api';
 export * from './locales/ebs-locales-de-ch.module';
 export * from './select-list/ebs-select-list.module';

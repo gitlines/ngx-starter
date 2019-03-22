@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {filter, map} from 'rxjs/operators';
-import {RouterOutletService} from '../../components/shell/drawers/router-outlet.service';
+import {ElderRouterOutletService} from '../../components/shell/drawers/elder-router-outlet.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 /**
@@ -37,7 +37,7 @@ export class EbsSideContentService {
 
     constructor(
         private router: Router,
-        private routerOutletService: RouterOutletService,
+        private routerOutletService: ElderRouterOutletService,
     ) {
 
         this.router.events.pipe(

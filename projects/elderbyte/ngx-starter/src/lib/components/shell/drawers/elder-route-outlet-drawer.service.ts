@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {MatDrawer} from '@angular/material';
-import {RouterOutletService} from './router-outlet.service';
+import {ElderRouterOutletService} from './elder-router-outlet.service';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RouteOutletDrawerService {
+export class ElderRouteOutletDrawerService {
 
   /***************************************************************************
    *                                                                         *
@@ -15,7 +15,7 @@ export class RouteOutletDrawerService {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('RouteOutletDrawerService');
+  private readonly logger = LoggerFactory.getLogger('ElderRouteOutletDrawerService');
 
   private _outletChangeSubscription: Subscription;
   private readonly _outletDrawers = new Map<string, MatDrawer>();
@@ -28,7 +28,7 @@ export class RouteOutletDrawerService {
    **************************************************************************/
 
   constructor(
-    private outletService: RouterOutletService
+    private outletService: ElderRouterOutletService
   ) { }
 
   /***************************************************************************
