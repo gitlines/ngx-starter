@@ -9,7 +9,7 @@ interface EbsSelectListItemState { // Necessary for 'ngIf as'
 }
 
 @Component({
-  selector: 'elder-select-list-item, elder-select-list-item',
+  selector: 'elder-select-list-item, ebs-select-list-item',
   templateUrl: './elder-select-list-item.component.html',
   styleUrls: ['./elder-select-list-item.component.scss'],
   animations: [

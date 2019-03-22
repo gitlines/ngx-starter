@@ -9,7 +9,7 @@ interface EbsNavGroupState {
 }
 
 @Component({
-  selector: 'elder-nav-group, elder-nav-group',
+  selector: 'elder-nav-group, ebs-nav-group',
   templateUrl: './elder-nav-group.component.html',
   styleUrls: ['./elder-nav-group.component.scss'],
   animations: [
