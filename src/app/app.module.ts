@@ -19,7 +19,7 @@ import {
   EbsDatesModule,
   EbsLocalesDeChModule,
   EbsSelectListModule,
-  EbsFormSupportDirectivesModule
+  EbsFormSupportDirectivesModule, ElderDataTransferModule
 } from '@elderbyte/ngx-starter';
 import {
   MatBadgeModule,
@@ -52,7 +52,6 @@ import { SelectListDemoComponent } from './components/select-list-demo/select-li
 import { CardOrganizerDemoComponent } from './cards-demo/card-organizer-demo/card-organizer-demo.component';
 import { CardStackSorterComponent } from './cards-demo/card-stack-sorter/card-stack-sorter.component';
 import { TooBigToFailComponent } from './too-big-to-fail/too-big-to-fail.component';
-import {ElderDataTransferModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/data-transfer/elder-data-transfer.module';
 
 
 LoggerFactory.getDefaultConfiguration()

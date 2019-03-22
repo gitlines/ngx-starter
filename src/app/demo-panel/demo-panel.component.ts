@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {IFileUploadClient, FileUploadClient, EbsCommonDialogService, SuggestionProvider} from '@elderbyte/ngx-starter';
+import {IFileUploadClient, FileUploadClient, EbsCommonDialogService,
+  SuggestionProvider, ElderDataTransferService} from '@elderbyte/ngx-starter';
 import {of} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {ElderDataTransferService} from '../../../projects/elderbyte/ngx-starter/src/lib/components/data-transfer/elder-data-transfer.service';
 
 @Component({
   selector: 'starter-demo-demo-panel',

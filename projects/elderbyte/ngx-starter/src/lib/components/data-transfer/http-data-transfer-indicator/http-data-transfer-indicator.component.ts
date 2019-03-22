@@ -1,12 +1,20 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
-import {combineLatest, Observable} from 'rxjs';
-import {flatMap, map, startWith} from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
+import {Observable} from 'rxjs';
 import {FlexibleConnectedPositionStrategy, Overlay, OverlayRef, ViewportRuler} from '@angular/cdk/overlay';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {Platform} from '@angular/cdk/platform';
 import {DOCUMENT} from '@angular/common';
 import {ElderDataTransferService} from '../elder-data-transfer.service';
-import {DataTransferState} from '../../../common/http/transfer/data-transfer-state';
 import {DataTransferProgressAggregate} from '../../../common/http/transfer/data-transfer-progress-aggregate';
 
 @Component({
@@ -22,6 +30,12 @@ export class HttpDataTransferIndicatorComponent implements OnInit {
    * Fields                                                                  *
    *                                                                         *
    **************************************************************************/
+
+  @Input()
+  public activeColor = 'primary';
+
+  @Input()
+  public inactiveColor = '';
 
   public aggregate$: Observable<DataTransferProgressAggregate>;
 
@@ -55,14 +69,6 @@ export class HttpDataTransferIndicatorComponent implements OnInit {
   public ngOnInit(): void {
 
     this.aggregate$ = this.transferService.transferAggregate;
-
-    /*
-    this.activeUploads$ = this.transferService.transfers.pipe(
-      map(transfers => transfers.map(t => t.state$)),
-      flatMap(states => combineLatest(states)),
-      map(states => states.filter(s => !s.isDone)),
-      startWith([])
-    );*/
 
     this.overlayRef = this.overlay.create({
 

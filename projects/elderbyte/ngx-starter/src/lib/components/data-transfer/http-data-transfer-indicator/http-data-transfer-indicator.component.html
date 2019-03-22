@@ -1,13 +1,19 @@
-<button mat-icon-button (click)="showPanel($event)" fxLayout="row" fxLayoutAlign="center center">
 
-  <ng-container *ngIf="aggregate$ | async as aggregate">
+<ng-container *ngIf="aggregate$ | async as aggregate">
+
+  <button mat-icon-button
+          fxLayout="row" fxLayoutAlign="center center"
+          (click)="showPanel($event)">
+
+    <mat-icon *ngIf="aggregate.inTransfer == 0" [color]="inactiveColor">cloud_upload</mat-icon>
 
     <mat-progress-spinner
+      *ngIf="aggregate.inTransfer > 0"
       [matBadge]="aggregate.inTransfer"
       matBadgePosition="above after"
       matBadgeSize="small"
-      matBadgeColor="accent"
-      color="primary"
+      [matBadgeColor]="activeColor"
+      [color]="activeColor"
       [strokeWidth]="3"
       [diameter]="38"
       [value]="aggregate.percentDone"
@@ -15,22 +21,8 @@
     >
     </mat-progress-spinner>
 
-
-  </ng-container>
-  <!--
-  <mat-icon
-    *ngIf="activeUploads$ | async as activeJobs"
-    [matBadge]="activeJobs.length"
-    [matBadgeHidden]="activeJobs.length === 0"
-    matBadgeColor="accent">
-    cloud_upload
-  </mat-icon>
-  -->
-
-</button>
-
-
-
+  </button>
+</ng-container>
 
 <ng-template #panel>
   <elder-data-transfer-overview class="panel">
