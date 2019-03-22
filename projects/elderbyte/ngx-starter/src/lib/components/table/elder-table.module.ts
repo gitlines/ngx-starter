@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EbsTableComponent } from './ebs-table/ebs-table.component';
+import { ElderTableComponent } from './elder-table/elder-table.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {
   MatBadgeModule,
@@ -18,7 +18,7 @@ import {ElderFormsModule} from '../../directives/forms/elder-forms.module';
 import {CdkTableModule} from '@angular/cdk/table';
 import {ElderInfiniteScrollModule} from '../../directives/infinitescroll/elder-infinite-scroll.module';
 
-export {EbsTableComponent} from './ebs-table/ebs-table.component';
+export {ElderTableComponent} from './elder-table/elder-table.component';
 
 @NgModule({
   imports: [
@@ -48,7 +48,7 @@ export {EbsTableComponent} from './ebs-table/ebs-table.component';
 
     ElderInfiniteScrollModule
   ],
-  declarations: [EbsTableComponent],
-  exports: [EbsTableComponent]
+  declarations: [ElderTableComponent],
+  exports: [ElderTableComponent]
 })
-export class EbsTableModule { }
+export class ElderTableModule { }

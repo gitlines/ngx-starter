@@ -3,12 +3,12 @@ import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Component({
-  selector: 'ebs-nav-link',
-  templateUrl: './ebs-nav-link.component.html',
-  styleUrls: ['./ebs-nav-link.component.scss'],
+  selector: 'elder-nav-link, ebs-nav-link',
+  templateUrl: './elder-nav-link.component.html',
+  styleUrls: ['./elder-nav-link.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush Fix RouterLinkActive binding first :(
 })
-export class EbsNavLinkComponent implements OnInit {
+export class ElderNavLinkComponent implements OnInit {
 
   @HostBinding('attr.tabindex') tabIndex = -1;
 

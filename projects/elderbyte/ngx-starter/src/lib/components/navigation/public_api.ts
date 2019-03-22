@@ -1,2 +1,2 @@
-export * from './toolbar/ebs-toolbar.module';
-export * from './nav/ebs-nav.module';
+export * from './toolbar/elder-toolbar.module';
+export * from './nav/elder-nav.module';

@@ -1,6 +1,6 @@
 
 
-export enum EbsToolbarColumnPosition {
+export enum ToolbarColumnPosition {
 
     LEFT = 'left',
     CENTER = 'center',

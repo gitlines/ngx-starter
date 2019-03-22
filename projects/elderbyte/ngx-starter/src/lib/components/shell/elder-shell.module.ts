@@ -9,10 +9,10 @@ import {
 import {MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateModule} from '@ngx-translate/core';
-import {EbsToolbarModule} from '../navigation/toolbar/ebs-toolbar.module';
+import {ElderToolbarModule} from '../navigation/toolbar/elder-toolbar.module';
 import {RouterModule} from '@angular/router';
 import {ElderToastModule} from '../../features/toasts/elder-toast.module';
-import {ShellNavigationToggleComponent} from './shell-navigation-toggle/shell-navigation-toggle.component';
+import {ElderShellNavigationToggleComponent} from './shell-navigation-toggle/elder-shell-navigation-toggle.component';
 
 export * from './shell/elder-shell.component';
 export {DrawerOutletBinding} from './drawers/drawer-outlet-binding';
@@ -31,7 +31,7 @@ export {ElderShellService} from './elder-shell.service';
     MatButtonModule,
 
 
-    EbsToolbarModule,
+    ElderToolbarModule,
     ElderToastModule,
 
     FlexLayoutModule, TranslateModule
@@ -42,14 +42,14 @@ export {ElderShellService} from './elder-shell.service';
     ElderShellSideLeftDirective,
     ElderShellSideRightDirective,
     ElderShellCenterDirective,
-    ShellNavigationToggleComponent
+    ElderShellNavigationToggleComponent
   ],
   exports: [
     ElderShellComponent,
     ElderShellSideLeftDirective,
     ElderShellSideRightDirective,
     ElderShellCenterDirective,
-    ShellNavigationToggleComponent
+    ElderShellNavigationToggleComponent
   ]
 })
 export class ElderShellModule { }

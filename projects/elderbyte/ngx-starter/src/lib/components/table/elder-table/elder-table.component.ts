@@ -25,12 +25,12 @@ import {CdkColumnDef, CdkRowDef, CdkTable} from '@angular/cdk/table';
 import {DataContextBuilder} from '../../../common/data/data-context/data-context-builder';
 
 @Component({
-  selector: 'ebs-table',
-  templateUrl: './ebs-table.component.html',
-  styleUrls: ['./ebs-table.component.scss'],
+  selector: 'elder-table, ebs-table', // ebs-table is deprecated
+  templateUrl: './elder-table.component.html',
+  styleUrls: ['./elder-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
+export class ElderTableComponent implements OnInit, OnDestroy, AfterContentInit {
 
   /***************************************************************************
    *                                                                         *
@@ -38,7 +38,7 @@ export class EbsTableComponent implements OnInit, OnDestroy, AfterContentInit {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsTableComponent');
+  private readonly logger = LoggerFactory.getLogger('ElderTableComponent');
 
   private readonly unsubscribe$ = new Subject();
 

@@ -1,12 +1,12 @@
 import {Injectable, TemplateRef} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {EbsToolbarColumnPosition} from './ebs-toolbar-column-position';
+import {ToolbarColumnPosition} from './toolbar-column-position';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EbsToolbarService {
+export class ElderToolbarService {
 
   /***************************************************************************
    *                                                                         *
@@ -14,17 +14,17 @@ export class EbsToolbarService {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsToolbarService');
+  private readonly logger = LoggerFactory.getLogger('ElderToolbarService');
 
   /** Default templates (App Level) */
-  private readonly _columnDefaults = new Map<EbsToolbarColumnPosition, TemplateRef<any>>();
+  private readonly _columnDefaults = new Map<ToolbarColumnPosition, TemplateRef<any>>();
 
   /** Custom templates (Component Level) */
-  private readonly _columns = new Map<EbsToolbarColumnPosition, TemplateRef<any>>();
+  private readonly _columns = new Map<ToolbarColumnPosition, TemplateRef<any>>();
 
-  private readonly _activeColumns = new Map<EbsToolbarColumnPosition, BehaviorSubject<TemplateRef<any>>>();
+  private readonly _activeColumns = new Map<ToolbarColumnPosition, BehaviorSubject<TemplateRef<any>>>();
 
-  private readonly _availablePositions = [EbsToolbarColumnPosition.LEFT, EbsToolbarColumnPosition.CENTER, EbsToolbarColumnPosition.RIGHT];
+  private readonly _availablePositions = [ToolbarColumnPosition.LEFT, ToolbarColumnPosition.CENTER, ToolbarColumnPosition.RIGHT];
 
   /***************************************************************************
    *                                                                         *
@@ -48,7 +48,7 @@ export class EbsToolbarService {
    * Returns an observable which emits the current active template for the given position
    * over time.
    */
-  public activeColumnTemplate(position: EbsToolbarColumnPosition): Observable<TemplateRef<any>> {
+  public activeColumnTemplate(position: ToolbarColumnPosition): Observable<TemplateRef<any>> {
     const activeColumn = this._activeColumns.get(position);
     if (activeColumn) {
       return activeColumn.asObservable();
@@ -64,7 +64,7 @@ export class EbsToolbarService {
    * @param template to set at position
    * @param isDefault if the given template should be used as app default
    */
-  public registerColumn(position: EbsToolbarColumnPosition, template: TemplateRef<any>, isDefault = false): void {
+  public registerColumn(position: ToolbarColumnPosition, template: TemplateRef<any>, isDefault = false): void {
 
     this.logger.trace('Registering toolbar column at position ' + position, template);
 
@@ -82,14 +82,14 @@ export class EbsToolbarService {
    * @param template to deregister
    * @param position if set, the template will only be deregistered if it was registered at this position (optional)
    */
-  public deregisterColumn(template: TemplateRef<any>, position?: EbsToolbarColumnPosition) {
+  public deregisterColumn(template: TemplateRef<any>, position?: ToolbarColumnPosition) {
 
     if (position) {
       if (this._columns.get(position) === template) {
         this.removeColumn(position);
       }
     } else {
-      this._columns.forEach((value: TemplateRef<any>, key: EbsToolbarColumnPosition) => {
+      this._columns.forEach((value: TemplateRef<any>, key: ToolbarColumnPosition) => {
         if (value === template) {
           this.removeColumn(key);
         }
@@ -103,13 +103,13 @@ export class EbsToolbarService {
    *                                                                         *
    **************************************************************************/
 
-  private removeColumn(pos: EbsToolbarColumnPosition): void {
+  private removeColumn(pos: ToolbarColumnPosition): void {
     this.logger.trace('Deregistering toolbar column at ', pos);
     this._columns.delete(pos);
     this.updateActiveColumn(pos);
   }
 
-  private updateActiveColumn(position: EbsToolbarColumnPosition): void {
+  private updateActiveColumn(position: ToolbarColumnPosition): void {
     const active = this.findActiveTemplate(position);
     const activeColumn = this._activeColumns.get(position);
     if (activeColumn.getValue() !== active) {
@@ -117,7 +117,7 @@ export class EbsToolbarService {
     }
   }
 
-  private findActiveTemplate(position: EbsToolbarColumnPosition): TemplateRef<any> {
+  private findActiveTemplate(position: ToolbarColumnPosition): TemplateRef<any> {
     return this._columns.has(position)
       ? this._columns.get(position)
       : this._columnDefaults.get(position);

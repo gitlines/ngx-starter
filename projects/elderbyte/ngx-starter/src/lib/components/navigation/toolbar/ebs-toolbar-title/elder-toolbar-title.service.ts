@@ -15,7 +15,7 @@ export class ToolbarHeader {
 @Injectable({
   providedIn: 'root'
 })
-export class EbsToolbarTitleService {
+export class ElderToolbarTitleService {
 
   /***************************************************************************
    *                                                                         *
@@ -23,7 +23,7 @@ export class EbsToolbarTitleService {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('EbsToolbarTitleService');
+  private readonly logger = LoggerFactory.getLogger('ElderToolbarTitleService');
 
   private _title = new ToolbarHeader('');
   private _titleChange: BehaviorSubject<ToolbarHeader>;

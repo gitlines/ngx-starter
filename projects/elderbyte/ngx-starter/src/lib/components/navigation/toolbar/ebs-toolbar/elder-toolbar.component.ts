@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {EbsToolbarService} from '../ebs-toolbar.service';
-import {EbsToolbarColumnPosition} from '../ebs-toolbar-column-position';
+import {ElderToolbarService} from '../elder-toolbar.service';
+import {ToolbarColumnPosition} from '../toolbar-column-position';
 import {Observable} from 'rxjs';
 
 @Component({
-    selector: 'ebs-toolbar',
-    templateUrl: './ebs-toolbar.component.html',
-    styleUrls: ['./ebs-toolbar.component.scss'],
+    selector: 'elder-toolbar, ebs-toolbar',
+    templateUrl: './elder-toolbar.component.html',
+    styleUrls: ['./elder-toolbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsToolbarComponent implements OnInit {
+export class ElderToolbarComponent implements OnInit {
 
     /***************************************************************************
      *                                                                         *
@@ -18,7 +18,7 @@ export class EbsToolbarComponent implements OnInit {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('EbsToolbarComponent');
+    private readonly logger = LoggerFactory.getLogger('ElderToolbarComponent');
 
     /** The color of the Toolbar */
     @Input()
@@ -35,11 +35,11 @@ export class EbsToolbarComponent implements OnInit {
      **************************************************************************/
 
     constructor(
-        private toolbarService: EbsToolbarService
+        private toolbarService: ElderToolbarService
     ) {
-      this.leftColumnTemplate$ = toolbarService.activeColumnTemplate(EbsToolbarColumnPosition.LEFT);
-      this.centerColumnTemplate$ = toolbarService.activeColumnTemplate(EbsToolbarColumnPosition.CENTER);
-      this.rightColumnTemplate$ = toolbarService.activeColumnTemplate(EbsToolbarColumnPosition.RIGHT);
+      this.leftColumnTemplate$ = toolbarService.activeColumnTemplate(ToolbarColumnPosition.LEFT);
+      this.centerColumnTemplate$ = toolbarService.activeColumnTemplate(ToolbarColumnPosition.CENTER);
+      this.rightColumnTemplate$ = toolbarService.activeColumnTemplate(ToolbarColumnPosition.RIGHT);
     }
 
     /***************************************************************************

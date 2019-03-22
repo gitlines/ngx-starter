@@ -6,10 +6,10 @@ import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
 @Component({
     selector: 'elder-shell-nav-toggle',
-    templateUrl: './shell-navigation-toggle.component.html',
-    styleUrls: ['./shell-navigation-toggle.component.scss']
+    templateUrl: './elder-shell-navigation-toggle.component.html',
+    styleUrls: ['./elder-shell-navigation-toggle.component.scss']
 })
-export class ShellNavigationToggleComponent implements OnInit, OnDestroy {
+export class ElderShellNavigationToggleComponent implements OnInit, OnDestroy {
 
     /***************************************************************************
      *                                                                         *
@@ -17,7 +17,7 @@ export class ShellNavigationToggleComponent implements OnInit, OnDestroy {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('ShellNavigationToggleComponent');
+    private readonly logger = LoggerFactory.getLogger('ElderShellNavigationToggleComponent');
 
     private _icon = new BehaviorSubject<string>('menu');
     private sub: Subscription;

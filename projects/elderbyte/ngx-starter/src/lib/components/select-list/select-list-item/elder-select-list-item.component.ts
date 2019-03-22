@@ -1,5 +1,5 @@
-import {AfterContentInit, AfterViewInit, Component, ContentChildren, Input, OnInit, Output, QueryList} from '@angular/core';
-import {EbsSelectListComponent} from '../ebs-select-list/ebs-select-list.component';
+import {AfterContentInit, Component, ContentChildren, Input, OnInit, Output, QueryList} from '@angular/core';
+import {ElderSelectListComponent} from '../select-list/elder-select-list.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -9,9 +9,9 @@ interface EbsSelectListItemState { // Necessary for 'ngIf as'
 }
 
 @Component({
-  selector: 'ebs-select-list-item',
-  templateUrl: './ebs-select-list-item.component.html',
-  styleUrls: ['./ebs-select-list-item.component.scss'],
+  selector: 'elder-select-list-item, ebs-select-list-item',
+  templateUrl: './elder-select-list-item.component.html',
+  styleUrls: ['./elder-select-list-item.component.scss'],
   animations: [
     trigger('openClose', [
       state('open', style({
@@ -31,7 +31,7 @@ interface EbsSelectListItemState { // Necessary for 'ngIf as'
     ])
   ]
 })
-export class EbsSelectListItemComponent implements OnInit, AfterContentInit {
+export class ElderSelectListItemComponent implements OnInit, AfterContentInit {
 
   /***************************************************************************
    *                                                                         *
@@ -42,8 +42,8 @@ export class EbsSelectListItemComponent implements OnInit, AfterContentInit {
   @Input()
   public value: any;
 
-  @ContentChildren(EbsSelectListItemComponent)
-  public children: QueryList<EbsSelectListItemComponent>;
+  @ContentChildren(ElderSelectListItemComponent)
+  public children: QueryList<ElderSelectListItemComponent>;
 
   public readonly isOpen$ = new BehaviorSubject<boolean>(false);
 
@@ -60,7 +60,7 @@ export class EbsSelectListItemComponent implements OnInit, AfterContentInit {
    **************************************************************************/
 
   constructor(
-    private selectListComponent: EbsSelectListComponent
+    private selectListComponent: ElderSelectListComponent
   ) { }
 
   /***************************************************************************

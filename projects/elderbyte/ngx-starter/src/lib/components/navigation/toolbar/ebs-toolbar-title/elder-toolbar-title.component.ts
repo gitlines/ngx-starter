@@ -1,16 +1,16 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {EbsToolbarTitleService} from './ebs-toolbar-title.service';
+import {ElderToolbarTitleService} from './elder-toolbar-title.service';
 import {map} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'ebs-toolbar-title',
-  templateUrl: './ebs-toolbar-title.component.html',
-  styleUrls: ['./ebs-toolbar-title.component.scss'],
+  selector: 'elder-toolbar-title, ebs-toolbar-title',
+  templateUrl: './elder-toolbar-title.component.html',
+  styleUrls: ['./elder-toolbar-title.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EbsToolbarTitleComponent implements OnInit, AfterViewInit {
+export class ElderToolbarTitleComponent implements OnInit, AfterViewInit {
 
   /***************************************************************************
    *                                                                         *
@@ -27,7 +27,7 @@ export class EbsToolbarTitleComponent implements OnInit, AfterViewInit {
    **************************************************************************/
 
   constructor(
-    private toolbarService: EbsToolbarTitleService,
+    private toolbarService: ElderToolbarTitleService,
     private activatedRoute: ActivatedRoute
   ) {
 

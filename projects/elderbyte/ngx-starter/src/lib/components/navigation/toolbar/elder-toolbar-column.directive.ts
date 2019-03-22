@@ -1,12 +1,12 @@
 import {Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
-import {EbsToolbarService} from './ebs-toolbar.service';
-import {EbsToolbarColumnPosition} from './ebs-toolbar-column-position';
+import {ElderToolbarService} from './elder-toolbar.service';
+import {ToolbarColumnPosition} from './toolbar-column-position';
 
 @Directive({
-    selector: '[ebsToolbarColumn]'
+    selector: '[elderToolbarColumn], [ebsToolbarColumn]'
 })
-export class EbsToolbarColumnDirective implements OnInit, OnDestroy {
+export class ElderToolbarColumnDirective implements OnInit, OnDestroy {
 
     /***************************************************************************
      *                                                                         *
@@ -14,11 +14,11 @@ export class EbsToolbarColumnDirective implements OnInit, OnDestroy {
      *                                                                         *
      **************************************************************************/
 
-    private readonly logger = LoggerFactory.getLogger('EbsToolbarColumnDirective');
+    private readonly logger = LoggerFactory.getLogger('ElderToolbarColumnDirective');
 
     /** Position at which column should be placed. */
     @Input()
-    public ebsToolbarColumn: EbsToolbarColumnPosition;
+    public ebsToolbarColumn: ToolbarColumnPosition;
 
     /** If the column should be considered as default (fallback). */
     @Input()
@@ -32,7 +32,7 @@ export class EbsToolbarColumnDirective implements OnInit, OnDestroy {
 
     constructor(
         private viewContainer: ViewContainerRef,
-        private toolbarService: EbsToolbarService,
+        private toolbarService: ElderToolbarService,
         public templateRef: TemplateRef<any>,
     ) { }
 
