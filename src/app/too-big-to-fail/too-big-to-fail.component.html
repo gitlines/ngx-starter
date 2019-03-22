@@ -1,14 +1,14 @@
 <div fxLayout="column" fxFill class="padding-10">
 
   <div fxLayout="row" fxLayoutGap="10px">
-    <mat-card *ngFor="let i of 10|ElderRepeatPipe" style="min-width: 250px">
+    <mat-card *ngFor="let i of 10|elderRepeat" style="min-width: 250px">
       some of us {{i}}
     </mat-card>
   </div>
 
 
   <div fxLayout="column" class="padding-10" fxLayoutGap="10px">
-    <mat-card *ngFor="let i of 10|ElderRepeatPipe">
+    <mat-card *ngFor="let i of 10|elderRepeat">
       some of us {{i}}
     </mat-card>
   </div>
