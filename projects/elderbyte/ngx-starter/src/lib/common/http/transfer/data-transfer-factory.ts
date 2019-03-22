@@ -36,7 +36,7 @@ export class DataTransferFactory {
    * @param file The file to construct the Form Data form
    * @param options (Optional) Additional headers or query params
    */
-  public uploadFile(
+  public buildFileUpload(
     requestMethod: 'POST' | 'PUT' | 'PATCH',
     endpointUrl: string,
     file: File,
@@ -53,7 +53,7 @@ export class DataTransferFactory {
       params: options ? options.params : undefined
     });
 
-    return this.fromRequest(req, file.name, file.size);
+    return this.buildOfRequest(req, file.name, file.size);
   }
 
   /**
@@ -65,7 +65,7 @@ export class DataTransferFactory {
    * @param formName The file name of the Form Data
    * @param options (Optional) Additional headers or query params
    */
-  public uploadFileFormData(
+  public buildFileFormDataUpload(
     requestMethod: 'POST' | 'PUT' | 'PATCH',
     endpointUrl: string,
     formFile: File,
@@ -78,7 +78,7 @@ export class DataTransferFactory {
     const formData: FormData = new FormData();
     formData.append(formName, formFile, formFile.name);
 
-    return this.uploadFormData(
+    return this.buildFormDataUpload(
       requestMethod,
       endpointUrl,
       formData,
@@ -98,7 +98,7 @@ export class DataTransferFactory {
    * @param name
    * @param size
    */
-  public uploadFormData(
+  public buildFormDataUpload(
     requestMethod: 'POST' | 'PUT' | 'PATCH',
     endpointUrl: string,
     formData: FormData,
@@ -118,7 +118,7 @@ export class DataTransferFactory {
       params: options ? options.params : undefined
     });
 
-    return this.fromRequest(req, name, size);
+    return this.buildOfRequest(req, name, size);
   }
 
   /**
@@ -129,7 +129,7 @@ export class DataTransferFactory {
    * @param name The data transfer name
    * @param size The data transfer  size
    */
-  public fromRequest(
+  public buildOfRequest(
     request: HttpRequest<{}>,
     name: string,
     size: number

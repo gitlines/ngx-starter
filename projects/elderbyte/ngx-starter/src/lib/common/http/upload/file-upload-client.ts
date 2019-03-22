@@ -69,6 +69,6 @@ export class FileUploadClient implements IFileUploadClient {
    **************************************************************************/
 
   private createUploadTransfer(file: File): HttpDataTransfer {
-    return this.dataTransferFactory.uploadFileFormData(this.requestMethod, this.endpointUrl, file);
+    return this.dataTransferFactory.buildFileFormDataUpload(this.requestMethod, this.endpointUrl, file);
   }
 }
