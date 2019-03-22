@@ -32,7 +32,7 @@ export class HttpDataTransferIndicatorComponent implements OnInit {
    **************************************************************************/
 
   @Input()
-  public activeColor = 'primary';
+  public activeColor = '';
 
   @Input()
   public inactiveColor = '';
