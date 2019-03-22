@@ -1,6 +1,6 @@
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {HttpEvent, HttpEventType, HttpProgressEvent, HttpResponse} from '@angular/common/http';
-import {catchError, takeUntil, tap} from 'rxjs/operators';
+import {catchError, filter, first, map, takeUntil, tap} from 'rxjs/operators';
 import {DataTransferProgress} from './data-transfer-progress';
 import {DataTransferState} from './data-transfer-state';
 
@@ -129,6 +129,28 @@ export class HttpDataTransfer {
    * Properties                                                              *
    *                                                                         *
    **************************************************************************/
+
+  /**
+   * Awaits until this transfer is done and closes the observable.
+   *
+   * If successful, emits true. Observable is closed.
+   * If aborted, emits false. Observable is closed.
+   * If failed, throws error. Observable is closed.
+   */
+  public get done$(): Observable<boolean> {
+    return this.state$.pipe(
+      filter(state => state.isDone),
+      map(state => {
+        if (state.isCompleted) { return true; }
+        if (state.isAborted) { return false; }
+
+        if (state.hasFailed) {
+          throw state.error ? state.error : 'Completion Failed due unknown error!';
+        }
+      }),
+      first()
+    );
+  }
 
   /**
    * Get the state of this data transfer over time.
