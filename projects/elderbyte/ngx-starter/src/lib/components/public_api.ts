@@ -1,7 +1,7 @@
 
 export * from './access-denied/elder-access-denied.module';
 export * from './expand-toggle-button/elder-expand-toggle-button.module';
-export * from './multi-autocomplete/ebs-multi-auto-complete.module';
+export * from './multi-autocomplete/elder-multi-auto-complete.module';
 export * from './labels/elder-labels.module';
 export * from './panels/elder-panel.module';
 export * from './files/elder-file.module';

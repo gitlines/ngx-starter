@@ -21,6 +21,6 @@ export * from './word-position';
         ElderMultiAutocompleteComponent
     ]
 })
-export class EbsMultiAutoCompleteModule {
+export class ElderMultiAutoCompleteModule {
 
 }
