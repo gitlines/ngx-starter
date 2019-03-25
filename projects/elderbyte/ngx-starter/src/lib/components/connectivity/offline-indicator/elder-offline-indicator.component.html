@@ -1,0 +1,11 @@
+
+
+<ng-container *ngIf="(status$ | async) as status">
+    <button mat-icon-button color="warn"
+            *ngIf="!status.online"
+            matTooltip="Lost Internet Connection, {{status.timeStamp | timeAgo}}"
+    >
+        <mat-icon>offline_bolt</mat-icon>
+    </button>
+</ng-container>
+
