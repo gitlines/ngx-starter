@@ -18,6 +18,9 @@ export class ElderOverlayTriggerDirective {
   @Input('elderOverlayTrigger')
   public overlay: ElderOverlayComponent;
 
+  @Input('elderOverlayTriggerEnabled')
+  public enabled = true;
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -36,7 +39,7 @@ export class ElderOverlayTriggerDirective {
 
   @HostListener('click', ['$event'])
   handleClick(event: MouseEvent): void {
-    if (this.overlay) {
+    if (this.enabled && this.overlay) {
       this.overlay.showOverlay({
         source: this._host
       });

@@ -53,6 +53,22 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
 
   private _hasCustomPositionStrategy = false;
+  private _origin: FlexibleConnectedPositionStrategyOrigin | null = null;
+
+  @Input()
+  public originX: 'start' | 'center' | 'end' = 'start';
+
+  @Input()
+  public originY: 'top' | 'center' | 'bottom' = 'bottom';
+
+  @Input()
+  public overlayX: 'start' | 'center' | 'end' = 'start';
+
+  @Input()
+  public overlayY: 'top' | 'center' | 'bottom' = 'top';
+
+  @Input()
+  public offsetY = 10;
 
   /***************************************************************************
    *                                                                         *
@@ -110,8 +126,9 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
    **************************************************************************/
 
   @Input()
-  public set displayUnder(origin: FlexibleConnectedPositionStrategyOrigin) {
-    this.positionStrategy = this.displayUnderStrategy(origin);
+  public set origin(origin: FlexibleConnectedPositionStrategyOrigin) {
+    // this.positionStrategy = this.displayUnderStrategy(origin);
+    this._origin = origin;
   }
 
   @Input()
@@ -136,11 +153,21 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
    */
   public showOverlay(options?: OverlayShowOptions): EmbeddedViewRef<any> {
 
-    if (options && options.source && !this._hasCustomPositionStrategy) {
+
+    if (!this._hasCustomPositionStrategy) {
+
+      let origin: FlexibleConnectedPositionStrategyOrigin;
+      if (!this._origin && options && options.source) {
+        origin = options.source;
+      } else {
+        origin = this._origin;
+      }
       this.overlayRef.updatePositionStrategy(
-        this.displayUnderStrategy(options.source)
+        this.buildDefaultStrategy(origin)
       );
     }
+
+
     return this.createOverlay();
   }
 
@@ -157,15 +184,15 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
    *                                                                         *
    **************************************************************************/
 
-  private displayUnderStrategy(origin: FlexibleConnectedPositionStrategyOrigin): PositionStrategy {
+  private buildDefaultStrategy(origin: FlexibleConnectedPositionStrategyOrigin): PositionStrategy {
     return this.positionBuilder.flexibleConnectedTo(origin)
       .withPositions([{
-      originX: 'start',
-      originY: 'bottom',
-      overlayX: 'start',
-      overlayY: 'top',
-      offsetY: 10
-    }]);
+        originX: this.originX,
+        originY: this.originY,
+        overlayX: this.overlayX,
+        overlayY: this.overlayY,
+        offsetY: this.offsetY
+      }]);
   }
 
   private createOverlay(): EmbeddedViewRef<any> {

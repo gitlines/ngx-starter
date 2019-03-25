@@ -36,7 +36,7 @@ export class ElderOverlayOriginDirective {
   @Input('elderOverlayOrigin')
   public set overlay(overlay: ElderOverlayComponent) {
     this._overlay = overlay;
-    this._overlay.displayUnder = this._host;
+    this._overlay.origin = this._host;
   }
 
   public get overlay(): ElderOverlayComponent {
