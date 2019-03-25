@@ -11,10 +11,10 @@
 
     <input matInput type="text" name="searchExpression" #search
            ngModel #expressionModel="ngModel" cdkFocusInitial
-           [autocomplete]="overlayState.hasOverlay ? 'off' : 'on'"
+           [autocomplete]="(autoSearchPanelEnabled && overlayState.hasOverlay) ? 'off' : 'on'"
            [elderOverlayOrigin]="searchPanel"
            [elderOverlayTrigger]="searchPanel"
-           [elderOverlayTriggerEnabled]="overlayState.hasOverlay"
+           [elderOverlayTriggerEnabled]="autoSearchPanelEnabled && overlayState.hasOverlay"
     >
 
     <div fxLayout="row" matSuffix>

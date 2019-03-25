@@ -48,13 +48,25 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
 
   @ContentChild(ElderSearchPanelComponent) advancedSearch: ElderSearchPanelComponent;
 
+  public readonly overlayState$ = new BehaviorSubject<OverlayState>(new OverlayState(false));
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API Fields                                                       *
+   *                                                                         *
+   **************************************************************************/
+
+  /**
+   * Display the search panel immediately when the user enters the search box.
+   */
+  @Input()
+  public autoSearchPanelEnabled = true;
+
   @Input()
   public name = 'query';
 
   @Input()
   public queryKey: string;
-
-  public readonly overlayState$ = new BehaviorSubject<OverlayState>(new OverlayState(false));
 
   /***************************************************************************
    *                                                                         *
