@@ -9,7 +9,7 @@
 
   .elder-card-panel {
     color: mat-color($foreground, text);
-    background-color: mat-color($background, background);
+    background-color: mat-color($background, 'card');
 
     padding: 10px;
     border-radius: 4px;
