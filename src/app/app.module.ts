@@ -20,7 +20,9 @@ import {
   ElderDatesModule,
   ElderLocalesDeChModule,
   ElderSelectListModule,
-  ElderFormsModule, ElderDataTransferModule
+  ElderFormsModule,
+  ElderDataTransferModule,
+  ElderConnectivityModule
 } from '@elderbyte/ngx-starter';
 import {
   MatBadgeModule,
@@ -131,6 +133,7 @@ LoggerFactory.getDefaultConfiguration()
     ElderSelectListModule,
     ElderDataTransferModule,
     ElderOverlayModule,
+    ElderConnectivityModule,
 
     TranslateModule.forRoot({
       loader: {

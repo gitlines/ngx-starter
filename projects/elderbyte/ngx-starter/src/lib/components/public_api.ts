@@ -14,3 +14,4 @@ export * from './locales/elder-locales-de-ch.module';
 export * from './select-list/elder-select-list.module';
 export * from './data-transfer/elder-data-transfer.module';
 export * from './overlays/elder-overlay.module';
+export * from './connectivity/elder-connectivity.module';
