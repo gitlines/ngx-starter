@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EmbeddedViewRef,
   Inject,
@@ -12,13 +13,7 @@ import {
 import {Platform} from '@angular/cdk/platform';
 import {DOCUMENT} from '@angular/common';
 import {ViewportRuler} from '@angular/cdk/scrolling';
-import {
-  Overlay,
-  OverlayPositionBuilder,
-  OverlayRef,
-  OverlaySizeConfig,
-  PositionStrategy
-} from '@angular/cdk/overlay';
+import {Overlay, OverlayPositionBuilder, OverlayRef, OverlaySizeConfig, PositionStrategy} from '@angular/cdk/overlay';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {FlexibleConnectedPositionStrategyOrigin} from '@angular/cdk/overlay/typings/position/flexible-connected-position-strategy';
@@ -32,7 +27,8 @@ import {takeUntil} from 'rxjs/operators';
     <ng-template>
       <ng-content></ng-content>
     </ng-template>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ElderOverlayComponent implements OnInit, OnDestroy {
 
