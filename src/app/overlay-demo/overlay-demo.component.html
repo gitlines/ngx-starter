@@ -1,0 +1,19 @@
+<h1>
+  overlay-demo
+</h1>
+
+<elder-overlay #overlay="elderOverlay">
+
+  <mat-card>
+    <span>I am an overlay</span>
+  </mat-card>
+
+  <!--
+  <div style="width: 300px; height: 300px; background-color: #2F4869">
+    <span>I am an overlay</span>
+  </div>
+  -->
+</elder-overlay>
+
+<button mat-button [elderOverlayTrigger]="overlay">Open Overlay</button>
+

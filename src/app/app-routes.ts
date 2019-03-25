@@ -7,6 +7,7 @@ import {TableMasterDetailComponent} from './table-master-detail/table-master-det
 import {DemoSimpleSideComponent} from './demo-simple-side/demo-simple-side.component';
 import {CardsDemoComponent} from './cards-demo/cards-demo.component';
 import {TooBigToFailComponent} from './too-big-to-fail/too-big-to-fail.component';
+import {OverlayDemoComponent} from './overlay-demo/overlay-demo.component';
 
 
 export const appRoutes: Routes = [
@@ -101,7 +102,7 @@ export const appRoutes: Routes = [
           },
           {
             path: 'toolbar-title-demo',
-            component: DemoPanelComponent,
+            component: OverlayDemoComponent,
           }
         ],
         data: {

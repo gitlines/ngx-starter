@@ -53,6 +53,8 @@ import { SelectListDemoComponent } from './components/select-list-demo/select-li
 import { CardOrganizerDemoComponent } from './cards-demo/card-organizer-demo/card-organizer-demo.component';
 import { CardStackSorterComponent } from './cards-demo/card-stack-sorter/card-stack-sorter.component';
 import { TooBigToFailComponent } from './too-big-to-fail/too-big-to-fail.component';
+import {ElderOverlayModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/overlays/elder-overlay.module';
+import { OverlayDemoComponent } from './overlay-demo/overlay-demo.component';
 
 
 LoggerFactory.getDefaultConfiguration()
@@ -73,7 +75,8 @@ LoggerFactory.getDefaultConfiguration()
     CardsDemoComponent,
     CardOrganizerDemoComponent,
     CardStackSorterComponent,
-    TooBigToFailComponent
+    TooBigToFailComponent,
+    OverlayDemoComponent
   ],
   imports: [
 
@@ -127,6 +130,7 @@ LoggerFactory.getDefaultConfiguration()
     ElderDatesModule,
     ElderSelectListModule,
     ElderDataTransferModule,
+    ElderOverlayModule,
 
     TranslateModule.forRoot({
       loader: {

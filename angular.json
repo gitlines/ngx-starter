@@ -104,7 +104,7 @@
       "root": "projects/elderbyte/ngx-starter",
       "sourceRoot": "projects/elderbyte/ngx-starter/src",
       "projectType": "library",
-      "prefix": "ebs",
+      "prefix": "elder",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
