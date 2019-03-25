@@ -2,9 +2,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCommonModule} from '@angular/material';
-import {ElderPanelComponent} from './elder-panel.component';
+import {ElderPanelComponent} from './flat/elder-panel.component';
 
-export {ElderPanelComponent} from './elder-panel.component';
+export {ElderPanelComponent} from './flat/elder-panel.component';
 
 @NgModule({
     declarations: [

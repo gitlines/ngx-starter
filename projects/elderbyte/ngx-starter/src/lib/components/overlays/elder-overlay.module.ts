@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ElderOverlayComponent } from './elder-overlay.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { ElderOverlayTriggerDirective } from './elder-overlay-trigger.directive';
+import {ElderOverlayOriginDirective} from './elder-overlay-origin.directive';
 
 export {ElderOverlayComponent} from './elder-overlay.component';
 export {ElderOverlayTriggerDirective} from './elder-overlay-trigger.directive';
+export {ElderOverlayOriginDirective} from './elder-overlay-origin.directive';
 
 @NgModule({
   imports: [
@@ -15,11 +17,13 @@ export {ElderOverlayTriggerDirective} from './elder-overlay-trigger.directive';
   ],
   declarations: [
     ElderOverlayComponent,
-    ElderOverlayTriggerDirective
+    ElderOverlayTriggerDirective,
+    ElderOverlayOriginDirective
   ],
   exports: [
     ElderOverlayComponent,
-    ElderOverlayTriggerDirective
+    ElderOverlayTriggerDirective,
+    ElderOverlayOriginDirective
   ]
 })
 export class ElderOverlayModule { }

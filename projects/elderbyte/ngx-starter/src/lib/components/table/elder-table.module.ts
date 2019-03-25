@@ -14,7 +14,7 @@ import {
 import {RouterModule} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
-import {ElderFormsModule} from '../forms/elder-forms.module';
+import {ElderFormsModule} from '../forms/directives/elder-forms.module';
 import {CdkTableModule} from '@angular/cdk/table';
 import {ElderInfiniteScrollModule} from '../infinitescroll/elder-infinite-scroll.module';
 

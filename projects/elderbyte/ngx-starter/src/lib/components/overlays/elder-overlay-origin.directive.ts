@@ -1,11 +1,11 @@
-import {Directive, ElementRef, HostListener, Input} from '@angular/core';
+import {Directive, ElementRef, Input} from '@angular/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {ElderOverlayComponent} from './elder-overlay.component';
 
 @Directive({
-  selector: '[elderOverlayTrigger]'
+  selector: '[elderOverlayOrigin]'
 })
-export class ElderOverlayTriggerDirective {
+export class ElderOverlayOriginDirective {
 
   /***************************************************************************
    *                                                                         *
@@ -13,10 +13,9 @@ export class ElderOverlayTriggerDirective {
    *                                                                         *
    **************************************************************************/
 
-  private readonly logger = LoggerFactory.getLogger('ElderOverlayTriggerDirective');
+  private readonly logger = LoggerFactory.getLogger('ElderOverlayOriginDirective');
 
-  @Input('elderOverlayTrigger')
-  public overlay: ElderOverlayComponent;
+  private _overlay: ElderOverlayComponent;
 
   /***************************************************************************
    *                                                                         *
@@ -30,17 +29,17 @@ export class ElderOverlayTriggerDirective {
 
   /***************************************************************************
    *                                                                         *
-   * Event Listeners                                                         *
+   * Properties                                                              *
    *                                                                         *
    **************************************************************************/
 
-  @HostListener('click', ['$event'])
-  handleClick(event: MouseEvent): void {
-    if (this.overlay) {
-      this.overlay.showOverlay({
-        source: this._host
-      });
-    }
+  @Input('elderOverlayOrigin')
+  public set overlay(overlay: ElderOverlayComponent) {
+    this._overlay = overlay;
+    this._overlay.displayUnder = this._host;
   }
 
+  public get overlay(): ElderOverlayComponent {
+    return this._overlay;
+  }
 }

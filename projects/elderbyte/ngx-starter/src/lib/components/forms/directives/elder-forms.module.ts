@@ -7,17 +7,13 @@ import {ElderTouchedDirective} from './elder-touched.directive';
 import {MatFormFieldModule} from '@angular/material';
 import {ElderPlugParentFormDirective} from './elder-plug-parent-form.directive';
 import {ElderStopEventPropagationDirective} from './elder-stop-event-propagation.directive';
-import {ElderSearchModelDirective} from './search/elder-search-model.directive';
-import {ElderSearchInputDirective} from './search/elder-search-input.directive';
+import {ElderSearchModule} from '../search/elder-search.module';
+
 
 export {ElderDelayedFocusDirective} from './elder-delayed-focus.directive';
 export {ElderTouchedDirective} from './elder-touched.directive';
 export {ElderPlugParentFormDirective} from './elder-plug-parent-form.directive';
 export {ElderStopEventPropagationDirective} from './elder-stop-event-propagation.directive';
-
-export {ElderSearchModelDirective} from './search/elder-search-model.directive';
-export {ElderSearchInputDirective} from './search/elder-search-input.directive';
-
 
 /**
  * @deprecated Please switch to ElderTouchedDirective
@@ -38,21 +34,19 @@ export class ElderPlugParentFormDirectiveLegacy extends ElderPlugParentFormDirec
 export class ElderStopEventPropagationDirectiveLegacy extends ElderStopEventPropagationDirective { }
 
 @NgModule({
-    declarations: [
-      ElderDelayedFocusDirective,
-      ElderTouchedDirective, ElderTouchedDirectiveLegacy,
-      ElderPlugParentFormDirective, ElderPlugParentFormDirectiveLegacy,
-      ElderStopEventPropagationDirective, ElderStopEventPropagationDirectiveLegacy,
-      ElderSearchModelDirective, ElderSearchInputDirective
-    ],
-    exports : [
+  imports : [ CommonModule, MatFormFieldModule, ElderSearchModule ],
+  declarations: [
+    ElderDelayedFocusDirective,
+    ElderTouchedDirective, ElderTouchedDirectiveLegacy,
+    ElderPlugParentFormDirective, ElderPlugParentFormDirectiveLegacy,
+    ElderStopEventPropagationDirective, ElderStopEventPropagationDirectiveLegacy,
+  ],
+  exports : [
 
-      ElderDelayedFocusDirective,
-      ElderTouchedDirective, ElderTouchedDirectiveLegacy,
-      ElderPlugParentFormDirective, ElderPlugParentFormDirectiveLegacy,
-      ElderStopEventPropagationDirective, ElderStopEventPropagationDirectiveLegacy,
-      ElderSearchModelDirective, ElderSearchInputDirective
-    ],
-    imports : [ CommonModule, MatFormFieldModule ]
+    ElderDelayedFocusDirective,
+    ElderTouchedDirective, ElderTouchedDirectiveLegacy,
+    ElderPlugParentFormDirective, ElderPlugParentFormDirectiveLegacy,
+    ElderStopEventPropagationDirective, ElderStopEventPropagationDirectiveLegacy
+  ],
 })
 export class ElderFormsModule { }

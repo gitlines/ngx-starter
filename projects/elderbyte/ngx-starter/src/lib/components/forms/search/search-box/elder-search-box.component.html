@@ -1,0 +1,60 @@
+<div fxLayout="row" fxFlex>
+
+  <!-- Main search input -->
+  <mat-form-field fxFlex="grow" fxFlexAlign="center" *ngIf="overlayState$ | async as overlayState">
+
+    <div fxLayout="row" matPrefix>
+      <button mat-icon-button>
+        <mat-icon >search</mat-icon>
+      </button>
+    </div>
+
+    <input matInput type="text" name="searchExpression" #search
+           ngModel #expressionModel="ngModel" cdkFocusInitial
+           [autocomplete]="overlayState.hasOverlay ? 'off' : 'on'"
+           [elderOverlayOrigin]="searchPanel"
+           [elderOverlayTrigger]="searchPanel"
+    >
+
+    <div fxLayout="row" matSuffix>
+
+      <button name="clear" *ngIf="searchModel.hasActiveFilter"  mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <button *ngIf="overlayState.hasOverlay" name="openPanel" mat-icon-button
+              matBadge="{{searchModel && (searchModel.activeFilterCountChanged | async)}}"
+              [matBadgeHidden]="!(searchModel.activeFilterCountChanged | async)"
+              matBadgeColor="accent"
+              [elderOverlayTrigger]="searchPanel" (click)="blurFocus($event)">
+        <mat-icon color="{{searchModel && ((searchModel.hasActiveFilterChanged | async) ? 'accent' : 'default')}}">filter_list</mat-icon>
+      </button>
+
+    </div>
+  </mat-form-field>
+</div>
+
+
+<!-- Overlay Panel for advanced search -->
+<elder-overlay #searchPanel="elderOverlay">
+  <div class="elder-search-panel">
+
+    <div fxLayout="column">
+
+      <!-- Project the users search inputs here -->
+      <ng-content></ng-content>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button name="clear"
+                (click)="clearSearch($event)">{{'context.reset' | translate}}
+        </button>
+
+        <button mat-raised-button name="ok" color="primary"
+                (click)="searchPanel.closeOverlay()">Ok
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</elder-overlay>

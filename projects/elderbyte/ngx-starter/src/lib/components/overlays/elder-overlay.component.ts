@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, ElementRef,
   EmbeddedViewRef,
   Inject,
   Input,
@@ -19,6 +19,12 @@ import {TemplatePortal} from '@angular/cdk/portal';
 import {FlexibleConnectedPositionStrategyOrigin} from '@angular/cdk/overlay/typings/position/flexible-connected-position-strategy';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+
+
+export class OverlayShowOptions {
+  public source?: ElementRef;
+}
+
 
 @Component({
   selector: 'elder-overlay',
@@ -45,6 +51,8 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject();
 
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+
+  private _hasCustomPositionStrategy = false;
 
   /***************************************************************************
    *                                                                         *
@@ -103,17 +111,18 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
    **************************************************************************/
 
   @Input()
-  public set elderOverlayOrigin(origin: FlexibleConnectedPositionStrategyOrigin) {
-    this.elderOverlayPositionStrategy = this.displayUnder(origin);
+  public set displayUnder(origin: FlexibleConnectedPositionStrategyOrigin) {
+    this.positionStrategy = this.displayUnderStrategy(origin);
   }
 
   @Input()
-  public set elderOverlayPositionStrategy(strategy: PositionStrategy) {
+  public set positionStrategy(strategy: PositionStrategy) {
     this.overlayRef.updatePositionStrategy(strategy);
+    this._hasCustomPositionStrategy = true;
   }
 
   @Input()
-  public set elderOverlaySize(size: OverlaySizeConfig) {
+  public set overlaySize(size: OverlaySizeConfig) {
     this.overlayRef.updateSize(size);
   }
 
@@ -126,7 +135,13 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
   /**
    * Show this overlay
    */
-  public showOverlay(): EmbeddedViewRef<any> {
+  public showOverlay(options?: OverlayShowOptions): EmbeddedViewRef<any> {
+
+    if (options && options.source && !this._hasCustomPositionStrategy) {
+      this.overlayRef.updatePositionStrategy(
+        this.displayUnderStrategy(options.source)
+      );
+    }
     return this.createOverlay();
   }
 
@@ -143,7 +158,7 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
    *                                                                         *
    **************************************************************************/
 
-  private displayUnder(origin: FlexibleConnectedPositionStrategyOrigin): PositionStrategy {
+  private displayUnderStrategy(origin: FlexibleConnectedPositionStrategyOrigin): PositionStrategy {
     return this.positionBuilder.flexibleConnectedTo(origin)
       .withPositions([{
       originX: 'start',

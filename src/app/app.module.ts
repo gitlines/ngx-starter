@@ -22,14 +22,16 @@ import {
   ElderSelectListModule,
   ElderFormsModule,
   ElderDataTransferModule,
-  ElderConnectivityModule
+  ElderConnectivityModule,
+  ElderOverlayModule,
+  ElderSearchModule
 } from '@elderbyte/ngx-starter';
 import {
   MatBadgeModule,
   MatButtonModule, MatCardModule, MatChipsModule,
   MatCommonModule,
   MatDialogModule, MatDividerModule,
-  MatIconModule, MatListModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule,
+  MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule,
   MatSidenavModule, MatSortModule, MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -55,9 +57,7 @@ import { SelectListDemoComponent } from './components/select-list-demo/select-li
 import { CardOrganizerDemoComponent } from './cards-demo/card-organizer-demo/card-organizer-demo.component';
 import { CardStackSorterComponent } from './cards-demo/card-stack-sorter/card-stack-sorter.component';
 import { TooBigToFailComponent } from './too-big-to-fail/too-big-to-fail.component';
-import {ElderOverlayModule} from '../../projects/elderbyte/ngx-starter/src/lib/components/overlays/elder-overlay.module';
-import { OverlayDemoComponent } from './overlay-demo/overlay-demo.component';
-
+import {OverlayDemoComponent} from './overlay-demo/overlay-demo.component';
 
 LoggerFactory.getDefaultConfiguration()
   .withMaxLevel(LogLevel.Trace);
@@ -109,6 +109,7 @@ LoggerFactory.getDefaultConfiguration()
     MatProgressBarModule,
     MatChipsModule, MatCardModule,
     MatProgressSpinnerModule,
+    MatInputModule,
 
     MatTableModule,
     MatSortModule,
@@ -134,6 +135,7 @@ LoggerFactory.getDefaultConfiguration()
     ElderDataTransferModule,
     ElderOverlayModule,
     ElderConnectivityModule,
+    ElderSearchModule,
 
     TranslateModule.forRoot({
       loader: {
