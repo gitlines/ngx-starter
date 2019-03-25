@@ -17,3 +17,8 @@ export * from './overlays/elder-overlay.module';
 export * from './connectivity/elder-connectivity.module';
 export * from './infinitescroll/elder-infinite-scroll.module';
 export * from './forms/elder-forms.module';
+export * from './http-support/public_api';
+export * from './dialogs/elder-dialog.module';
+export * from './global-search/elder-global-search.module';
+export * from './language/elder-language.module';
+export * from './toasts/elder-toast.module';

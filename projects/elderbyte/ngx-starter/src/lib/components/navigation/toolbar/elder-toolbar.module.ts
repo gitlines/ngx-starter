@@ -12,7 +12,7 @@ import {
     MatToolbarModule
 } from '@angular/material';
 import {ElderToolbarComponent} from './toolbar/elder-toolbar.component';
-import {ElderLanguageModule} from '../../../features/language/elder-language.module';
+import {ElderLanguageModule} from '../../language/elder-language.module';
 import { ElderToolbarColumnDirective } from './elder-toolbar-column.directive';
 import {ElderToolbarTitleComponent} from './toolbar-title/elder-toolbar-title.component';
 
