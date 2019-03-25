@@ -1,6 +1,10 @@
 {
   "greeting": "Hello World!",
 
+  "context": {
+    "reset": "Reset"
+  },
+
   "language": {
     "language": "Language",
     "en": "English",

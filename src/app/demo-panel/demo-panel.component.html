@@ -132,9 +132,22 @@
 
         <h2>mat-panel</h2>
 
-        <mat-panel color="primary" class="padding-10">
-          <p>hello im a panel</p>
-        </mat-panel>
+        <div fxLayout="row" fxLayoutGap="20px">
+
+          <mat-panel color="primary" class="padding-10" fxflex="30">
+            <p>hello im a panel (primary)</p>
+          </mat-panel>
+
+          <mat-panel color="accent" class="padding-10" fxflex="30">
+            <p>hello im a panel (accent)</p>
+          </mat-panel>
+
+          <mat-panel color="none" class="padding-10" fxflex="30">
+            <p>hello im a panel (none)</p>
+          </mat-panel>
+
+        </div>
+
 
         <h2>elder-label-input</h2>
 

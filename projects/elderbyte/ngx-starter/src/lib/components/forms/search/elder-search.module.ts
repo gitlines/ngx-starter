@@ -10,6 +10,7 @@ import {A11yModule} from '@angular/cdk/a11y';
 import {TranslateModule} from '@ngx-translate/core';
 import {ElderOverlayModule} from '../../overlays/elder-overlay.module';
 import {ElderSearchPanelComponent} from './search-box/elder-search-panel.component';
+import {ElderPanelModule} from '../../panels/elder-panel.module';
 
 
 export {ElderSearchModelDirective} from './elder-search-model.directive';
@@ -27,6 +28,7 @@ export {ElderSearchPanelComponent} from './search-box/elder-search-panel.compone
     A11yModule,
 
     ElderOverlayModule,
+    ElderPanelModule,
 
     FlexLayoutModule, TranslateModule
   ],

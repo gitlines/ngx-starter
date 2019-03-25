@@ -72,7 +72,6 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
 
     this.overlayRef = this.overlay.create({
       hasBackdrop: true,
-      panelClass: 'mat-elevation-z5',
       backdropClass: 'cdk-overlay-transparent-backdrop',
     });
   }

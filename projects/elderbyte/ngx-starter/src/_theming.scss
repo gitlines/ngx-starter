@@ -1,4 +1,5 @@
 @import "lib/components/panels/flat/elder-panel-theme";
+@import "lib/components/panels/card-panel/elder-card-panel.component";
 @import "lib/components/navigation/nav/nav-link/elder-nav-link.component";
 @import "lib/components/navigation/nav/nav-group/elder-nav-group.component";
 @import "lib/components/select-list/select-list-item/elder-select-list-item.component";
@@ -175,6 +176,7 @@ $ebs-elder-gold:  $elder-gold;
 // Create a theme.
 @mixin starter-theme($theme) {
   @include elder-panel-theme($theme);
+  @include elder-card-panel-theme($theme);
   @include elder-nav-theme($theme);
   @include elder-nav-group-theme($theme);
   @include elder-select-list-theme($theme);

@@ -37,24 +37,19 @@
 
 <!-- Overlay Panel for advanced search -->
 <elder-overlay #searchPanel="elderOverlay">
-  <div class="elder-search-panel">
+  <elder-card-panel class="elder-search-panel">
 
-    <div fxLayout="column">
+    <!-- Project the users search inputs here -->
+    <ng-content select="elder-search-panel"></ng-content>
 
-      <!-- Project the users search inputs here -->
-      <ng-content></ng-content>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <button mat-raised-button name="clear"
+              (click)="clearSearch($event)">{{'context.reset' | translate}}
+      </button>
 
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-raised-button name="clear"
-                (click)="clearSearch($event)">{{'context.reset' | translate}}
-        </button>
-
-        <button mat-raised-button name="ok" color="primary"
-                (click)="searchPanel.closeOverlay()">Ok
-        </button>
-      </div>
-
+      <button mat-raised-button name="ok" color="primary"
+              (click)="searchPanel.closeOverlay()">Ok
+      </button>
     </div>
-
-  </div>
+  </elder-card-panel>
 </elder-overlay>
