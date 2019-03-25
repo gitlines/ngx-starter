@@ -3,7 +3,7 @@
 
   <button mat-icon-button
           fxLayout="row" fxLayoutAlign="center center"
-          (click)="showPanel($event)">
+          [elderOverlayTrigger]="overlay">
 
     <mat-icon *ngIf="aggregate.inTransfer == 0" [color]="inactiveColor">cloud_upload</mat-icon>
 
@@ -24,8 +24,8 @@
   </button>
 </ng-container>
 
-<ng-template #panel>
+<elder-overlay #overlay="elderOverlay">
   <elder-data-transfer-overview class="panel">
   </elder-data-transfer-overview>
-</ng-template>
+</elder-overlay>
 
