@@ -32,7 +32,7 @@ export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDes
 
   private readonly unsubscribe$ = new Subject();
 
-  private readonly _searchAttributes = new BehaviorSubject<SearchInput[]>([]);
+  private readonly _searchInputs = new BehaviorSubject<SearchInput[]>([]);
   private readonly _searchStates = new BehaviorSubject<SearchInputState[]>([]);
   private readonly _filters = new BehaviorSubject<Filter[]>([]);
 
@@ -57,9 +57,9 @@ export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDes
   public ngOnInit(): void { }
 
   public ngAfterViewInit(): void {
-    this._searchAttributes.pipe(
+    this._searchInputs.pipe(
       takeUntil(this.unsubscribe$),
-      flatMap(attributes => combineLatest(attributes.map(a => a.state$))),
+      flatMap(inputs => combineLatest(inputs.map(i => i.state$))),
       debounceTime(5)
     ).subscribe(states => {
 
@@ -98,11 +98,11 @@ export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDes
   }
 
   public get attributes(): Observable<SearchInput[]> {
-    return this._searchAttributes.asObservable();
+    return this._searchInputs.asObservable();
   }
 
   public get attributesSnapshot(): SearchInput[] {
-    return this._searchAttributes.getValue();
+    return this._searchInputs.getValue();
   }
 
   public get states$(): Observable<SearchInputState[]> {
@@ -140,12 +140,12 @@ export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDes
    **************************************************************************/
 
   /**
-   * Register a new search attribute in this container
+   * Register a new search name in this container
    */
-  public register(attribute: SearchInput): void {
-    this.log.debug('Registering search control ', attribute);
-    const current = this._searchAttributes.getValue();
-    this._searchAttributes.next([...current, attribute]);
+  public register(searchInput: SearchInput): void {
+    this.log.debug('Registering search input [' + searchInput.name + ']');
+    const current = this._searchInputs.getValue();
+    this._searchInputs.next([...current, searchInput]);
   }
 
   public reset(): void {
@@ -164,7 +164,6 @@ export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDes
 
   private convertToFilters(states: SearchInputState[]): Filter[] {
     return states
-      .filter(a => a.hasValue)
       .map(s => new Filter(s.queryKey, s.queryValue));
   }
 

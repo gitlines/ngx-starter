@@ -20,6 +20,7 @@ export class OverlayState {
 
 @Component({
   selector: 'elder-search-box',
+  exportAs: 'elderSearchBox',
   templateUrl: './elder-search-box.component.html',
   styleUrls: ['./elder-search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

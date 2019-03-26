@@ -4,26 +4,26 @@ import {SearchInputState} from './search-input-state';
 
 
 /**
- * Represents a single search attribute.
+ * Represents a single search name.
  */
 export interface SearchInput {
 
   /**
-   * The attribute name
+   * The search input name
    */
-  readonly attribute: string;
+  readonly name: string;
 
   readonly state$: Observable<SearchInputState>;
 
   readonly stateSnapshot: SearchInputState;
 
   /**
-   * States if the search attribute is cannot be changed.
+   * States if the search name is cannot be changed.
    */
   readonly readonly?: boolean;
 
   /**
-   * Reset the attribute value
+   * Reset the name value
    */
   reset(): void;
 }

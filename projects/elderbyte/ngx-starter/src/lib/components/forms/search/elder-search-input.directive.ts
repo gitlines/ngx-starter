@@ -16,7 +16,7 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {SearchInputState} from './model/search-input-state';
 
 /**
- * Search attribute adapter for input controls.
+ * Search name adapter for input controls.
  */
 @Directive({
   selector: '[elderSearchInput]',
@@ -70,11 +70,9 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
    **************************************************************************/
 
   constructor(
-    private searchContainer: ElderSearchContextDirective,
+    private searchContext: ElderSearchContextDirective,
     @Host() private ngModel: NgModel
   ) {
-    this.logger.trace('ngModel:',  ngModel);
-    this.searchContainer.register(this);
   }
 
   /***************************************************************************
@@ -87,6 +85,8 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
 
   public ngAfterViewInit(): void {
     this._extractedName = this.extractName();
+
+    this.searchContext.register(this);
 
     this.stateObservable().subscribe(state => {
       this.emitState(state);
@@ -114,12 +114,12 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
     return this._state.getValue();
   }
 
-  public get attribute(): string {
+  public get name(): string {
     if (this.queryKey) { return this.queryKey; }
     if (this._extractedName) { return this._extractedName; }
 
-    throw new Error('Could not determine the search attribute key name.' +
-      ' Either specify the name property or explicitly set filterInputKey.');
+    throw new Error('Could not determine the search name key name.' +
+      ' Either specify the name property or explicitly set [elderSearchInputKey].');
   }
 
   public get value(): any {
@@ -160,9 +160,9 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
         const pristine = !this.isAttributeValuePresent(value);
 
         return new SearchInputState(
-          this.attribute,
+          this.name,
           queryValue,
-          this.queryKey || this.attribute,
+          this.queryKey || this.name,
           pristine
         );
       })

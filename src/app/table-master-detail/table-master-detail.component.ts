@@ -26,6 +26,7 @@ export class TableMasterDetailComponent implements OnInit {
   public ngOnInit(): void {
     this.data = DataContextBuilder.start<Food>()
       .buildLocal(FoodStore.foods);
+
     this.data.start();
   }
 

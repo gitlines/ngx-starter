@@ -5,7 +5,7 @@ export class SearchInputState {
   constructor(
 
     /**
-     * attribute The attribute name
+     * attribute The name name
      */
     public readonly attribute: string,
 
