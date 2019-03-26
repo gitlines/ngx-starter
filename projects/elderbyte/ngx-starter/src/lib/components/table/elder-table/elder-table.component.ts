@@ -159,11 +159,7 @@ export class ElderTableComponent implements OnInit, OnDestroy, AfterContentInit 
       this._matTableBinding.unsubscribe();
       this._matTableBinding = null;
     }
-
-    if (this.cleanUp) {
-      this.logger.debug('Releasing DataContext resources to prevent memory leak. [cleanUp]="true"');
-      this.dataContext.close();
-    }
+    this.autoCleanUp();
   }
 
   /***************************************************************************
@@ -184,6 +180,9 @@ export class ElderTableComponent implements OnInit, OnDestroy, AfterContentInit 
 
   @Input()
   public set data(data: Array<any> | IDataContext<any>) {
+
+    this.autoCleanUp();
+
     if (data instanceof Array) {
       this.dataContext = DataContextBuilder.start()
         .buildLocal(data); // Memory leak
@@ -340,6 +339,16 @@ export class ElderTableComponent implements OnInit, OnDestroy, AfterContentInit 
    * Private Methods                                                         *
    *                                                                         *
    **************************************************************************/
+
+  /**
+   * Performs clean up of the current data context if auto clean up is enabled.
+   */
+  private autoCleanUp(): void {
+    if (this.cleanUp && this.dataContext) {
+      this.logger.debug('Releasing DataContext resources to prevent memory leak. [cleanUp]="true"');
+      this.dataContext.close();
+    }
+  }
 
   private updateColumnDefs(columnDefs: CdkColumnDef[] = []): void {
 
