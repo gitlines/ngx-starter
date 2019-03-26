@@ -21,7 +21,7 @@ export class HttpParamsBuilder {
     public appendFilters(filters?: Filter[]): this {
         if (filters) {
             for (const filter of filters) {
-                if (filter && Objects.nonNull(filter.key) && Objects.nonNull(filter.value)) {
+                if (filter && filter.hasValue) {
                   // Ignore filtersSnapshot without a value specified
                   this.append(filter.key, filter.value);
                 }

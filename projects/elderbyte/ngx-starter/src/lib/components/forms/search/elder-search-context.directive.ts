@@ -66,13 +66,12 @@ export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDes
       this._searchStates.next(states);
 
       const filters = this.convertToFilters(states);
-
-      this.log.trace('Search-Model states updated:', states);
-
       this._filters.next(filters);
 
+      this.log.trace('Search-Model filters updated:', filters);
+
       if (this.filterContext) {
-        this.filterContext.replaceFilters(filters);
+        this.filterContext.updateFilters(filters);
       }
 
     });

@@ -6,14 +6,22 @@ import {Objects} from '../objects';
 export class Filter {
 
   public readonly key: string;
-  public readonly value: string;
+  public readonly value: string | null;
 
   constructor(
       key: string,
-      value: string) {
+      value: string | null) {
+
+    if (!key) { throw new Error('ArgumentNull: Filter.key can not be null!'); }
+
     this.key = key;
     this.value = value;
   }
+
+  public get hasValue(): boolean {
+    return Objects.nonNull(this.value);
+  }
+
 }
 
 

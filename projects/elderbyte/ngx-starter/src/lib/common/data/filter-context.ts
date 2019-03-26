@@ -71,7 +71,15 @@ export class FilterContext {
     if (updatedFilters && updatedFilters.length > 0) {
       const filterMap = new Map<string, Filter>();
       this.filtersSnapshot.forEach(f => filterMap.set(f.key, f));
-      updatedFilters.forEach(f => filterMap.set(f.key, f));
+      updatedFilters.forEach(f => {
+        if (f.hasValue) {
+          filterMap.set(f.key, f);
+        } else {
+          if (filterMap.has(f.key)) {
+            filterMap.delete(f.key);
+          }
+        }
+      });
       this.replaceFilters(
         Array.from(
           updatedFilters.values()
