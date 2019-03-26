@@ -189,7 +189,11 @@ export class ElderTableComponent implements OnInit, OnDestroy, AfterContentInit 
         .buildLocal(data); // Memory leak
       this.dataContext.start();
     } else {
-      this.dataContext = data;
+      if (data) {
+        this.dataContext = data;
+      } else {
+        this.dataContext = DataContextBuilder.start().buildEmpty();
+      }
     }
   }
 
