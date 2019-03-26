@@ -10,7 +10,6 @@ import {FormsModule} from '@angular/forms';
 import {ElderQuestionDialogComponent} from './question-dialog/elder-question-dialog.component';
 import {ElderDialogConfig} from './elder-dialog-config';
 
-
 export {ElderDialogService} from './elder-dialog.service';
 export {ElderDialogConfig} from './elder-dialog-config';
 
@@ -20,28 +19,35 @@ export * from './question-dialog/elder-question-dialog.component';
 /**
  * @deprecated Please switch to ElderDialogService
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EbsCommonDialogService extends ElderDialogService { }
 
 @NgModule({
-    imports: [
-        CommonModule, FormsModule,
-        FlexLayoutModule,
-        MatIconModule, MatButtonModule, MatDialogModule, MatToolbarModule, MatInputModule,
-        TranslateModule
-    ],
-    declarations: [
-        ElderConfirmDialogComponent, ElderQuestionDialogComponent
-    ],
-    entryComponents: [
-        ElderConfirmDialogComponent, ElderQuestionDialogComponent
-    ],
-    exports: [
-        ElderConfirmDialogComponent, ElderQuestionDialogComponent
-    ]
+  imports: [
+    CommonModule, FormsModule,
+    FlexLayoutModule,
+    MatIconModule, MatButtonModule, MatDialogModule, MatToolbarModule, MatInputModule,
+    TranslateModule
+  ],
+  declarations: [
+    ElderConfirmDialogComponent, ElderQuestionDialogComponent
+  ],
+  entryComponents: [
+    ElderConfirmDialogComponent, ElderQuestionDialogComponent
+  ],
+  exports: [
+    ElderConfirmDialogComponent, ElderQuestionDialogComponent
+  ]
 })
 export class ElderDialogModule {
 
+  public static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: ElderDialogModule,
+      providers: [
+        ElderDialogService,
+        EbsCommonDialogService
+      ]
+    };
+  }
 }

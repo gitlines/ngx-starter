@@ -6,9 +6,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Observable, of} from 'rxjs';
 import {flatMap, filter, map} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ElderDialogService {
 
 

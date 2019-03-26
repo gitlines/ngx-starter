@@ -115,10 +115,11 @@ LoggerFactory.getDefaultConfiguration()
     MatSortModule,
 
     // Library
+    ElderLocalesDeChModule.forRoot(),
+    ElderDialogModule.forRoot(),
     ElderShellModule,
     ElderNavModule,
     ElderPipesModule,
-    ElderDialogModule,
     ElderToastModule,
     ElderExpandToggleButtonModule,
     ElderAccessDeniedModule,
@@ -129,7 +130,6 @@ LoggerFactory.getDefaultConfiguration()
     ElderLabelsModule,
     ElderToolbarModule,
     ElderFormsModule,
-    ElderLocalesDeChModule.forRoot(),
     ElderDatesModule,
     ElderSelectListModule,
     ElderDataTransferModule,
