@@ -9,13 +9,14 @@
       </button>
     </div>
 
-    <input matInput type="text" name="searchExpression" #search
-           ngModel #expressionModel="ngModel" cdkFocusInitial
+    <input matInput type="text" [name]="name" #search cdkFocusInitial
+           ngModel
+           elderSearchInput [elderSearchInputKey]="queryKey" #searchInput="elderSearchInput"
            [autocomplete]="(autoPanel && overlayState.hasOverlay) ? 'off' : 'on'"
            [elderOverlayOrigin]="searchPanel"
            [elderOverlayTrigger]="searchPanel"
            [elderOverlayTriggerType]="'focus'"
-           [elderOverlayTriggerEnabled]="autoPanel && overlayState.hasOverlay && (searchAttribute.state$ | async).pristine"
+           [elderOverlayTriggerEnabled]="autoPanel && overlayState.hasOverlay && (searchInput?.state$ | async)?.pristine"
     >
 
     <div fxLayout="row" matSuffix *ngIf="searchModel.userDefinedAttributes$ | async as userDefinedFilters">
