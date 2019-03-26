@@ -1,6 +1,27 @@
 <div fxLayout="column" class="padding-10" fxFill>
 
+  <elder-search-box [elderSearchContext]="data.filter" class="search-area">
 
+    <!-- Advanced search -->
+    <elder-search-panel fxLayout="column" fxLayoutGap="10px">
+
+      <span class="mat-subheader">Advanced Search</span>
+
+      <mat-form-field>
+        <input matInput ngModel elderSearchInput name="name"
+               placeholder="Name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput ngModel elderSearchInput name="price" type="number"
+               placeholder="Price">
+      </mat-form-field>
+
+    </elder-search-panel>
+
+  </elder-search-box>
+
+  <!-- Data table -->
   <elder-table fxFlex
              [selectionVisible]="true"
              [idField]="'name'"

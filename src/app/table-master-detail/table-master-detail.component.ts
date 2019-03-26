@@ -3,6 +3,8 @@ import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Food, FoodStore} from '../model/food';
 import {Router} from '@angular/router';
 import {ElderToastService, ElderRouterOutletService} from '@elderbyte/ngx-starter';
+import {DataContextBuilder} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/data-context/data-context-builder';
+import {IDataContext} from '../../../projects/elderbyte/ngx-starter/src/lib/common/data/data-context/data-context';
 
 @Component({
   selector: 'starter-demo-table-master-detail',
@@ -13,8 +15,7 @@ export class TableMasterDetailComponent implements OnInit {
 
   private readonly logger = LoggerFactory.getLogger('TableMasterDetailComponent');
 
-
-  public data: Food[];
+  public data: IDataContext<Food>;
 
   constructor(
     private router: Router,
@@ -23,8 +24,9 @@ export class TableMasterDetailComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.data = FoodStore.foods;
-   // this.data.start();
+    this.data = DataContextBuilder.start<Food>()
+      .buildLocal(FoodStore.foods);
+    this.data.start();
   }
 
   public openDetail(food: Food): void {
