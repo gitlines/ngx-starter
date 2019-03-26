@@ -62,6 +62,12 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
   @Input()
   public queryKey = 'query';
 
+  @Input()
+  public placeholder: string;
+
+  @Input()
+  public hint: string;
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
