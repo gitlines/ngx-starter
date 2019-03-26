@@ -5,7 +5,7 @@ import {
   Inject,
   Input,
   OnDestroy,
-  OnInit,
+  OnInit, Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef
@@ -17,8 +17,8 @@ import {Overlay, OverlayPositionBuilder, OverlayRef, OverlaySizeConfig, Position
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {FlexibleConnectedPositionStrategyOrigin} from '@angular/cdk/overlay/typings/position/flexible-connected-position-strategy';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {merge, Observable, Subject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
 
 
 export class OverlayShowOptions {
@@ -70,6 +70,9 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
   @Input()
   public offsetY = 10;
 
+  @Input()
+  public offsetX = 0;
+
   /***************************************************************************
    *                                                                         *
    * Constructor                                                             *
@@ -111,6 +114,9 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
           this.closeOverlay();
         }
       });
+
+
+
   }
 
   public ngOnDestroy(): void {
@@ -127,7 +133,6 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
 
   @Input()
   public set origin(origin: FlexibleConnectedPositionStrategyOrigin) {
-    // this.positionStrategy = this.displayUnderStrategy(origin);
     this._origin = origin;
   }
 
@@ -140,6 +145,32 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
   @Input()
   public set overlaySize(size: OverlaySizeConfig) {
     this.overlayRef.updateSize(size);
+  }
+
+  /**
+   * Emits all key events on the overlay
+   */
+  @Output()
+  public get keydownEvents() {
+    return this.overlayRef.keydownEvents();
+  }
+
+  /**
+   * Emits when the overlay is attached (true) or de-attached (false)
+   */
+  @Output()
+  public get attachedChange(): Observable<boolean> {
+    return merge(
+      this.overlayRef.attachments().pipe(map(() => true)),
+      this.overlayRef.detachments().pipe(map(() => false))
+    );
+  }
+
+  /**
+   * Is this overlay currently attached and thus visible?
+   */
+  public get attached(): boolean {
+    return this.overlayRef.hasAttached();
   }
 
   /***************************************************************************
@@ -167,8 +198,9 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
       );
     }
 
-
-    return this.createOverlay();
+    if (!this.attached) {
+      return this.attachOverlay();
+    }
   }
 
   /**
@@ -191,11 +223,12 @@ export class ElderOverlayComponent implements OnInit, OnDestroy {
         originY: this.originY,
         overlayX: this.overlayX,
         overlayY: this.overlayY,
-        offsetY: this.offsetY
+        offsetY: this.offsetY,
+        offsetX: this.offsetX
       }]);
   }
 
-  private createOverlay(): EmbeddedViewRef<any> {
+  private attachOverlay(): EmbeddedViewRef<any> {
 
     const searchPanelPortal = new TemplatePortal(
       this.templateRef,
