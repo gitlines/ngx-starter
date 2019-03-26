@@ -8,7 +8,7 @@
 
   <div fxLayout="row" fxLayoutGap="20px" fxFlex class="scroll-fix">
 
-    <elder-table fxFlex="33"
+    <elder-table fxFlex="25"
                [selectionVisible]="true"
                [idField]="'name'"
                matSort
@@ -33,7 +33,7 @@
 
     </elder-table>
 
-    <elder-table fxFlex="25"
+    <elder-table fxFlex="15"
                [selectionVisible]="true"
                [idField]="'name'"
                matSort
@@ -83,7 +83,10 @@
 
     </elder-table>
 
-    <elder-table fxFlex="33"
+    <elder-table fxFlex="15" [data]="null">
+    </elder-table>
+
+    <elder-table fxFlex="25"
                [selectionVisible]="true"
                [idField]="'name'"
                matSort
