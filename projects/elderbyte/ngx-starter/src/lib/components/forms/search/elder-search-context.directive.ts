@@ -89,7 +89,7 @@ export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDes
    *                                                                         *
    **************************************************************************/
 
-  @Input('elderSearchModel')
+  @Input('elderSearchContext')
   public set filterContext(value: FilterContext) {
     this._filterContext = value;
   }
