@@ -19,7 +19,8 @@ import {SearchInputState} from './model/search-input-state';
  * Search attribute adapter for input controls.
  */
 @Directive({
-  selector: '[elderSearchInput]'
+  selector: '[elderSearchInput]',
+  exportAs: 'elderSearchInput'
 })
 export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewInit, SearchInput {
 
