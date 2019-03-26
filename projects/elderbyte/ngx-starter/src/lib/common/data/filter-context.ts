@@ -82,7 +82,7 @@ export class FilterContext {
       });
       this.replaceFilters(
         Array.from(
-          updatedFilters.values()
+          filterMap.values()
         )
       );
     }
