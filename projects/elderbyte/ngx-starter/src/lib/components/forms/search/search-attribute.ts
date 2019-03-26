@@ -1,6 +1,53 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
+import {BehaviorSubject} from 'rxjs';
 
+/**
+ * Immutable representation of the state of an attribute
+ */
+export class SearchAttributeState {
+  constructor(
+
+    /**
+     * attribute The attribute name
+     */
+    public readonly attribute: string,
+
+    /**
+     * queryValue The query value
+     */
+    public readonly queryValue: string | null,
+    /**
+     * queryKey The query key
+     */
+    public readonly queryKey: string,
+
+    /**
+     * pristine Has the user touched this?
+     */
+    public readonly pristine: boolean
+  ) { }
+
+  public get hasValue(): boolean { return !!this.queryValue; }
+
+  public withQueryValue(value: string | null, pristine?: boolean): SearchAttributeState {
+
+    let pristineNow = value == null;
+    if (!pristineNow) {
+      if (pristine !== undefined && pristine !== null) {
+        pristineNow = pristine;
+      }
+    }
+
+    return new SearchAttributeState(
+      this.attribute,
+      value,
+      this.queryKey,
+      pristineNow
+    );
+  }
+
+}
 
 /**
  * Represents a single search attribute.
@@ -12,32 +59,9 @@ export interface SearchAttribute {
    */
   readonly attribute: string;
 
-  /**
-   * Occurs when the values changes
-   */
-  readonly valueChanged: Observable<any>;
+  readonly state$: Observable<SearchAttributeState>;
 
-  /**
-   * Gets the current model value of this attribute
-   */
-  readonly value: any;
-
-  /**
-   * A custom query key if it is different from the attribute name.
-   */
-  readonly queryKey?: string;
-
-  /**
-   * A function which transforms the model value into a query string
-   */
-  readonly valueQueryTransform?: ((value: any) => any);
-
-  /**
-   * A sub path which resolves to the value on the model to use in a query
-   */
-  readonly valueQueryPath?: string;
-
-  readonly fallbackValue?: any;
+  readonly stateSnapshot: SearchAttributeState;
 
   /**
    * States if the search attribute is cannot be changed.
@@ -52,30 +76,36 @@ export interface SearchAttribute {
 
 export class SimpleSearchAttribute implements SearchAttribute {
 
-  private _valueChange = new Subject<any>();
-  private _resetRequest = new Subject<any>();
-  private _value: any;
+  private readonly _state: BehaviorSubject<SearchAttributeState>;
+  private readonly _resetRequest = new Subject<any>();
 
   constructor(
     public attribute: string,
     public queryKey?: string,
-    public fallbackValue?: any,
-    public valueQueryPath?: string,
-    public valueQueryTransform?: (value: any) => any,
     private _readonly?: boolean
   ) {
-
+    this._state = new BehaviorSubject(
+      new SearchAttributeState(
+        attribute,
+        null,
+        queryKey || attribute,
+        true
+      )
+    );
   }
 
-  public get value(): any { return this._value; }
-
-  public set value(value: any) {
-    this._value = value;
-    this._valueChange.next(value);
+  public set value(value: string) {
+    this._state.next(
+      this.stateSnapshot.withQueryValue(value ? value : null)
+    );
   }
 
-  public get valueChanged(): Observable<any> {
-    return this._valueChange;
+  public get state$(): Observable<SearchAttributeState> {
+    return this._state.asObservable();
+  }
+
+  public get stateSnapshot(): SearchAttributeState {
+    return this._state.getValue();
   }
 
   public get resetRequest(): Observable<any> {

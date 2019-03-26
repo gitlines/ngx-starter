@@ -11,7 +11,7 @@ import { NgModel } from '@angular/forms';
 import {ElderSearchModelDirective} from '../elder-search-model.directive';
 import {ElderSearchPanelComponent} from './elder-search-panel.component';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 
 export class OverlayState {
@@ -98,7 +98,7 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
 
   public ngAfterViewInit(): void {
     this.expressionModel.valueChanges.pipe(
-      takeUntil(this.unsubscribe$)
+      takeUntil(this.unsubscribe$),
     ).subscribe(value =>  this._queryAttribute.value = value);
   }
 

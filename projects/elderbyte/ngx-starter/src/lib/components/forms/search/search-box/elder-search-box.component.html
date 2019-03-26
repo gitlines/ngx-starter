@@ -14,21 +14,23 @@
            [autocomplete]="(autoSearchPanelEnabled && overlayState.hasOverlay) ? 'off' : 'on'"
            [elderOverlayOrigin]="searchPanel"
            [elderOverlayTrigger]="searchPanel"
+           [elderOverlayTriggerType]="'focus'"
            [elderOverlayTriggerEnabled]="autoSearchPanelEnabled && overlayState.hasOverlay"
     >
 
-    <div fxLayout="row" matSuffix>
+    <div fxLayout="row" matSuffix *ngIf="searchModel.userDefinedAttributes$ | async as userDefinedFilters">
 
-      <button name="clear" *ngIf="searchModel.hasActiveFilter"  mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+      <button name="clear" *ngIf="userDefinedFilters.length > 0"  mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
         <mat-icon>close</mat-icon>
       </button>
 
       <button *ngIf="overlayState.hasOverlay" name="openPanel" mat-icon-button
-              matBadge="{{searchModel && (searchModel.activeFilterCountChanged | async)}}"
-              [matBadgeHidden]="!(searchModel.activeFilterCountChanged | async)"
+              [matBadge]="userDefinedFilters.length"
+              [matBadgeHidden]="userDefinedFilters.length == 0"
               matBadgeColor="accent"
               [elderOverlayTrigger]="searchPanel" (click)="blurFocus($event)">
-        <mat-icon color="{{searchModel && ((searchModel.hasActiveFilterChanged | async) ? 'accent' : 'default')}}">filter_list</mat-icon>
+
+        <mat-icon [color]="userDefinedFilters.length > 0 ? 'accent' : 'default'">filter_list</mat-icon>
       </button>
 
     </div>

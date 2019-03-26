@@ -9,8 +9,10 @@ import { LoggerFactory } from '@elderbyte/ts-logger';
 import { ElderSearchModelDirective } from './elder-search-model.directive';
 import { Observable } from 'rxjs/internal/Observable';
 import { NgModel } from '@angular/forms';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { SearchAttribute } from './search-attribute';
+import {SearchAttribute, SearchAttributeState} from './search-attribute';
+import {filter, map, startWith, takeUntil} from 'rxjs/operators';
+import {PropertyPathUtil} from '../../../common/utils/property-path-util';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
  * Search attribute adapter for input controls.
@@ -28,9 +30,11 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
 
   private readonly logger = LoggerFactory.getLogger('ElderSearchInputDirective');
 
+  private readonly _state = new BehaviorSubject<SearchAttributeState>(null);
+
   private _extractedName: string | null;
 
-  private _sub: Subscription;
+  private readonly unsubscribe$ = new Subject();
 
   /**
    * (Optional) The query param key
@@ -77,12 +81,15 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
 
   public ngAfterViewInit(): void {
     this._extractedName = this.extractName();
+
+    this.stateObservable().subscribe(state => {
+      this.emitState(state);
+    });
   }
 
   public ngOnDestroy(): void {
-    if (this._sub) {
-      this._sub.unsubscribe();
-    }
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   /***************************************************************************
@@ -90,6 +97,16 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
    * Properties                                                              *
    *                                                                         *
    **************************************************************************/
+
+  public get state$(): Observable<SearchAttributeState> {
+    return this._state.asObservable().pipe(
+      filter(s => !!s)
+    );
+  }
+
+  public get stateSnapshot(): SearchAttributeState {
+    return this._state.getValue();
+  }
 
   public get attribute(): string {
     if (this.searchInputKey) { return this.searchInputKey; }
@@ -99,11 +116,6 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
       ' Either specify the name property or explicitly set filterInputKey.');
   }
 
-  public get valueChanged(): Observable<any> {
-    return this.ngModel.valueChanges;
-  }
-
-
   public get value(): any {
     return this.ngModel.value;
   }
@@ -112,18 +124,9 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
     return this.ngModel.isDisabled;
   }
 
-  public get valueQueryPath(): string {
-    return this.searchInputPath;
+  private get hasFallback(): boolean {
+    return (this.searchInputFallbackValue !== null && this.searchInputFallbackValue !== undefined);
   }
-
-  public get valueQueryTransform(): (value: any) => any {
-    return this.searchInputValueTransform;
-  }
-
-  public get fallbackValue(): any {
-    return this.searchInputFallbackValue;
-  }
-  // TODO readonly queryKey: string;
 
   /***************************************************************************
    *                                                                         *
@@ -140,6 +143,54 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
    * Private methods                                                         *
    *                                                                         *
    **************************************************************************/
+
+  private stateObservable(): Observable<SearchAttributeState> {
+    return this.ngModel.valueChanges.pipe(
+      takeUntil(this.unsubscribe$),
+      startWith(this.ngModel.value),
+      map(value => {
+
+        const queryValue = this.convertRawModelValueToQueryString(value);
+        const pristine = !this.isAttributeValuePresent(value);
+
+        return new SearchAttributeState(
+          this.attribute,
+          queryValue,
+          this.searchInputKey || this.attribute,
+          pristine
+        );
+      })
+    );
+  }
+
+  private convertRawModelValueToQueryString(model: any): string | null {
+
+    let queryValue: string = null;
+
+    if (this.isAttributeValuePresent(model)) {
+      // Attribute value is present
+      queryValue = this.resolveValue(model);
+    } else {
+      if (this.hasFallback) {
+        queryValue = this.searchInputFallbackValue;
+      }
+    }
+    return queryValue;
+  }
+
+  private emitState(state: SearchAttributeState): void {
+    this._state.next(state);
+  }
+
+  private isAttributeValuePresent(value: any): boolean {
+    return (value !== null && value !== undefined && (value + '').length !== 0);
+  }
+
+  private resolveValue(value: any): any {
+    value = PropertyPathUtil.resolveValue(value, this.searchInputPath);
+    value = this.searchInputValueTransform ? this.searchInputValueTransform(value) : value;
+    return value;
+  }
 
   private extractName(): string | null {
     return this.ngModel.name;

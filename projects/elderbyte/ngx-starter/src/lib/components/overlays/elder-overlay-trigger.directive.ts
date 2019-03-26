@@ -18,6 +18,9 @@ export class ElderOverlayTriggerDirective {
   @Input('elderOverlayTrigger')
   public overlay: ElderOverlayComponent;
 
+  @Input('elderOverlayTriggerType')
+  public type: 'click' | 'focus' = 'click';
+
   @Input('elderOverlayTriggerEnabled')
   public enabled = true;
 
@@ -39,6 +42,25 @@ export class ElderOverlayTriggerDirective {
 
   @HostListener('click', ['$event'])
   handleClick(event: MouseEvent): void {
+    if (this.type === 'click') {
+      this.handleTrigger();
+    }
+  }
+
+  @HostListener('focus', ['$event'])
+  handleFocus(event: MouseEvent): void {
+    if (this.type === 'focus') {
+      this.handleTrigger();
+    }
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Private methods                                                         *
+   *                                                                         *
+   **************************************************************************/
+
+  private handleTrigger(): void {
     if (this.enabled && this.overlay) {
       this.overlay.showOverlay({
         source: this._host
