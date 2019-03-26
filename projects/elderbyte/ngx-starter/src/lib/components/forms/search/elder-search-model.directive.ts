@@ -72,7 +72,7 @@ export class ElderSearchModelDirective implements OnInit, AfterViewInit, OnDestr
 
       const filters = this.convertToFilters(states);
 
-      this.log.debug('Search-Model states updated:', states);
+      this.log.trace('Search-Model states updated:', states);
 
       this._filters.next(filters);
 
