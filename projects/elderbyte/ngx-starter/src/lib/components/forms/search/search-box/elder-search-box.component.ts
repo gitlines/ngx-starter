@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { LoggerFactory } from '@elderbyte/ts-logger';
-import { SimpleSearchAttribute } from '../search-attribute';
+import {SearchAttribute, SimpleSearchAttribute} from '../search-attribute';
 import { NgModel } from '@angular/forms';
 import {ElderSearchModelDirective} from '../elder-search-model.directive';
 import {ElderSearchPanelComponent} from './elder-search-panel.component';
@@ -118,6 +118,9 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
    *                                                                         *
    **************************************************************************/
 
+  public get searchAttribute(): SearchAttribute {
+    return this._queryAttribute;
+  }
 
   /***************************************************************************
    *                                                                         *

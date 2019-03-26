@@ -15,7 +15,7 @@
            [elderOverlayOrigin]="searchPanel"
            [elderOverlayTrigger]="searchPanel"
            [elderOverlayTriggerType]="'focus'"
-           [elderOverlayTriggerEnabled]="autoSearchPanelEnabled && overlayState.hasOverlay"
+           [elderOverlayTriggerEnabled]="autoSearchPanelEnabled && overlayState.hasOverlay && (searchAttribute.state$ | async).pristine"
     >
 
     <div fxLayout="row" matSuffix *ngIf="searchModel.userDefinedAttributes$ | async as userDefinedFilters">
