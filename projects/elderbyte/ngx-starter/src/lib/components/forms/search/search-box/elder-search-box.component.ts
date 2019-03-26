@@ -1,5 +1,5 @@
 import {
-  AfterContentInit, AfterViewInit,
+  AfterContentInit, AfterViewInit, ChangeDetectionStrategy,
   Component, ContentChild,
   ElementRef, Input, OnDestroy,
   OnInit,
@@ -24,7 +24,8 @@ export class OverlayState {
 @Component({
   selector: 'elder-search-box',
   templateUrl: './elder-search-box.component.html',
-  styleUrls: ['./elder-search-box.component.scss']
+  styleUrls: ['./elder-search-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
 
