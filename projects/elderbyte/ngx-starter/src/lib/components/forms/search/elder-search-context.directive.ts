@@ -2,12 +2,13 @@ import {AfterViewInit, Directive, Input, OnDestroy, OnInit, Output} from '@angul
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {Observable} from 'rxjs/internal/Observable';
 import {debounceTime, flatMap, map, takeUntil} from 'rxjs/operators';
-import {SearchAttribute, SearchAttributeState} from './search-attribute';
+import {SearchInput} from './model/search-input';
 import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {Subject} from 'rxjs/internal/Subject';
 import {combineLatest} from 'rxjs';
 import {Filter} from '../../../common/data/filter';
 import {FilterContext} from '../../../common/data/filter-context';
+import {SearchInputState} from './model/search-input-state';
 
 
 /**
@@ -15,10 +16,10 @@ import {FilterContext} from '../../../common/data/filter-context';
  * and holds their values in a central search model.
  */
 @Directive({
-  selector: '[elderSearchModel]',
-  exportAs: 'elderSearchModel'
+  selector: '[elderSearchContext]',
+  exportAs: 'elderSearchContext'
 })
-export class ElderSearchModelDirective implements OnInit, AfterViewInit, OnDestroy {
+export class ElderSearchContextDirective implements OnInit, AfterViewInit, OnDestroy {
 
 
   /***************************************************************************
@@ -27,19 +28,13 @@ export class ElderSearchModelDirective implements OnInit, AfterViewInit, OnDestr
    *                                                                         *
    **************************************************************************/
 
-  private readonly log = LoggerFactory.getLogger('ElderSearchModelDirective');
+  private readonly log = LoggerFactory.getLogger('ElderSearchContextDirective');
 
   private readonly unsubscribe$ = new Subject();
 
-  private readonly _searchAttributes = new BehaviorSubject<SearchAttribute[]>([]);
-  private readonly _searchStates = new BehaviorSubject<SearchAttributeState[]>([]);
+  private readonly _searchAttributes = new BehaviorSubject<SearchInput[]>([]);
+  private readonly _searchStates = new BehaviorSubject<SearchInputState[]>([]);
   private readonly _filters = new BehaviorSubject<Filter[]>([]);
-
-  /**
-   * Automatically trigger a search request after the model has changed.
-   */
-  @Input()
-  public searchModelImmediateTrigger: boolean;
 
   private _filterContext: FilterContext;
 
@@ -103,26 +98,26 @@ export class ElderSearchModelDirective implements OnInit, AfterViewInit, OnDestr
     return this._filterContext;
   }
 
-  public get attributes(): Observable<SearchAttribute[]> {
+  public get attributes(): Observable<SearchInput[]> {
     return this._searchAttributes.asObservable();
   }
 
-  public get attributesSnapshot(): SearchAttribute[] {
+  public get attributesSnapshot(): SearchInput[] {
     return this._searchAttributes.getValue();
   }
 
-  public get states$(): Observable<SearchAttributeState[]> {
+  public get states$(): Observable<SearchInputState[]> {
     return this._searchStates.asObservable();
   }
 
-  public get statesSnapshot(): SearchAttributeState[] {
+  public get statesSnapshot(): SearchInputState[] {
     return this._searchStates.getValue();
   }
 
   /**
    * Returns the current user touched attributes. (ignoring fallbacks)
    */
-  public get userDefinedAttributes$(): Observable<SearchAttributeState[]> {
+  public get userDefinedAttributes$(): Observable<SearchInputState[]> {
     return this.states$.pipe(
       map(states => states.filter(s => !s.pristine))
     );
@@ -148,7 +143,7 @@ export class ElderSearchModelDirective implements OnInit, AfterViewInit, OnDestr
   /**
    * Register a new search attribute in this container
    */
-  public register(attribute: SearchAttribute): void {
+  public register(attribute: SearchInput): void {
     this.log.debug('Registering search control ', attribute);
     const current = this._searchAttributes.getValue();
     this._searchAttributes.next([...current, attribute]);
@@ -162,18 +157,13 @@ export class ElderSearchModelDirective implements OnInit, AfterViewInit, OnDestr
     });
   }
 
-  /*
-  public getActiveFilterCount(skip: string[]): number {
-    return this.countActiveFilters(this._model, skip);
-  }*/
-
   /***************************************************************************
    *                                                                         *
    * Private                                                                 *
    *                                                                         *
    **************************************************************************/
 
-  private convertToFilters(states: SearchAttributeState[]): Filter[] {
+  private convertToFilters(states: SearchInputState[]): Filter[] {
     return states
       .filter(a => a.hasValue)
       .map(s => new Filter(s.queryKey, s.queryValue));

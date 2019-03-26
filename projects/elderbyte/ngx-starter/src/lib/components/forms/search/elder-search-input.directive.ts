@@ -6,13 +6,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { LoggerFactory } from '@elderbyte/ts-logger';
-import { ElderSearchModelDirective } from './elder-search-model.directive';
+import { ElderSearchContextDirective } from './elder-search-context.directive';
 import { Observable } from 'rxjs/internal/Observable';
 import { NgModel } from '@angular/forms';
-import {SearchAttribute, SearchAttributeState} from './search-attribute';
+import {SearchInput} from './model/search-input';
 import {filter, map, startWith, takeUntil} from 'rxjs/operators';
 import {PropertyPathUtil} from '../../../common/utils/property-path-util';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {SearchInputState} from './model/search-input-state';
 
 /**
  * Search attribute adapter for input controls.
@@ -20,7 +21,7 @@ import {BehaviorSubject, Subject} from 'rxjs';
 @Directive({
   selector: '[elderSearchInput]'
 })
-export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewInit, SearchAttribute {
+export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewInit, SearchInput {
 
   /***************************************************************************
    *                                                                         *
@@ -30,32 +31,36 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
 
   private readonly logger = LoggerFactory.getLogger('ElderSearchInputDirective');
 
-  private readonly _state = new BehaviorSubject<SearchAttributeState>(null);
+  private readonly _state = new BehaviorSubject<SearchInputState>(null);
 
   private _extractedName: string | null;
 
   private readonly unsubscribe$ = new Subject();
 
   /**
-   * (Optional) The query param key
+   * (Optional) Usually the control name is used, this allows a custom query key
    */
-  @Input() public searchInputKey: string;
+  @Input('elderSearchInputKey')
+  public queryKey: string;
 
   /**
    * (Optional) Function which transforms the value object to a query param value
    */
-  @Input() public searchInputValueTransform: ((value: any) => any);
+  @Input('elderSearchInputTransform')
+  public valueTransform: ((value: any) => any);
 
   /**
-   * (Optional) Path on the value object to use as query param value
+   * (Optional, Default) Path on the value object to use as query param value
    *  value = "type.id"
    */
-  @Input() public searchInputPath: string;
+  @Input('elderSearchInput')
+  public resolvePath: string;
 
   /**
    * (Optional) Use this value for the query if none is provided.
    */
-  @Input() public searchInputFallbackValue: string;
+  @Input('elderSearchInputFallback')
+  public fallbackValue: string;
 
   /***************************************************************************
    *                                                                         *
@@ -64,7 +69,7 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
    **************************************************************************/
 
   constructor(
-    private searchContainer: ElderSearchModelDirective,
+    private searchContainer: ElderSearchContextDirective,
     @Host() private ngModel: NgModel
   ) {
     this.logger.trace('ngModel:',  ngModel);
@@ -98,18 +103,18 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
    *                                                                         *
    **************************************************************************/
 
-  public get state$(): Observable<SearchAttributeState> {
+  public get state$(): Observable<SearchInputState> {
     return this._state.asObservable().pipe(
       filter(s => !!s)
     );
   }
 
-  public get stateSnapshot(): SearchAttributeState {
+  public get stateSnapshot(): SearchInputState {
     return this._state.getValue();
   }
 
   public get attribute(): string {
-    if (this.searchInputKey) { return this.searchInputKey; }
+    if (this.queryKey) { return this.queryKey; }
     if (this._extractedName) { return this._extractedName; }
 
     throw new Error('Could not determine the search attribute key name.' +
@@ -125,7 +130,7 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
   }
 
   private get hasFallback(): boolean {
-    return (this.searchInputFallbackValue !== null && this.searchInputFallbackValue !== undefined);
+    return (this.fallbackValue !== null && this.fallbackValue !== undefined);
   }
 
   /***************************************************************************
@@ -144,7 +149,7 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
    *                                                                         *
    **************************************************************************/
 
-  private stateObservable(): Observable<SearchAttributeState> {
+  private stateObservable(): Observable<SearchInputState> {
     return this.ngModel.valueChanges.pipe(
       takeUntil(this.unsubscribe$),
       startWith(this.ngModel.value),
@@ -153,10 +158,10 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
         const queryValue = this.convertRawModelValueToQueryString(value);
         const pristine = !this.isAttributeValuePresent(value);
 
-        return new SearchAttributeState(
+        return new SearchInputState(
           this.attribute,
           queryValue,
-          this.searchInputKey || this.attribute,
+          this.queryKey || this.attribute,
           pristine
         );
       })
@@ -172,13 +177,13 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
       queryValue = this.resolveValue(model);
     } else {
       if (this.hasFallback) {
-        queryValue = this.searchInputFallbackValue;
+        queryValue = this.fallbackValue;
       }
     }
     return queryValue;
   }
 
-  private emitState(state: SearchAttributeState): void {
+  private emitState(state: SearchInputState): void {
     this._state.next(state);
   }
 
@@ -187,8 +192,8 @@ export class ElderSearchInputDirective implements OnInit, OnDestroy, AfterViewIn
   }
 
   private resolveValue(value: any): any {
-    value = PropertyPathUtil.resolveValue(value, this.searchInputPath);
-    value = this.searchInputValueTransform ? this.searchInputValueTransform(value) : value;
+    value = PropertyPathUtil.resolveValue(value, this.resolvePath);
+    value = this.valueTransform ? this.valueTransform(value) : value;
     return value;
   }
 

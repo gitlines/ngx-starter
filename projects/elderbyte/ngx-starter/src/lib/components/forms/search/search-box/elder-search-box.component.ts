@@ -6,12 +6,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { LoggerFactory } from '@elderbyte/ts-logger';
-import {SearchAttribute, SimpleSearchAttribute} from '../search-attribute';
+import {SearchInput} from '../model/search-input';
 import { NgModel } from '@angular/forms';
-import {ElderSearchModelDirective} from '../elder-search-model.directive';
+import {ElderSearchContextDirective} from '../elder-search-context.directive';
 import {ElderSearchPanelComponent} from './elder-search-panel.component';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
+import {SimpleSearchInput} from '../model/simple-search-input';
 
 
 export class OverlayState {
@@ -37,7 +38,7 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
 
   private readonly logger = LoggerFactory.getLogger('ElderSearchBoxComponent');
 
-  private _queryAttribute: SimpleSearchAttribute;
+  private _searchInput: SimpleSearchInput;
 
   private readonly unsubscribe$ = new Subject();
 
@@ -61,7 +62,7 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
    * Display the search panel immediately when the user enters the search box.
    */
   @Input()
-  public autoSearchPanelEnabled = true;
+  public autoPanel = true;
 
   @Input()
   public name = 'query';
@@ -76,7 +77,7 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
    **************************************************************************/
 
   constructor(
-    public readonly searchModel: ElderSearchModelDirective,
+    public readonly searchModel: ElderSearchContextDirective,
   ) {
   }
 
@@ -88,19 +89,19 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
 
   public ngOnInit(): void {
 
-    this._queryAttribute = new SimpleSearchAttribute(this.name, this.queryKey);
+    this._searchInput = new SimpleSearchInput(this.name, this.queryKey);
 
-    this._queryAttribute.resetRequest.pipe(
+    this._searchInput.resetRequest.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(() => this.reset());
 
-    this.searchModel.register(this._queryAttribute);
+    this.searchModel.register(this._searchInput);
   }
 
   public ngAfterViewInit(): void {
     this.expressionModel.valueChanges.pipe(
       takeUntil(this.unsubscribe$),
-    ).subscribe(value =>  this._queryAttribute.value = value);
+    ).subscribe(value =>  this._searchInput.value = value);
   }
 
 
@@ -119,8 +120,8 @@ export class ElderSearchBoxComponent implements OnInit, OnDestroy, AfterViewInit
    *                                                                         *
    **************************************************************************/
 
-  public get searchAttribute(): SearchAttribute {
-    return this._queryAttribute;
+  public get searchAttribute(): SearchInput {
+    return this._searchInput;
   }
 
   /***************************************************************************

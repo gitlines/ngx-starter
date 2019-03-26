@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ElderSearchModelDirective} from './elder-search-model.directive';
+import {ElderSearchContextDirective} from './elder-search-context.directive';
 import {ElderSearchInputDirective} from './elder-search-input.directive';
 import {ElderSearchBoxComponent} from './search-box/elder-search-box.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -13,7 +13,7 @@ import {ElderSearchPanelComponent} from './search-box/elder-search-panel.compone
 import {ElderPanelModule} from '../../panels/elder-panel.module';
 
 
-export {ElderSearchModelDirective} from './elder-search-model.directive';
+export {ElderSearchContextDirective} from './elder-search-context.directive';
 export {ElderSearchInputDirective} from './elder-search-input.directive';
 export {ElderSearchBoxComponent} from './search-box/elder-search-box.component';
 export {ElderSearchPanelComponent} from './search-box/elder-search-panel.component';
@@ -33,11 +33,11 @@ export {ElderSearchPanelComponent} from './search-box/elder-search-panel.compone
     FlexLayoutModule, TranslateModule
   ],
   declarations: [
-    ElderSearchModelDirective, ElderSearchInputDirective,
+    ElderSearchContextDirective, ElderSearchInputDirective,
     ElderSearchBoxComponent, ElderSearchPanelComponent
   ],
   exports: [
-    ElderSearchModelDirective, ElderSearchInputDirective,
+    ElderSearchContextDirective, ElderSearchInputDirective,
     ElderSearchBoxComponent, ElderSearchPanelComponent
   ],
 })
