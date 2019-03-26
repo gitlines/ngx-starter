@@ -1,6 +1,8 @@
 import {Filter} from './filter';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {Objects} from '../objects';
+import {distinctUntilChanged} from 'rxjs/operators';
+import {forEach} from '@angular/router/src/utils/collection';
 
 export class FilterContext {
 
@@ -19,7 +21,9 @@ export class FilterContext {
    **************************************************************************/
 
   public get filters(): Observable<Filter[]> {
-    return this._filters.asObservable();
+    return this._filters.asObservable().pipe(
+      distinctUntilChanged((a, b) => this.equals(a, b))
+    );
   }
 
   public get filtersSnapshot(): Filter[] {
@@ -106,4 +110,25 @@ export class FilterContext {
    *                                                                         *
    **************************************************************************/
 
+  private equals(a: Filter[], b: Filter[]): boolean {
+
+    if (a.length !== b.length) { return false; }
+    if (a.length === 0 && b.length === 0) { return true; }
+
+    // The both filter arrays have the same length, so we must compare them by value
+
+    const bIndex = new Map<string, Filter>();
+    b.forEach(f => bIndex.set(f.key, f));
+
+    for (const fa of a) {
+      const bFilter = bIndex.get(fa.key);
+      if (bFilter === undefined) {
+        return false;
+      }
+      if (bFilter.value !== fa.value) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
