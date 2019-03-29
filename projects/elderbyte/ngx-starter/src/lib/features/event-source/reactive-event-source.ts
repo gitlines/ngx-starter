@@ -8,6 +8,13 @@ import {map} from 'rxjs/operators';
  *
  * Additionally, it also handles reconnects since the default reconect handling by browsers
  * is not working in a lot of cases (5xx errors etc).
+ *
+ * Information about event stream format field: 'EVENT'
+ * ----------------------------------------------------
+ * event: A string identifying the type of event described.
+ * If this is specified, an event will be dispatched on the browser to the listener for the specified event name;
+ * the website source code should use addEventListener() to listen for named events.
+ * The onmessage handler is called if no event name is specified for a message.
  */
 export class ReactiveEventSource<T = any> {
 
@@ -32,9 +39,12 @@ export class ReactiveEventSource<T = any> {
   constructor(
     private readonly zone: NgZone,
     private eventSourceUrl: string,
-    private eventSourceInitDict?: EventSourceInit
+    private eventSourceInitDict?: EventSourceInit,
+    private eventType?: string
   ) {
-    if (!eventSourceUrl) { throw new Error('You must provide a event source url!'); }
+    if (!eventSourceUrl) {
+      throw new Error('You must provide a event source url!');
+    }
 
     this.reconnect();
   }
@@ -55,7 +65,7 @@ export class ReactiveEventSource<T = any> {
       this.sseSubscription.unsubscribe();
     }
 
-    this.sseSubscription = this.observableEventSource(this.eventSourceUrl, this.eventSourceInitDict)
+    this.sseSubscription = this.observableEventSource(this.eventSourceUrl, this.eventSourceInitDict, this.eventType)
       .subscribe(
         message => this.sseEvents.next(message),
         err => {
@@ -90,7 +100,7 @@ export class ReactiveEventSource<T = any> {
    * Get an event stream of messages parsed from json.
    * (Event.data must be in json format)
    */
-  public  eventsJson(): Observable<T> {
+  public eventsJson(): Observable<T> {
     return this.events.pipe(
       map(event => JSON.parse(event.data))
     );
@@ -119,7 +129,9 @@ export class ReactiveEventSource<T = any> {
   /**
    * Creates an observable which wraps around an event source connection.
    */
-  private observableEventSource(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): Observable<MessageEvent> {
+  private observableEventSource(eventSourceUrl: string,
+                                eventSourceInitDict?: EventSourceInit,
+                                eventType?: string): Observable<MessageEvent> {
 
     return new Observable((observer: Observer<any>) => {
 
@@ -131,10 +143,19 @@ export class ReactiveEventSource<T = any> {
             ', state: ' + this.readyStateAsString(eventSource), event);
         };
 
-        eventSource.onmessage = (event) => {
-          this.logger.trace('EventSource on-message:', event);
-          this.zone.run(() => observer.next(event)); // Ensure we run inside Angulars zone
-        };
+        // Either listen to a message (an event without an event type) or to an event type.
+        if (!eventType) {
+          eventSource.onmessage = (event) => {
+            this.logger.trace('EventSource on-message:', event);
+            this.zone.run(() => observer.next(event)); // Ensure we run inside Angulars zone
+          };
+        } else {
+          eventSource.addEventListener(this.eventType, (event) => {
+            this.logger.trace('EventSource on-event-type:', this.eventType);
+            this.logger.trace('EventSource on-event:', event);
+            this.zone.run(() => observer.next(event)); // Ensure we run inside Angulars zone
+          });
+        }
 
         eventSource.onerror = (error) => {
 

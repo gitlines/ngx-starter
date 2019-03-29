@@ -40,14 +40,19 @@ export class ElderEventSourceService {
    *
    * @param eventSourceUrl The url to the event source
    * @param eventSourceInitDict Additional configuration to use when connecting. (optional)
+   * @param eventType Event type to listen to. Either listen to a message (an event without an event type) or to an event type. (optional)
    */
-  public reactiveEventSource<T = any>(eventSourceUrl: string, eventSourceInitDict?: EventSourceInit): ReactiveEventSource<T> {
+  public reactiveEventSource<T = any>(eventSourceUrl: string,
+                                      eventSourceInitDict?: EventSourceInit,
+                                      eventType?: string): ReactiveEventSource<T> {
     return new ReactiveEventSource(
       this.zone,
       eventSourceUrl,
-      eventSourceInitDict
+      eventSourceInitDict,
+      eventType
     );
   }
+
 
   /**
    * Creates an observable stream for the given event source url and transforms the
