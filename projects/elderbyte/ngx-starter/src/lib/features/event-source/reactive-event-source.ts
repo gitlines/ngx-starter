@@ -6,15 +6,11 @@ import {map} from 'rxjs/operators';
 /**
  * This class provides a reactive wrapper around an event source.
  *
+ * It supports event type filtering out of the box and manages the registrations.
+ *
  * Additionally, it also handles reconnects since the default reconect handling by browsers
  * is not working in a lot of cases (5xx errors etc).
  *
- * Information about event stream format field: 'EVENT'
- * ----------------------------------------------------
- * event: A string identifying the type of event described.
- * If this is specified, an event will be dispatched on the browser to the listener for the specified event name;
- * the website source code should use addEventListener() to listen for named events.
- * The onmessage handler is called if no event name is specified for a message.
  */
 export class ReactiveEventSource<T = any> {
 
@@ -26,9 +22,12 @@ export class ReactiveEventSource<T = any> {
 
   private readonly logger = LoggerFactory.getLogger('ReactiveEventSource');
 
-  private sseEvents = new Subject<MessageEvent>();
-  private sseSubscription: Subscription = null;
-  private closed = false;
+  private readonly eventTopics = new Map<string, Subject<MessageEvent>>();
+
+  private currentSource: EventSource;
+  private currentListeners = new Set<string>();
+
+  private _closed: boolean;
 
   /***************************************************************************
    *                                                                         *
@@ -40,13 +39,21 @@ export class ReactiveEventSource<T = any> {
     private readonly zone: NgZone,
     private eventSourceUrl: string,
     private eventSourceInitDict?: EventSourceInit,
-    private eventType?: string
   ) {
     if (!eventSourceUrl) {
       throw new Error('You must provide a event source url!');
     }
+    this.open();
+  }
 
-    this.reconnect();
+  /***************************************************************************
+   *                                                                         *
+   * Properties                                                              *
+   *                                                                         *
+   **************************************************************************/
+
+  public get closed(): boolean {
+    return this._closed;
   }
 
   /***************************************************************************
@@ -56,68 +63,48 @@ export class ReactiveEventSource<T = any> {
    **************************************************************************/
 
   /**
-   * Reconnects this event source.
+   * Open the event source.
    *
+   * Note: The connection is opened automatically upon object creation.
+   * This method should only be used if this reactive-event-source has
+   * been closed explicitly.
    */
-  public reconnect(): void {
-
-    if (this.sseSubscription) {
-      this.sseSubscription.unsubscribe();
-    }
-
-    this.sseSubscription = this.observableEventSource(this.eventSourceUrl, this.eventSourceInitDict, this.eventType)
-      .subscribe(
-        message => this.sseEvents.next(message),
-        err => {
-
-          if (!this.closed) {
-            // There was an error - try reconnecting
-            this.logger.debug('Attempting to reconnect event-source at' + this.eventSourceUrl + '...');
-
-            setTimeout(() => {
-              this.reconnect();
-            }, 3000); // Delay the reconnect
-          } else {
-            this.logger.debug('There was an error in the sse connection (closed).', err);
-          }
-
-        },
-        () => {
-          this.sseSubscription = null;
-          this.logger.debug('Active event source connection has been closed.');
-        }
-      );
+  public open(): void {
+    this._closed = false;
+    this.reconnect();
   }
 
   /**
-   * Get an event stream of messages from this event source.
+   * Get an event stream for the given event type.
+   * @param eventType The event type. Defaults to 'message'.
    */
-  public get events(): Observable<MessageEvent> {
-    return this.sseEvents.asObservable();
+  public events(eventType: string = 'message'): Observable<MessageEvent> {
+    if (!this.eventTopics.has(eventType)) {
+      this.eventTopics.set(eventType, new Subject<MessageEvent>());
+      this.ensureRegistrations();
+    }
+    return this.eventTopics.get(eventType).asObservable();
   }
 
   /**
    * Get an event stream of messages parsed from json.
-   * (Event.data must be in json format)
+   * (event.data must be in json format)
+   *
+   * @param eventType The event type. Defaults to 'message'.
    */
-  public eventsJson(): Observable<T> {
-    return this.events.pipe(
+  public eventsJson(eventType: string = 'message'): Observable<T> {
+    return this.events(eventType).pipe(
       map(event => JSON.parse(event.data))
     );
   }
-
 
   /**
    * Close this event source. It wont reconnect.
    */
   public close(): void {
-
-    this.closed = true;
-
-    if (this.sseSubscription) {
-      this.sseSubscription.unsubscribe();
-      this.sseSubscription = null;
-    }
+    this._closed = true;
+    this.closeCurrent();
+    this.logger.debug('Closing the event-source.');
   }
 
   /***************************************************************************
@@ -127,63 +114,77 @@ export class ReactiveEventSource<T = any> {
    **************************************************************************/
 
   /**
-   * Creates an observable which wraps around an event source connection.
+   * Reconnects this event source, unless closed is true;
    */
-  private observableEventSource(eventSourceUrl: string,
-                                eventSourceInitDict?: EventSourceInit,
-                                eventType?: string): Observable<MessageEvent> {
+  private reconnect(): void {
 
-    return new Observable((observer: Observer<any>) => {
+    if (this._closed) { return; }
 
-      try {
-        const eventSource = new EventSource(eventSourceUrl, eventSourceInitDict);
+    this.closeCurrent();
 
-        eventSource.onopen = (event) => {
-          this.logger.debug('EventSource connection opened to: ' + eventSourceUrl +
-            ', state: ' + this.readyStateAsString(eventSource), event);
-        };
+    try {
+      this.currentSource = new EventSource(this.eventSourceUrl, this.eventSourceInitDict);
 
-        // Either listen to a message (an event without an event type) or to an event type.
-        if (!eventType) {
-          eventSource.onmessage = (event) => {
-            this.logger.trace('EventSource on-message:', event);
-            this.zone.run(() => observer.next(event)); // Ensure we run inside Angulars zone
-          };
+      this.ensureRegistrations();
+
+      this.currentSource.onopen = (event) => {
+        this.logger.debug('EventSource connection opened to: ' + this.eventSourceUrl +
+          ', state: ' + this.readyStateAsString(this.currentSource), event);
+      };
+
+      this.currentSource.onerror = (error) => {
+
+        this.logger.trace('There was an SSE error, current state: ' + this.readyStateAsString(this.currentSource), error);
+
+        if (!this.closed) {
+          // There was an error - try reconnecting
+          this.logger.debug('Attempting to reconnect event-source at' + this.eventSourceUrl + '...');
+          setTimeout(() => this.reconnect(), 3000); // Delay the reconnect
         } else {
-          eventSource.addEventListener(this.eventType, (event) => {
-            this.logger.trace('EventSource on-event-type:', this.eventType);
-            this.logger.trace('EventSource on-event:', event);
-            this.zone.run(() => observer.next(event)); // Ensure we run inside Angulars zone
-          });
+          this.logger.debug('There was an error in the sse connection (closed).', error);
         }
+      };
 
-        eventSource.onerror = (error) => {
+    } catch (err) {
+      this.logger.error('Failed to create EventSource for ' + this.eventSourceUrl, err);
+      setTimeout(() => this.reconnect(), 3000); // Delay the reconnect
+    }
+  }
 
-          this.logger.trace('There was an SSE error, current state: ' + this.readyStateAsString(eventSource), error);
+  private ensureRegistrations(): void {
+    if (this.currentSource) {
+      this.eventTopics.forEach((subject, type) => {
 
-          this.zone.run(() => {  // Ensure we run inside Angulars zone
-            // While a EventSource should automatically reconnect as long its not closed,
-            // in reality it will not reconnect on 5xx errors such as gateway timeouts.
-            // Meaning we can not rely on this reconnect so we fail fast. (reconnect is handled by outside logic)
-            observer.error(error);
-            observer.complete();
-          });
-        };
+        if (!this.currentListeners.has(type)) {
+          this.currentSource.addEventListener(
+            type,
+            msg => subject.next(msg as MessageEvent),
+            false
+          );
+          this.currentListeners.add(type);
+          this.logger.debug('Listening to event type: ' + type);
+        }
+      });
+    }
+  }
 
-        return () => {
-          if (eventSource.readyState !== eventSource.CLOSED) {
-            // Close Event Source if not already closed.
-            this.logger.debug('Closing the event-source since observable is in teardown.');
-            eventSource.close();
-          }
-        };
+  /**
+   * Close the current event source
+   */
+  private closeCurrent(): void {
 
-      } catch (err) {
-        this.logger.error('Failed to create EventSource for ' + eventSourceUrl, err);
-        observer.error(err);
-        observer.complete();
-      }
-    });
+    this.currentListeners.clear();
+
+    if (!this.currentClosed) {
+      // Close Event Source if not already closed.
+      this.logger.debug('Closing the event-source.');
+      this.currentSource.close();
+      this.currentSource = null;
+    }
+  }
+
+  private get currentClosed(): boolean {
+    return !this.currentSource || this.currentSource.readyState === this.currentSource.CLOSED;
   }
 
   private readyStateAsString(source: EventSource): string {
