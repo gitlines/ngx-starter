@@ -5,6 +5,7 @@ import {Page, Pageable} from '../page';
 import {Logger, LoggerFactory} from '@elderbyte/ts-logger';
 import {DataContextContinuableBase} from './data-context-continuable-base';
 import {first, map, take, takeUntil} from 'rxjs/operators';
+import {Sort} from '../sort';
 
 /**
  * Extends a simple flat list data-context with infinite-scroll pagination support.
@@ -34,10 +35,11 @@ export class DataContextContinuablePaged<T> extends DataContextContinuableBase<T
     constructor(
         private pageLoader: (pageable: Pageable, filters: Filter[]) => Observable<Page<T>>,
         pageSize: number,
-        indexFn?: ((item: T) => any),
-        localApply?: ((data: T[]) => T[]),
+        indexFn: ((item: T) => any),
+        localApply: ((data: T[]) => T[]),
+        localSort: ((data: T[], sorts: Sort[]) => T[])
     ) {
-        super(pageSize, indexFn, localApply);
+        super(pageSize, indexFn, localApply, localSort);
 
         this._hasMoreData = combineLatest(this.total, this.data).pipe(
           map(([total, data]) => this.checkHasMoreData(total, data)),

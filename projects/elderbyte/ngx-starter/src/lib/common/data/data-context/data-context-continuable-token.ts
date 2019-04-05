@@ -4,6 +4,7 @@ import {DataContextContinuableBase} from './data-context-continuable-base';
 import {BehaviorSubject, EMPTY, Observable, Subject} from 'rxjs';
 import {first, take} from 'rxjs/operators';
 import {TokenChunkRequest} from '../token-chunk-request';
+import {Sort} from '../sort';
 
 export class DataContextContinuableToken<T> extends DataContextContinuableBase<T> {
 
@@ -33,10 +34,12 @@ export class DataContextContinuableToken<T> extends DataContextContinuableBase<T
   constructor(
     private nextChunkLoader: (tokenChunkRequest: TokenChunkRequest) => Observable<ContinuableListing<T>>,
     chunkSize: number,
-    indexFn?: ((item: T) => any),
-    localApply?: ((data: T[]) => T[])
+    indexFn: ((item: T) => any),
+    localApply: ((data: T[]) => T[]),
+    localSort: ((data: T[], sorts: Sort[]) => T[])
+
   ) {
-    super(chunkSize, indexFn, localApply);
+    super(chunkSize, indexFn, localApply, localSort);
   }
 
   /***************************************************************************

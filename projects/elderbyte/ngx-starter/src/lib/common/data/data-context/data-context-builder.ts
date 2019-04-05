@@ -17,6 +17,7 @@ import {MatTableDataContextBindingBuilder} from './mat-table-data-context-bindin
 import {RestClientDataContextBinding} from './rest-client-data-context-binding';
 import {LocalDataPageFetcher} from './local/local-data-page-fetcher';
 import {LocalDataListFetcher} from './local/local-data-list-fetcher';
+import {SortUtil} from '../../utils/sort-util';
 
 /**
  * Provides the ability to build a IDataContext<T>.
@@ -32,8 +33,8 @@ export class DataContextBuilder<T> {
   private readonly logger = LoggerFactory.getLogger('DataContextBuilder');
 
   private _indexFn?: ((item: T) => any);
-  private _localSort?: (a: T, b: T) => number;
   private _localApply?: ((data: T[]) => T[]);
+  private _localSort?: ((data: T[], sorts: Sort[]) => T[]);
   private _pageSize = 30;
   private _reloadOnLocalChanges = false;
 
@@ -94,13 +95,13 @@ export class DataContextBuilder<T> {
   }
 
   /**
-   * Sort the data context locally by the given sort function.
+   * Sort the data context locally.
    *
    * Note that this might be a costly operation when there are a lot of elements present.
    * Prefer server side sorting if possible.
    */
-  public localSorted(localSort: (a: T, b: T) => number): this {
-    this._localSort = localSort;
+  public localSort(localSort?: (data: T[], sorts: Sort[]) => T[]): this {
+    this._localSort = localSort ? localSort : SortUtil.sortData;
     return this;
   }
 
@@ -120,7 +121,7 @@ export class DataContextBuilder<T> {
   /**
    * For each element which is added to the datacontext, apply the given function.
    */
-  public localApply(localApply?: ((data: T[]) => T[])): this {
+  public localApply(localApply: ((data: T[]) => T[])): this {
     this._localApply = localApply;
     return this;
   }
@@ -141,11 +142,12 @@ export class DataContextBuilder<T> {
    *                                                                         *
    **************************************************************************/
 
-  public build( listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
+  public build(listFetcher: (sorts: Sort[], filters?: Filter[]) => Observable<Array<T>>): IDataContext<T> {
     return this.wrap(new DataContextSimple<T>(
       listFetcher,
       this._indexFn,
       this._localApply,
+      this._localSort
     ));
   }
 
@@ -158,6 +160,7 @@ export class DataContextBuilder<T> {
       this._pageSize,
       this._indexFn,
       this._localApply,
+      this._localSort
     ));
   }
 
@@ -169,22 +172,19 @@ export class DataContextBuilder<T> {
       this._pageSize,
       this._indexFn,
       this._localApply,
+      this._localSort
     ));
   }
 
   public buildActivePaged(
-    pageLoader: ((pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>)): IDataContextActivePage<T> {
-    return this.wrap(new DataContextActivePage<T>(
-      pageLoader,
-      this._pageSize,
-      this._indexFn,
-      this._localApply,
-    ));
+    pageLoader: ((pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>)
+  ): IDataContextActivePage<T> {
+    return this.buildActivePagedInternal(pageLoader);
   }
 
   /***************************************************************************
    *                                                                         *
-   * Static Data Builder                                                     *
+   * Local Data Builder                                                      *
    *                                                                         *
    **************************************************************************/
 
@@ -205,9 +205,10 @@ export class DataContextBuilder<T> {
   public buildLocalActivePaged(
     data: T[],
   ): IDataContextActivePage<T> {
-    const localPageFetcher = LocalDataPageFetcher.from(data);
-    return this.buildActivePaged(
-      (p, f) => localPageFetcher.findAllPaged(p, f)
+    const localPageFetcher = LocalDataPageFetcher.from(data, this._localSort);
+    return this.buildActivePagedInternal(
+      (p, f) => localPageFetcher.findAllPaged(p, f),
+      true
     );
   }
 
@@ -283,6 +284,20 @@ export class DataContextBuilder<T> {
    * Private methods                                                         *
    *                                                                         *
    **************************************************************************/
+
+  private buildActivePagedInternal(
+    pageLoader: ((pageable: Pageable, filters?: Filter[]) => Observable<Page<T>>),
+    skipLocalSort = false
+  ): IDataContextActivePage<T> {
+
+    return this.wrap(new DataContextActivePage<T>(
+      pageLoader,
+      this._pageSize,
+      this._indexFn,
+      this._localApply,
+      skipLocalSort ? null : this._localSort
+    ));
+  }
 
   private wrap<DC extends IDataContext<T>>(dc: DC): DC {
     this.matTableSupport.bind(dc);

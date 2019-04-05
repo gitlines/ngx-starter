@@ -8,6 +8,7 @@ import {FilterContext} from '../filter-context';
 import {DataContextSnapshot, IDataContext} from './data-context';
 import {catchError, debounceTime, filter, skipUntil, skipWhile, takeUntil} from 'rxjs/operators';
 import {SortContext} from '../sort-context';
+import {SortUtil} from '../../utils/sort-util';
 
 
 export abstract class DataContextBase<T> extends DataSource<T> implements IDataContext<T> {
@@ -42,8 +43,9 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    **************************************************************************/
 
   protected constructor(
-    private _indexFn?: ((item: T) => any),
-    private _localApply?: ((data: T[]) => T[])
+    private _indexFn: ((item: T) => any),
+    private _localApply: ((data: T[]) => T[]),
+    private _localSort: ((data: T[], sorts: Sort[]) => T[])
   ) {
     super();
 
@@ -228,6 +230,10 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
       newData = this._localApply(newData);
     }
 
+    if (this._localSort) {
+      newData = this._localSort(newData, this._sort.sortsSnapshot);
+    }
+
     if (!alreadyIndexed) {
       this.indexAll(newData);
     }
@@ -304,7 +310,11 @@ export abstract class DataContextBase<T> extends DataSource<T> implements IDataC
    * Occurs when the sort has changed.
    */
   protected onSortsChanged(sorts: Sort[]): void {
-    this.reload();
+    if (!this._localSort) {
+      this.reload();
+    } else {
+      this.setData(this.dataSnapshot, true);
+    }
   }
 
   /**

@@ -25,6 +25,7 @@ export class TableDemoComponent implements OnInit {
 
   public simpleDataContext: IDataContext<Food> = DataContextBuilder.start<Food>()
     .pageSize(5)
+    .localSort()
     .buildLocalActivePaged(FoodStore.foods);
 
   public emptyDataContext = DataContextBuilder.start<Food>()
@@ -35,6 +36,7 @@ export class TableDemoComponent implements OnInit {
     .buildPaged((pageable => throwError(new Error('Failed to load data!'))));
 
   public continuableDataContext = DataContextBuilder.start()
+    .localSort()
     .buildContinuationToken(chunkRequest => {
 
       this.logger.debug('Serving dummy continuation listing', chunkRequest);

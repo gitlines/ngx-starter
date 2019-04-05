@@ -3,6 +3,7 @@ import {Filter} from '../../filter';
 import {Observable} from 'rxjs';
 import {LocalDataListFetcher} from './local-data-list-fetcher';
 import {map} from 'rxjs/operators';
+import {Sort} from '../../sort';
 
 export class LocalDataPageFetcher<T> {
 
@@ -13,6 +14,7 @@ export class LocalDataPageFetcher<T> {
    **************************************************************************/
 
   private readonly localListFetcher: LocalDataListFetcher<T>;
+  private readonly localSort: ((data: T[], sorts: Sort[]) => T[]);
 
   /***************************************************************************
    *                                                                         *
@@ -20,8 +22,11 @@ export class LocalDataPageFetcher<T> {
    *                                                                         *
    **************************************************************************/
 
-  public static from<T>(localData: T[]): LocalDataPageFetcher<T> {
-    return new LocalDataPageFetcher(localData);
+  public static from<T>(
+    localData: T[],
+    localSort?: ((data: T[], sorts: Sort[]) => T[])
+  ): LocalDataPageFetcher<T> {
+    return new LocalDataPageFetcher(localData, localSort);
   }
 
   /***************************************************************************
@@ -31,10 +36,12 @@ export class LocalDataPageFetcher<T> {
    **************************************************************************/
 
   constructor(
-    localData: T[]
+    localData: T[],
+    localSort?: ((data: T[], sorts: Sort[]) => T[])
   ) {
     if (!localData) { throw new Error('localData must not be null!'); }
     this.localListFetcher = new LocalDataListFetcher(localData);
+    this.localSort = localSort || ((data, sort) => data);
   }
 
   /***************************************************************************
@@ -45,6 +52,7 @@ export class LocalDataPageFetcher<T> {
 
   public findAllPaged(pageable: Pageable, filters?: Filter[]): Observable<Page<T>> {
     return this.localListFetcher.findAll(filters, pageable.sorts).pipe(
+      map(data => this.localSort(data, pageable.sorts)),
       map(data => this.pageSlice(pageable, data))
     );
   }
