@@ -8,7 +8,7 @@ import {skip} from 'rxjs/operators';
   styleUrls: ['./elder-select-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ElderSelectListComponent implements OnInit {
+export class ElderSelectListComponent<T = any> implements OnInit {
 
   /***************************************************************************
    *                                                                         *
@@ -16,14 +16,14 @@ export class ElderSelectListComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  private readonly _valueChange = new BehaviorSubject<any>(null);
+  private readonly _valueChange = new BehaviorSubject<T>(null);
 
   /**
    * Function to compare the option values with the selected values. The first argument
    * is a value from an item option. The second is the current value.
    */
   @Input()
-  public compareWith: (o1: any, o2: any) => boolean;
+  public compareWith: (o1: T, o2: T) => boolean;
 
   /***************************************************************************
    *                                                                         *
@@ -53,7 +53,7 @@ export class ElderSelectListComponent implements OnInit {
    * Emits when the value changes.
    */
   @Output()
-  public get valueChange(): Observable<any> {
+  public get valueChange(): Observable<T> {
     return this._valueChange.pipe(
       skip(1)
     );
@@ -63,14 +63,14 @@ export class ElderSelectListComponent implements OnInit {
    * Sets the current selected value
    */
   @Input()
-  public set value(value: string) {
+  public set value(value: T) {
     this._valueChange.next(value);
   }
 
   /**
    * Gets the current selected value
    */
-  public get value(): string {
+  public get value(): T {
     return this._valueChange.value;
   }
 
@@ -80,7 +80,7 @@ export class ElderSelectListComponent implements OnInit {
    *                                                                         *
    **************************************************************************/
 
-  public isActive(value: any): boolean {
+  public isActive(value: T): boolean {
     if (this.compareWith) {
       return this.compareWith(value, this.value);
     } else {
