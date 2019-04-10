@@ -23,7 +23,15 @@ export class DataTransferState {
     );
   }
 
-  public static transfering(progress: DataTransferProgress): DataTransferState {
+  public static started(totalBytes?: number): DataTransferState {
+    return new DataTransferState(
+      DataTransferStatus.Transferring,
+      DataTransferProgress.none(totalBytes),
+      null
+    );
+  }
+
+  public static transferring(progress: DataTransferProgress): DataTransferState {
     return new DataTransferState(
       DataTransferStatus.Transferring,
       progress,
@@ -95,7 +103,7 @@ export class DataTransferState {
     return this.status === DataTransferStatus.Pending;
   }
 
-  public get isTransfering(): boolean {
+  public get isTransferring(): boolean {
     return this.status === DataTransferStatus.Transferring;
   }
 

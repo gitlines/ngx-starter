@@ -1,8 +1,9 @@
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {HttpEvent, HttpEventType, HttpProgressEvent, HttpResponse} from '@angular/common/http';
+import {HttpEvent, HttpEventType, HttpProgressEvent, HttpResponse, HttpSentEvent} from '@angular/common/http';
 import {catchError, filter, first, map, takeUntil, tap} from 'rxjs/operators';
 import {DataTransferProgress} from './data-transfer-progress';
 import {DataTransferState} from './data-transfer-state';
+import {LoggerFactory} from '@elderbyte/ts-logger';
 
 
 
@@ -16,6 +17,8 @@ export class HttpDataTransfer {
    * Fields                                                                  *
    *                                                                         *
    **************************************************************************/
+
+  private logger = LoggerFactory.getLogger('HttpDataTransfer');
 
   private readonly _state: BehaviorSubject<DataTransferState>;
 
@@ -86,28 +89,24 @@ export class HttpDataTransfer {
     return this._httpRequest.pipe(
       takeUntil(this.abort$),
       tap(event => {
-          if (event.type === HttpEventType.UploadProgress || event.type === HttpEventType.DownloadProgress) {
-            const progress = this.transferProgress(event);
-            this.emitState(
-              DataTransferState.transfering(progress)
-            );
-          } else if (event instanceof HttpResponse) {
-            // Close the progress-stream if we get an answer form the API
-            // The upload is complete
+
+          switch (event.type) {
+
+            case HttpEventType.Sent:
+              this.onStart(event);
+              break;
+            case HttpEventType.UploadProgress:
+            case HttpEventType.DownloadProgress:
+              this.onProgress(event);
+              break;
+            case HttpEventType.Response:
+              this.onComplete(event);
+              break;
           }
-        }, err => {
-          this.emitState(
-            DataTransferState.failed(err, this.stateSnapshot.progress)
-          );
         },
-        () => {
-          this._endTimeMs = new Date().getTime();
-          if (this.stateSnapshot.isTransfering) {
-            this.emitState(
-              DataTransferState.completed(this.stateSnapshot.progress)
-            );
-          }
-        }),
+        err => this.onError(err),
+        () => this.finally()
+      ),
       catchError(err => {
         return of(err);
       })
@@ -177,8 +176,60 @@ export class HttpDataTransfer {
    *                                                                         *
    **************************************************************************/
 
+  private onStart(event: HttpSentEvent): void {
+    this.emitState(
+      DataTransferState.started(this.stateSnapshot.progress.totalBytes)
+    );
+  }
+
+  private onProgress(event: HttpProgressEvent): void {
+    const progress = this.transferProgress(event);
+    this.emitState(
+      DataTransferState.transferring(progress)
+    );
+  }
+
+  private onComplete(event: HttpResponse<any>): void {
+    this.emitState(
+      DataTransferState.completed(
+        this.transferProgressFromResponse(event, this.stateSnapshot.progress)
+      )
+    );
+  }
+
+  private onError(error: any): void {
+    this.emitState(
+      DataTransferState.failed(error, this.stateSnapshot.progress)
+    );
+  }
+
+  private finally(): void {
+    this._endTimeMs = new Date().getTime();
+    if (!this.stateSnapshot.isDone) {
+      this.logger.warn('DataTransfer did not reach done-state! Completing Transfer now...');
+      this.emitState(
+        DataTransferState.completed(this.stateSnapshot.progress)
+      );
+    }
+  }
+
   private emitState(newState: DataTransferState): void {
     this._state.next(newState);
+  }
+
+
+  private transferProgressFromResponse(
+    event: HttpResponse<any>,
+    previous?: DataTransferProgress
+  ): DataTransferProgress {
+
+    return new DataTransferProgress(
+      previous ? previous.totalBytes : 0,
+      previous ? previous.bytesPerSec : 0,
+      previous ? previous.avgBytesPerSec : 0,
+      previous ? previous.totalBytes : 0,
+      100
+    );
   }
 
   private transferProgress(event: HttpProgressEvent): DataTransferProgress {
