@@ -2,6 +2,20 @@
 
 <div fxLayout="column">
 
+  <div fxLayout="row" fxLayoutGap="10px">
+
+    <button mat-icon-button *ngIf="uploadClient" color="primary" (click)="startUpload($event)" [disabled]="files.size === 0">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+
+    <elder-file-select
+            [multiple]="multiple"
+            [accept]="accept"
+            (filesChange)="files = $event"
+    ></elder-file-select>
+
+  </div>
+
   <mat-list>
     <h2 mat-subheader>Selected Files ({{files.size}})</h2>
     <mat-list-item *ngFor="let file of files">
@@ -17,19 +31,5 @@
 
     </mat-list-item>
   </mat-list>
-
-  <div fxLayout="row" fxLayoutGap="10px">
-
-    <elder-file-select
-      [multiple]="multiple"
-      [accept]="accept"
-      (filesChange)="files = $event"
-    ></elder-file-select>
-
-    <button mat-icon-button *ngIf="uploadClient" color="primary" (click)="startUpload($event)" [disabled]="files.size === 0">
-      <mat-icon>cloud_upload</mat-icon>
-    </button>
-  </div>
-
 
 </div>
