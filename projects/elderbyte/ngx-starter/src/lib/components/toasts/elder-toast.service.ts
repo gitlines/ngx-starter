@@ -6,10 +6,15 @@ import {TranslateService} from '@ngx-translate/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {catchError} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export * from './toast';
 export * from './toast-type';
 
+
+export interface ToastOptions {
+  interpolateParams?: Object;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -53,29 +58,70 @@ export class ElderToastService {
    *                                                                         *
    **************************************************************************/
 
-  public pushNotification(msg: Toast) {
-    this.subjet.next(msg);
-  }
-
-  public pushInfoRaw(msg: string) {
-    this.pushToast(msg, ToastType.Success);
-  }
-
-  public pushInfo(msgKey: string, interpolateParams?: Object) {
-    this.translateMessage(msgKey, interpolateParams).subscribe(
+  public info(msg: string, options?: ToastOptions): void {
+    this.translateMessage(msg, options).subscribe(
       (translated) => this.pushToast(translated, ToastType.Success)
     );
   }
 
-  public pushErrorRaw(msg: string, error?: any) {
-    this.logger.error(msg, error);
-    this.pushToast(msg, ToastType.Error);
+  public warn(msg: string, options?: ToastOptions): void {
+    this.translateMessage(msg, options).subscribe(
+      (translated) => this.pushToast(translated, ToastType.Warning)
+    );
   }
 
+  public error(msg: string, error: any, options?: ToastOptions): void {
+
+    const errDetail = this.errorToMessage(error);
+
+    this.logger.error(msg, error);
+
+    this.translateMessage(msg, options).subscribe(
+      (translated) => {
+
+        let message = translated;
+
+        if (errDetail) {
+          message += ' ' + errDetail;
+        }
+
+        this.pushToast(message, ToastType.Error);
+      }
+    );
+  }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API (Old)                                                        *
+   *                                                                         *
+   **************************************************************************/
+
+  /**
+   * @deprecated Use info()
+   */
+  public pushInfoRaw(msg: string): void {
+    this.info(msg);
+  }
+
+  /**
+   * @deprecated Use info()
+   */
+  public pushInfo(msgKey: string, interpolateParams?: Object) {
+    this.info(msgKey, interpolateParams);
+  }
+
+  /**
+   * @deprecated Use error()
+   */
+  public pushErrorRaw(msg: string, error?: any) {
+    this.error(msg, error);
+  }
+
+  /**
+   * @deprecated Use error()
+   */
   public pushError(msgKey: string, interpolateParams?: any, error?: any) {
-    this.translateMessage(msgKey, interpolateParams).subscribe(
-      (translated) => this.pushErrorRaw(translated, error)
-      );
+    this.error(msgKey, error, interpolateParams);
   }
 
   /***************************************************************************
@@ -84,14 +130,31 @@ export class ElderToastService {
    *                                                                         *
    **************************************************************************/
 
+  private errorToMessage(error: any): string | null {
+    if (error instanceof HttpErrorResponse) {
+      if (error.error && error.error.message) {
+        return error.error.message;
+      }
+    } else if (error instanceof Error) {
+      if (error.message) {
+        return error.message;
+      }
+    }
+    return null;
+  }
+
   private pushToast(msg: string, type: ToastType) {
-    const toast: Toast = {
+    this.toast({
       message: msg,
       type: type
-    };
+    });
+  }
+
+  private toast(toast: Toast): void {
     this.subjet.next(toast);
     this.showToast(toast);
   }
+
 
   private showToast(toast: Toast): void {
     this.snackBar.open(
@@ -111,8 +174,8 @@ export class ElderToastService {
     }
   }
 
-  private translateMessage(msg: string, interpolateParams: any): Observable<string> {
-    return this.translate.get(msg, interpolateParams).pipe(
+  private translateMessage(msg: string, options?: ToastOptions): Observable<string> {
+    return this.translate.get(msg, options ? options.interpolateParams : null).pipe(
       catchError(err => msg) // // no translation found, we use the translation key
     );
   }
