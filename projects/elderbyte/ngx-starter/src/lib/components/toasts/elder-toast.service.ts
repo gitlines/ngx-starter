@@ -4,6 +4,7 @@ import {Toast} from './toast';
 import {ToastType} from './toast-type';
 import {TranslateService} from '@ngx-translate/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {catchError} from 'rxjs/operators';
 
 export * from './toast';
 export * from './toast-type';
@@ -36,41 +37,43 @@ export class ElderToastService {
 
   /***************************************************************************
    *                                                                         *
-   * Public API                                                              *
+   * Properties                                                              *
    *                                                                         *
    **************************************************************************/
 
-  public getNotificationsObservable(): Observable<Toast> {
+  public get notifications(): Observable<Toast> {
     return this.subjet.asObservable();
   }
+
+  /***************************************************************************
+   *                                                                         *
+   * Public API                                                              *
+   *                                                                         *
+   **************************************************************************/
 
   public pushNotification(msg: Toast) {
     this.subjet.next(msg);
   }
 
   public pushInfoRaw(msg: string) {
-    this.pushInfoToast(msg);
+    this.pushToast(msg, ToastType.Success);
   }
 
   public pushInfo(msgKey: string, interpolateParams?: Object) {
     this.translateMessage(msgKey, interpolateParams).subscribe(
-      (res) => this.pushInfoToast(res),
-      (err) => this.pushInfoToast(msgKey)); // no translation found, push key
+      (translated) => this.pushToast(translated, ToastType.Success)
+    );
   }
 
   public pushErrorRaw(msg: string, error?: any) {
     this.logger.error(msg, error);
-    this.pushInfoToast(msg);
+    this.pushToast(msg, ToastType.Error);
   }
 
   public pushError(msgKey: string, interpolateParams?: any, error?: any) {
-
     this.translateMessage(msgKey, interpolateParams).subscribe(
-      (res) => {
-        this.logger.error(res, error);
-        this.pushErrorToast(res);
-      },
-      (err) => this.pushErrorToast(msgKey)); // no translation found, push key
+      (translated) => this.pushErrorRaw(translated, error)
+      );
   }
 
   /***************************************************************************
@@ -79,23 +82,17 @@ export class ElderToastService {
    *                                                                         *
    **************************************************************************/
 
-  private pushInfoToast(msg: string) {
+  private pushToast(msg: string, type: ToastType) {
     this.subjet.next({
       message: msg,
-      type: ToastType.Success
-    });
-  }
-
-  private pushErrorToast(msg: string) {
-    this.subjet.next({
-      message: msg,
-      type: ToastType.Error
+      type: type
     });
   }
 
   private translateMessage(msg: string, interpolateParams: any): Observable<string> {
-    return this.translate.get(msg, interpolateParams);
-
+    return this.translate.get(msg, interpolateParams).pipe(
+      catchError(err => msg) // // no translation found, we use the translation key
+    );
   }
 
 }

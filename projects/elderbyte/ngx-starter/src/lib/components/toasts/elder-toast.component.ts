@@ -18,7 +18,7 @@ export class ElderToastComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.subscription = this.toastService.getNotificationsObservable().subscribe(
+    this.subscription = this.toastService.notifications.subscribe(
       (notification: Toast) => {
         this.snackBar.open(notification.message, 'OK', <MatSnackBarConfig>{duration: 3000});
       }
