@@ -61,7 +61,39 @@ router-outlet.router-flex + * {
   position: relative;
   width: 100%;
   height: 100%;
-}
+};
+
+/***************************************************************************
+ *                                                                         *
+ * Toasts                                                                  *
+ *                                                                         *
+ **************************************************************************/
+
+
+@mixin elder-toast-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .elder-success-toast {
+    background: mat-color($background, background);
+    color: mat-color($primary);
+  }
+
+  .elder-warning-toast {
+    background: mat-color($background, background);
+    color: mat-color($accent);
+  }
+
+  .elder-error-toast {
+    background-color: mat-color($warn);
+  }
+
+};
+
 
 /***************************************************************************
  *                                                                         *
@@ -182,6 +214,7 @@ $ebs-elder-gold:  $elder-gold;
   @include elder-select-list-theme($theme);
   @include elder-table-theme($theme);
   @include elder-card-stack-theme($theme);
+  @include elder-toast-theme($theme);
 }
 
 /***************************************************************************
@@ -220,4 +253,3 @@ $ebs-elder-gold:  $elder-gold;
   }
 
 }
-

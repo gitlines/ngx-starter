@@ -278,7 +278,23 @@
     </mat-tab>
 
     <mat-tab label="Dialogs">
-      <button mat-raised-button (click)="openYesNo($event)">Open YesNo</button>
+
+      <div fxLayout="column" class="padding-10">
+
+        <h3>Dialog</h3>
+
+        <button mat-raised-button (click)="openYesNo($event)">Open YesNo</button>
+
+        <h3>Toasts</h3>
+
+        <button mat-button (click)="showToastInfo($event)">Show Info Toast</button>
+
+        <button mat-button color="warn" (click)="showToastError($event)">Show Error Toast</button>
+
+
+      </div>
+
+
     </mat-tab>
 
   </mat-tab-group>

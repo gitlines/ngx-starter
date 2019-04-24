@@ -11,7 +11,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TranslateModule} from '@ngx-translate/core';
 import {ElderToolbarModule} from '../navigation/toolbar/elder-toolbar.module';
 import {RouterModule} from '@angular/router';
-import {ElderToastModule} from '../toasts/elder-toast.module';
 import {ElderShellNavigationToggleComponent} from './shell-navigation-toggle/elder-shell-navigation-toggle.component';
 
 export * from './shell/elder-shell.component';
@@ -32,7 +31,6 @@ export {ElderShellService} from './elder-shell.service';
 
 
     ElderToolbarModule,
-    ElderToastModule,
 
     FlexLayoutModule, TranslateModule
 

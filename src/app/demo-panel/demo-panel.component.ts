@@ -4,6 +4,7 @@ import {IFileUploadClient, FileUploadClient, ElderDialogService,
   SuggestionProvider, ElderDataTransferService} from '@elderbyte/ngx-starter';
 import {of} from 'rxjs';
 import {LoggerFactory} from '@elderbyte/ts-logger';
+import {ElderToastService} from '../../../projects/elderbyte/ngx-starter/src/lib/components/toasts/elder-toast.service';
 
 @Component({
   selector: 'starter-demo-demo-panel',
@@ -52,7 +53,8 @@ export class DemoPanelComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private dialogService: ElderDialogService,
-    private transferManager: ElderDataTransferService
+    private transferManager: ElderDataTransferService,
+    private toastService: ElderToastService
   ) {
     this.uploadClient = new FileUploadClient(
       http,
@@ -75,6 +77,14 @@ export class DemoPanelComponent implements OnInit {
           autoFocus: false
         }
     }).subscribe();
+  }
+
+  public showToastInfo(event: any): void {
+    this.toastService.pushInfo('Hello World!');
+  }
+
+  public showToastError(event: any): void {
+    this.toastService.pushErrorRaw('Some failed', new Error('Why'));
   }
 
 }

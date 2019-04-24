@@ -5,6 +5,7 @@ import {ToastType} from './toast-type';
 import {TranslateService} from '@ngx-translate/core';
 import {LoggerFactory} from '@elderbyte/ts-logger';
 import {catchError} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material';
 
 export * from './toast';
 export * from './toast-type';
@@ -32,7 +33,8 @@ export class ElderToastService {
    **************************************************************************/
 
   constructor(
-    private translate: TranslateService
+    private translate: TranslateService,
+    private snackBar: MatSnackBar
   ) {}
 
   /***************************************************************************
@@ -83,10 +85,30 @@ export class ElderToastService {
    **************************************************************************/
 
   private pushToast(msg: string, type: ToastType) {
-    this.subjet.next({
+    const toast: Toast = {
       message: msg,
       type: type
-    });
+    };
+    this.subjet.next(toast);
+    this.showToast(toast);
+  }
+
+  private showToast(toast: Toast): void {
+    this.snackBar.open(
+      toast.message,
+      'OK', {
+        duration: 3000,
+        panelClass: this.toastClass(toast.type)
+      }
+      );
+  }
+
+  private toastClass(type: ToastType): string {
+    switch (type) {
+      case ToastType.Success: return 'elder-success-toast';
+      case ToastType.Warning: return 'elder-warning-toast';
+      case ToastType.Error: return 'elder-error-toast';
+    }
   }
 
   private translateMessage(msg: string, interpolateParams: any): Observable<string> {
