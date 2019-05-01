@@ -1,24 +1,24 @@
 <h2 matDialogTitle translate>{{ data.title }}</h2>
 
-<form #f="ngForm" fxLayout="column" (ngSubmit)="confirm($event)">
+<form #f="ngForm" fxLayout="column" (ngSubmit)="confirm($event)" cdkTrapFocus>
 
     <mat-dialog-content>
       <p>{{data.question}}</p>
 
       <mat-form-field class="full-width">
-        <input matInput type="text" name="name" [(ngModel)]="answer"
+        <input matInput type="text" name="name" [(ngModel)]="answer" cdkFocusInitial
                placeholder="{{'context.name' | translate}}" required>
       </mat-form-field>
     </mat-dialog-content>
 
-    <mat-dialog-actions fxLayoutAlign="end center">
+    <mat-dialog-actions fxLayoutAlign="end center" >
 
         <button type="button" mat-button
                 (click)="cancel($event)">
             {{'actions.cancel' | translate}}
         </button>
 
-        <button [disabled]="!isValid" type="submit" mat-button cdk-focus-start color="primary">{{'actions.ok' | translate}}</button>
+        <button [disabled]="!isValid" type="submit" mat-button color="primary">{{'actions.ok' | translate}}</button>
 
     </mat-dialog-actions>
 

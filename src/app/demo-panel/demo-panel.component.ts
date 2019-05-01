@@ -68,14 +68,17 @@ export class DemoPanelComponent implements OnInit {
   }
 
 
-  public openYesNo(event: any): void {
+  public openConfirm(event: any): void {
     this.dialogService.showConfirm({
-        title: 'Simple yes or no question',
-        message: 'Are you ok?',
-        yesNo: true,
-        config: {
-          autoFocus: false
-        }
+        title: 'Simple confirmation.',
+        message: 'Confirm you understand.',
+    }).subscribe();
+  }
+
+  public openQuestion(event: any): void {
+    this.dialogService.showQuestion({
+      title: 'Simple question',
+      question: 'Are you sure?',
     }).subscribe();
   }
 

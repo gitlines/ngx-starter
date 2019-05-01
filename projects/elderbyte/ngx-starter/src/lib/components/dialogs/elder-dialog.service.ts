@@ -1,5 +1,5 @@
 import {ElderConfirmDialogComponent, ConfirmDialogConfig} from './confirm-dialog/elder-confirm-dialog.component';
-import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialogRef, MatDialog, MatDialogConfig, DialogRole} from '@angular/material';
 import { Injectable } from '@angular/core';
 import {ElderQuestionDialogComponent, QuestionDialogConfig} from './question-dialog/elder-question-dialog.component';
 import {TranslateService} from '@ngx-translate/core';
@@ -16,6 +16,13 @@ export class ElderDialogService {
    *                                                                         *
    **************************************************************************/
 
+  private readonly defaultDialogConfig: MatDialogConfig = {
+    role: 'dialog',
+    disableClose: false,
+    autoFocus: true,
+    restoreFocus: true,
+    closeOnNavigation: false
+  };
 
   /***************************************************************************
    *                                                                         *
@@ -46,7 +53,7 @@ export class ElderDialogService {
     return this.showConfirm({
       title: title,
       message: message,
-      config: config
+      config: config || this.defaultDialogConfig
     });
   }
 
@@ -80,7 +87,6 @@ export class ElderDialogService {
         dialogRef.componentInstance.yesNo = config.yesNo;
 
         return dialogRef.afterClosed();
-
       })
     );
   }
@@ -98,7 +104,7 @@ export class ElderDialogService {
     return this.showQuestion({
       title: title,
       question: question,
-      config: config
+      config: config || this.defaultDialogConfig
     });
   }
 

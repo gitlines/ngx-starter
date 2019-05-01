@@ -7,14 +7,14 @@
 </mat-dialog-content>
 
 
-<mat-dialog-actions fxLayoutAlign="end center">
+<mat-dialog-actions fxLayoutAlign="end center" cdkTrapFocus>
 
   <button type="button" mat-button
           (click)="dialogRef.close(false)">
     {{ (yesNo ? "actions.no" : "actions.cancel") | translate}}
   </button>
 
-  <button type="submit" mat-raised-button cdk-focus-start
+  <button type="submit" mat-raised-button cdkFocusInitial
           (click)="dialogRef.close(true)">
     {{ (yesNo ? "actions.yes" : "actions.ok") | translate}}
   </button>

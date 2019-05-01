@@ -9,6 +9,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 import {ElderQuestionDialogComponent} from './question-dialog/elder-question-dialog.component';
 import {ElderDialogConfig} from './elder-dialog-config';
+import {A11yModule} from '@angular/cdk/a11y';
 
 export {ElderDialogService} from './elder-dialog.service';
 export {ElderDialogConfig} from './elder-dialog-config';
@@ -25,9 +26,11 @@ export class EbsCommonDialogService extends ElderDialogService { }
 @NgModule({
   imports: [
     CommonModule, FormsModule,
-    FlexLayoutModule,
+
     MatIconModule, MatButtonModule, MatDialogModule, MatToolbarModule, MatInputModule,
-    TranslateModule
+    A11yModule,
+
+    FlexLayoutModule, TranslateModule
   ],
   declarations: [
     ElderConfirmDialogComponent, ElderQuestionDialogComponent

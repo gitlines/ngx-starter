@@ -283,14 +283,16 @@
 
         <h3>Dialog</h3>
 
-        <button mat-raised-button (click)="openYesNo($event)">Open YesNo</button>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <button mat-raised-button (click)="openConfirm($event)">Open Confirm</button>
+          <button mat-raised-button (click)="openQuestion($event)">Open Question</button>
+        </div>
 
         <h3>Toasts</h3>
 
         <button mat-button (click)="showToastInfo($event)">Show Info Toast</button>
 
         <button mat-button color="warn" (click)="showToastError($event)">Show Error Toast</button>
-
 
       </div>
 
