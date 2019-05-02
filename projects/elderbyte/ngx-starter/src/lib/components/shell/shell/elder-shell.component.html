@@ -1,5 +1,5 @@
 
-<mat-sidenav-container style="height:100%; width: 100%">
+<mat-sidenav-container style="height:100%; width: 100%" (backdropClick)="onBackdropClick($event)">
 
   <!-- Left Side Nav -->
   <mat-sidenav position="start"
@@ -25,7 +25,7 @@
                position="end"
                [fixedInViewport]="true"
                [autoFocus]="rightSideAutoFocus"
-               [disableClose]="false">
+               [disableClose]="true" (keydown.escape)="onEscapeRightSide($event)">
     <div fxFill fxLayout="column">
       <ng-container *ngTemplateOutlet="sideContentRight || fallbackSideContentRight;"></ng-container>
     </div>

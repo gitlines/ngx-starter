@@ -95,7 +95,7 @@ export class ElderShellComponent implements OnInit, OnDestroy {
    **************************************************************************/
 
   constructor(
-    private sideContentService: ElderShellService,
+    private shellService: ElderShellService,
     private outletDrawerService: ElderRouteOutletDrawerService,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
@@ -116,7 +116,7 @@ export class ElderShellComponent implements OnInit, OnDestroy {
       drawer =>  this.changeDetectorRef.markForCheck()
     );
 
-    this.leftSideContentOpen$ =  this.sideContentService.navigationOpenChange;
+    this.leftSideContentOpen$ =  this.shellService.navigationOpenChange;
   }
 
   public ngOnDestroy(): void {
@@ -130,11 +130,23 @@ export class ElderShellComponent implements OnInit, OnDestroy {
    **************************************************************************/
 
   public closeLeftSideContent() {
-    this.sideContentService.closeSideNav();
+    this.shellService.closeSideNav();
   }
 
   public toggleSideNav(): void {
-    this.sideContentService.toggleSidenav();
+    this.shellService.toggleSidenav();
+  }
+
+  public onBackdropClick(event: any): void {
+    if (this.shellService.isSideContentActive()) {
+      this.shellService.closeSideContent();
+    }
+  }
+
+  public onEscapeRightSide(event: any): void {
+    if (this.shellService.isSideContentActive()) {
+      this.shellService.closeSideContent();
+    }
   }
 
 }

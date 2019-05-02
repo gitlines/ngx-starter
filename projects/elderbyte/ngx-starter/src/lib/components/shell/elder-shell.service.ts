@@ -110,6 +110,10 @@ export class ElderShellService {
       return this.routerOutletService.deactivate(this.detailContentOutlet);
     }
 
+    public isSideContentActive(): boolean {
+      return this.routerOutletService.isActive(this.detailContentOutlet);
+    }
+
     /**
      * Shows the side content
      * @param args The route arguments / path
